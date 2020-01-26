@@ -1,0 +1,10 @@
+requests
+pymysql
+mysqlclient
+django
+djangorestframework
+django-cors-headers
+pillow
+pytz
+pylintj
+pylint-django
