@@ -27,7 +27,7 @@ class DishOrder(models.Model):
 
     dish = models.ForeignKey("dish.Dish", verbose_name=_("dish"), on_delete=models.CASCADE)
     menu = models.ForeignKey("menu.Menu", verbose_name=_("menu"), on_delete=models.CASCADE)
-    amount = models.IntegerField(_("amount"))
+    mass = models.IntegerField(_("amount"))
 
     class Meta:
         verbose_name = _("DishOrder")
