@@ -1,0 +1,19 @@
+- model: user.User
+  pk: 1
+  fields:
+    username: 'test_user_1'
+    password: pbkdf2_sha256$120000$7Z0t4CVLW0kc$gYzugS1vK98lg5MHS4kVtaltzOQKwtgfhyTNIHmEdcY=
+    # 1234
+    weight: 70
+    min_calorie: 1000
+    max_calorie: 2000
+    email: '1@test.xyz'
+    first_name: '1'
+    last_name: 'test'
+
+- model: user.LikeDish
+  pk: 1
+  fields:
+    user: 1
+    dish: 1
+    like: True

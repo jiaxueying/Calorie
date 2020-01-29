@@ -1,0 +1,23 @@
+- model: searchitem.SearchItem
+  pk: 1
+  fields:
+    name: '不知道呢'
+    search_time: 1
+
+- model: searchitem.SearchItem
+  pk: 2
+  fields:
+    name: '你知道吗'
+    search_time: 1
+
+- model: searchitem.HistorySearch
+  pk: 1
+  fields:
+    user: 1
+    searchitem: 1
+
+- model: searchitem.HistorySearch
+  pk: 2
+  fields:
+    user: 1
+    searchitem: 2

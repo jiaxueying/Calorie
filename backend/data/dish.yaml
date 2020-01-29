@@ -1,0 +1,57 @@
+- model: dish.Dish
+  pk: 1
+  fields:
+    name: '测试菜1'
+    colorie: 1000
+    like: 1
+    dislike: 0
+    carbohydrate: 100
+    energy: 1000
+    fat: 10
+    protein: 100000
+    sodium: 120
+    water: 1200
+
+- model: dish.Dish
+  pk: 2
+  fields:
+    name: '测试菜2'
+    colorie: 10
+    like: 0
+    dislike: 0
+    carbohydrate: 100
+    energy: 10
+    fat: 10
+    protein: 10
+    sodium: 120
+    water: 1200
+
+- model: dish.Dish
+  pk: 3
+  fields:
+    name: '测试菜3'
+    colorie: 100
+    like: 0
+    dislike: 0
+    carbohydrate: 0
+    energy: 100
+    fat: 10
+    protein: 10
+    sodium: 120
+    water: 1
+
+- model: dish.Tag
+  pk: 1
+  fields:
+    name: '测试标签1'
+
+- model: dish.Tag
+  pk: 2
+  fields:
+    name: '测试标签2'
+
+- model: dish.Tag
+  pk: 3
+  fields:
+    name: '测试标签3'
+
