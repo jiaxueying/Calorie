@@ -1,14 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 
 
-class User(models.Model):
+class User(AbstractUser):
     '''用户'''
 
     open_id = models.CharField(_("user open_id"), max_length=50)
-    name = models.CharField(_("user name"), max_length=50)
     avatar = models.FileField(_("user avatar"), upload_to=None, max_length=100)
     weight = models.DecimalField(_("user weight"), max_digits=5, decimal_places=2)
     min_calorie = models.DecimalField(_("user min_calorie"), max_digits=5, decimal_places=2)
@@ -20,7 +20,7 @@ class User(models.Model):
         verbose_name_plural = _("Users")
 
     def __str__(self):
-        return self.name
+        return self.username
 
     def get_absolute_url(self):
         return reverse("User_detail", kwargs={"pk": self.pk})
