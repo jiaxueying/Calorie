@@ -8,6 +8,12 @@
   pk: 2
   fields:
     name: '你知道吗'
+    search_time: 3
+
+- model: searchitem.SearchItem
+  pk: 3
+  fields:
+    name: '我也是呢'
     search_time: 1
 
 - model: searchitem.HistorySearch
@@ -21,3 +27,21 @@
   fields:
     user: 1
     searchitem: 2
+
+- model: searchitem.HistorySearch
+  pk: 3
+  fields:
+    user: 1
+    searchitem: 2
+
+- model: searchitem.HistorySearch
+  pk: 4
+  fields:
+    user: 2
+    searchitem: 2
+
+- model: searchitem.HistorySearch
+  pk: 4
+  fields:
+    user: 2
+    searchitem: 3

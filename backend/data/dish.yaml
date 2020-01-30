@@ -3,8 +3,6 @@
   fields:
     name: '测试菜1'
     colorie: 1000
-    like: 1
-    dislike: 0
     carbohydrate: 100
     energy: 1000
     fat: 10
@@ -17,8 +15,6 @@
   fields:
     name: '测试菜2'
     colorie: 10
-    like: 0
-    dislike: 0
     carbohydrate: 100
     energy: 10
     fat: 10
@@ -31,8 +27,6 @@
   fields:
     name: '测试菜3'
     colorie: 100
-    like: 0
-    dislike: 0
     carbohydrate: 0
     energy: 100
     fat: 10
