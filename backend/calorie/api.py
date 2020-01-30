@@ -4,11 +4,13 @@ from rest_framework.views import APIView as RestfulAPIView
 from rest_framework.exceptions import APIException
 from rest_framework import status
 
+
 class ContentType(object):
     json_request = "application/json"
     json_response = "application/json;charset=UTF-8"
     url_encoded_request = "application/x-www-form-urlencoded"
     binary_response = "application/octet-stream"
+
 
 class JSONParser(object):
     content_type = ContentType.json_request
@@ -16,6 +18,7 @@ class JSONParser(object):
     @staticmethod
     def parse(body):
         return json.loads(body.decode("utf-8"))
+
 
 class JSONResponse(object):
     content_type = ContentType.json_response
@@ -25,6 +28,7 @@ class JSONResponse(object):
         resp = HttpResponse(json.dumps(data, indent=4), content_type=cls.content_type)
         resp.data = data
         return resp
+
 
 class APIView(RestfulAPIView):
     """
@@ -44,14 +48,56 @@ class APIView(RestfulAPIView):
     def error(msg="error", err="error", status=status.HTTP_400_BAD_REQUEST):
         return Response({"error": err, "data": msg}, status=status)
 
+
 class NotImplementedExecption(APIException):
     status = status.HTTP_501_NOT_IMPLEMENTED
     defualt_detail = '尚未实现该接口'
+
 
 class FieldException(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
     default_detail = '该请求需要字段'
 
+
 class NoAttributeInDatabaseException(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
     default_detail = '数据库无该字段'
+
+
+def get_int(input_data, field_name):
+    try:
+        return int(input_data)
+    except Exception as e:
+        raise FieldException(f'{field_name} should be an integer')
+
+
+def check_one_field(request_data, field_name):
+    if field_name not in request_data:
+        print(f'{field_name} is required')
+        raise FieldException(
+            {'msg': f'{field_name} is required'}
+        )
+
+
+def check_and_get_int(request_data, field_name):
+    check_one_field(request_data, field_name)
+    temp_data = request_data[field_name]
+    if isinstance(temp_data, list):
+        temp_data = temp_data[0]
+    return get_int(temp_data, field_name)
+
+
+def get_user_id(request):
+    request_data = request.query_params
+    """
+    如果使用原生的django用户, 可以通过request.user拿到用户对象
+    尝试该项目是否可以使用此法
+    """
+    user_id = None
+    try:
+        user_id = request.user.id
+        assert (user_id is not None)
+    except Exception as e:
+        print("无法获取request.user.id")
+        user_id = check_and_get_int(request_data, 'user_id')
+    return user_id
