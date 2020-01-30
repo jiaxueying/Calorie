@@ -9,6 +9,9 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import APIException, ParseError
 
+from searchitem.models import HistorySearch
+from django.db.models import Count
+
 # Create your views here.
 
 class NotImplementedExecption(APIException):
@@ -58,11 +61,10 @@ class GetSearchHistoryAPI(APIView):
         except Exception as e:
             print("无法获取request.user.id")
             user_id = check_and_get_int(request_data, 'user_id')
-
-
         return Response(data={'message': '暂未实现该接口'}, status=status.HTTP_501_NOT_IMPLEMENTED)
     
     def get_popular_item(self):
+        history_searches = HistorySearch.objects.values('searchitem').annotate(count=Count('searchitem'))
         
         pass
     

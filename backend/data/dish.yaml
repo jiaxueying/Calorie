@@ -2,37 +2,37 @@
   pk: 1
   fields:
     name: '测试菜1'
-    colorie: 1000
-    carbohydrate: 100
-    energy: 1000
-    fat: 10
-    protein: 100000
-    sodium: 120
-    water: 1200
+    calorie: 1000
+    carbohydrate: 100.0
+    energy: 1000.0
+    fat: 10.0
+    protein: 100000.0
+    sodium: 120.0
+    water: 1200.0
 
 - model: dish.Dish
   pk: 2
   fields:
     name: '测试菜2'
-    colorie: 10
-    carbohydrate: 100
-    energy: 10
-    fat: 10
-    protein: 10
-    sodium: 120
-    water: 1200
+    calorie: 10
+    carbohydrate: 100.0
+    energy: 10.0
+    fat: 10.0
+    protein: 10.0
+    sodium: 120.0
+    water: 1200.0
 
 - model: dish.Dish
   pk: 3
   fields:
     name: '测试菜3'
-    colorie: 100
-    carbohydrate: 0
-    energy: 100
-    fat: 10
-    protein: 10
-    sodium: 120
-    water: 1
+    calorie: 100
+    carbohydrate: 0.0
+    energy: 100.0
+    fat: 10.0
+    protein: 10.0
+    sodium: 120.0
+    water: 1.0
 
 - model: dish.Tag
   pk: 1
