@@ -8,3 +8,4 @@ pillow
 pytz
 pylint
 pylint-django
+pyyaml
