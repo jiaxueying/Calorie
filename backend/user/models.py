@@ -10,9 +10,9 @@ class User(AbstractUser):
 
     open_id = models.CharField(_("user open_id"), max_length=50)
     avatar = models.FileField(_("user avatar"), upload_to=None, max_length=100)
-    weight = models.DecimalField(_("user weight"), max_digits=5, decimal_places=2)
-    min_calorie = models.DecimalField(_("user min_calorie"), max_digits=5, decimal_places=2)
-    max_calorie = models.DecimalField(_("user max_calorie"), max_digits=5, decimal_places=2)
+    weight = models.DecimalField(_("user weight"), max_digits=7, decimal_places=2)
+    min_calorie = models.DecimalField(_("user min_calorie"), max_digits=8, decimal_places=2)
+    max_calorie = models.DecimalField(_("user max_calorie"), max_digits=8, decimal_places=2)
     like_dish = models.ManyToManyField("dish.Dish", verbose_name=_("like_dish"), through='LikeDish', through_fields=('user', 'dish'))
 
     class Meta:

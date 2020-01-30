@@ -13,12 +13,12 @@ class Dish(models.Model):
     like = models.IntegerField(_("dish like amount"))
     dislike = models.IntegerField(_("dish dislike amount"))
     tag = models.ManyToManyField("Tag", verbose_name=_("tag"))
-    energy = models.DecimalField(_("energy"), max_digits=5, decimal_places=2)
-    protein = models.DecimalField(_("protein"), max_digits=5, decimal_places=2)
-    fat = models.DecimalField(_("fat"), max_digits=5, decimal_places=2)
-    water = models.DecimalField(_("water"), max_digits=5, decimal_places=2)
-    carbohydrate = models.DecimalField(_("carbohydrate"), max_digits=5, decimal_places=2)
-    sodium = models.DecimalField(_("sodium"), max_digits=5, decimal_places=2)
+    energy = models.DecimalField(_("energy"), max_digits=8, decimal_places=2)
+    protein = models.DecimalField(_("protein"), max_digits=8, decimal_places=2)
+    fat = models.DecimalField(_("fat"), max_digits=8, decimal_places=2)
+    water = models.DecimalField(_("water"), max_digits=8, decimal_places=2)
+    carbohydrate = models.DecimalField(_("carbohydrate"), max_digits=8, decimal_places=2)
+    sodium = models.DecimalField(_("sodium"), max_digits=8, decimal_places=2)
 
     class Meta:
         verbose_name = _("Dish")

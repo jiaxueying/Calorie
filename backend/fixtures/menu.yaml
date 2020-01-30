@@ -1,0 +1,20 @@
+- model: menu.Menu
+  pk: 1
+  fields:
+    date: '2019-10-01'
+    user: 1
+    if_show: True
+
+- model: menu.DishOrder
+  pk: 1
+  fields:
+    dish: 1
+    menu: 1
+    mass: 1
+
+- model: menu.DishOrder
+  pk: 2
+  fields:
+    dish: 2
+    menu: 1
+    mass: 100
