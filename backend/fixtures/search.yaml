@@ -21,27 +21,32 @@
   fields:
     user: 1
     searchitem: 1
+    datetime: '2019-10-01 01:00:00+08:00'
 
 - model: searchitem.HistorySearch
   pk: 2
   fields:
     user: 1
     searchitem: 2
+    datetime: '2019-10-01 02:00:00+08:00'
 
 - model: searchitem.HistorySearch
   pk: 3
   fields:
     user: 1
     searchitem: 2
+    datetime: '2019-10-01 03:00:00+08:00'
 
 - model: searchitem.HistorySearch
   pk: 4
   fields:
     user: 2
     searchitem: 2
+    datetime: '2019-10-01 09:00:00+08:00'
 
 - model: searchitem.HistorySearch
   pk: 4
   fields:
     user: 2
     searchitem: 3
+    datetime: '2019-10-01 10:00:00+08:00'

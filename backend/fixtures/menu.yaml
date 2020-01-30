@@ -1,6 +1,7 @@
 - model: menu.Menu
   pk: 1
   fields:
+    date: '2019-10-01'
     user: 1
     if_show: True
 
