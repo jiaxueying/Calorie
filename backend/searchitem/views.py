@@ -8,9 +8,13 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.parsers import FileUploadParser
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import APIException, ParseError
+from django.db.models.query import QuerySet
 
 from searchitem.models import HistorySearch
+from searchitem.models import SearchItem
 from django.db.models import Count
+
+from searchitem.serializers import SearchItemSerializer
 
 # Create your views here.
 
@@ -50,6 +54,12 @@ def check_and_get_int(request_data, field_name):
 
 class GetSearchHistoryAPI(APIView):
     def get(self, request):
+        user_id = self.get_user_id(request)
+        popular_items = self.get_popular_item()
+        history_items = self.get_history_item(user_id)
+        return Response(data={'history_items': history_items, 'popular_items': popular_items}, status=status.HTTP_200_OK)
+    
+    def get_user_id(self, request):
         request_data = request.query_params
         """
         如果使用原生的django用户, 可以通过request.user拿到用户对象
@@ -58,15 +68,36 @@ class GetSearchHistoryAPI(APIView):
         user_id = None
         try:
             user_id = request.user.id
+            assert (user_id is not None)
         except Exception as e:
             print("无法获取request.user.id")
             user_id = check_and_get_int(request_data, 'user_id')
-        return Response(data={'message': '暂未实现该接口'}, status=status.HTTP_501_NOT_IMPLEMENTED)
-    
+        return user_id
+
     def get_popular_item(self):
-        history_searches = HistorySearch.objects.values('searchitem').annotate(count=Count('searchitem'))
-        
-        pass
-    
+        """
+        获取当前热门搜索
+        """
+        """
+        或者直接使用search_time?
+        """
+        history_searches = HistorySearch.objects.values('searchitem').\
+        annotate(count=Count('searchitem')).order_by('-count').\
+        values_list('searchitem', flat=True)
+        if not history_searches:
+            return []
+        if len(history_searches) > 10:
+            history_searches = history_searches[0:10]    
+        serializer = SearchItemSerializer(SearchItem.objects.filter(id__in=history_searches), many=True)
+        return serializer.data
+
     def get_history_item(self, user_id):
-        pass
+        """
+        获取用户的历史查询记录
+        """
+        """
+        或者像get_popular_item一样分两个表进行查询
+        性能差距? 
+        """
+        serializer = SearchItemSerializer(SearchItem.objects.filter(historysearch__user__id=user_id), many=True)
+        return serializer.data[:10]

@@ -45,7 +45,7 @@
     datetime: '2019-10-01 09:00:00+08:00'
 
 - model: searchitem.HistorySearch
-  pk: 4
+  pk: 5
   fields:
     user: 2
     searchitem: 3
