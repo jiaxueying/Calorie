@@ -4,9 +4,9 @@
     username: 'test_user_1'
     password: pbkdf2_sha256$120000$7Z0t4CVLW0kc$gYzugS1vK98lg5MHS4kVtaltzOQKwtgfhyTNIHmEdcY=
     # 1234
-    weight: 70
-    min_calorie: 1000
-    max_calorie: 2000
+    weight: 70.00
+    min_calorie: 1000.00
+    max_calorie: 2000.00
     email: '1@test.xyz'
     first_name: '1'
     last_name: 'test'
@@ -17,9 +17,9 @@
     username: 'test_user_2'
     password: pbkdf2_sha256$120000$7Z0t4CVLW0kc$gYzugS1vK98lg5MHS4kVtaltzOQKwtgfhyTNIHmEdcY=
     # 1234
-    weight: 70
-    min_calorie: 100
-    max_calorie: 200
+    weight: 70.00
+    min_calorie: 100.00
+    max_calorie: 200.00
     email: '2@test.xyz'
     first_name: '2'
     last_name: 'test'

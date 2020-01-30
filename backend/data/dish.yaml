@@ -2,37 +2,43 @@
   pk: 1
   fields:
     name: '测试菜1'
-    calorie: 1000
-    carbohydrate: 100.0
-    energy: 1000.0
-    fat: 10.0
-    protein: 100000.0
-    sodium: 120.0
-    water: 1200.0
+    calorie: 1000.00
+    like: 1
+    dislike: 0
+    carbohydrate: 100.00
+    energy: 1000.00
+    fat: 10.00
+    protein: 1000.00
+    sodium: 120.00
+    water: 1200.00
 
 - model: dish.Dish
   pk: 2
   fields:
     name: '测试菜2'
-    calorie: 10
-    carbohydrate: 100.0
-    energy: 10.0
-    fat: 10.0
-    protein: 10.0
-    sodium: 120.0
-    water: 1200.0
+    calorie: 10.00
+    like: 1
+    dislike: 0
+    carbohydrate: 100.00
+    energy: 10.00
+    fat: 10.00
+    protein: 10.00
+    sodium: 120.00
+    water: 1200.00
 
 - model: dish.Dish
   pk: 3
   fields:
     name: '测试菜3'
-    calorie: 100
-    carbohydrate: 0.0
-    energy: 100.0
-    fat: 10.0
-    protein: 10.0
-    sodium: 120.0
-    water: 1.0
+    calorie: 100.00
+    like: 0
+    dislike: 0
+    carbohydrate: 0.00
+    energy: 100.00
+    fat: 10.00
+    protein: 10.00
+    sodium: 120.00
+    water: 1.00
 
 - model: dish.Tag
   pk: 1
