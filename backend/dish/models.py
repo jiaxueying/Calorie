@@ -10,8 +10,6 @@ class Dish(models.Model):
     picture = models.FileField(_("dish picture"), upload_to=None, max_length=100)
     name = models.CharField(_("dish name"), max_length=50)
     calorie = models.IntegerField(_("dish calorie"))
-    like = models.IntegerField(_("dish like amount"))
-    dislike = models.IntegerField(_("dish dislike amount"))
     tag = models.ManyToManyField("Tag", verbose_name=_("tag"))
     energy = models.DecimalField(_("energy"), max_digits=5, decimal_places=2)
     protein = models.DecimalField(_("protein"), max_digits=5, decimal_places=2)
