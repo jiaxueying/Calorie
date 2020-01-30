@@ -34,7 +34,7 @@ class DishOrder(models.Model):
         verbose_name_plural = _("DishOrders")
 
     def __str__(self):
-        return f'{self.menu} has {self.dish} {self.amount}'
+        return f'{self.menu} has {self.dish} {self.mass}'
 
     def get_absolute_url(self):
         return reverse("DishOrder_detail", kwargs={"pk": self.pk})
