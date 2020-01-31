@@ -8,7 +8,7 @@ class Menu(models.Model):
     '''一餐的菜单'''
 
     user = models.ForeignKey("user.User", verbose_name=_("user"), on_delete=models.CASCADE)
-    date = models.DateField(_("order date"), auto_now=True, auto_now_add=False)
+    date = models.DateTimeField(_("order date"), auto_now=True, auto_now_add=False)
     if_show = models.BooleanField(_("if_show"))
 
     class Meta:

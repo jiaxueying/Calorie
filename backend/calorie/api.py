@@ -88,7 +88,6 @@ def check_and_get_int(request_data, field_name):
 
 
 def get_user_id(request):
-    request_data = request.query_params
     """
     如果使用原生的django用户, 可以通过request.user拿到用户对象
     尝试该项目是否可以使用此法
@@ -99,5 +98,10 @@ def get_user_id(request):
         assert (user_id is not None)
     except Exception as e:
         print("无法获取request.user.id")
-        user_id = check_and_get_int(request_data, 'user_id')
+        if request.method == 'GET':
+            request_data = request.query_params
+            user_id = check_and_get_int(request_data, 'user_id')
+        elif request.method == 'POST':
+            request_data = json.loads(request.body)
+            user_id = check_and_get_int(request_data, 'user_id')
     return user_id

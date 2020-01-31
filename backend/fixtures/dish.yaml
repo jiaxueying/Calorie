@@ -11,6 +11,8 @@
     protein: 1000.00
     sodium: 120.00
     water: 1200.00
+    picture: 1.jpg
+    tag: [1]
 
 - model: dish.Dish
   pk: 2
@@ -25,6 +27,8 @@
     protein: 10.00
     sodium: 120.00
     water: 1200.00
+    picture: 2.jpg
+    tag: [1, 2]
 
 - model: dish.Dish
   pk: 3
@@ -39,6 +43,8 @@
     protein: 10.00
     sodium: 120.00
     water: 1.00
+    picture: 3.jpg
+    tag: [1, 2, 3]
 
 - model: dish.Tag
   pk: 1
@@ -54,4 +60,3 @@
   pk: 3
   fields:
     name: '测试标签3'
-
