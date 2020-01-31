@@ -14,5 +14,5 @@ class MenuSerializer(serializers.ModelSerializer):
             'id': obj.id,
             'user_id': obj.user_id,
             'date': obj.date,
-            # 'picture': obj.dishorder_set.first().dish.picture,
+            'picture': str(obj.dishorder_set.first().dish.picture),
         }
