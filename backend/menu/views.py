@@ -13,6 +13,7 @@ from calorie.api import get_user_id
 
 # Create your views here.
 
+
 class GetMenuHistoryAPI(APIView):
     def get(self, request):
         try:
@@ -29,9 +30,9 @@ class GetMenuHistoryAPI(APIView):
         return self.success(data={'user_menus': user_menus})
 
 
-
 class SubmitMenuAPI(APIView):
     pass
+
 
 class MenuDetailAPI(APIView):
     def get(self, request):
@@ -51,6 +52,7 @@ class MenuDetailAPI(APIView):
         except Exception as e:
             raise e
         return self.success(data={'dishes': dishes})
+
 
 class DeleteMenuAPI(APIView):
     def post(self, request):
