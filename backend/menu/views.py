@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 
 from django.db.models import Sum, F
@@ -26,18 +28,29 @@ class GetMenuHistoryAPI(APIView):
             for menu in user_menus:
                 menu['calorie'] = list(filter(lambda x: x['menu_id'] == menu['id'], calories))[0]['calorie']
         except Exception as e:
-            raise e
+            return self.error(err=str(e))
         return self.success(data={'user_menus': user_menus})
 
 
 class SubmitMenuAPI(APIView):
-    pass
+    def post(self, request):
+        try:
+            json_data = json.loads(request.body)
+            user_id = get_user_id(request)
+            menu_object = Menu.objects.create(if_show=True, user_id=user_id)
+            menu_object.save()
+            dishes = json_data['dishes']
+            for dish in dishes:
+                dish_object = Dish.objects.get(pk=dish['dish_id'])
+                dishorder_object = DishOrder.objects.create(dish=dish_object, mass=dish['mass'], menu=menu_object)
+                dishorder_object.save()
+        except Exception as e:
+            return self.error(err=str(e))
+        return self.success()
 
 
 class MenuDetailAPI(APIView):
     def get(self, request):
-        from calorie.settings import MEDIA_ROOT
-        print(MEDIA_ROOT)
         request_data = request.query_params
         try:
             menu_id = request_data['menu_id']
@@ -50,10 +63,18 @@ class MenuDetailAPI(APIView):
                 dish['mass'] = list(filter(lambda x: x['dish'] == dish['id'], dish_infos))[0]['mass']
                 dish['calorie'] = dish['mass'] * dish['calorie']
         except Exception as e:
-            raise e
+            return self.error(err=str(e))
         return self.success(data={'dishes': dishes})
 
 
 class DeleteMenuAPI(APIView):
     def post(self, request):
-        pass
+        try:
+            json_data = json.loads(request.body)
+            user_id = get_user_id(request)
+            menu_id = json_data['menu_id']
+            menu_object = Menu.objects.get(pk=menu_id)
+            menu_object.delete()
+        except Exception as e:
+            return self.error(err=str(e))
+        return self.success()
