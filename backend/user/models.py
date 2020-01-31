@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class User(AbstractUser):
     '''用户'''
-
+    name = models.CharField(_("user name"), max_length=50)
     open_id = models.CharField(_("user open_id"), max_length=50)
     avatar = models.ImageField(_("user avatar"), upload_to=None, max_length=100)
     weight = models.DecimalField(_("user weight"), max_digits=7, decimal_places=2)

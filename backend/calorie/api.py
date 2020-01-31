@@ -49,7 +49,7 @@ class APIView(RestfulAPIView):
         return Response({"error": err, "data": msg}, status=status)
 
 
-class NotImplementedExecption(APIException):
+class NotImplementedException(APIException):
     status = status.HTTP_501_NOT_IMPLEMENTED
     defualt_detail = '尚未实现该接口'
 
