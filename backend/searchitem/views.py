@@ -20,7 +20,7 @@ from searchitem.serializers import SearchItemSerializer
 
 from calorie.api import APIView
 from calorie.api import get_user_id
-from calorie.api import FieldException, NotImplementedExecption, NoAttributeInDatabaseException
+from calorie.api import FieldException, NotImplementedException, NoAttributeInDatabaseException
 # Create your views here.
 
 
