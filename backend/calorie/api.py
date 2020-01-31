@@ -49,7 +49,7 @@ class APIView(RestfulAPIView):
         return Response({"error": err, "data": msg}, status=status)
 
 
-class NotImplementedExecption(APIException):
+class NotImplementedException(APIException):
     status = status.HTTP_501_NOT_IMPLEMENTED
     defualt_detail = '尚未实现该接口'
 
@@ -88,6 +88,9 @@ def check_and_get_int(request_data, field_name):
 
 
 def get_user_id(request):
+    """
+    获取用户的id
+    """
     request_data = request.query_params
     """
     如果使用原生的django用户, 可以通过request.user拿到用户对象

@@ -21,7 +21,7 @@ from django.db.models import Count
 from searchitem.serializers import SearchItemSerializer
 
 from calorie.api import FieldException
-from calorie.api import NotImplementedExecption
+from calorie.api import NotImplementedException
 from calorie.api import NoAttributeInDatabaseException
 # Create your views here.
 

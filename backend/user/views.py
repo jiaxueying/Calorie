@@ -16,29 +16,19 @@ from rest_framework.exceptions import ParseError
 from django.http.request import QueryDict
 
 from calorie.api import FieldException
-from calorie.api import NotImplementedExecption
+from calorie.api import NotImplementedException
 from calorie.api import NoAttributeInDatabaseException
 
 from calorie.api import get_int
 from calorie.api import check_one_field
 from calorie.api import check_and_get_int
+from calorie.api import get_user_id
+
+from user.serializers import UserSerializer
+
+from user.models import User
 
 from calorie.settings import DEBUG
-
-def get_user_id(request):
-    request_data = request.query_params
-    """
-    如果使用原生的django用户, 可以通过request.user拿到用户对象
-    尝试该项目是否可以使用此法
-    """
-    user_id = None
-    try:
-        user_id = request.user.id
-        assert (user_id is not None)
-    except Exception as e:
-        print("无法获取request.user.id")
-        user_id = check_and_get_int(request_data, 'user_id')
-    return user_id
 
 from rest_framework.authtoken import views as rest_auth
 from copy import copy
@@ -83,6 +73,24 @@ class UserLoginAPI(rest_auth.ObtainAuthToken):
         """
         return username
 
+class UserProfileAPI(APIView):
+    def post(self, request):
+        required_fields = ('name', 'weight')
+        for required_field in required_fields:
+            if required_field not in request.data:
+                raise FieldException("没有字段%s"%required_field)
+        user_obj = request.user
+        user_obj.name = request.data['name']
+        user_obj.weight = request.data['weight']
+        user_obj.save()
+        return self.success()
+    def get(self, request):
+        user_obj = request.user
+        serializer = UserSerializer(user_obj)
+        if serializer.is_valid():
+            return self.success(data=serializer.data)
+        else:
+            return self.error(err='error', status=status.HTTP_400_BAD_REQUEST)
 
 
 # Create your views here.
