@@ -1,6 +1,7 @@
 - model: user.User
   pk: 1
   fields:
+    name: 'hlh'
     username: 'test_user_1'
     password: pbkdf2_sha256$120000$7Z0t4CVLW0kc$gYzugS1vK98lg5MHS4kVtaltzOQKwtgfhyTNIHmEdcY=
     # 1234
@@ -14,6 +15,7 @@
 - model: user.User
   pk: 2
   fields:
+    username: 'hlhh'
     username: 'test_user_2'
     password: pbkdf2_sha256$120000$7Z0t4CVLW0kc$gYzugS1vK98lg5MHS4kVtaltzOQKwtgfhyTNIHmEdcY=
     # 1234
