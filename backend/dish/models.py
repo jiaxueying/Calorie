@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 class Dish(models.Model):
     '''菜品'''
 
-    picture = models.FileField(_("dish picture"), upload_to=None, max_length=100)
+    picture = models.ImageField(_("dish picture"), upload_to=None, max_length=100)
     name = models.CharField(_("dish name"), max_length=50)
     calorie = models.IntegerField(_("dish calorie"))
     like = models.IntegerField(_("dish like amount"))

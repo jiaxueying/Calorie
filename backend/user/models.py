@@ -9,7 +9,7 @@ class User(AbstractUser):
     '''用户'''
 
     open_id = models.CharField(_("user open_id"), max_length=50)
-    avatar = models.FileField(_("user avatar"), upload_to=None, max_length=100)
+    avatar = models.ImageField(_("user avatar"), upload_to=None, max_length=100)
     weight = models.DecimalField(_("user weight"), max_digits=7, decimal_places=2)
     min_calorie = models.DecimalField(_("user min_calorie"), max_digits=8, decimal_places=2)
     max_calorie = models.DecimalField(_("user max_calorie"), max_digits=8, decimal_places=2)
@@ -38,7 +38,13 @@ class LikeDish(models.Model):
         verbose_name_plural = _("LikeDishs")
 
     def __str__(self):
-        return f"{self.user} {'likes' if self.like else 'dislikes'} {self.dish}"
+        like_dict = {
+            True: 'like',
+            False: 'dislike',
+            None: 'not comment'
+        }
+        like = like_dict[self.like]
+        return f"{self.user} {like} {self.dish}"
 
     def get_absolute_url(self):
         return reverse("LikeDish_detail", kwargs={"pk": self.pk})
