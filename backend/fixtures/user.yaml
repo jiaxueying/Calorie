@@ -15,7 +15,7 @@
 - model: user.User
   pk: 2
   fields:
-    username: 'hlhh'
+    name: 'hlhh'
     username: 'test_user_2'
     password: pbkdf2_sha256$120000$7Z0t4CVLW0kc$gYzugS1vK98lg5MHS4kVtaltzOQKwtgfhyTNIHmEdcY=
     # 1234
