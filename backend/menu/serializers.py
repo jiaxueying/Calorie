@@ -1,18 +1,23 @@
+"""
+menu.serializers
+"""
 from rest_framework import serializers
-
 from menu.models import Menu
 
 
 class MenuSerializer(serializers.ModelSerializer):
+    """
+    serializer for menu.menu
+    """
     class Meta:
         model = Menu
         fields = ('id', 'user_id', 'date')
         read_only_field = ("id", )
 
-    def to_representation(self, obj):
+    def to_representation(self, instance):
         return {
-            'id': obj.id,
-            'user_id': obj.user_id,
-            'date': obj.date,
-            'picture': str(obj.dishorder_set.first().dish.picture),
+            'id': instance.id,
+            'user_id': instance.user_id,
+            'date': instance.date,
+            'picture': str(instance.dishorder_set.first().dish.picture),
         }

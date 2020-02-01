@@ -1,19 +1,23 @@
+"""
+dish.views
+"""
+
 import json
-
-from django.shortcuts import render
-
-from dish.models import Dish
-from user.models import LikeDish
-
-from dish.serializers import DishSerializer
-
 from calorie.api import APIView
 from calorie.api import get_user_id
+
+from dish.models import Dish
+from dish.serializers import DishSerializer
+
+from user.models import LikeDish
 
 # Create your views here.
 
 
 def get_user_like(dishes, user_id):
+    """
+    查询用户是否喜欢该菜品
+    """
     for dish in dishes:
         dish['user_like'] = 0
         dish['user_dislike'] = 0
@@ -26,15 +30,27 @@ def get_user_like(dishes, user_id):
 
 
 class TagQueryAPI(APIView):
+    """
+    通过标签查询菜品
+    """
     pass
 
 
 class KeyQueryAPI(APIView):
+    """
+    通过关键词查询菜品
+    """
     pass
 
 
 class CalorieQueryAPI(APIView):
+    """
+    通过卡路里的上下限查询菜品
+    """
     def get(self, request):
+        """
+        get 方法
+        """
         request_data = request.query_params
         try:
             user_id = get_user_id(request)
@@ -49,7 +65,13 @@ class CalorieQueryAPI(APIView):
 
 
 class DishDetailAPI(APIView):
+    """
+    获取菜品详情
+    """
     def get(self, request):
+        """
+        get方法
+        """
         request_data = request.query_params
         try:
             dish_id = request_data['dish_id']
@@ -61,7 +83,13 @@ class DishDetailAPI(APIView):
 
 
 class LikeDishAPI(APIView):
+    """
+    赞/踩菜品
+    """
     def post(self, request):
+        """
+        post方法
+        """
         try:
             json_data = json.loads(request.body)
             user_id = get_user_id(request)

@@ -1,13 +1,15 @@
-import json
+"""
+menu.views
+"""
 
-from django.shortcuts import render
+import json
 
 from django.db.models import Sum, F
 
 from menu.models import Menu, DishOrder
-from dish.models import Dish
-
 from menu.serializers import MenuSerializer
+
+from dish.models import Dish
 from dish.serializers import DishMenuSerializer
 
 from calorie.api import APIView
@@ -17,7 +19,13 @@ from calorie.api import get_user_id
 
 
 class GetMenuHistoryAPI(APIView):
+    """
+    查询历史菜单
+    """
     def get(self, request):
+        """
+        get方法
+        """
         try:
             user_id = get_user_id(request)
             user_menu_objects = Menu.objects.filter(user_id=user_id, if_show=True)
@@ -33,7 +41,13 @@ class GetMenuHistoryAPI(APIView):
 
 
 class SubmitMenuAPI(APIView):
+    """
+    提交菜单
+    """
     def post(self, request):
+        """
+        post方法
+        """
         try:
             json_data = json.loads(request.body)
             user_id = get_user_id(request)
@@ -49,7 +63,13 @@ class SubmitMenuAPI(APIView):
 
 
 class MenuDetailAPI(APIView):
+    """
+    查看菜单详情
+    """
     def get(self, request):
+        """
+        get方法
+        """
         request_data = request.query_params
         try:
             menu_id = request_data['menu_id']
@@ -67,10 +87,16 @@ class MenuDetailAPI(APIView):
 
 
 class DeleteMenuAPI(APIView):
+    """
+    删除菜单
+    可以在后期考虑使用delete方法
+    """
     def post(self, request):
+        """
+        post方法
+        """
         try:
             json_data = json.loads(request.body)
-            user_id = get_user_id(request)
             menu_id = json_data['menu_id']
             menu_object = Menu.objects.get(pk=menu_id)
             menu_object.delete()

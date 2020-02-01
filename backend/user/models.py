@@ -1,3 +1,7 @@
+"""
+user.models
+数据库设计
+"""
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
@@ -22,9 +26,6 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-    def get_absolute_url(self):
-        return reverse("User_detail", kwargs={"pk": self.pk})
-
 
 class LikeDish(models.Model):
     '''用户餐品点赞关联表'''
@@ -45,6 +46,3 @@ class LikeDish(models.Model):
         }
         like = like_dict[self.like]
         return f"{self.user} {like} {self.dish}"
-
-    def get_absolute_url(self):
-        return reverse("LikeDish_detail", kwargs={"pk": self.pk})

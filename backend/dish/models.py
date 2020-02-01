@@ -1,3 +1,7 @@
+"""
+dish.models
+数据库设计
+"""
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -27,10 +31,6 @@ class Dish(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse("Dish_detail", kwargs={"pk": self.pk})
-
-
 class Tag(models.Model):
     '''菜品标签'''
 
@@ -42,6 +42,3 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
-    def get_absolute_url(self):
-        return reverse("Tag_detail", kwargs={"pk": self.pk})
