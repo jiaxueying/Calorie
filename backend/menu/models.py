@@ -18,10 +18,6 @@ class Menu(models.Model):
     def __str__(self):
         return f'{self.user} order at {self.date}'
 
-    def get_absolute_url(self):
-        return reverse("Menu_detail", kwargs={"pk": self.pk})
-
-
 class DishOrder(models.Model):
     '''一餐的菜品'''
 
@@ -35,6 +31,3 @@ class DishOrder(models.Model):
 
     def __str__(self):
         return f'{self.menu} has {self.dish} {self.mass}'
-
-    def get_absolute_url(self):
-        return reverse("DishOrder_detail", kwargs={"pk": self.pk})
