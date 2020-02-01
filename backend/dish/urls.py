@@ -1,6 +1,8 @@
-from django.urls import path
+"""
+dish.urls
+"""
 # views is used to log in
-from rest_framework.authtoken import views
+from django.urls import path
 
 from dish.views import TagQueryAPI, KeyQueryAPI, CalorieQueryAPI, DishDetailAPI, LikeDishAPI
 

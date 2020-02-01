@@ -1,7 +1,8 @@
-from django.urls import path
-# views is used to log in
-from rest_framework.authtoken import views
+"""
+menu.url
+"""
 
+from django.urls import path
 from menu.views import GetMenuHistoryAPI, SubmitMenuAPI, MenuDetailAPI, DeleteMenuAPI
 
 urlpatterns = [
