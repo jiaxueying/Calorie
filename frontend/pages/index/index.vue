@@ -13,20 +13,20 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        title: 'Hello',
-        emmm: 123,
-      };
-    },
-    onLoad() {
+export default {
+  data() {
+    return {
+      title: 'Hello',
+      emmm: 123,
+    };
+  },
+  onLoad() {
 
-    },
-    methods: {
+  },
+  methods: {
 
-    },
-  };
+  },
+};
 </script>
 
 <style>
@@ -41,7 +41,8 @@
   height: 200rpx;
   width: 200rpx;
   margin-top: 200rpx;
-  margin-left: auto;  margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 50rpx;
 }
 
