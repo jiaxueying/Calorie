@@ -6,7 +6,7 @@ import json
 from calorie.api import APIView
 from calorie.api import get_user_id
 
-from dish.models import Dish
+from dish.models import Dish, Tag
 from dish.serializers import DishSerializer
 
 from user.models import LikeDish
@@ -33,14 +33,36 @@ class TagQueryAPI(APIView):
     """
     通过标签查询菜品
     """
-    pass
+    def get(self, request):
+        """
+        get 方法
+        """
+        request_data = request.query_params
+        try:
+            tag_id = request_data['tag_id']
+            dish_objects = Tag.objects.get(pk=tag_id).dish_set
+            dishes = DishSerializer(dish_objects, many=True).data
+        except Exception as e:
+            return self.error(err=str(e))
+        return self.success(data={'dishes': dishes})
 
 
 class KeyQueryAPI(APIView):
     """
     通过关键词查询菜品
     """
-    pass
+    def get(self, request):
+        """
+        get 方法
+        """
+        request_data = request.query_params
+        try:
+            key_word = request_data['key_word']
+            dish_objects = Dish.objects.filter(name__contains=key_word)
+            dishes = DishSerializer(dish_objects, many=True).data
+        except Exception as e:
+            return self.error(err=str(e))
+        return self.success(data={'dishes': dishes})
 
 
 class CalorieQueryAPI(APIView):
