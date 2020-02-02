@@ -17,6 +17,7 @@
     data() {
       return {
         title: 'Hello',
+        emmm: 123,
       };
     },
     onLoad() {

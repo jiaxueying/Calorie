@@ -1,0 +1,62 @@
+#!/bin/bash
+
+red='\033[0;31m'
+green='\033[0;32m'
+nc='\033[0m'
+back='\033[0;34m'
+PASS=true
+
+# ESLint
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "\(.jsx\?$\)\|\(.vue\)$")
+if [[ "$STAGED_FILES" != "" ]]; then
+  echo -e "${back}Validating Javascript:${nc}"
+  which eslint &> /dev/null
+  if [[ $? == 1 ]]; then
+    echo -e "${red}Please install ESlint${nc}"
+    exit 1
+  fi
+  for FILE in $STAGED_FILES
+  do
+    eslint "$FILE"
+    if [[ $? == 0 ]]; then
+      echo -e "${green}ESLint Passed: $FILE${nc}"
+    else
+      echo -e "${red}ESLint Failed: $FILE${nc}"
+      PASS=false
+    fi
+  done
+  if ! $PASS; then
+    echo -e "${red}Javascript ESLint validation failed${nc}"
+    exit 1
+  else
+    echo -e "${green}Javascript ESLint validation succeeded${nc}"
+  fi
+fi
+
+# stylelint
+STYLELINT_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "\(.css$\)\|\(.vue\)\|\(.js\)$")
+if [[ "$STYLELINT_FILES" != "" ]]; then
+  echo -e "${back}Validating css:${nc}"
+  which stylelint &> /dev/null
+  if [[ $? == 1 ]]; then
+    echo -e "${red}Please install stylelint${nc}"
+    exit 1
+  fi
+  for FILE in $STYLELINT_FILES
+  do
+    stylelint "$FILE"
+    if [[ $? == 0 ]]; then
+      echo -e "${green}stylelint Passed: $FILE${nc}"
+    else
+      echo -e "${red}stylelint Failed: $FILE${nc}"
+      PASS=false
+    fi
+  done
+  if ! $PASS; then
+    echo -e "${red}CSS stylelint validation failed${nc}"
+    exit 1
+  else
+    echo -e "${green}CSS stylelint validation succeeded${nc}"
+  fi
+fi
+exit $?
