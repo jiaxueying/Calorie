@@ -1,27 +1,32 @@
 <template>
   <view class="content">
-    <image
-      class="logo"
-      src="/static/logo.png"
-    />
+    
     <view class="text-area">
-      <text class="title">
-        {{ title }}
-      </text>
-    </view>
+      <view v-html="str1"></view>
+      <MoreInformation></MoreInformation>
+      <MinMax></MinMax>
+  </view>
   </view>
 </template>
 
 <script>
-export default {
+ import MinMax from './min&max.vue'
+ import MoreInformation from './more information.vue'
+ export default {
+   components: {
+    MinMax,
+    MoreInformation
+  },
   data() {
     return {
       title: 'Hello',
-      emmm: 123,
+      str1:'<span> 点击下方按钮</span><br><span>选择本餐摄入的卡路里数据范围</span><br>',
+
     };
   },
+ 
   onLoad() {
-
+      
   },
   methods: {
 
@@ -30,11 +35,14 @@ export default {
 </script>
 
 <style>
+ 
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: ;
+ 
 }
 
 .logo {
@@ -47,8 +55,13 @@ export default {
 }
 
 .text-area {
-  display: flex;
+  display: block;
   justify-content: center;
+  position: absolute;
+  left:15%;
+  top:10%;
+  color: '#59453d';
+  text-align: left;
 }
 
 .title {
