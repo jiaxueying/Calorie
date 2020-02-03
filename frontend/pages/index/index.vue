@@ -9,10 +9,30 @@
         {{ title }}
       </text>
     </view>
+    <button
+      type="primary"
+      open-type="getUserInfo"
+      @getuserinfo="onGetUserInfo"
+    >
+      授权
+    </button>
+    <button
+      type="primary"
+      open-type="openSetting"
+    >
+      权限设置
+    </button>
+    <button
+      type="primary"
+      @click="test"
+    >
+      test
+    </button>
   </view>
 </template>
 
 <script>
+import { backendUrl, request } from '@/common/helper.js';
 export default {
   data() {
     return {
@@ -24,7 +44,37 @@ export default {
 
   },
   methods: {
-
+    onGetUserInfo(userInfo) {
+      const nickName = userInfo.detail.userInfo.nickName;
+      uni.login({
+        provider: 'weixin',
+      }).then(loginRes => {
+        const [loginError, loginData] = loginRes;
+        console.assert(loginError === null);
+        const loginCode = loginData.code;
+        uni.request({
+          url: backendUrl + '/user/login/',
+          data: {
+            code: loginCode,
+            name: nickName,
+          },
+          method: 'POST',
+        }).then(backendRes => {
+          const [backendError, backendData] = backendRes;
+          console.assert(backendError === null);
+          const token = backendData.data.token;
+          uni.setStorageSync('token', token);
+          console.log('token: ', token);
+        });
+      });
+    },
+    test() {
+      request('/dish/key_query/', 'GET', {
+        key_word: '菜',
+      }).then(res => {
+        console.log(res);
+      });
+    },
   },
 };
 </script>

@@ -69,5 +69,8 @@ module.exports = {
     }],
     'vue/html-quotes': ['error', 'double'],
   },
-  globals: {},
+  globals: {
+    'uni': 'readonly',
+    'wx': 'readonly',
+  },
 };
