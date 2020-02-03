@@ -2,7 +2,9 @@
 详细文档在后期完善
 user.view 描述和用户相关的API
 """
+import json
 from copy import copy
+import requests
 from django.utils.datastructures import MultiValueDictKeyError
 
 from rest_framework.views import Response
@@ -11,10 +13,16 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken import views as rest_auth
 
 from calorie.api import APIView
-from calorie.api import FieldException
+from calorie.api import FieldException, NetworkConnectionException
 from calorie.settings import DEBUG
 
 from user.serializers import UserSerializer
+from user.models import User
+
+APPSECRET = "987fa4e0b2d2198e83a760a42b42148c"
+APPID = "wx6310320ccdaaf1c5"
+GRANT_TYPE = "authorization_code"
+
 class UserLoginAPI(rest_auth.ObtainAuthToken):
     """
     该API用于用户登录，继承自rfw的rest_auth.ObtainAuthToken，将用于认证身份的token发给前端
@@ -22,39 +30,60 @@ class UserLoginAPI(rest_auth.ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         """
         Login API
+        request - 前端发来的请求
         """
-        # Add something for miniapp
-        # Django just need two key-value -- username and password -- in request.data
         login_data = copy(request.data)
+        if 'name' not in login_data:
+            raise FieldException("请求中缺少微信昵称")
         try:
             assert login_data['code'] is not None
         except MultiValueDictKeyError as _:
-            print('没有code')
+            # 没有code
             if DEBUG:
                 return super().post(request, *args, **kwargs)
             return Response(data={'msg': '登录失败'}, status=status.HTTP_401_UNAUTHORIZED) # 401.1?
         else:
-            print('有code')
+            # 有code
             login_data['username'] = self.get_openid(login_data['code'])
             login_data['password'] = self.get_password(login_data['username'])
-            serializer = self.serializer_class(data=login_data, context={'request': request})
-            serializer.is_valid(raise_exception=True)
-            user = serializer.validated_data['user']
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key})
+            if not User.objects.filter(username=login_data['username']):
+                User.objects.create_user(username=login_data['username'], password=login_data['password'], name=login_data['name'])
+            return self.get_or_create_token(login_data, request)
 
-    def get_openid(self, code):
+    @staticmethod
+    def get_openid(code):
         """
         向微信接口请求openid
+        code - 前端通过wx.login得到的code
         """
         # 注意可能超时和其他的异常
-        return code
+        url = f"https://api.weixin.qq.com/sns/jscode2session?APPID={APPID}&secret={APPSECRET}&js_code={code}&GRANT_TYPE={GRANT_TYPE}"
+        response = requests.get(url=url)
+        if response.status_code == 200:
+            content = json.loads(response.content)
+            try:
+                return content['openid']
+            except Exception as _:
+                print("content没有openid")
+                raise FieldException("content没有openid")
+        raise NetworkConnectionException()
 
-    def get_password(self, username):
+    @staticmethod
+    def get_password(username):
         """
         得到登录密码
         """
         return username
+
+    def get_or_create_token(self, login_data, request):
+        """
+        返回认证用token
+        """
+        serializer = self.serializer_class(data=login_data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key})
 
 class UserProfileAPI(APIView):
     """
@@ -73,6 +102,7 @@ class UserProfileAPI(APIView):
         user_obj.weight = request.data['weight']
         user_obj.save()
         return self.success()
+
     def get(self, request):
         """
         获取用户信息
