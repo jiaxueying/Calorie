@@ -1,6 +1,5 @@
 <template>
   <view class="content">
-    
     <view class="text-area">
       <view v-html="str1"></view>
       <MoreInformation></MoreInformation>

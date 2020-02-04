@@ -39,7 +39,6 @@ export default{
       {
         this.cal[1]=this.cal2[event.detail.value];
       }
-      console.log(event.detail.column,event.detail.value)
     }
   }
 }
