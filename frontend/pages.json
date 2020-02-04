@@ -1,4 +1,3 @@
-
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
@@ -8,13 +7,13 @@
 		    }
 		},
         {
-		    "path":"pages/index2/index",
+		    "path":"pages/recommondation/list",
 		    "style":{
 		        
 		    }
 		},
         {
-			"path": "pages/recommondation/page",
+			"path": "pages/recommondation/range",
 			"style": {
 				
 			}

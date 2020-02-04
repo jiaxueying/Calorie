@@ -11,9 +11,9 @@
 </template>
 
 <script>
- import MinMax from './min&max.vue'
- import MoreInformation from './more information.vue'
- import calPicker from './calPicker.vue'
+ import MinMax from '../../components/recommodation/min&max.vue'
+ import MoreInformation from '../../components/recommodation/moreInformation.vue'
+ import calPicker from '../../components/recommodation/calPicker.vue'
  export default {
    components: {
     MinMax,

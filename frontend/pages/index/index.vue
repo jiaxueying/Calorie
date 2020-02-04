@@ -7,11 +7,11 @@
     <view class="button">
       <dl>
         <dt>
-          <navigator url="../recommondation/page">范围选择页面</navigator>
+          <navigator url="../recommondation/range">范围选择页面</navigator>
         </dt>
         <text>\n</text>
         <dt>
-          <navigator url="../index2/index">今日推荐界面</navigator>
+          <navigator url="../recommondation/list">今日推荐界面</navigator>
         </dt>
       </dl>
     </view>
