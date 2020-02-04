@@ -1,5 +1,5 @@
 <template>
-	<view >
+	<view>
     <view class="text-area">
       <text class="title">施工中</text>
       <text class="title">请选则要跳转的页面</text>
@@ -12,6 +12,10 @@
         <text>\n</text>
         <dt>
           <navigator url="../recommondation/list">今日推荐界面</navigator>
+        </dt>
+        <text>\n</text>
+        <dt>
+          <navigator url="../recommondation/shake">摇一摇页面</navigator>
         </dt>
       </dl>
     </view>

@@ -18,6 +18,10 @@
 				
 			}
 		}
+        ,{
+            "path" : "pages/recommondation/shake",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

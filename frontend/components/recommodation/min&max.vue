@@ -29,7 +29,8 @@
     text-align: center;
     vertical-align: middle;
     margin-top: 0px;
-    display:inline-flex
+    display:inline-flex;
+    margin: auto;
   }
   button{
     position: relative;

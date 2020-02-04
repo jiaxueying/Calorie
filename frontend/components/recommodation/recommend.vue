@@ -1,8 +1,9 @@
 <template>
   <view>
     <view class="title">
-    <div class="text">今日推荐</div>
+    <div class="text" style="opacity: 0.4;">今日推荐</div>
     </view>
+    <div class="text1">今日推荐</div>
   <ul>
     <li style="list-style-type: none;" v-for="(item,index) in meals" :key="index">
       <view class="block">
@@ -37,7 +38,7 @@
          meals:[
            {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0'},
            {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0'}
-         ]
+         ],
        };
      },
      
@@ -48,11 +49,12 @@
 
 <style>
   .title{
-    background-color:#dbcfca ;
-    color:#59453D;
+    background-color:#dbd0ca;
+    color:#59453d;
     display: flex;
     flex:2; 
     line-height: 50px;
+    opacity: 0.5;
   }
   .text{
     font-weight:800;
@@ -84,5 +86,12 @@
   lable{
     position:relative;
     top:15px
+  }
+  .text1{
+    font-weight:800;
+    position:absolute;
+    left: 40%;
+    top:12px;
+    color:#59453d;
   }
 </style>
