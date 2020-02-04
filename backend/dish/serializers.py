@@ -26,37 +26,25 @@ class DishMenuSerializer(serializers.ModelSerializer):
         fields = ('id', 'picture', 'name', 'calorie')
         read_only_field = ("id", )
 
-    def to_representation(self, instance):
-        return {
-            'id': instance.id,
-            'name': instance.name,
-            'picture': str(instance.picture),
-            'calorie': instance.calorie
-        }
+    # def to_representation(self, instance):
+    #     return {
+    #         'id': instance.id,
+    #         'name': instance.name,
+    #         'picture': str(instance.picture),
+    #         'calorie': instance.calorie
+    #     }
 
 
 class DishSerializer(serializers.ModelSerializer):
     """
     serializer for dish.dish
     """
+    tag = TagSerializer(many=True, read_only=True)
     class Meta:
         model = Dish
         fields = '__all__'
         read_only_field = ("id", )
 
     def to_representation(self, instance):
-        return {
-            'id': instance.id,
-            'name': instance.name,
-            'picture': str(instance.picture),
-            'calorie': instance.calorie,
-            'carbohydrate': instance.carbohydrate,
-            'energy': instance.energy,
-            'fat': instance.fat,
-            'protein': instance.protein,
-            'sodium': instance.sodium,
-            'water': instance.water,
-            'like': instance.like,
-            'dislike': instance.dislike,
-            'tag': TagSerializer(instance.tag, many=True).data
-        }
+        return_data = super().to_representation(instance)
+        return return_data
