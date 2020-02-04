@@ -4,8 +4,8 @@
     <view class="text-area">
       <view v-html="str1"></view>
       <MoreInformation></MoreInformation>
-	  <calPicker>
-      <MinMax></MinMax>
+	  <calPicker @refresh="change">
+		<MinMax :MIN="MIN" :MAX="MAX"></MinMax>
 	  </calPicker>
     </view>
   </view>
@@ -25,6 +25,8 @@
     return {
       title: 'Hello',
       str1:'<span> 点击下方按钮</span><br><span>选择本餐摄入的卡路里数据范围</span><br>',
+	  MIN:'MIN',
+	  MAX:'MAX'
     };
   },
  
@@ -32,7 +34,10 @@
       
   },
   methods: {
-    
+    change:function(cal,index){
+      this.MIN=cal[0][index[0]];
+      this.MAX=cal[1][index[1]];
+    }
   },
 };
 </script>
