@@ -1,6 +1,7 @@
 <template>
-  <Meal></Meal>
-  <input type="button" @click="toPath" value="nextpage">
+  <view>
+   <Meal></Meal>
+  </view>
 </template>
 
 <script>
@@ -11,6 +12,7 @@
     },
     data() {
       return {
+        str:'<button>nextpage</button>'
       };
     },
    
@@ -21,12 +23,6 @@
       
     },
     methods: {
-      toPath(){
-        uni.switchTab({
-          url:"./recommend"
-        })
-      }
-  
     },
   };
 </script>

@@ -1,32 +1,35 @@
 <template>
-  <view class="content">
-  <view class="content1">
-    <input type="checkbox" name="check" value=" ">
-    <image style="width: 100px;height: 100px" src="../../static/logo.png"></image>
-  </view>
-  <view class="content2">
-    <view class="content2a">
-      <h2>{{meal-name}}</h2>
-    </view>
-    <view class="content2b">
-      <p>{{calorie}}</p>
-      <picker range="number"></picker>
-    </view>
-  </view>
-  </view>
+  <ul>
+    <li style="list-style-type: none;" v-for="(item,index) in meals" :key="index">
+      <view class="block">
+        <div v-html="str1" style="width: 30px;" ></div>
+        <image style="width:80px;height:80px" src="../../static/logo.png"></image>
+        <view class="data" style="margin-left: 16px;font-size:1.5em;color: #59453D;">
+          <p>{{item.name}}</p>
+          <p style="font-size:0.5em;color: #59453D;">{{item.cal}}</p>
+        </view>
+        <view class="calculate">
+         <p @click="item.quantity--" v-model="item.quantity" >-</p> 
+         {{item.quantity}}份
+         <p @click="item.quantity++" v-model="item.quantity">+</p>
+        </view>
+      </view>
+
+    </li>
+  </ul>
 </template>
 
 <script>
   export default {
     props: [],
-    methods: {      
-   
-     },
+    methods: {          },
      data() {
        return {
-         'meal-name':'菜品名称',
-         calorie:'200',
-         number:['one','two','three','four']
+         str1:'<input id="input" type="checkbox">',
+         meals:[
+           {name:'meal1',cal:'200kcal',quantity:'0'},
+           {name:'meal2',cal:'300kcal',quantity:'0'}
+         ]
        };
      },
      
@@ -36,18 +39,25 @@
 </script>
 
 <style>
-  .content{
+  .block{
     display:flex;
-    flex-direction: row;
+    margin-top: 10px;
   }
-  .content1{
+  .calculate{
+    margin-left: 25px;
+    display: flex;
+    vertical-align: middle;
     position: relative;
-    left:10%;
-    top:0px;
-    display: inline-block;
+    top:20px;
+    font-size: 1em;
+    border: #59453D;
+    border-radius: 25px;
   }
-  .content2{
-    position: relative;
-    top:18px
+  .data{
+    margin-top: 5px;
+  }
+  lable{
+    position:relative;
+    top:15px
   }
 </style>
