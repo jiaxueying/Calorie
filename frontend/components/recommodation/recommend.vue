@@ -1,14 +1,14 @@
 <template>
   <view>
     <view class="title">
-    <div class="text" style="opacity: 0.4;">今日推荐</div>
-    </view>
-    <div class="text1">今日推荐</div>
-  <ul>
-    <li style="list-style-type: none;" v-for="(item,index) in meals" :key="index">
+      <div class="text1">今日推荐</div>
+    </view>    
+
+  <dl>
+    <dt  v-for="(item,index) in meals" :key="index">
       <view class="block">
-        <checkbox color="#59453D" style="position:relative;top:23px;right:10px"></checkbox>
-        <image style="width:80px;height:80px" :src="item.src"></image>
+        <checkbox color="#59453D"></checkbox>
+        <image style="width:85px;height:85px;" :src="item.src"></image>
         <view class="data">
           <p>{{item.name}}</p>
           <p style="font-size:0.5em;color: #59453D;">{{item.cal}}</p>
@@ -20,8 +20,8 @@
         </view>
       </view>
 
-    </li>
-  </ul>
+    </dt>
+  </dl>
   <view class="foot">
     
   </view>
@@ -49,38 +49,33 @@
 
 <style>
   .title{
-    background-color:#dbd0ca;
+    background: rgba(219,207,202,.3); 
+    height:50px;
     color:#59453d;
     display: flex;
     flex:2; 
-    line-height: 50px;
-    opacity: 0.5;
+    justify-content: center;
+    align-items: center;
   }
-  .text{
-    font-weight:800;
-    position:relative;
-    left: 40%;
-  }
+ 
   .block{
-    display:flex;
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: space-evenly;
+    align-items: center;
     
   }
   .calculate{
-    margin-left: 25px;
     display: flex;
-    vertical-align: middle;
-    position:relative;
-    top:20px;
+    justify-content: center;
+    align-items: center;
     font-size: 1em;
     border: #59453D;
-    border-radius: 25px;
   }
   .data{
-    margin-top: 5px;
-    margin-left: 16px;
     font-weight: 800;
-    font-size:1.5em;
+    font-size:1.8em;
     color: #59453D;
   }
   lable{
@@ -89,9 +84,6 @@
   }
   .text1{
     font-weight:800;
-    position:absolute;
-    left: 40%;
-    top:12px;
     color:#59453d;
   }
 </style>
