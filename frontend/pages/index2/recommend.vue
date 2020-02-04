@@ -1,10 +1,14 @@
 <template>
+  <view>
+    <view class="title">
+    <div class="text">今日推荐</div>
+    </view>
   <ul>
     <li style="list-style-type: none;" v-for="(item,index) in meals" :key="index">
       <view class="block">
-        <div v-html="str1" style="width: 30px;" ></div>
-        <image style="width:80px;height:80px" src="../../static/logo.png"></image>
-        <view class="data" style="margin-left: 16px;font-size:1.5em;color: #59453D;">
+        <checkbox color="#59453D" style="position:relative;top:23px;right:10px"></checkbox>
+        <image style="width:80px;height:80px" :src="item.src"></image>
+        <view class="data">
           <p>{{item.name}}</p>
           <p style="font-size:0.5em;color: #59453D;">{{item.cal}}</p>
         </view>
@@ -17,6 +21,10 @@
 
     </li>
   </ul>
+  <view class="foot">
+    
+  </view>
+  </view>
 </template>
 
 <script>
@@ -27,8 +35,8 @@
        return {
          str1:'<input id="input" type="checkbox">',
          meals:[
-           {name:'meal1',cal:'200kcal',quantity:'0'},
-           {name:'meal2',cal:'300kcal',quantity:'0'}
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0'},
+           {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0'}
          ]
        };
      },
@@ -39,15 +47,28 @@
 </script>
 
 <style>
+  .title{
+    background-color:#dbcfca ;
+    color:#59453D;
+    display: flex;
+    flex:2; 
+    line-height: 50px;
+  }
+  .text{
+    font-weight:800;
+    position:relative;
+    left: 40%;
+  }
   .block{
     display:flex;
     margin-top: 10px;
+    
   }
   .calculate{
     margin-left: 25px;
     display: flex;
     vertical-align: middle;
-    position: relative;
+    position:relative;
     top:20px;
     font-size: 1em;
     border: #59453D;
@@ -55,6 +76,10 @@
   }
   .data{
     margin-top: 5px;
+    margin-left: 16px;
+    font-weight: 800;
+    font-size:1.5em;
+    color: #59453D;
   }
   lable{
     position:relative;
