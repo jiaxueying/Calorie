@@ -45,6 +45,14 @@ class DishSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_field = ("id", )
 
-    def to_representation(self, instance):
-        return_data = super().to_representation(instance)
-        return return_data
+    # def to_representation(self, instance):
+    #     return_data = super().to_representation(instance)
+    #     return return_data
+
+class DishWithLikeSerializer(DishSerializer):
+    user_like = serializers.BooleanField(default=False, initial=False, allow_null=False)
+    user_dislike = serializers.BooleanField(default=False, initial=False, allow_null=False)
+    class Meta:
+        model = Dish
+        fields = ["id", "picture", "name", "calorie", "like", "dislike", "tag", "energy", "protein", "fat", "water", "carbohydrate", "sodium", "user_like", "user_dislike"]
+        read_only_field = ("id", )

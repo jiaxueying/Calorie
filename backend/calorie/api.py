@@ -112,6 +112,13 @@ def check_one_field(request_data, field_name):
             {'msg': f'{field_name} is required'}
         )
 
+def check_and_get_str(request_data, field_name):
+    """检查字典request_data中是否有字段field_name, 并将其返回"""
+    check_one_field(request_data, field_name)
+    temp_data = request_data[field_name]
+    if isinstance(temp_data, list):
+        temp_data = temp_data[0]
+    return temp_data
 
 def check_and_get_int(request_data, field_name):
     """检查字典request_data中是否有字段field_name, 并将其转换为int返回"""
