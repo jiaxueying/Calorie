@@ -16,6 +16,7 @@ export default{
       ],
       cal2:
       [
+        [1,2,3,4,5,6,7,8,9],
         [2,3,4,5,6,7,8,9],
         [3,4,5,6,7,8,9],
         [4,5,6,7,8,9],
@@ -36,7 +37,7 @@ export default{
     changecolumn:function(event){
       if(event.detail.column==0)
       {
-        this.cal[1]=this.cal2[event.detail.value-1];
+        this.cal[1]=this.cal2[event.detail.value];
       }
       console.log(event.detail.column,event.detail.value)
     }
