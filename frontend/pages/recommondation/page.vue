@@ -4,24 +4,27 @@
     <view class="text-area">
       <view v-html="str1"></view>
       <MoreInformation></MoreInformation>
+	  <calPicker>
       <MinMax></MinMax>
-  </view>
+	  </calPicker>
+    </view>
   </view>
 </template>
 
 <script>
  import MinMax from './min&max.vue'
  import MoreInformation from './more information.vue'
+ import calPicker from './calPicker.vue'
  export default {
    components: {
     MinMax,
-    MoreInformation
+    MoreInformation,
+    calPicker
   },
   data() {
     return {
       title: 'Hello',
       str1:'<span> 点击下方按钮</span><br><span>选择本餐摄入的卡路里数据范围</span><br>',
-
     };
   },
  
@@ -29,7 +32,7 @@
       
   },
   methods: {
-
+    
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="back" >
+    <div class="back" @tap="tap">
      <button size="mini" style="background-color: #59453D;color: #FFFFFF;">MIN</button>
      <p style="margin-top: 4px;">&</p>
      <button size="mini" >MAX</button>
@@ -10,7 +10,9 @@
   export default {
     props: [],
     methods: {
-     
+      tap:function(){
+        this.$emit('tap1',"");
+      }
     }
   }
 </script>
