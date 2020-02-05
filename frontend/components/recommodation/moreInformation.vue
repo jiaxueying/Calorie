@@ -29,12 +29,9 @@ methods: {
   .more{
     font-size: 0.2em;
     color: '#59453d';
-    position: absolute;
-    left:38%;
-    top:100%
-  }
-  .content{
-   
+    position: relative;
+    left:13%;
+    padding-bottom: 5%;
   }
   
 </style>

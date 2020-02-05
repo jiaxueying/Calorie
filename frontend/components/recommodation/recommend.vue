@@ -14,9 +14,7 @@
           <p style="font-size:0.5em;color: #59453D;">{{item.cal}}</p>
         </view>
         <view class="calculate">
-         <p @click="item.quantity--" v-model="item.quantity" >-</p> 
-         {{item.quantity}}份
-         <p @click="item.quantity++" v-model="item.quantity">+</p>
+          <uni-number-box :min="0" :max="9"  @change="quantityChange"></uni-number-box>
         </view>
       </view>
 
@@ -29,9 +27,17 @@
 </template>
 
 <script>
+  import uniNumberBox from"@/components/uni-ui/uni-number-box/uni-number-box.vue"
+  
   export default {
+    components:{
+      uniNumberBox
+    },
     props: [],
-    methods: {          },
+    methods: {    
+      quantityChange(){
+      }
+    },
      data() {
        return {
          str1:'<input id="input" type="checkbox">',
