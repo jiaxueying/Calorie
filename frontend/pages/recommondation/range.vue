@@ -41,12 +41,14 @@
       if((this.MAX-this.MIN)<1)
       {uni.showModal({
         title:"请重新选择范围",
-        content:"范围的最大值必须大于最小值"
+        content:"范围的最大值必须大于最小值",
+        showCancel:false
       })}
       else if(this.MAX=="MAX")
       {uni.showModal({
         title:"请重新选择范围",
-        content:"请点击按钮选择范围"
+        content:"请点击按钮选择范围",
+        showCancel:false
       })}
       else{uni.navigateTo({
         url:"./shake"
