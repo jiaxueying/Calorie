@@ -7,7 +7,7 @@
 <script>
   export default {
     props: [],
-methods: {
+    methods: {
       more() {
         uni.showModal({
           title: '提示',

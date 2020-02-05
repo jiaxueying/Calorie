@@ -30,8 +30,13 @@
   button{
     line-height: 35px;
     vertical-align: middle;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
   text{
     font-size: 18px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    
   }
 </style>

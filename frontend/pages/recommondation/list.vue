@@ -8,11 +8,10 @@
   import Meal from '../../components/recommodation/recommend.vue'
    export default {
      components: {
-      Meal
+      Meal,
     },
     data() {
       return {
-        str:'<button>nextpage</button>'
       };
     },
    

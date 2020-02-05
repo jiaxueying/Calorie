@@ -5,46 +5,59 @@
     </view>    
 
   <dl>
-    <dt  v-for="(item,index) in meals" :key="index">
-      <view class="block">
-        <checkbox color="#59453D"></checkbox>
+    <dt  v-for="(item,index) in meals" :key="index" >
+      <view class="block" @chooseAll="all">
+        <checkbox color="#59453D" :checked="item.checked"></checkbox>
         <image style="width:85px;height:85px;" :src="item.src"></image>
         <view class="data">
           <p>{{item.name}}</p>
           <p style="font-size:0.5em;color: #59453D;">{{item.cal}}</p>
         </view>
         <view class="calculate">
-          <uni-number-box :min="0" :max="9"  @change="quantityChange"></uni-number-box>
+          <uni-number-box :min="0" :max="9"></uni-number-box>
         </view>
       </view>
 
     </dt>
   </dl>
   <view class="foot">
-    
+      <Footer></Footer>
   </view>
   </view>
 </template>
 
 <script>
   import uniNumberBox from"@/components/uni-ui/uni-number-box/uni-number-box.vue"
-  
+  import Footer from '../../components/recommodation/footer.vue'
   export default {
     components:{
-      uniNumberBox
+      uniNumberBox,
+      Footer,
     },
     props: [],
     methods: {    
-      quantityChange(){
+      all:function(){
+        console.log('hi');
+        for(var i=0;i<this.meals.length;i++)
+        {
+          this.meals[i].checked=true;
+        }
       }
     },
      data() {
        return {
-         str1:'<input id="input" type="checkbox">',
          meals:[
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0'},
-           {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0'}
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
+           {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0',checked:false},
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
+           
          ],
+         
        };
      },
      
