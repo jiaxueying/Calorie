@@ -6,7 +6,7 @@
 
   <dl>
     <dt  v-for="(item,index) in meals" :key="index" >
-      <view class="block" @chooseAll="all">
+      <view class="block">
         <checkbox color="#59453D" :checked="item.checked"></checkbox>
         <image style="width:85px;height:85px;" :src="item.src"></image>
         <view class="data">
@@ -21,7 +21,7 @@
     </dt>
   </dl>
   <view class="foot">
-      <Footer></Footer>
+      <Footer @chooseAll="all"></Footer>
   </view>
   </view>
 </template>
