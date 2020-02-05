@@ -8,6 +8,7 @@
 	  <calPicker @refresh="change">
 		<MinMax :MIN="MIN" :MAX="MAX"></MinMax>
 	  </calPicker>
+    <button class="skip" @click="skip">确定</button>
   </view>
 </template>
 
@@ -35,6 +36,21 @@
     change:function(cal,index){
       this.MIN=cal[0][index[0]];
       this.MAX=cal[1][index[1]];
+    },
+    skip:function(){
+      if((this.MAX-this.MIN)<1)
+      {uni.showModal({
+        title:"请重新选择范围",
+        content:"范围的最大值必须大于最小值"
+      })}
+      else if(this.MAX=="MAX")
+      {uni.showModal({
+        title:"请重新选择范围",
+        content:"请点击按钮选择范围"
+      })}
+      else{uni.navigateTo({
+        url:"./shake"
+      })}
     }
   },
 };
@@ -64,6 +80,13 @@ text{
 }
 .more{
 }
-
+.skip{
+  border: 1px;
+  border: #333333;
+  margin: 20px;
+  background-color: #C0C0C0;
+  height: 30px;
+  line-height: 30px;
+}
 
 </style>

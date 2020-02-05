@@ -10,9 +10,7 @@
   export default {
     props: ['MIN','MAX'],
     methods: {
-      tap:function(){
-        this.$emit('tap1',"");
-      }
+      
     }
   }
 </script>
