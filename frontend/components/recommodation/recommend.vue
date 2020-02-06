@@ -31,7 +31,7 @@
 
 <script>
   import uniNumberBox from"@/components/uni-ui/uni-number-box/uni-number-box.vue"
-  import Footer from '../../components/recommodation/confirm.vue'
+  import Footer from '../../components/recommodation/footer.vue'
   export default {
     components:{
       uniNumberBox,
