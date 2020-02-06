@@ -8,11 +8,11 @@
         </view>
       </view>
 	    <calPicker @refresh="change">
-		    <Minmax class="minmax"  :MIN="MIN" :MAX="MAX">
+		    <view class="minmax"  :MIN="MIN" :MAX="MAX">
           <button size="mini" style="background-color: #59453D;color: #FFFFFF;">{{MIN}}</button>
           <text class="and">&</text>
           <button size="mini">{{MAX}}</button>
-        </Minmax>
+        </view>
 	  </calPicker>
     <button class="skip" plain=true @click="skip">确定</button>
   </view>
@@ -35,7 +35,7 @@
       
   },
   methods: {
-    more() {
+    more:function() {
         uni.showModal({
           title: '提示',
           content: 'go to baidu' ,
@@ -47,29 +47,30 @@
             console.log('用户点击取消');
           }
         });
+      },
+      change:function(cal,index){
+        this.MIN=cal[0][index[0]];
+        this.MAX=cal[1][index[1]];
+        console.log(cal[0][index[0]])
+      },
+      skip:function(){
+        if((this.MAX-this.MIN)<1)
+        {uni.showModal({
+          title:"请重新选择范围",
+          content:"范围的最大值必须大于最小值",
+          showCancel:false
+        })}
+        else if(this.MAX=="MAX")
+        {uni.showModal({
+          title:"请重新选择范围",
+          content:"请点击按钮选择范围",
+          showCancel:false
+        })}
+        else{uni.navigateTo({
+          url:"./shake"
+        })}
       }
     },
-    change:function(cal,index){
-      this.MIN=cal[0][index[0]];
-      this.MAX=cal[1][index[1]];
-    },
-    skip:function(){
-      if((this.MAX-this.MIN)<1)
-      {uni.showModal({
-        title:"请重新选择范围",
-        content:"范围的最大值必须大于最小值",
-        showCancel:false
-      })}
-      else if(this.MAX=="MAX")
-      {uni.showModal({
-        title:"请重新选择范围",
-        content:"请点击按钮选择范围",
-        showCancel:false
-      })}
-      else{uni.navigateTo({
-        url:"./shake"
-      })}
-    }
   };
 </script>
 

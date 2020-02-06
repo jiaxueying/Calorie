@@ -1,6 +1,6 @@
 <template>
   <view>
-    <picker mode="multiSelector" :range='cal' :value='index' @change="pass" @columnchange="changecolumn">
+    <picker mode="multiSelector" :range='cal' :value='index' @change="pass">
       <slot></slot>
     </picker>
   </view>
