@@ -27,7 +27,7 @@
 
 <style>
   .more{
-    font-size: 0.2em;
+    font-size: 0.8em;
     color: '#59453d';
     position: relative;
     left:13%;

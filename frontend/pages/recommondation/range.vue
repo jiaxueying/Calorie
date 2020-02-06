@@ -77,7 +77,7 @@
   color: #8f8f94;
 }
 text{
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: 400;
 }
 .more{
