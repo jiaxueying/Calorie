@@ -31,6 +31,7 @@
         console.log('hello')
       },
       add:function(){
+        this.$emit('sub')
         this.isshow=true
       }
         

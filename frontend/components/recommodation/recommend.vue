@@ -24,7 +24,7 @@
  </div>
  </dl>
   <view class="foot">
-      <Footer @chooseAll="all" :select="select"></Footer>
+      <Footer @chooseAll="all" :select="select" @sub="submit"></Footer>
   </view>
   </view>
 </template>
@@ -62,6 +62,9 @@
          else{this.flag-=1}
         if(this.flag==this.meals.length) {this.select=true}
         else {this.select=false}
+      },
+      submit:function(){
+        
       }
     },
      data() {
