@@ -2,7 +2,7 @@
 	<view>
     <view class="text-area">
       <text class="title">施工中</text>
-      <text class="title">请选则要跳转的页面</text>
+      <text class="title">请选择要跳转的页面</text>
     </view>
     <view class="button">
       <dl>

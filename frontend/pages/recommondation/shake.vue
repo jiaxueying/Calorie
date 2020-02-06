@@ -18,6 +18,7 @@
 			  if(b>0.5||b<-0.5)
 			  {
 			    console.log("success")
+          uni.stopAccelerometer()
 			    uni.redirectTo({url:"./list"})
 			  }
 			})

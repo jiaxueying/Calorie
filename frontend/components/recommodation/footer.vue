@@ -4,7 +4,7 @@
     <checkbox @click="tap" :checked="select" color="#59453D">全选</checkbox>
     <button plain=true size="mini" @click="add">加入菜单</button>
   </view>
-  <popup style="z-index: 3;left: 0;top: 0;" v-if="isshow"></popup>
+  <popup style="z-index: 3;left: 0;top: 0;position: absolute;" v-if="isshow"></popup>
   </view>
 </template>
 
