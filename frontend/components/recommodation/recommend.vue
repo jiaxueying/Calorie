@@ -46,21 +46,27 @@
           this.meals[i].checked=select;
         }
         this.select=select
+        if(select==false)
+        {
+          this.flag=0
+        }
+        else{
+          this.flag=this.meals.length
+        }
       },
       weatherAll:function(index){
-        var flag=0;
         this.meals[index].checked=!this.meals[index].checked
         console.log(index)
-        for(var i=0;i<this.meals.length;i++){
-         if(this.meals[i].checked==true)
-          flag++
-        }
-        if(flag==this.meals.length) this.select=true;
-        else this.select=false
+         if(this.meals[index].checked==true)
+         {this.flag+=1}
+         else{this.flag-=1}
+        if(this.flag==this.meals.length) {this.select=true}
+        else {this.select=false}
       }
     },
      data() {
        return {
+         flag:0,
          select:false,
          meals:[
            {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
