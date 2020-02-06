@@ -72,8 +72,8 @@
          flag:0,
          select:false,
          meals:[
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
-           {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0',checked:false},
+		   {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0',checked:false},
+		   {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
            {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
            {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
            {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},

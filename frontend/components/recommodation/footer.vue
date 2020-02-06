@@ -1,8 +1,12 @@
 <template>
   <view>
   <view class="footer">
-    <checkbox @click="tap" :checked="select" color="#59453D">全选</checkbox>
-    <button plain=true size="mini" @click="add">加入菜单</button>
+    <checkbox @click="tap" :checked="select" color="#59453D">
+      <text>全选</text>
+    </checkbox>
+    <button plain=true size="default" @click="add">
+      <text>加入菜单</text>
+    </button>
   </view>
   <popup style="z-index: 3;left: 0;top: 0;position: absolute;" v-if="isshow"></popup>
   </view>
@@ -42,23 +46,25 @@
 <style>
   .footer{
     position: fixed;
-    width: 100%;
     height:8%;
+    width:752rpx;
     bottom:0px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    font-weight: 500;
-    color: #59453D;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
     background-color: #FFFFFF;
-    border-top: 1px solid #59453D;
+    border-top: 1rpx solid #59453D;
     z-index:2;
   }
   checkbox{
-    padding-left: 8%;
+    margin-left: 17.5rpx;
   }
   button{
-    position: relative;
-    left:17%
+    margin-right:25rpx;
+  }
+  text{
+    font-weight: 600;
+    font-size:1em;
+    color: #59453D;
   }
 </style>
