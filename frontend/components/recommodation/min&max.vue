@@ -1,9 +1,11 @@
 <template>
-    <div class="back" @tap="tap">
+  <view>
+    <view class="back" @tap="tap">
      <button size="mini" style="background-color: #59453D;color: #FFFFFF;">{{MIN}}</button>
      <text>&</text>
      <button size="mini" >{{MAX}}</button>
-    </div>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -21,13 +23,12 @@
     border-radius: 25px;
     width:200px;
     display:inline-flex;
-    line-height: 35px;
-    vertical-align: middle;
-    
+    line-height: 30px;
+    background-color: #4CD964;
+    z-index: 10;
   }
   button{
-    line-height: 35px;
-    vertical-align: middle;
+    line-height: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
   }
@@ -35,6 +36,6 @@
     font-size: 18px;
     margin-top: 5px;
     margin-bottom: 5px;
-    
+    background-color: #999999;
   }
 </style>

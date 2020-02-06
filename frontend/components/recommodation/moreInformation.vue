@@ -30,8 +30,9 @@
     font-size: 0.8em;
     color: '#59453d';
     position: relative;
-    left:13%;
     padding-bottom: 5%;
+	  display:flex;
+	  justify-content: flex-end;
   }
   
 </style>
