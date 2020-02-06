@@ -8,7 +8,7 @@
 	  <calPicker @refresh="change">
 		<MinMax :MIN="MIN" :MAX="MAX"></MinMax>
 	  </calPicker>
-    <button class="skip" @click="skip">确定</button>
+    <button class="skip" plain=true @click="skip">确定</button>
   </view>
 </template>
 
@@ -83,10 +83,9 @@ text{
 .more{
 }
 .skip{
-  border: 1px;
-  border: #333333;
+  border: 1px solid #333333;
+  border-radius: 25px;
   margin: 20px;
-  background-color: #C0C0C0;
   height: 30px;
   line-height: 30px;
 }
