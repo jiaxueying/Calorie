@@ -49,13 +49,14 @@
       },
       weatherAll:function(index){
         var flag=0;
-        this.meals[index].checked=true
+        this.meals[index].checked=!this.meals[index].checked
         console.log(index)
         for(var i=0;i<this.meals.length;i++){
          if(this.meals[i].checked==true)
           flag++
         }
         if(flag==this.meals.length) this.select=true;
+        else this.select=false
       }
     },
      data() {
