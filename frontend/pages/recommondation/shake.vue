@@ -39,8 +39,8 @@
   height: 268px;
 }
 .img{
-   width: 320px;
-   height: 268px;
+   width: 300px;
+   height: 300px;
    margin: 0 auto;
 }
 </style>
