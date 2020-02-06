@@ -1,15 +1,23 @@
 <template>
+  <view>
   <view class="footer">
     <checkbox @click="tap" :checked="select" color="#59453D">全选</checkbox>
-    <button plain=true size="mini" @click="">加入菜单</button>
+    <button plain=true size="mini" @click="add">加入菜单</button>
+  </view>
+  <popup style="z-index: 3;left: 0;top: 0;" v-if="isshow"></popup>
   </view>
 </template>
 
 <script>
+  import popup from "./popup.vue"
   export default {
+    components:{
+      popup
+    },
     props: ['select'],
     data() {
       return{
+        isshow:false
       }
     },
     
@@ -22,7 +30,9 @@
         this.$emit('chooseAll',false);
         console.log('hello')
       },
-        
+      add:function(){
+        this.isshow=true
+      }
         
     }
   }
