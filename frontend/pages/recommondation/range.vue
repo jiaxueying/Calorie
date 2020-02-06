@@ -116,6 +116,7 @@
     line-height: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
+    width:70px;
   }
   .and{
     margin-top: 5px;
