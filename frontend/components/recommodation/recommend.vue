@@ -20,7 +20,7 @@
     </dt>
  </scroll-view>
  <div style="height:100px">
-   {{           }} 
+    
  </div>
  </dl>
   <view class="foot">
