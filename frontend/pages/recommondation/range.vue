@@ -66,7 +66,7 @@
           content:"请点击按钮选择范围",
           showCancel:false
         })}
-        else{uni.navigateTo({
+        else{uni.redirectTo({
           url:"./shake"
         })}
       }

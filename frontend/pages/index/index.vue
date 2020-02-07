@@ -26,7 +26,7 @@
 	export default {
 		data() {
 			return {
-				title:"请选择要跳转的页面"
+				
 			}
 		},
 		methods: {
@@ -51,10 +51,5 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
-}
-.dl{
-  display: flex;
-  justify-content: center;
-  margin: 20px;
 }
 </style>

@@ -1,8 +1,5 @@
 <template>
   <view>
-    <view class="title">
-      <div class="text1">今日推荐</div>
-    </view>    
   <dl>
   <scroll-view scroll-y="true" scroll-top="200">
     <dt  v-for="(item,index) in meals" :key="index" >
@@ -19,61 +16,69 @@
       </view>
     </dt>
  </scroll-view>
- <div style="height:100px">
-    
- </div>
+ <div style="height:100px"></div>
  </dl>
-  <view class="foot">
-      <Footer @chooseAll="all" :select="select" @sub="submit"></Footer>
-  </view>
+ <view class="footer">
+   <checkbox @click="tap" :checked="select" color="#59453D" class="checkbox">
+     <text>全选</text>
+   </checkbox>
+   <button plain=true size="default" @click="add">
+     <text>加入菜单</text>
+   </button>
+ </view>
+ <popup style="z-index: 3;left: 0;top: 0;position: absolute;" v-if="isshow"></popup>
+ </view>
   </view>
 </template>
 
 <script>
   import uniNumberBox from"@/components/uni-ui/uni-number-box/uni-number-box.vue"
-  import Footer from '../../components/recommodation/footer.vue'
+  import popup from "./popup.vue"
   export default {
     components:{
       uniNumberBox,
-      Footer,
+      popup
     },
     props: [],
     methods: {    
-      all:function(select){
-        console.log('hi');
-        for(var i=0;i<this.meals.length;i++)
-        {
-          this.meals[i].checked=select;
-        }
-        this.select=select
-        if(select==false)
-        {
-          this.flag=0
-        }
-        else{
-          this.flag=this.meals.length
-        }
-      },
+      
       weatherAll:function(index){
         this.meals[index].checked=!this.meals[index].checked
         console.log(index)
          if(this.meals[index].checked==true)
          {this.flag+=1}
          else{this.flag-=1}
-        if(this.flag==this.meals.length) {this.select=true}
+        if(this.flag==this.meals.length)
+        {
+          this.select=true
+        }
         else {this.select=false}
       },
-      submit:function(){
+      add:function(){
+        this.isshow=true
         
+        
+        
+        
+      },
+      tap:function(){
+        this.select=!this.select
+        for(let i=0;i<this.meals.length;i++)
+        {this.meals[i].checked=this.select}
+        if(this.select==true)
+        {this.flag=this.meals.length}
+        else{this.flag=0}
       }
+      
     },
      data() {
        return {
+         isshow:false,
          flag:0,
          select:false,
          meals:[
-		   {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0',checked:false},
-		   {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
+           {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0',checked:false},
+           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
            {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
            {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
            {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
@@ -92,15 +97,7 @@
 </script>
 
 <style>
-  .title{
-    background: rgba(219,207,202,.3); 
-    height:50px;
-    color:#59453d;
-    display: flex;
-    flex:2; 
-    justify-content: center;
-    align-items: center;
-  }
+  
  
   .block{
     display: flex;
@@ -129,5 +126,28 @@
   .text1{
     font-weight:800;
     color:#59453d;
+  }
+  .footer{
+    position: fixed;
+    height:8%;
+    width:752rpx;
+    bottom:0px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    background-color: #FFFFFF;
+    border-top: 1rpx solid #59453D;
+    z-index:2;
+  }
+  .checkbox{
+    margin-left: 17.5rpx;
+  }
+  button{
+    margin-right:25rpx;
+  }
+  text{
+    font-weight: 600;
+    font-size:1em;
+    color: #59453D;
   }
 </style>
