@@ -28,6 +28,12 @@
     >
       test
     </button>
+    <button
+      type="primary"
+      @click="openSearch"
+    >
+      search
+    </button>
   </view>
 </template>
 
@@ -73,6 +79,11 @@ export default {
         key_word: '菜',
       }).then(res => {
         console.log(res);
+      });
+    },
+    openSearch() {
+      wx.navigateTo({
+        url: '../search/search',
       });
     },
   },
