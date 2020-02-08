@@ -5,10 +5,12 @@
         <open-data type="userAvatarUrl"></open-data>
       </view>
       <view class="userinfor">
+        <view>
         <open-data type="userNickName" style="font-size: 2em;height:85rpx;"></open-data>
+        <view class="button" @click="set">编辑</view>
+        </view>
         <view style="display: flex">
           <text style="font-size: 1.2em;margin-top: 6rpx;margin-bottom: 6rpx;">体重：{{weight}}kg\n目标体重：{{targetweight}}kg\n</text>
-          <view class="button" @click="set">编辑</view>
         </view>
         <text style="font-size: 0.7em;">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>
       </view>
@@ -76,10 +78,7 @@
     height: 40rpx;
     line-height: 40rpx;
     width: 80rpx;
-    text-align: center;
     border-radius: 15rpx;
-    margin-left: 15rpx;
-    margin-top: 20rpx;
   }
   @keyframes pushleft{
     from{margin-left: 750rpx;opacity: 0;}
