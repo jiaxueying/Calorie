@@ -1,7 +1,7 @@
 <template>
   <view calss="content">
     <view class="historyMenu">
-      <text style="position: relative;right:15rpx">历史菜单</text>
+      <text style="position: relative;right:35rpx;font-size: 30rpx;">历史菜单</text>
     </view>
     <dl>
     <dt class="historyList" v-for="(item,index) in list" :key="index">
@@ -23,17 +23,18 @@
     data(){
       return{
         list:[
-         {src:'../../static/shrimp.png',cal:'100',date:'date1'},
-         {src:'../../static/shrimp.png',cal:'100',date:'date2'},
-         {src:'../../static/shrimp.png',cal:'100',date:'date3'},
-         {src:'../../static/shrimp.png',cal:'100',date:'date4'},
-         {src:'../../static/shrimp.png',cal:'100',date:'date5'},
-         {src:'../../static/shrimp.png',cal:'100',date:'date6'},
-         {src:'../../static/shrimp.png',cal:'100',date:'date7'},
-         {src:'../../static/shrimp.png',cal:'100',date:'date8'},
-         {src:'../../static/shrimp.png',cal:'100',date:'date9'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date1'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date2'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date3'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date4'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date5'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date6'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date7'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date8'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date9'},
           
         ],
+        replacelist:{src:'../../static/default.jpg',cal:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
       }
     },
     methods:{
@@ -44,14 +45,17 @@
           duration:2000
         })
         if(this.list.length==0){
-          list.push({src:'../../static/default.jpg',cal:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},)
+          this.list[0]=this.replacelist
           console.log('default')
-          
         }
       }
-      
-     } 
+     },
+     created:function(){
+       if(this.list.length==0)
+       {this.list[0]=this.replacelist}
+      }
   }
+
 </script>
 
 <style>
@@ -65,8 +69,8 @@
     height:100rpx
   }
   .historyMenu{
-    border-top:1px #000000 solid;
-    border-bottom:1px #000000 solid;
+    border-top:2px #E8E8E8 solid;
+    border-bottom:2px #E8E8E8 solid;
     color:#59453D;
     height: 80rpx;
     display: flex;
