@@ -12,7 +12,7 @@
                :placeholder="targetweight" 
                maxlength="3" 
                style="width: 150rpx;margin-top: 8rpx;border-bottom: #C09C79 4rpx solid;"
-               @blur="uni.$emit('input',this.targetweight)"/>KG
+               @blur="set"/>KG
     </view>
     <view class="tip" v-if="!choice">记得及时制定体重控制计划哟~</view>
   </view>
@@ -29,6 +29,11 @@
     methods:{
       Switch:function(choi){
         this.choice=choi
+      },
+      set:function(event){
+        if(event.detail.value!="")
+        {this.targetweight=event.detail.value}
+        this.$emit('input',this.targetweight)
       }
     }
   }
