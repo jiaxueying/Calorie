@@ -15,7 +15,7 @@
     </view>
     <historylist></historylist>
     <view style="display: flex;justify-content: center;">
-      <plan v-if="!Switch" style="animation: pushleft 500ms;"></plan>
+      <plan v-if="!Switch" style="animation: pushleft 500ms;" @input="changetarget"></plan>
     </view>
   </view>
 </template>
@@ -33,12 +33,17 @@
         weight:'100',
         minCalForDay:'1000',
         maxCalForDay:'1500',
-        Switch:true
+        Switch:true,
+        targetweight:999
 			}
 		},
 		methods: {
 			set:function(){
         this.Switch=!this.Switch
+      },
+      changetarget:function(a){
+        this.targetweight=a
+        console.log(a)
       }
 		}
 	}
