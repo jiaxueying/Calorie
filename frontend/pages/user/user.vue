@@ -13,6 +13,7 @@
         <text style="font-size: 0.7em;">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>
       </view>
     </view>
+    <historylist></historylist>
     <view style="display: flex;justify-content: center;">
       <plan v-if="!Switch" style="animation: pushleft 500ms;"></plan>
     </view>
@@ -21,9 +22,11 @@
 
 <script>
   import plan from "../../components/user/plan.vue"
+  import historylist from "../../components/user/history.vue"
 	export default {
     components:{
-      plan
+      plan,
+      historylist
     },
 		data() {
 			return {

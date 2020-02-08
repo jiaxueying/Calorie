@@ -1,0 +1,97 @@
+<template>
+  <view calss="content">
+    <view class="historyMenu">
+      <text>历史菜单</text>
+    </view>
+    <dl>
+    <dt class="historyList" v-for="(item,index) in list" :key="index">
+      <view class="mealimg">
+        <image style="width: 100rpx;height: 100rpx;" :src="item.src"></image>
+      </view>
+      <view class="historyInfo">
+        <text>{{item.date}}\n</text>
+        <text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.cal}}kcal</text>
+      </view>
+      <image src="../../static/timg.jpg" class="deleteIcon" @click="deleteItem(index,list)"></image>
+    </dt>
+    </dl>
+  </view>
+</template>
+
+<script>
+  export default{
+    data(){
+      return{
+        list:[
+          {src:'../../static/shrimp.png',cal:'100',date:'date1'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date2'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date3'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date4'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date5'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date6'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date7'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date8'},
+          {src:'../../static/shrimp.png',cal:'100',date:'date9'},
+          
+        ]
+      }
+    },
+    methods:{
+      deleteItem:function(index,list){
+        list.splice(index,1)
+      }
+      
+     } 
+  }
+</script>
+
+<style>
+  .content{
+    display: flex;
+    align-items: center;
+  }
+ 
+  .mealimg{
+    width:100rpx;
+    height:100rpx
+  }
+  .historyMenu{
+    border:1px #000000 solid;
+    border-radius: 30rpx;
+    color:#59453D;
+    width:75%;
+    height: 80rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: 100;
+    margin-bottom: 25rpx;
+    margin-top: 50rpx;
+    margin-left: 10rpx;
+  }
+  .historyList{
+    display: flex;
+  }
+  dl{
+    margin-top: 15rpx;
+  }
+  dt{
+    border: #E8E8E8 solid 1px;
+  }
+  .historyInfo{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    left: 50rpx;
+  }
+  .deleteIcon{
+    width:40rpx;
+    height: 40rpx;
+    position:relative;
+    left:500rpx;
+    top:25rpx;
+    opacity:0.4
+  }
+  
+</style>
