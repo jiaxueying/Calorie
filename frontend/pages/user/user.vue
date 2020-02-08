@@ -6,8 +6,8 @@
       </view>
       <view class="userinfor">
         <open-data type="userNickName" style="font-size: 2em;height:85rpx;"></open-data>
-        <view style="display: flex;">
-          <text style="font-size: 1.2em;margin-top: 18rpx;margin-bottom: 12rpx;">体重：{{weight}}kg\n</text>
+        <view style="display: flex">
+          <text style="font-size: 1.2em;margin-top: 6rpx;margin-bottom: 6rpx;">体重：{{weight}}kg\n目标体重：{{targetweight}}kg\n</text>
           <view class="button" @click="set">编辑</view>
         </view>
         <text style="font-size: 0.7em;">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>
