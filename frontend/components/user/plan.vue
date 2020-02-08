@@ -12,7 +12,7 @@
                :placeholder="targetweight" 
                maxlength="3" 
                style="width: 150rpx;margin-top: 8rpx;border-bottom: #C09C79 4rpx solid;"
-               @blur="set"/>KG
+               @input="set"/>KG
     </view>
     <view class="tip" v-if="!choice">记得及时制定体重控制计划哟~</view>
   </view>
@@ -20,6 +20,7 @@
 
 <script>
   export default{
+    props:['targetweightrec','plan'],
     data(){
       return{
         choice:true,
@@ -29,12 +30,21 @@
     methods:{
       Switch:function(choi){
         this.choice=choi
+        if(choi==false)
+        {this.$emit('input',"暂无计划")}
+        else{this.$emit('input',this.targetweight)}
       },
       set:function(event){
         if(event.detail.value!="")
         {this.targetweight=event.detail.value}
         this.$emit('input',this.targetweight)
       }
+    },
+    created:function(){
+      this.targetweight=this.targetweightrec
+      if(this.plan=="暂无计划")
+      {this.choice=false}
+      else{this.choice=true}
     }
   }
 </script>
