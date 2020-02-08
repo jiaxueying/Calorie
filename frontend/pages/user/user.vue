@@ -13,9 +13,9 @@
         <text style="font-size: 0.7em;">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>
       </view>
     </view>
-    <historylist></historylist>
-    <view style="display: flex;justify-content: center;">
-      <plan v-if="!Switch" style="animation: pushleft 500ms;" @input="changetarget"></plan>
+    <view v-if="!Switch" style="animation: pushright 1s;"><historylist></historylist></view>
+    <view style="display: flex;justify-content: center;animation: pushleft 500ms;" v-if="Switch">
+      <plan @input="changetarget"></plan>
     </view>
   </view>
 </template>
@@ -33,7 +33,7 @@
         weight:'100',
         minCalForDay:'1000',
         maxCalForDay:'1500',
-        Switch:true,
+        Switch:false,
         targetweight:999
 			}
 		},
@@ -83,6 +83,10 @@
   }
   @keyframes pushleft{
     from{margin-left: 750rpx;opacity: 0;}
+    to{}
+  }
+  @keyframes pushright{
+    from{margin-right: 750rpx;opacity: 0;}
     to{}
   }
 </style>
