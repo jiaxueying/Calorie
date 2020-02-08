@@ -11,7 +11,8 @@
                type="number" 
                :placeholder="targetweight" 
                maxlength="3" 
-               style="width: 150rpx;margin-top: 8rpx;border-bottom: #C09C79 4rpx solid;"/>KG
+               style="width: 150rpx;margin-top: 8rpx;border-bottom: #C09C79 4rpx solid;"
+               @blur="uni.$emit('input',this.targetweight)"/>KG
     </view>
     <view class="tip" v-if="!choice">记得及时制定体重控制计划哟~</view>
   </view>
