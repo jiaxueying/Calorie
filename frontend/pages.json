@@ -41,6 +41,12 @@
             "style":{
                 
             }
+        },
+        {
+            "path":"pages/user/user",
+            "style":{
+                
+            }
         }
     ],
 	"globalStyle": {
