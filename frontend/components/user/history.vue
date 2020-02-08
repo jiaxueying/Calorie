@@ -1,7 +1,7 @@
 <template>
   <view calss="content">
     <view class="historyMenu">
-      <text>历史菜单</text>
+      <text style="position: relative;right:15rpx">历史菜单</text>
     </view>
     <dl>
     <dt class="historyList" v-for="(item,index) in list" :key="index">
@@ -23,22 +23,31 @@
     data(){
       return{
         list:[
-          {src:'../../static/shrimp.png',cal:'100',date:'date1'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date2'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date3'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date4'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date5'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date6'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date7'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date8'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date9'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date1'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date2'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date3'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date4'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date5'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date6'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date7'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date8'},
+         {src:'../../static/shrimp.png',cal:'100',date:'date9'},
           
-        ]
+        ],
       }
     },
     methods:{
       deleteItem:function(index,list){
-        list.splice(index,1)
+        list.splice(index,1);
+        uni.showToast({
+          title:'删除成功',
+          duration:2000
+        })
+        if(this.list.length==0){
+          list.push({src:'../../static/default.jpg',cal:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},)
+          console.log('default')
+          
+        }
       }
       
      } 
@@ -56,19 +65,17 @@
     height:100rpx
   }
   .historyMenu{
-    border:1px #000000 solid;
-    border-radius: 30rpx;
+    border-top:1px #000000 solid;
+    border-bottom:1px #000000 solid;
     color:#59453D;
-    width:75%;
     height: 80rpx;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     font-size: 0.8em;
     font-weight: 100;
     margin-bottom: 25rpx;
     margin-top: 50rpx;
-    margin-left: 10rpx;
   }
   .historyList{
     display: flex;
