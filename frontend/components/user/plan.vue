@@ -69,6 +69,7 @@
     border: 2px #D2A9A9 solid;
     color: #d2a9a9;
     border-radius: 12rpx;
+	background-color: #FFFFFF;
   }
   .chosen{
     color: #ffffff;
