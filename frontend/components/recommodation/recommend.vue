@@ -26,18 +26,20 @@
      <text>加入菜单</text>
    </button>
  </view>
+ </view>
  <popup style="z-index: 3;left: 0;top: 0;position: absolute;" v-if="isshow"></popup>
  </view>
-  </view>
 </template>
 
 <script>
+  import recrange from '../../components/all/recommendrange.vue'
   import uniNumberBox from"@/components/uni-ui/uni-number-box/uni-number-box.vue"
   import popup from "./popup.vue"
   export default {
     components:{
       uniNumberBox,
-      popup
+      popup,
+      recrange,
     },
     props: [],
     methods: {    
