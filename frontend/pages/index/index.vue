@@ -23,17 +23,17 @@
       
       <view class="allbtn">
             <view class="btn">
-              <navigator url="indexOfSearch" open-type="redirect" hover-class="none">查询功能
+              <navigator url="indexOfSearch" hover-class="none">查询功能
               <text>\n戳这里了解今天摄入了多少卡路里</text>
               </navigator>
             </view>
             <view class="btn">
-              <navigator url="indexOfRecommondation" open-type="redirect" hover-class="none">推荐功能
+              <navigator url="indexOfRecommondation" hover-class="none">推荐功能
               <text>\n戳这里摇出今天吃什么</text>
               </navigator>
             </view>
             <view class="btn">
-              <navigator url="../user/user" open-type="redirect" hover-class="none">用户中心
+              <navigator url="../user/user" hover-class="none">用户中心
               <text>\n了解您的信息可以更好的为您推荐呦</text>
               </navigator>
             </view>

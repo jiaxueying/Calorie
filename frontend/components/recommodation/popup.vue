@@ -22,7 +22,7 @@
         })
       },
       gotohome:function(){
-        uni.reLaunch({
+        uni.redirectTo({
           url:"../../pages/index/index"
         })
       }
