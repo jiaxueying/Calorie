@@ -1,12 +1,11 @@
 <template>
   <view>
-  <popup  v-if="isfirst"
-          style="background-color:rgba(0,0,0,0.7);position:fixed;width:100%;height:100%" >
+  <popup  v-if="isfirst" style="background-color:rgba(0,0,0,0.7);position:fixed;width:100%;height:100%" >
       <view class="timelist" >
         <view class="logo">
          <text >粟</text>
         </view>
-        <text class="timeitem" @click="this.msg='breakfast';this.isfirst=false">breakfast</text>          
+        <text class="timeitem" @tap="this.msg='breakfast';this.isfirst=false">breakfast</text>          
         <text class="timeitem" @tap="this.msg='brunch';this.isfirst=false">brunch</text>
         <text class="timeitem" @tap="this.msg='lunch';this.isfirst=false">lunch</text>
         <text class="timeitem" @tap="this.msg='afternoon tea';this.isfirst=false">afternoon tea</text>

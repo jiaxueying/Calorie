@@ -27,12 +27,14 @@
         <view class="bottom">
           <view class="item">
             <button class="likeButton">
-              LIKE {{ like }}
+              <image style="width:40rpx;height:40rpx;opacity: 0.5;" src="../../static/happy.png"></image>
+              LIKE {{like}}
             </button>
           </view>
           <view class="item">
-            <button class="likeButton">
-              DISLIKE {{ dislike }}
+            <button class="dislikeButton">
+              <image style="width:40rpx;height:40rpx;opacity: 0.4;" src="../../static/dislike.png"></image>
+              DISLIKE {{dislike}}
             </button>
           </view>
         </view>
@@ -45,7 +47,8 @@
   export default {
     data() {
       return {
-
+          like:666,
+          dislike:555
       }
     },
     methods: {
@@ -106,10 +109,17 @@
     .likeButton {
     height: 50rpx;
     font-size: 20rpx;
-    background-image: url(../../static/like.png);
-    background-color: #FFFFFF;
-    background-repeat: no-repeat;
     background-size: 50rpx;
     border: 0rpx;
+    display:inline-flex;
+    align-items: center;
+  }
+  .dislikeButton{
+	  height: 50rpx;
+	  font-size: 20rpx;
+	  background-size: 50rpx;
+	  border: 0rpx;
+    display:inline-flex;
+    align-items: center;
   }
 </style>
