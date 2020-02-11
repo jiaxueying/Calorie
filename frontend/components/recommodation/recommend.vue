@@ -26,7 +26,7 @@
      <text>加入菜单</text>
    </button>
  </view>
- </view>
+ 
  <popup style="z-index: 3;left: 0;top: 0;position: absolute;" v-if="isshow"></popup>
  </view>
 </template>
