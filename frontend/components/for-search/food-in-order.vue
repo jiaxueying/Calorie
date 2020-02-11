@@ -64,16 +64,16 @@
 		display: inline-block;
 	}
 	.ButtonInOrder {
-		font-size: 35rpx;
-		height: 45rpx;
-		width: 45rpx;
-    border-radius: 50%;
-		display: inline-block;
-    color: #fff;
-    background-color: rgba(89, 69, 61, 1);
-    line-height: 45rpx;
-    padding: 0;
-    margin:0 5rpx;
+	    font-size: 35rpx;
+	    height: 45rpx;
+	    width: 45rpx;
+        border-radius: 50%;
+	    display: inline-block;
+        color: #fff;
+        background-color: rgba(89, 69, 61, 1);
+        line-height: 45rpx;
+        padding: 0;
+        margin:0 5rpx;
 	}
 	.Weight {
 		text-align: center;
