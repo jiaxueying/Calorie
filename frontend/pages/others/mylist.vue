@@ -66,7 +66,7 @@
     },
       
       created: function (e) {
-          this.size+="height:"+100+"rpx;"
+          this.size+="height:"+800+this.meallist.length*90+"rpx;"
           let rp=1
           wx.getSystemInfo({
                 success(res) {
@@ -74,7 +74,7 @@
                   console.log(rp)
                  },
              })
-          
+         var j=this.meallist.length-3
          var ctx = uni.createCanvasContext('canvas')          
           
          ctx.setFillStyle("#FFFFFF")
@@ -84,20 +84,20 @@
           ctx.setStrokeStyle("#59453D")
           ctx.moveTo(50*rp,50*rp)//firstline
           ctx.lineTo(250*rp,50*rp)
-          ctx.moveTo(50*rp,300*rp)
-          ctx.lineTo(250*rp,300*rp)
-          ctx.moveTo(0*rp,370*rp)
-          ctx.lineTo(300*rp,370*rp)
+          ctx.moveTo(50*rp,300*rp+j*90*rp)
+          ctx.lineTo(250*rp,300*rp+j*90*rp)
+          ctx.moveTo(0*rp,370*rp+j*90*rp)
+          ctx.lineTo(300*rp,370*rp+j*90*rp)
           ctx.stroke()
           
           ctx.font="15rpx Arial";
           ctx.setFillStyle('#59453D')
           ctx.setTextBaseline('middle')
           ctx.fillText("My List",130*rp,40*rp)
-          ctx.fillText("本餐共摄入",180*rp,320*rp)
-          ctx.fillText(this.msg+"kcal",200*rp,340*rp)
-          ctx.fillText("#粟",3*rp,390*rp)
-          ctx.fillText(this.data,200*rp,390*rp)
+          ctx.fillText("本餐共摄入",180*rp,320*rp+j*90*rp)
+          ctx.fillText(this.msg+"kcal",200*rp,340*rp+j*90*rp)
+          ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
+          ctx.fillText(this.data,200*rp,390*rp+j*90*rp)
           ctx.stroke()
           
           for(var i=0;i<this.meallist.length;i++){
@@ -109,7 +109,7 @@
           
           ctx.setStrokeStyle("#59453D")
           ctx.setLineWidth(2)
-          ctx.rect(0,0,300*rp,400*rp)
+          ctx.rect(0,0,300*rp,400*rp+j*90*rp)
           ctx.shadowBlur=7
           ctx.shadowColor="#808080"
           ctx.shadowOffsetY=5
