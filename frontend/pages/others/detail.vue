@@ -4,9 +4,26 @@
       <text>本餐推荐的卡路里范围为{{min}}-{{max}}cal</text>
     </view>
     
+    <view style="height: 50rpx;width: 750rpx;">
+      
+    </view>
+    
     <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
       <image :src="src" class="img" v-if="isimg"></image>
-      <rich-text class="tab" v-if="!isimg" :nodes="tab"></rich-text>
+      <view class="tab" v-if="!isimg">
+        <tab>
+          <ttr align="left">
+            <tth style="width: 200rpx;">项目</tth>
+            <tth style="width: 200rpx;">每100克(g)</tth>
+            <tth style="width: 200rpx;">NRV%</tth>
+          </ttr>
+          <ttr v-for="(content,index) in nutrition" :key="index" align="left">
+            <ttd style="width: 200rpx;">{{content.item}}</ttd>
+            <ttd style="width: 200rpx;">{{content.value}}</ttd>
+            <ttd style="width: 200rpx;">{{content.percent}}</ttd>
+          </ttr>
+        </tab>
+      </view>
       <view style="display: flex;margin-top: 20rpx;">
         <view :class="{blackspot:isimg,whitespot:!isimg}" style="margin-right: 10rpx;"></view><view :class="{whitespot:isimg,blackspot:!isimg}" style="margin-left: 10rpx;"></view>
       </view>
@@ -35,6 +52,10 @@
     </view>
     </view>
     
+    <view style="background-color: #FFFFFF;width: 750rpx;height: 100rpx;">
+      
+    </view>
+    
     <view class="bottom">
       <image src="../../static/tableware.jpg" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
       <view class="buttun" @click="add">Add to List</view>
@@ -43,9 +64,16 @@
 </template>
 
 <script>
+  import tab from "../../components/t-table/t-table.vue"
+  import ttr from "../../components/t-table/t-tr.vue"
+  import tth from "../../components/t-table/t-th.vue"
+  import ttd from "../../components/t-table/t-td.vue"
   export default{
     components:{
-      
+      tab,
+      ttr,
+      tth,
+      ttd
     },
     data(){
       return{
@@ -60,7 +88,14 @@
         name:"菜品名称",
         cal:"100KCAL/100g",
         tags:['理科食堂','二楼','低卡','5号窗口'],
-        tab:"<h2>ahahahahaha</h2>"
+        nutrition:[
+          {item:'能量',value:'2012KJ',percent:'24%'},
+          {item:'蛋白质',value:'10.0g',percent:'17%'},
+          {item:'脂肪',value:'21.0g',percent:'35%'},
+          {item:'碳水化合物',value:'62.5g',percent:'21%'},
+          {item:'钠',value:'663mg',percent:'33%'},
+          {item:'钙',value:'280mg',percent:'35%'}
+        ]
       }
     },
     methods:{
@@ -89,10 +124,10 @@
         console.log(this.tags[index])
       },
       mylist:function(){
-        
+        console.log("mylist")
       },
       add:function(){
-        
+        console.log("add")
       }
     },
     
@@ -114,6 +149,9 @@
     line-height: 200%;
     color:#505050;
     width: 750rpx;
+    position: fixed;
+    background-color: #FFFFFF;
+    z-index: 3;
     }
     .imgarea{
       margin-top: 40rpx;
@@ -132,8 +170,8 @@
       position: relative;
       width: 600rpx;
       height: 600rpx;
-      background-color: #007AFF;
       animation: showtab 0.5s;
+      overflow: hidden;
     }
     @keyframes showimg{
       from{right: 600rpx;}
@@ -217,7 +255,7 @@
       border-top-style: solid;
       height: 100rpx;
       background-color: #FFFFFF;
-      z-index: 99;
+      z-index: 1;
       display: flex;
       align-items: center;
     }
