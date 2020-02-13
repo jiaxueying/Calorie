@@ -1,7 +1,7 @@
 <template>
   <view>
   <view class="content">
-    <canvas canvas-id="canvas"  :height="trueheight"  style="width:600rpx;">
+    <canvas canvas-id="canvas" :style="size">
     </canvas>
   </view>
    
@@ -11,7 +11,7 @@
         <view class="btn" >
           <button type="default" plain style="border:none" @click="friendcircle">
                <image class="icon" src="../../static/friendcircle.jpg"></image>
-               <text>分享至朋友圈</text>         
+               <text>分享至朋友圈</text>
           </button>
         </view>
         
@@ -53,7 +53,7 @@
       return{
         msg:'300',
         data:'2020/02/12',
-        trueheight:800,
+        size:"width:600rpx;",
         meallist:[
           { mysrc:"../../static/shrimp.png",mealname:'shrimp',cal:'100'},
           { mysrc:"../../static/shrimp.png",mealname:'shrimp',cal:'100'},
@@ -66,6 +66,7 @@
     },
       
       created: function (e) {
+          this.size+="height:"+100+"rpx;"
           let rp=1
           wx.getSystemInfo({
                 success(res) {
