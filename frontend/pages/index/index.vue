@@ -52,12 +52,33 @@
 			return {
         isfirst:true,
 				msg:'',
+        
 			}
 		},
 		methods: {
-    
+      
 			
-		}
+		},
+    onLoad() {
+      uni.login({
+        success: (res) => {
+          uni.request({
+            url:'http://cal.hanlh.com:8000/user/login/',
+            data:{
+              code:res.code,
+              name:'123'
+            },
+            method:"POST",
+            success: (res) => {
+              uni.setStorage({
+                key:'token',
+                data:res.data.token,
+              })
+            }
+          })
+        }
+      })
+    }
 	}
 </script>
 
