@@ -56,17 +56,23 @@
 			}
 		},
 		methods: {
-      setRange:function(res){
+      setRange:function(rec){
         this.isfirst=false
-        this.msg=res
+        this.msg=rec
         let weight
         uni.request({
-          url:"http://cal.hanlh.com:8000/user/query",
+          url:"http://cal.hanlh.com:8000/user/profile",
           method:"GET",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
           data:{
             
           },
           success: (res) => {
+            //console.log(res.data.data)
+            weight=res.data.data.weight
+            console.log(weight)
             uni.setStorage({
               key:'range',
               data:[1300,1350]
@@ -87,6 +93,7 @@
             },
             method:"POST",
             success: (res) => {
+              //console.log(res)
               uni.setStorage({
                 key:'token',
                 data:res.data.token,
