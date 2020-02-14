@@ -11,7 +11,7 @@
         style="flex: 1;"
       >
         <view class="title">
-          {{ foodname }}     <text>{{ calories }}kcal</text>
+          {{ food.name }}     <text>{{ food.calorie }}kcal</text>
         </view>
         <view class="content">
           <view class="label">
@@ -27,12 +27,12 @@
         <view class="bottom">
           <view class="item">
             <button class="likeButton">
-              LIKE {{ like }}
+              LIKE {{ food.like }}
             </button>
           </view>
           <view class="item">
             <button class="unlikeButton">
-              DISLIKE {{ dislike }}
+              DISLIKE {{ food.dislike }}
             </button>
           </view>
         </view>
@@ -43,6 +43,7 @@
 
 <script>
   export default {
+    props: ['food'],
     data() {
       return {
       }

@@ -7,10 +7,10 @@
       v-show="!HistoryShow"
     >
       <view
-        v-for="food in foods"
-        :key="food.foodname"
+        v-for="Food in foods"
+        :key="Food.name"
       >
-        <like />
+        <like :food="Food"/>
       </view>
     </scroll-view>
     <view
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+  import { backendUrl, request } from '@/common/helper.js';
 import Like from '../../components/for-search/like.vue';
 import SearchHistory from '../../components/for-search/search-history.vue';
 import InputBox from '../../components/for-search/input-box.vue';
@@ -48,14 +49,7 @@ export default {
     return {
       IsShow: false,
       HistoryShow: false,
-      foods: [{foodname: '0', calories: 100},
-        {foodname: '1', calories: 200},
-        {foodname: '2', calories: 300},
-        {foodname: '3', calories: 400},
-        {foodname: '4', calories: 400},
-        {foodname: '5', calories: 400},
-        {foodname: '6', calories: 400},
-        {foodname: '7', calories: 400}],
+      foods: new Array(),
       name1: '搜索历史',
       name2: '热门搜索',
     };
@@ -64,9 +58,11 @@ export default {
     uni.$on('showhistory', this.ShowHistory);
     uni.$on('showorders', this.ChangeIsShow);
     uni.$on('hidehistory', this.HideHistory);
+    uni.$on('refresh', this.MealListRefresh);
   },
   methods: {
     ChangeIsShow() {
+      this.MealListRefresh();
       this.IsShow = !this.IsShow;
       console.log('IsShow changed: ' + this.IsShow);
     },
@@ -79,6 +75,17 @@ export default {
       this.HistoryShow = false;
       console.log('HistoryShow changed: ' + this.HistoryShow);
     },
+    MealListRefresh() {
+      request('/dish/key_query/', 'GET', {
+        key_word: '菜',
+      }).then(res => {
+        this.foods = res[1].data.data.dishes;
+        console.log(this.foods);
+      });
+    }
+  },
+  mounted() {
+    this.MealListRefresh();
   },
 };
 </script>
