@@ -23,7 +23,7 @@
   display: flex;
   border:#000000 1rpx solid;
   justify-content: center;
-  font-size: 1.7em;
+  font-size: 50rpx;
   font-weight: 400;
   }
   text{
