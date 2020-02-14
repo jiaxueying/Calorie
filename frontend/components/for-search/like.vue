@@ -24,18 +24,22 @@
             {{ state }}
           </view>
         </view>
+        
         <view class="bottom">
           <view class="item">
-            <button class="likeButton">
-              LIKE {{ like }}
+            <button plain style="border:none">
+              <image src="../../static/happy.png"></image>
+              <text>LIKE {{ this.like }}</text>
             </button>
           </view>
           <view class="item">
-            <button class="unlikeButton">
-              DISLIKE {{ dislike }}
+            <button plain style="border:none">
+              <image style="width: 38upx;height: 38upx;" src="../../static/sad.png"></image>
+              <text>DISLIKE {{ this.dislike }}</text>
             </button>
           </view>
         </view>
+      
       </view>
     </view>
   </view>
@@ -45,9 +49,13 @@
   export default {
     data() {
       return {
+        like:100,
+        dislike:100,
+        isChoose:flase
       }
     },
     methods: {
+      
 
     }
   }
@@ -89,40 +97,27 @@
         margin-right: 30upx;
     }
     .bottom{
-        display: flex;
-        padding: 20upx 0 ;
+      white-space: nowrap;
         .item{
-            flex: 1;
+            flex:1;
             color: #666;
-            font-size: 24upx;
+            display: inline-block;
+            background-color: #4CD964;
             image{
                 width: 40upx;
                 height: 40upx;
                 margin-right: 10upx;
+                opacity:0.5;
+                vertical-align: middle;
             }
+            text{
+              vertical-align: middle;
+              font-size: 16upx;
+              
+            }
+            
         }
+        
     }
-    .likeButton {
-        height: 50rpx;
-        font-size: 20rpx;
-        background-image: url(../../static/like.png);
-        background-color: #FFFFFF;
-        background-repeat: no-repeat;
-        background-size: 40rpx;
-        background-position-y: 4rpx;
-        border: 0rpx;
-        padding: 0;
-    }
-    .unlikeButton {
-        height: 50rpx;
-        font-size: 20rpx;
-        background-image: url(../../static/sad.jpg);
-        background-color: #FFFFFF;
-        background-repeat: no-repeat;
-        background-size: 40rpx;
-        border: 0rpx;
-        background-position-y: 4rpx;
-        padding: 0;
-        padding-left: 38rpx;
-    }
+   
 </style>
