@@ -1,6 +1,6 @@
 <template>
   <view>
-  <view class="content">
+  <view class="content" :style="contentsize">
     <canvas canvas-id="canvas" :style="size">
     </canvas>
   </view>
@@ -44,81 +44,102 @@
           console.log(res.target)
         }
         return {
-          title: '自定义分享标题',
-          path: '/pages/index/index.vue'
+          title: '粟',
+          path: '/pages/index/index?url='
         }
       },
     
     data(){
       return{
         msg:'300',
-        data:'2020/02/12',
+        date:'',
         size:"width:600rpx;",
-        meallist:[
-          { mysrc:"../../static/shrimp.png",mealname:'shrimp',cal:'100'},
-          { mysrc:"../../static/shrimp.png",mealname:'shrimp',cal:'100'},
-          { mysrc:"../../static/shrimp.png",mealname:'shrimp',cal:'100'},
-          { mysrc:"../../static/shrimp.png",mealname:'shrimp',cal:'100'},
-          
-        ]
+        contentsize:"",
+        meallist:[  ]
        
       }
     },
       
       created: function (e) {
-          this.size+="height:"+800+this.meallist.length*90+"rpx;"
-          let rp=1
-          wx.getSystemInfo({
-                success(res) {
-                  rp = res.windowWidth/375;
-                  console.log(rp)
-                 },
-             })
-         var j=this.meallist.length-3
-         var ctx = uni.createCanvasContext('canvas')          
-          
-         ctx.setFillStyle("#FFFFFF")
-         ctx.fillRect(0,0,300*rp,400*rp)
-         ctx.stroke()
-         
-          ctx.setStrokeStyle("#59453D")
-          ctx.moveTo(50*rp,50*rp)//firstline
-          ctx.lineTo(250*rp,50*rp)
-          ctx.moveTo(50*rp,300*rp+j*90*rp)
-          ctx.lineTo(250*rp,300*rp+j*90*rp)
-          ctx.moveTo(0*rp,370*rp+j*90*rp)
-          ctx.lineTo(300*rp,370*rp+j*90*rp)
-          ctx.stroke()
-          
-          ctx.font="15rpx Arial";
-          ctx.setFillStyle('#59453D')
-          ctx.setTextBaseline('middle')
-          ctx.fillText("My List",130*rp,40*rp)
-          ctx.fillText("本餐共摄入",180*rp,320*rp+j*90*rp)
-          ctx.fillText(this.msg+"kcal",200*rp,340*rp+j*90*rp)
-          ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
-          ctx.fillText(this.data,200*rp,390*rp+j*90*rp)
-          ctx.stroke()
-          
-          for(var i=0;i<this.meallist.length;i++){
-            ctx.drawImage(this.meallist[i].mysrc,0, 0, 600*rp, 600*rp,70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
-            ctx.fillText(this.meallist[i].mealname,180*rp,71*rp+i*90*rp)
-            ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
-            ctx.stroke()
-          }
-          
-          ctx.setStrokeStyle("#59453D")
-          ctx.setLineWidth(2)
-          ctx.rect(0,0,300*rp,400*rp+j*90*rp)
-          ctx.shadowBlur=7
-          ctx.shadowColor="#808080"
-          ctx.shadowOffsetY=5
-          ctx.stroke()
-          
-          ctx.draw()
-          
+           uni.setStorageSync('meallist', [{ mysrc:"../../static/shrimp.png",mealname:"shrimp",cal:"100"},{ mysrc:"../../static/shrimp.png",mealname:"shrimp",cal:"100"}]);
+                                 
+          let that=this
+                                 
+          uni.getStorage({
+              key: 'meallist',
+              success: function (res) {
+                  console.log(res.data);
+                  that.meallist=res.data;
+                  that.draw();
+              }
+          });      
       },
       methods: {
+        draw:function(e){
+            console.log(this.meallist.length)          
+            var j=(this.meallist.length>=3)?(this.meallist.length-3):0
+            var k=j*90+800
+            
+            console.log(j)
+            this.size+="height:"+k+"rpx;"
+            this.contentsize+="height:"+k+"rpx;"
+            console.log(this.size)
+                        
+            let rp=1
+            wx.getSystemInfo({
+                  success(res) {
+                    rp = res.windowWidth/375;
+                    console.log(rp)
+                   },
+               })
+                      
+           
+           var time=new Date();
+           this.date=time.toLocaleDateString();
+           console.log(this.date)
+                     
+          
+           var ctx = uni.createCanvasContext('canvas')          
+            console.log(ctx)
+            ctx.setFillStyle("#FFFFFF")
+            ctx.fillRect(0,0,300*rp,400*rp)
+           
+            ctx.setStrokeStyle("#59453D")
+            ctx.moveTo(50*rp,50*rp)
+            ctx.lineTo(250*rp,50*rp)
+            ctx.moveTo(50*rp,300*rp+j*90*rp)
+            ctx.lineTo(250*rp,300*rp+j*90*rp)
+            ctx.moveTo(0*rp,370*rp+j*90*rp)
+            ctx.lineTo(300*rp,370*rp+j*90*rp)
+            ctx.stroke()
+            
+            ctx.font="15rpx Arial";
+            ctx.setFillStyle('#59453D')
+            ctx.setTextBaseline('middle')
+            ctx.fillText("My List",130*rp,40*rp)
+            ctx.fillText("本餐共摄入",180*rp,320*rp+j*90*rp)
+            ctx.fillText(this.msg+"kcal",200*rp,340*rp+j*90*rp)
+            ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
+            ctx.fillText(this.date,200*rp,390*rp+j*90*rp)
+            
+            for(var i=0;i<this.meallist.length;i++){
+                          ctx.drawImage(this.meallist[i].mysrc,0, 0, 600*rp, 600*rp,70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
+                          ctx.fillText(this.meallist[i].mealname,180*rp,71*rp+i*90*rp)
+                          ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
+                        }
+                        
+            ctx.setStrokeStyle("#000000")
+            ctx.setLineWidth(2)
+            ctx.rect(0,0,300*rp,400*rp+j*90*rp)
+            ctx.shadowBlur=7
+            ctx.shadowColor="#808080"
+            ctx.shadowOffsetY=5
+            ctx.stroke()
+            
+            ctx.draw()
+            console.log('wancheng')
+            
+        },
           canvasIdErrorCallback: function (e) {
               console.error(e.detail.errMsg)
           },
@@ -175,10 +196,8 @@
 
 <style>
   .content{
+    margin-top: 80rpx;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    height:1000rpx;
     justify-content: center;
   }
   canvas{
@@ -190,6 +209,7 @@
     justify-content: space-between;
     position:fixed;
     bottom:0rpx;
+    background-color: #FFFFFF;
   }
   .btn{
     display: flex;
