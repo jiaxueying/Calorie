@@ -73,6 +73,7 @@
             //console.log(res.data.data)
             weight=res.data.data.weight
             console.log(weight)
+            uni.setStorageSync('userid',res.data.data.id)
             uni.setStorage({
               key:'range',
               data:[1300,1350]
