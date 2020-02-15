@@ -111,12 +111,12 @@
       this.like_count = this.food.like;
       this.dislike_count = this.food.dislike;
       this.name = this.food.name;
-      this.cal = this.food.calorie + "KCAL";
+      this.cal = this.food.calorie + "KCAL/100g";
       this.tags = this.food.tag;
-      this.nutrition[1].value = this.food.protein;
-      this.nutrition[2].value = this.food.fat;
-      this.nutrition[3].value = this.food.carbohydrate;
-      this.nutrition[4].value = this.food.sodium;
+      this.nutrition[1].value = this.food.protein+'g';
+      this.nutrition[2].value = this.food.fat+'g';
+      this.nutrition[3].value = this.food.carbohydrate+'g';
+      this.nutrition[4].value = this.food.sodium+'mg';
       console.log(this.nutrition);
     },
     methods:{
