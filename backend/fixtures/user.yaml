@@ -1,11 +1,10 @@
 - model: user.User
   pk: 1
   fields:
-    name: 'hlh'
     username: 'test_user_1'
     password: pbkdf2_sha256$120000$7Z0t4CVLW0kc$gYzugS1vK98lg5MHS4kVtaltzOQKwtgfhyTNIHmEdcY=
     # 1234
-    weight: 70.00
+    weight: 70
     min_calorie: 1000.00
     max_calorie: 2000.00
     email: '1@test.xyz'
@@ -15,11 +14,10 @@
 - model: user.User
   pk: 2
   fields:
-    name: 'hlhh'
     username: 'test_user_2'
     password: pbkdf2_sha256$120000$7Z0t4CVLW0kc$gYzugS1vK98lg5MHS4kVtaltzOQKwtgfhyTNIHmEdcY=
     # 1234
-    weight: 70.00
+    weight: 70
     min_calorie: 100.00
     max_calorie: 200.00
     email: '2@test.xyz'
