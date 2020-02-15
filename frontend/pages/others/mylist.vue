@@ -55,16 +55,16 @@
         date:'',
         size:"width:600rpx;",
         contentsize:"",
-        meallist:[  ]
+        meallist:[ null ]
        
       }
     },
       
       created: function (e) {
+        console.log(this.meallist)
            uni.setStorageSync('meallist', [{ mysrc:"../../static/shrimp.png",mealname:"shrimp",cal:"100"},{ mysrc:"../../static/shrimp.png",mealname:"shrimp",cal:"100"}]);
-                                 
+         console.log(this.meallist)                        
           let that=this
-                                 
           uni.getStorage({
               key: 'meallist',
               success: function (res) {
@@ -72,7 +72,8 @@
                   that.meallist=res.data;
                   that.draw();
               }
-          });      
+          });   
+          console.log(this.meallist)
       },
       methods: {
         draw:function(e){
@@ -138,6 +139,7 @@
             
             ctx.draw()
             console.log('wancheng')
+            console.log(this.meallist)
             
         },
           canvasIdErrorCallback: function (e) {

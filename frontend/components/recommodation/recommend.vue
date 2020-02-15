@@ -5,13 +5,13 @@
     <dt  v-for="(item,index) in meals" :key="index" >
       <view class="block">
         <checkbox color="#59453D" :checked="item.checked" @click="weatherAll(index)"></checkbox>
-        <image style="width:85px;height:85px;" :src="item.src"></image>
+        <image style="width:85px;height:85px;" :src="item.picture"></image>
         <view class="data">
           <p>{{item.name}}</p>
-          <p style="font-size:0.5em;color: #59453D;">{{item.cal}}</p>
+          <p style="font-size:0.5em;color: #59453D;">{{item.calorie}}</p>
         </view>
         <view class="calculate">
-          <uni-number-box :min="0" :max="9"></uni-number-box>
+          <uni-number-box :min="0" :max="9"  @change="addproperty($event,index)"></uni-number-box>
         </view>
       </view>
     </dt>
@@ -23,7 +23,7 @@
      <text>全选</text>
    </checkbox>
    <button plain=true size="default" @click="add">
-     <text>加入菜单</text>
+     <text >加入菜单</text>
    </button>
  </view>
  
@@ -36,6 +36,34 @@
   import uniNumberBox from"@/components/uni-ui/uni-number-box/uni-number-box.vue"
   import popup from "./popup.vue"
   export default {
+    created(){
+        let value = uni.getStorageSync('minmax');
+        let userid= uni.getStorageSync('userid')
+        uni.request({
+      	 url:"http://cal.hanlh.com:8000/dish/calorie_query/",
+    	   method:"GET",
+    	   data:{
+            user_id:this.userid,
+    		    min_calorie:0,
+    		    max_calorie:10000
+    	        },
+         header:{
+              Authorization:'Token '+uni.getStorageSync('token')
+              },               
+    	   success:(res)=>{
+              var meallist=res.data.data.dishes
+              this.meals=meallist
+              for(let i=0;i<this.meals.length;i++)
+              {
+                this.meals[i].checked=false
+                this.meals[i].sum=1
+                this.meals[i].cal=this.meals[i].calorie
+                
+              }
+              console.log(this.meals)
+    	                  }
+                  })
+    },
     components:{
       uniNumberBox,
       popup,
@@ -45,23 +73,46 @@
     methods: {    
       
       weatherAll:function(index){
-        this.meals[index].checked=!this.meals[index].checked
-        console.log(index)
-         if(this.meals[index].checked==true)
-         {this.flag+=1}
-         else{this.flag-=1}
-        if(this.flag==this.meals.length)
+            this.meals[index].checked=!this.meals[index].checked
+            
+            console.log(index)
+            if(this.meals[index].checked==true)
+            {this.flag+=1}
+            else{this.flag-=1}
+            if(this.flag==this.meals.length)
         {
           this.select=true
         }
         else {this.select=false}
       },
+      addproperty:function(value,index){
+        this.meals[index].sum=value
+        console.log(value)
+        console.log(this.meals[index].sum)
+      },
       add:function(){
         this.isshow=true
+        for(let i=0;i<this.meals.length;i++)
+        {
+          if(this.meals[i].checked==false)
+          {
+            this.meals.splice(i,1)
+          }
+        }
+        uni.setStorage({
+            key: 'meallist',
+            data: this.meals,
+            success: function () {
+                console.log('success');
+            }
+        });
         
-        
-        
-        
+        uni.getStorage({
+            key: 'meallist',
+            success: function (res) {
+                console.log(res.data);
+            }
+        });
       },
       tap:function(){
         this.select=!this.select
@@ -78,17 +129,7 @@
          isshow:false,
          flag:0,
          select:false,
-         meals:[
-           {src:'../../static/shrimp.png', name:'meal2',cal:'300kcal',quantity:'0',checked:false},
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
-           {src:'../../static/chocolate.png', name:'meal1',cal:'200kcal',quantity:'0',checked:false},
-           
-         ],
+         meals:[null],
          
        };
      },

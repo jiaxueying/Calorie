@@ -17,18 +17,17 @@
     },
     data() {
       return {
+       
       };
     },
    
-    onLoad() {
-        
-    },
+    
     onPullDownRefresh(){
       
     },
     methods: {
     },
-  };
+  }
 </script>
 
 <style>
