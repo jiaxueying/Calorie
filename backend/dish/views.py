@@ -8,9 +8,10 @@ dish.views
 # 4. 为达成接口标准的接口修改
 
 import json
+from functools import reduce
 from django.db.models import F, FilteredRelation, Q
 from calorie.api import APIView
-from calorie.api import get_user_id, check_and_get_str, check_and_get_int
+from calorie.api import get_user_id, check_and_get_str, check_and_get_int, check_one_field, FieldException
 from dish.models import Dish, Tag
 from dish.serializers import DishSerializer
 from dish.serializers import DishWithLikeSerializer
@@ -28,10 +29,22 @@ class TagQueryAPI(APIView):
         """
         get 方法
         """
-        tag_id = check_and_get_int(request.query_params, "tag_id")
-        dishes = Tag.objects.get(pk=tag_id).dish_set.annotate(
-            t=FilteredRelation('likedish', condition=Q(likedish__user_id=request.user.id))
-        ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like'))
+        check_one_field(request.query_params, "tag_id")
+        tag_ids = request.query_params['tag_id']
+        if not tag_ids:
+            return FieldException("tag_id should not be void")
+        if tag_ids[0] != "[":
+            tag_ids = check_and_get_int(request.query_params, "tag_id")
+            tag_ids = [tag_ids]
+        else:
+            tag_ids = json.loads(tag_ids)
+        dishes = reduce(
+            lambda x, y: x & y,
+            [Tag.objects.get(pk=tag_id).dish_set.annotate(
+                t=FilteredRelation('likedish', condition=Q(likedish__user_id=request.user.id))
+            ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')) for tag_id in tag_ids]
+        )
+
         serializer = DishWithLikeSerializer(dishes, many=True)
         try:
             return self.success(data=serializer.data)
