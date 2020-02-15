@@ -1,11 +1,7 @@
 """
 dish.views
 """
-# TODO
-# 1. 序列化器更改
-# 2. 图片文件的存储目录
-# 3. 关于get_user_like函数数据库查询优化
-# 4. 为达成接口标准的接口修改
+
 
 import json
 from functools import reduce
