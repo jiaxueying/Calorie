@@ -44,8 +44,6 @@
     props: ['food'],
     data() {
       return {
-        like:100,
-        dislike:100,
         isChoose:flase
       }
     },

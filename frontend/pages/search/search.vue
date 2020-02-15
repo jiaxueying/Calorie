@@ -11,7 +11,7 @@
         v-for="Food in foods"
         :key="Food.name"
       >
-        <like :food="Food" @tap="detail(Food)"/>
+        <like :food="Food" />
       </view>
       <view v-if="!foods.length">对不起！没有您想查询的菜品</view>
     </scroll-view>
