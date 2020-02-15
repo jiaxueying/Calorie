@@ -18,6 +18,7 @@
             {{tag.name}}
           </view>
         </view>
+        
         <view class="bottom">
           <view class="item">
             <button class="likeButton" @tap="like">
@@ -30,6 +31,7 @@
             </button>
           </view>
         </view>
+      
       </view>
     </view>
   </view>
@@ -41,6 +43,9 @@
     props: ['food'],
     data() {
       return {
+        like:100,
+        dislike:100,
+        isChoose:flase
       }
     },
     methods: {
@@ -127,7 +132,7 @@
     .unlikeButton {
         height: 50rpx;
         font-size: 20rpx;
-        background-image: url(../../static/sad.jpg);
+        background-image: url(../../static/sad.png);
         background-color: #FFFFFF;
         background-repeat: no-repeat;
         background-size: 40rpx;

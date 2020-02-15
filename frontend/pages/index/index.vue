@@ -5,11 +5,11 @@
         <view class="logo">
          <text >粟</text>
         </view>
-        <text class="timeitem" @tap="this.msg='breakfast';this.isfirst=false">breakfast</text>          
-        <text class="timeitem" @tap="this.msg='brunch';this.isfirst=false">brunch</text>
-        <text class="timeitem" @tap="this.msg='lunch';this.isfirst=false">lunch</text>
-        <text class="timeitem" @tap="this.msg='afternoon tea';this.isfirst=false">afternoon tea</text>
-        <text class="timeitem" @tap="this.msg='dinner';this.isfirst=false">dinner</text>
+        <text class="timeitem" @tap="setRange('breakfast')">breakfast</text>          
+        <text class="timeitem" @tap="setRange('brunch')">brunch</text>
+        <text class="timeitem" @tap="setRange('lunch')">lunch</text>
+        <text class="timeitem" @tap="setRange('afternoon tea')">afternoon tea</text>
+        <text class="timeitem" @tap="setRange('dinner')">dinner</text>
       </view>
   </popup>
   
@@ -52,12 +52,58 @@
 			return {
         isfirst:true,
 				msg:'',
+        
 			}
 		},
 		methods: {
-    
+      setRange:function(rec){
+        this.isfirst=false
+        this.msg=rec
+        let weight
+        uni.request({
+          url:"http://cal.hanlh.com:8000/user/profile",
+          method:"GET",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          data:{
+            
+          },
+          success: (res) => {
+            //console.log(res.data.data)
+            weight=res.data.data.weight
+            console.log(weight)
+            uni.setStorageSync('userid',res.data.data.id)
+            uni.setStorage({
+              key:'range',
+              data:[1300,1350]
+            })
+          }
+        })
+      }
 			
-		}
+		},
+    onLoad() {
+      uni.login({
+        success: (res) => {
+          uni.request({
+            url:'http://cal.hanlh.com:8000/user/login/',
+            data:{
+              code:res.code,
+              name:'123'
+            },
+            method:"POST",
+            success: (res) => {
+              //console.log(res)
+              uni.setStorage({
+                key:'token',
+                data:res.data.token,
+              })
+            }
+          })
+        }
+      })
+    }
 	}
 </script>
 
