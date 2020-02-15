@@ -19,21 +19,6 @@ from user.models import LikeDish
 
 # Create your views here.
 
-# deprecated
-def get_user_like(dishes, user_id):
-    """
-    查询用户是否喜欢该菜品
-    """
-    for dish in dishes:
-        dish['user_like'] = 0
-        dish['user_dislike'] = 0
-        likedish_object = LikeDish.objects.filter(dish__id=dish['id'], user__id=user_id).first()
-        if likedish_object:
-            if likedish_object.like == True:
-                dish['user_like'] = 1
-            elif likedish_object.like == False:
-                dish['user_dislike'] = 1
-
 
 class TagQueryAPI(APIView):
     """
@@ -98,7 +83,6 @@ class CalorieQueryAPI(APIView):
             return self.success(data=serializer.data)
         except Exception as e:
             return self.error(err=str(e))
-
 
 class DishDetailAPI(APIView):
     """
