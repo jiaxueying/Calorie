@@ -14,24 +14,18 @@
           {{ food.name }}     <text>{{ food.calorie }}kcal</text>
         </view>
         <view class="content">
-          <view class="label">
-            {{ canteen }}
-          </view>
-          <view class="label">
-            {{ location }}
-          </view>
-          <view class="label">
-            {{ state }}
+          <view class="label" v-for="tag in food.tag" :key="tag.id" >
+            {{tag.name}}
           </view>
         </view>
         <view class="bottom">
           <view class="item">
-            <button class="likeButton">
+            <button class="likeButton" @tap="like">
               LIKE {{ food.like }}
             </button>
           </view>
           <view class="item">
-            <button class="unlikeButton">
+            <button class="unlikeButton" @tap="dislike">
               DISLIKE {{ food.dislike }}
             </button>
           </view>
@@ -42,6 +36,7 @@
 </template>
 
 <script>
+  import { backendUrl, request } from '@/common/helper.js';
   export default {
     props: ['food'],
     data() {
@@ -49,7 +44,22 @@
       }
     },
     methods: {
-
+      like() {
+        console.log("like clicked");
+        request('/dish/like/', 'POST', {
+          dish_id: this.food.id,
+          like: 1,
+          dislike: 0,
+        });
+      },
+      dislike() {
+        console.log("dislike clicked");
+        request('/dish/like/', 'POST', {
+          dish_id: this.food.id,
+          like: 0,
+          dislike: 1,
+        });
+      },
     }
   }
 </script>
