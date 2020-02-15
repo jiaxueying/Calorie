@@ -43,7 +43,7 @@ class TagQueryAPI(APIView):
             [Tag.objects.get(pk=tag_id).dish_set.annotate(
                 t=FilteredRelation('likedish', condition=Q(likedish__user_id=request.user.id))
             ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')) for tag_id in tag_ids]
-        )
+        ).order_by('id')
 
         serializer = DishWithLikeSerializer(dishes, many=True)
         try:
@@ -67,7 +67,7 @@ class KeyQueryAPI(APIView):
         key_word = check_and_get_str(request.query_params, 'key_word')
         dishes = Dish.objects.filter(name__contains=key_word).annotate(
             t=FilteredRelation('likedish', condition=Q(likedish__user_id=request.user.id))
-        ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like'))
+        ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
         serializer = DishWithLikeSerializer(dishes, many=True)
         try:
             return self.success(data=serializer.data)
@@ -90,7 +90,7 @@ class CalorieQueryAPI(APIView):
         dishes = Dish.objects.filter(
             calorie__gt=min_calorie, calorie__lt=max_calorie).annotate(
                 t=FilteredRelation('likedish', condition=Q(likedish__user_id=request.user.id))
-            ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like'))
+            ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
         serializer = DishWithLikeSerializer(dishes, many=True)
         try:
             return self.success(data=serializer.data)
