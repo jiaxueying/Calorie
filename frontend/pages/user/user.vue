@@ -12,7 +12,7 @@
         </view>
         <image src="../../static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
         <view>
-          <text style="font-size: 1.2em;margin-top: 6rpx;margin-bottom: 6rpx;">体重：{{weight}}kg\n目标体重：{{targetweightshow}}\n</text>
+          <text style="font-size: 1.2em;margin-top: 6rpx;margin-bottom: 6rpx;">体重：{{weight}}KG\n目标体重：{{targetweightshow}}\n</text>
         </view>
         <text style="font-size: 0.7em;">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>
       </view>
@@ -65,6 +65,19 @@
         {this.targetweight=a
         this.targetweightshow=a+'KG'}
         else{this.targetweightshow=a}
+        uni.request({
+          url:"cal.hanlh.com:8000/user/profile",
+          method:"POST",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          data:{
+            user_id:uni.getStorageSync('userid'),
+            name:'123',
+            weight:this.weight,
+            //targetweight:this.targetweight
+          }
+        })
       },
       changeweight:function(){
         this.tempweight=this.weight
@@ -76,12 +89,47 @@
       confirm:function(){
         this.weight=this.tempweight
         this.pop=false
+        uni.request({
+          url:"http://cal.hanlh.com:8000/user/profile/",
+          method:"POST",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          data:{
+            user_id:uni.getStorageSync('userid'),
+            name:'123',
+            weight:this.weight,
+            //targetweight:this.targetweight
+          }
+        })
+        uni.request({
+          url:"http://cal.hanlh.com:8000/user/profile",
+          method:"GET",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          success: (res) => {
+            console.log(res.data.data)
+          }
+        })
       },
       refresh:function(event){
         this.tempweight=event.detail.value
       }
 		},
     onLoad() {
+		uni.request({
+			url:"http://cal.hanlh.com:8000/user/profile",
+			method:"GET",
+			header:{
+				Authorization:'Token '+uni.getStorageSync('token')
+			},
+			success: (res) => {
+				this.weight=res.data.data.weight
+				//this.targetweight=res.data.data.targetweight
+			}
+		})
+    
       this.targetweightshow=this.targetweight+'KG'
     }
 	}

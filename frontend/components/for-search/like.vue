@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        src="../../static/img.png"
+        src="../../static/chocolate.png"
         mode=""
       />
       <view
@@ -11,31 +11,23 @@
         style="flex: 1;"
       >
         <view class="title">
-          {{ foodname }}     <text>{{ calories }}kcal</text>
+          {{ food.name }}     <text>{{ food.calorie }}kcal</text>
         </view>
         <view class="content">
-          <view class="label">
-            {{ canteen }}
-          </view>
-          <view class="label">
-            {{ location }}
-          </view>
-          <view class="label">
-            {{ state }}
+          <view class="label" v-for="tag in food.tag" :key="tag.id" >
+            {{tag.name}}
           </view>
         </view>
         
         <view class="bottom">
           <view class="item">
-            <button plain style="border:none">
-              <image src="../../static/happy.png"></image>
-              <text>LIKE {{ this.like }}</text>
+            <button class="likeButton" @tap="like_">
+              LIKE {{ food.like }}
             </button>
           </view>
           <view class="item">
-            <button plain style="border:none">
-              <image style="width: 38upx;height: 38upx;" src="../../static/sad.png"></image>
-              <text>DISLIKE {{ this.dislike }}</text>
+            <button class="unlikeButton" @tap="dislike_">
+              DISLIKE {{ food.dislike }}
             </button>
           </view>
         </view>
@@ -46,7 +38,10 @@
 </template>
 
 <script>
+  import { like, dislike } from '@/common/helper.js';
+  import { backendUrl, request } from '@/common/helper.js';
   export default {
+    props: ['food'],
     data() {
       return {
         like:100,
@@ -55,8 +50,14 @@
       }
     },
     methods: {
-      
-
+      like_() {
+        console.log("like clicked");
+        like(this.food.id);
+      },
+      dislike_() {
+        console.log("dislike clicked");
+        dislike(this.food.id);
+      },
     }
   }
 </script>
@@ -97,27 +98,40 @@
         margin-right: 30upx;
     }
     .bottom{
-      white-space: nowrap;
+        display: flex;
+        padding: 20upx 0 ;
         .item{
-            flex:1;
+            flex: 1;
             color: #666;
-            display: inline-block;
-            background-color: #4CD964;
+            font-size: 24upx;
             image{
                 width: 40upx;
                 height: 40upx;
                 margin-right: 10upx;
-                opacity:0.5;
-                vertical-align: middle;
             }
-            text{
-              vertical-align: middle;
-              font-size: 16upx;
-              
-            }
-            
         }
-        
     }
-   
+    .likeButton {
+        height: 50rpx;
+        font-size: 20rpx;
+        background-image: url(../../static/like.png);
+        background-color: #FFFFFF;
+        background-repeat: no-repeat;
+        background-size: 40rpx;
+        background-position-y: 4rpx;
+        border: 0rpx;
+        padding: 0;
+    }
+    .unlikeButton {
+        height: 50rpx;
+        font-size: 20rpx;
+        background-image: url(../../static/sad.png);
+        background-color: #FFFFFF;
+        background-repeat: no-repeat;
+        background-size: 40rpx;
+        border: 0rpx;
+        background-position-y: 4rpx;
+        padding: 0;
+        padding-left: 38rpx;
+    }
 </style>

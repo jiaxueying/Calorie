@@ -6,19 +6,19 @@
         <view class="name_head">我的菜单</view>
         <view class="cont_head">{{Calories}}kcal</view>
       </view>
-      <view class="cancel_head"><button>清空</button></view>
+      <view class="cancel_head"><button @tap="clrAll">清空</button></view>
 		</view>
     <view class="orderMid">
      <view class="midOne">推荐卡路里摄入范围</view>
      <view class="midTwo">1350kcal-1750kcal/day</view>
     </view>
 		
-		<view class="order_list" v-for="food in Foods" :key="food.foodname">
-			<food-in-order  :calories="food.calories" :foodname="food.foodname"></food-in-order>
+		<view class="order_list" v-for="food in Foods" :key="food.name">
+			<food-in-order :foodname="food.name" :weight="food.sum" :calorie="food.cal"></food-in-order>
 		</view>
 		<view class="order_bottom">
       <button @tap='Close()'>继续添加</button>
-      <button>生成我的菜单</button><!--添加和后端的通信-->
+      <button @tap='mylist'>生成我的菜单</button><!--添加和后端的通信-->
     </view>
 	</view>
 </template>
@@ -30,14 +30,13 @@
 			FoodInOrder,
 		},
 		props: {
-			OrderedFood: {
+			Foods: {
 				type: Array,
 				default: () => [],
 			},
 		},
 		data() {
 			return {
-				Foods: this.OrderedFood,
 				Calories: 0,
        }
 		},
@@ -58,19 +57,31 @@
 				console.log("DelName activated");
 				var i = 0;
 				for(; i < this.Foods.length; i++) 
-					if(this.Foods[i].foodname == v)break;
+          if(this.Foods[i].foodname == v)break;
 				this.Foods.splice(i,1);
 				for(i = 0; i < this.Foods.length; i++)
 					console.log(this.Foods[i]);
 			},
+      clrAll() {
+        uni.$emit("clear_all");
+      },
+      mylist() {
+        console.log("mylist clicked");
+				uni.$emit("showorders");
+        wx.navigateTo({
+          url: '../others/mylist',
+        });
+      }
 		},
-		watch: {
-			Foods(newV, oldV) {
-				if(oldV.length < newV.length) {
-					this.Calories += this.Foods[this.Foods.length - 1].calories;
-				}
-			}
-		}
+    watch: {
+      Foods(newV) {
+        console.log("Foods changed");
+        this.Calories = 0;
+        for(var i = 0; i < newV.length; i++) {
+          this.Calories += newV[i].cal;
+        }
+      }
+    },
 	}
 </script>
 
@@ -81,8 +92,6 @@
 		display:inline-block;    
     .orderHead {
       background-color:rgba(219, 207, 202, 1);
-      // overflow: hidden;
-      
       height: 110rpx;
       .head_one {
         height:50rpx;

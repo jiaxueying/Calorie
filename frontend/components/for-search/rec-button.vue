@@ -1,5 +1,5 @@
 <template>
-	<button class="BtnInSearch">{{name}}</button>
+	<button class="BtnInSearch" @tap="search">{{name}}</button>
 </template>
 
 <script>
@@ -9,7 +9,12 @@
 				type: String,
 				default: "",
 			}
-		}
+		},
+    methods: {
+      search() {
+        uni.$emit("search_key",this.name);
+      },
+    },
 	}
 </script>
 
