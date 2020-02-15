@@ -105,9 +105,20 @@
           })
         }
       })
-      uni.setStorage({
-        key:"meal-list",
-        data:[],
+      uni.getStorage({
+        key:'meal-list',
+        success: (res) => {
+          console.log(res)
+        },
+        fail: () => {
+          uni.setStorage({
+            key:'meal-list',
+            data:[],
+            success: () => {
+              console.log('set meal-list')
+            }
+          })
+        }
       })
     }
 	}
