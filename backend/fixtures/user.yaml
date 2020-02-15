@@ -39,3 +39,32 @@
     user: 2
     dish: 1
     like: True
+
+    
+- model: user.LikeDish
+  pk: 3
+  fields:
+    user: 1
+    dish: 4
+    like: True
+
+- model: user.LikeDish
+  pk: 4
+  fields:
+    user: 2
+    dish: 4
+    like: False
+
+- model: user.LikeDish
+  pk: 5
+  fields:
+    user: 1
+    dish: 8
+    like: False
+
+- model: user.LikeDish
+  pk: 6
+  fields:
+    user: 1
+    dish: 9
+    like: False
