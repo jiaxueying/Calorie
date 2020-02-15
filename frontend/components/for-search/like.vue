@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        src="../../static/img.png"
+        src="../../static/chocolate.png"
         mode=""
       />
       <view
