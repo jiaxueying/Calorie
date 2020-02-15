@@ -1,7 +1,7 @@
 <template>
 	<view class="out">
 		<button class="tableware-icon" @tap="ShowOrders()"></button>
-		<input name="in" class="inbox" @focus="ShowHistory()" @blur="HideHistory()" />
+		<input name="in" class="inbox" @input="search" @focus="ShowHistory()" @blur="HideHistory" />
 		<button class="search-icon"></button>
 	</view>
 </template>
@@ -28,10 +28,16 @@
 				console.log("focused");
 				uni.$emit("showhistory");
 			}, 
-			HideHistory() {
+			HideHistory(event) {
 				console.log("blurred");
 				uni.$emit("hidehistory");
-			}
+        uni.$emit("addHistory", event.target.value);
+			},
+      search(event) {
+        console.log("input");
+        uni.$emit("hidehistory");
+        uni.$emit("search_key", event.target.value);
+      },
 		}
 	}
 </script>

@@ -1,7 +1,7 @@
 <template>
 	<view class="SearchHistory">
 		<view class="SearchHistoryName">●&nbsp;{{viewname}}</view>
-		<view class="historyDetail" v-for="n in names" :key="n">
+		<view class="historyDetail" v-for="n in Names" :key="n">
 			<rec-button :name="n"></rec-button>
 		</view>
 	</view>
@@ -18,12 +18,21 @@
 				type: String,
 				default: "",
 			},
+      Names: {
+        type: Array,
+        default: ()=>[],
+      },
 		},
 		data() {
 			return {
-				names: ["1","22222","3","44444444","1","22222","3","44444444","1","22222","3","44444444"],
 			}
 		},
+    onLoad() {
+      
+    },
+    methods: {
+      
+    }
 	}
 </script>
 

@@ -85,6 +85,21 @@ export default {
       wx.navigateTo({
         url: '../search/search',
       });
+      // uni.setStorageSync("meal-list", [{
+      //   name: "test1",
+      //   cal: 100,
+      //   sum: 100,
+      // },
+      // {
+      //   name: "test2",
+      //   cal: 200,
+      //   sum: 200,
+      // },
+      // {
+      //   name: "test3",
+      //   cal: 300,
+      //   sum: 300,
+      // }]);
     },
   },
 };
