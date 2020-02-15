@@ -23,12 +23,12 @@
       
       <view class="allbtn">
             <view class="btn">
-              <navigator url="indexOfSearch" hover-class="none">查询功能
+              <navigator url="../search/search" hover-class="none">查询功能
               <text>\n戳这里了解今天摄入了多少卡路里</text>
               </navigator>
             </view>
             <view class="btn">
-              <navigator url="indexOfRecommondation" hover-class="none">推荐功能
+              <navigator url="../recommondation/range" hover-class="none">推荐功能
               <text>\n戳这里摇出今天吃什么</text>
               </navigator>
             </view>
@@ -70,10 +70,12 @@
             
           },
           success: (res) => {
-            //console.log(res.data.data)
+            console.log(res.data.data)
             weight=res.data.data.weight
             console.log(weight)
             uni.setStorageSync('userid',res.data.data.id)
+            let userid=uni.getStorageSync('userid')
+            console.log(userid)
             uni.setStorage({
               key:'range',
               data:[1300,1350]
@@ -99,6 +101,21 @@
                 key:'token',
                 data:res.data.token,
               })
+            }
+          })
+        }
+      })
+      uni.getStorage({
+        key:'meal-list',
+        success: (res) => {
+          console.log(res)
+        },
+        fail: () => {
+          uni.setStorage({
+            key:'meal-list',
+            data:[],
+            success: () => {
+              console.log('set meal-list')
             }
           })
         }

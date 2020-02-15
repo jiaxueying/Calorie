@@ -52,6 +52,20 @@
         this.MIN=cal[0][index[0]];
         this.MAX=cal[1][index[1]];
         console.log(cal[0][index[0]])
+        let that=this
+        uni.setStorage({
+            key: 'minmax',
+            data: [this.MIN,this.MAX],
+            success: function () {
+                console.log('success');
+            }
+        });
+        uni.getStorage({
+            key: 'minmax',
+            success: function (res) {
+                console.log(res.data);
+            }
+        });
       },
       skip:function(){
         if((this.MAX-this.MIN)<1)
