@@ -6,11 +6,11 @@
     <dl>
     <dt class="historyList" v-for="(item,index) in list" :key="index">
       <view class="mealimg">
-        <image style="width: 100rpx;height: 100rpx;" :src="item.src"></image>
+        <image style="width: 100rpx;height: 100rpx;" :src="item.picture"></image>
       </view>
       <view class="historyInfo">
         <text>{{item.date}}\n</text>
-        <text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.cal}}kcal</text>
+        <text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.calorie}}kcal</text>
       </view>
       <image src="../../static/timg.jpg" class="deleteIcon" @click="deleteItem(index,list)"></image>
     </dt>
@@ -23,22 +23,33 @@
     data(){
       return{
         list:[
-          {src:'../../static/shrimp.png',cal:'100',date:'date1'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date2'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date3'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date4'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date5'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date6'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date7'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date8'},
-          {src:'../../static/shrimp.png',cal:'100',date:'date9'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date1'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date2'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date3'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date4'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date5'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date6'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date7'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date8'},
+          {picture:'../../static/shrimp.png',calorie:'100',date:'date9'},
           
         ],
-        replacelist:{src:'../../static/default.jpg',cal:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
+        replacelist:{picture:'../../static/default.jpg',calorie:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
       }
     },
     methods:{
       deleteItem:function(index,list){
+        uni.request({
+          url:"http://cal.hanlh.com:8000/menu/delete",
+          method:"POST",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          data:{
+            user_id:uni.getStorageSync('userid'),
+            menu_id:this.list[index].id
+          }
+        })
         list.splice(index,1);
         uni.showToast({
           title:'删除成功',
@@ -51,8 +62,21 @@
       }
      },
      created:function(){
-       if(this.list.length==0)
-       {this.list[0]=this.replacelist}
+       uni.request({
+         url:"http://cal.hanlh.com:8000/menu/query",
+         method:"GET",
+         header:{
+           Authorization:'Token '+uni.getStorageSync('token')
+         },
+         data:{
+           user_id:uni.getStorageSync('userid')
+         },
+         success: (res) => {
+           this.list=res.data.data.user_menus
+           if(this.list.length==0)
+           {this.list[0]=this.replacelist}
+         }
+       })
       }
   }
 
