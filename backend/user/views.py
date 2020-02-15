@@ -11,6 +11,7 @@ from rest_framework.views import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken import views as rest_auth
+from rest_framework.permissions import AllowAny
 
 from calorie.api import APIView
 from calorie.api import FieldException, NetworkConnectionException
@@ -33,8 +34,6 @@ class UserLoginAPI(rest_auth.ObtainAuthToken):
         request - 前端发来的请求
         """
         login_data = copy(request.data)
-        if 'name' not in login_data:
-            raise FieldException("请求中缺少微信昵称")
         try:
             assert login_data['code'] is not None
         except MultiValueDictKeyError as _:
@@ -93,12 +92,11 @@ class UserProfileAPI(APIView):
         """
         修改用户信息
         """
-        required_fields = ('name', 'weight')
+        required_fields = ('weight', )
         for required_field in required_fields:
             if required_field not in request.data:
                 raise FieldException("没有字段%s"%required_field)
         user_obj = request.user
-        user_obj.name = request.data['name']
         user_obj.weight = request.data['weight']
         user_obj.save()
         return self.success()
@@ -113,6 +111,5 @@ class UserProfileAPI(APIView):
             return self.success(data=serializer.data)
         except Exception as _:
             return self.error(err=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # Create your views here.

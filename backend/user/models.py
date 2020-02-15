@@ -11,7 +11,6 @@ from django.utils.translation import ugettext_lazy as _
 
 class User(AbstractUser):
     '''用户'''
-    name = models.CharField(_("user name"), max_length=50)
     weight = models.DecimalField(_("user weight"), max_digits=7, decimal_places=2, default=60)
     target_weight = models.DecimalField(_("user target weight"), max_digits=7, decimal_places=2, default=60)
     plan = models.BooleanField(_("if diet"), default=False)
