@@ -67,6 +67,7 @@
       },
       mylist() {
         console.log("mylist clicked");
+				uni.$emit("showorders");
         wx.navigateTo({
           url: '../others/mylist',
         });
