@@ -5,16 +5,17 @@
         class="listImg"
         src="../../static/chocolate.png"
         mode=""
+        @tap="detail"
       />
       <view
         class=""
         style="flex: 1;"
       >
-        <view class="title">
+        <view class="title" @tap="detail">
           {{ food.name }}     <text>{{ food.calorie }}kcal</text>
         </view>
-        <view class="content">
-          <view class="label" v-for="tag in food.tag" :key="tag.id" >
+        <view class="content" >
+          <view class="label" v-for="tag in food.tag" :key="tag.id" @tap="search_tag(tag)">
             {{tag.name}}
           </view>
         </view>
@@ -56,6 +57,17 @@
         console.log("dislike clicked");
         dislike(this.food.id);
       },
+      detail() {
+        console.log(this.food);
+        this.IsShow = false;
+        wx.navigateTo({
+          url:'../others/detail?foodDetail='+JSON.stringify(this.food),
+        });
+      },
+      search_tag(v) {
+        console.log("tag clicked");
+        uni.$emit("search_tag", v);
+      }
     }
   }
 </script>

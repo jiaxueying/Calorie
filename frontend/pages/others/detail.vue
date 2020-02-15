@@ -144,7 +144,9 @@
         dislike(this.food.id);
       },
       taptag:function(index){
-        console.log(this.tags[index])
+        console.log(this.tags[index]);
+        uni.$emit("search_tag", this.tags[index]);
+        wx.navigateBack();
       },
       mylist:function(){
         console.log("mylist");

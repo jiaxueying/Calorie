@@ -1,6 +1,6 @@
 <template>
   <view class="all">
-    <input-box />
+    <input-box ref="input" />
     <scroll-view
       class="scroll"
       scroll-y="true"
@@ -63,6 +63,7 @@ export default {
     uni.$on('showorders', this.ChangeIsShow);
     uni.$on('hidehistory', this.HideHistory);
     uni.$on('search_key',this.searchBykey);
+    uni.$on('search_tag',this.searchByTag);
     uni.$on('addHistory',this.addHistoryBykey);
     uni.$on('aWeight',this.addWeight);
     uni.$on('mWeight',this.minusWeight);
@@ -94,7 +95,18 @@ export default {
     },
     searchBykey(key) {
       console.log("searchBykey");
+      this.$refs.input.setValue(key);
       this.MealListRefresh(key);
+    },
+    searchByTag(tag) {
+      console.log("searchBytag");
+      this.$refs.input.setValue(tag.name);
+      request('/dish/tag_query', 'GET', {
+        tag_id: tag.id,
+      }).then(res => {
+        this.foods = res[1].data.data.dishes;
+        console.log(this.foods);
+      });
     },
     addHistoryBykey(key) {
       if(key.match(/^[ ]*$/)) return;
@@ -146,13 +158,6 @@ export default {
       console.log("clear all");
       while(this.OrderedFood.length)this.OrderedFood.pop();
       uni.setStorageSync("meal-list", this.OrderedFood);
-    },
-    detail(e) {
-      console.log(e);
-      this.IsShow = false;
-      wx.navigateTo({
-        url:'../others/detail?foodDetail='+JSON.stringify(e),
-      });
     },
   },
   mounted() {
