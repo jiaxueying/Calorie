@@ -2,7 +2,9 @@
 	<view class="orders">
 		<view class="orderHead">
 			<view class="head_one">
-        <image class="image_head"></image><!--添加和后端的通信-->
+        <view class="image_head">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
         <view class="name_head">我的菜单</view>
         <view class="cont_head">{{Calories}}kcal</view>
       </view>
