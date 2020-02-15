@@ -21,12 +21,12 @@
         
         <view class="bottom">
           <view class="item">
-            <button class="likeButton" @tap="like">
+            <button class="likeButton" @tap="like_">
               LIKE {{ food.like }}
             </button>
           </view>
           <view class="item">
-            <button class="unlikeButton" @tap="dislike">
+            <button class="unlikeButton" @tap="dislike_">
               DISLIKE {{ food.dislike }}
             </button>
           </view>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+  import { like, dislike } from '@/common/helper.js';
   import { backendUrl, request } from '@/common/helper.js';
   export default {
     props: ['food'],
@@ -49,21 +50,13 @@
       }
     },
     methods: {
-      like() {
+      like_() {
         console.log("like clicked");
-        request('/dish/like/', 'POST', {
-          dish_id: this.food.id,
-          like: 1,
-          dislike: 0,
-        });
+        like(this.food.id);
       },
-      dislike() {
+      dislike_() {
         console.log("dislike clicked");
-        request('/dish/like/', 'POST', {
-          dish_id: this.food.id,
-          like: 0,
-          dislike: 1,
-        });
+        dislike(this.food.id);
       },
     }
   }

@@ -11,7 +11,7 @@
         v-for="Food in foods"
         :key="Food.name"
       >
-        <like :food="Food"/>
+        <like :food="Food" @tap="detail(Food)"/>
       </view>
       <view v-if="!foods.length">对不起！没有您想查询的菜品</view>
     </scroll-view>
@@ -72,6 +72,7 @@ export default {
     ChangeIsShow() {
       this.IsShow = !this.IsShow;
       console.log('IsShow changed: ' + this.IsShow);
+      this.OrderedFood = uni.getStorageSync("meal-list");
     },
     ShowHistory() {
       this.HistoryShow = true;
@@ -145,14 +146,20 @@ export default {
       console.log("clear all");
       while(this.OrderedFood.length)this.OrderedFood.pop();
       uni.setStorageSync("meal-list", this.OrderedFood);
-    }
+    },
+    detail(e) {
+      console.log(e);
+      this.IsShow = false;
+      wx.navigateTo({
+        url:'../others/detail?foodDetail='+JSON.stringify(e),
+      });
+    },
   },
   mounted() {
     this.MealListRefresh('');
     request('/searchitem/query/', 'GET', { }).then(res => {
       console.log(res);
     });
-    this.OrderedFood = uni.getStorageSync("meal-list");
     console.log(this.OrderedFood);
   },
 };

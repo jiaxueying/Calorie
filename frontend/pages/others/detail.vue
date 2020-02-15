@@ -48,7 +48,7 @@
     </view>
     
     <view class="tags">
-      <view v-for="(tag,index) in tags" class="tag" :key="index" @click="taptag(index)">{{tag}}</view>
+      <view v-for="(tag,index) in tags" class="tag" :key="index" @click="taptag(index)">{{tag.name}}</view>
     </view>
     </view>
     
@@ -64,10 +64,11 @@
 </template>
 
 <script>
-  import tab from "../../components/t-table/t-table.vue"
-  import ttr from "../../components/t-table/t-tr.vue"
-  import tth from "../../components/t-table/t-th.vue"
-  import ttd from "../../components/t-table/t-td.vue"
+  import { like, dislike } from '@/common/helper.js';
+  import tab from "../../components/t-table/t-table.vue";
+  import ttr from "../../components/t-table/t-tr.vue";
+  import tth from "../../components/t-table/t-th.vue";
+  import ttd from "../../components/t-table/t-td.vue";
   export default{
     components:{
       tab,
@@ -77,6 +78,7 @@
     },
     data(){
       return{
+        food: null,
         like_count:666,
         dislike_count:666,
         X:Number,
@@ -87,7 +89,12 @@
         isimg:true,
         name:"菜品名称",
         cal:"100KCAL/100g",
-        tags:['理科食堂','二楼','低卡','5号窗口'],
+        tags:[
+          {id:1,name:'理科食堂'},
+          {id:2,name:'二楼'},
+          {id:3,name:'低卡'},
+          {id:1,name:'五号窗口'},
+        ],
         nutrition:[
           {item:'能量',value:'2012KJ',percent:'24%'},
           {item:'蛋白质',value:'10.0g',percent:'17%'},
@@ -95,8 +102,22 @@
           {item:'碳水化合物',value:'62.5g',percent:'21%'},
           {item:'钠',value:'663mg',percent:'33%'},
           {item:'钙',value:'280mg',percent:'35%'}
-        ]
+        ],
       }
+    },
+    onLoad: function(options) {
+      this.food = JSON.parse(options.foodDetail);
+      console.log(this.food);
+      this.like_count = this.food.like;
+      this.dislike_count = this.food.dislike;
+      this.name = this.food.name;
+      this.cal = this.food.calorie + "KCAL";
+      this.tags = this.food.tag;
+      this.nutrition[1].value = this.food.protein;
+      this.nutrition[2].value = this.food.fat;
+      this.nutrition[3].value = this.food.carbohydrate;
+      this.nutrition[4].value = this.food.sodium;
+      console.log(this.nutrition);
     },
     methods:{
       start:function(event){
@@ -116,21 +137,32 @@
       },
       like:function(){
         console.log("like")
+        like(this.food.id);
       },
       dislike:function(){
         console.log("dislike")
+        dislike(this.food.id);
       },
       taptag:function(index){
         console.log(this.tags[index])
       },
       mylist:function(){
-        console.log("mylist")
+        console.log("mylist");
       },
       add:function(){
         console.log("add")
+        var OrderedFood = uni.getStorageSync("meal-list");
+        for(var i = 0; i < OrderedFood.length; i++) {
+          if(OrderedFood[i].name === this.food.name) return;
+        }
+        OrderedFood.push({
+          name: this.food.name,
+          cal: this.food.calorie,
+          sum: 100,
+        });
+        uni.setStorageSync("meal-list", OrderedFood);
       }
     },
-    
   }
 </script>
 

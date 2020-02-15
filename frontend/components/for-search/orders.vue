@@ -18,7 +18,7 @@
 		</view>
 		<view class="order_bottom">
       <button @tap='Close()'>继续添加</button>
-      <button>生成我的菜单</button><!--添加和后端的通信-->
+      <button @tap='mylist'>生成我的菜单</button><!--添加和后端的通信-->
     </view>
 	</view>
 </template>
@@ -64,6 +64,12 @@
 			},
       clrAll() {
         uni.$emit("clear_all");
+      },
+      mylist() {
+        console.log("mylist clicked");
+        wx.navigateTo({
+          url: '../others/mylist',
+        });
       }
 		},
     watch: {
