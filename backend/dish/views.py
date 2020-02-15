@@ -113,15 +113,15 @@ class LikeDishAPI(APIView):
         post方法
         """
         try:
-            json_data = json.loads(request.body)
+            json_data = request.data
             user_id = get_user_id(request)
             dish_id = json_data['dish_id']
             like = json_data['like']
             dislike = json_data['dislike']
-            likedish_object = LikeDish.objects.filter(dish__id=dish_id, user__id=user_id).first()
+            likedish_object = LikeDish.objects.filter(dish_id=dish_id, user_id=user_id).first()
             dish_object = Dish.objects.get(pk=dish_id)
             if not likedish_object:
-                likedish_object = LikeDish.objects.create(dish__id=dish_id, user__id=user_id)
+                likedish_object = LikeDish.objects.create(dish_id=dish_id, user_id=user_id)
             else:
                 if likedish_object.like == True:
                     dish_object.like -= 1
