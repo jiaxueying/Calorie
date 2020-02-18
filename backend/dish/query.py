@@ -21,7 +21,7 @@ class DishQueryFunctionSet:
     @staticmethod
     def tag(user_obj, keyword):
         """通过标签查询菜品"""
-        return Dish.objects.all().prefetch_related("tag").filter(tag__name__contains=keyword).annotate(
+        return Dish.objects.prefetch_related("tag").filter(tag__name__contains=keyword).annotate(
             t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj)) # likedish__user_id=user_obj.id
         ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
 
