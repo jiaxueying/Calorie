@@ -37,12 +37,10 @@ class DishQueryFunctionSet:
         """通过标签id查询菜品"""
         for tag_id in tag_list:
             DishQueryFunctionSet.add_search_item(user_obj, "tag", str(tag_id))
-        return reduce(
-            lambda x, y: x & y,
-            [Tag.objects.get(pk=tag_id).dish_set.annotate(
-                t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj)) # likedish__user_id=user_obj.id
-            ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')) for tag_id in tag_list]
-        ).order_by('id')
+
+        return Dish.objects.prefetch_related('tag').filter(tag__in=tag_list).annotate(
+            t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj))
+        ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
 
     @staticmethod
     def calorie(user_obj, min_calorie, max_calorie):
