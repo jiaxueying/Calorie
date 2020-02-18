@@ -30,7 +30,7 @@ class DishQueryFunctionSet:
     def keyword(user_obj, keyword):
         """通过关键字查询菜品"""
         DishQueryFunctionSet.add_search_item(user_obj, "keyword", keyword)
-        return DishQueryFunctionSet.name(user_obj, keyword) | DishQueryFunctionSet.tag(user_obj, keyword)
+        return (DishQueryFunctionSet.name(user_obj, keyword) | DishQueryFunctionSet.tag(user_obj, keyword)).distinct().order_by('id')
 
     @staticmethod
     def tag_ids(user_obj, tag_list: list):
