@@ -1,10 +1,9 @@
 """
 查询相关函数
 """
-from functools import reduce
 from django.db.models import F, FilteredRelation, Q
 from django.db import transaction
-from dish.models import Dish, Tag
+from dish.models import Dish
 from searchitem.models import SearchItem, HistorySearch
 
 class DishQueryFunctionSet:
