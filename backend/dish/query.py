@@ -1,10 +1,9 @@
 """
 查询相关函数
 """
-from functools import reduce
 from django.db.models import F, FilteredRelation, Q
 from django.db import transaction
-from dish.models import Dish, Tag
+from dish.models import Dish
 from searchitem.models import SearchItem, HistorySearch
 
 class DishQueryFunctionSet:
@@ -14,21 +13,33 @@ class DishQueryFunctionSet:
     """
     @staticmethod
     def name(user_obj, keyword):
-        """通过关键词查询菜品"""
-        DishQueryFunctionSet.add_search_item(user_obj, "dd", "32")
+        """通过菜品部分名称查询菜品"""
         return Dish.objects.filter(name__contains=keyword).annotate(
             t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj)) # likedish__user_id=user_obj.id
         ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
 
     @staticmethod
-    def tag_ids(user_obj, tag_list):
+    def tag(user_obj, keyword):
+        """通过标签查询菜品"""
+        return Dish.objects.prefetch_related("tag").filter(tag__name__contains=keyword).annotate(
+            t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj)) # likedish__user_id=user_obj.id
+        ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
+
+    @staticmethod
+    def keyword(user_obj, keyword):
+        """通过关键字查询菜品"""
+        DishQueryFunctionSet.add_search_item(user_obj, "keyword", keyword)
+        return (DishQueryFunctionSet.name(user_obj, keyword) | DishQueryFunctionSet.tag(user_obj, keyword)).distinct().order_by('id')
+
+    @staticmethod
+    def tag_ids(user_obj, tag_list: list):
         """通过标签id查询菜品"""
-        return reduce(
-            lambda x, y: x & y,
-            [Tag.objects.get(pk=tag_id).dish_set.annotate(
-                t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj)) # likedish__user_id=user_obj.id
-            ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')) for tag_id in tag_list]
-        ).order_by('id')
+        for tag_id in tag_list:
+            DishQueryFunctionSet.add_search_item(user_obj, "tag", str(tag_id))
+
+        return Dish.objects.prefetch_related('tag').filter(tag__in=tag_list).annotate(
+            t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj))
+        ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
 
     @staticmethod
     def calorie(user_obj, min_calorie, max_calorie):
@@ -37,13 +48,6 @@ class DishQueryFunctionSet:
             calorie__gt=min_calorie, calorie__lt=max_calorie).annotate(
                 t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj)) # likedish__user_id=user_obj.id
             ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
-
-    @staticmethod
-    def tag(user_obj, keyword):
-        """通过标签查询菜品"""
-        return Dish.objects.all().prefetch_related("tag").filter(tag__name__contains=keyword).annotate(
-            t=FilteredRelation('likedish', condition=Q(likedish__user=user_obj)) # likedish__user_id=user_obj.id
-        ).annotate(user_like=F('t__like')).annotate(user_dislike=1-F('t__like')).order_by('id')
 
     @staticmethod
     @transaction.atomic()
