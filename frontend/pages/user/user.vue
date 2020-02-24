@@ -50,7 +50,7 @@
         minCalForDay:'1000',
         maxCalForDay:'1500',
         Switch:false,
-        targetweight:60,
+        targetweight:600,
         pop:false,
         tempweight:1,
         targetweightshow:'999KG'
@@ -73,9 +73,7 @@
           },
           data:{
             user_id:uni.getStorageSync('userid'),
-            name:'123',
-            weight:this.weight,
-            //targetweight:this.targetweight
+            //target_weight:this.targetweight
           }
         })
       },
@@ -97,9 +95,7 @@
           },
           data:{
             user_id:uni.getStorageSync('userid'),
-            name:'123',
             weight:this.weight,
-            //targetweight:this.targetweight
           }
         })
         uni.request({
@@ -126,11 +122,14 @@
 			},
 			success: (res) => {
 				this.weight=res.data.data.weight
-				//this.targetweight=res.data.data.targetweight
+				this.targetweight=res.data.data.target_weight
+        this.minCalForDay=res.data.data.min_calorie
+        this.maxCalForDay=res.data.data.max_calorie
+        this.targetweightshow=this.targetweight+'KG'
 			}
 		})
     
-      this.targetweightshow=this.targetweight+'KG'
+      
     }
 	}
 </script>
