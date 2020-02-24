@@ -2,7 +2,7 @@
 	<view class="SearchHistory">
 		<view class="SearchHistoryName">●&nbsp;{{viewname}}</view>
 		<view class="historyDetail" v-for="n in Names" :key="n">
-			<rec-button :name="n"></rec-button>
+			<rec-button :name="n.name"></rec-button>
 		</view>
 	</view>
 </template>

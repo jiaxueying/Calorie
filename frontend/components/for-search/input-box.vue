@@ -1,7 +1,7 @@
 <template>
 	<view class="out">
 		<button class="tableware-icon" @tap="ShowOrders()"></button>
-		<input v-model=value id="in" class="inbox" @input="search($event)" @focus="ShowHistory()" @blur="HideHistory" />
+		<input v-model=value id="in" class="inbox" @change="search($event)" @focus="ShowHistory()" @blur="HideHistory" />
 		<button class="search-icon"></button>
 	</view>
 </template>
@@ -39,7 +39,7 @@
       search(event) {
         console.log("input");
         uni.$emit("hidehistory");
-        uni.$emit("search", event.target.value);
+        uni.$emit("search_key", event.target.value);
       },
       setValue(v) {
         console.log("set value:" + v);

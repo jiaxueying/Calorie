@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        src="../../static/chocolate.png"
+        :src="'http://cal.hanlh.com:8000'+food.picture"
         mode=""
         @tap="detail"
       />
@@ -45,7 +45,7 @@
     props: ['food'],
     data() {
       return {
-        isChoose:flase
+        isChoose:flase,
       }
     },
     methods: {
@@ -66,9 +66,9 @@
       },
       search_tag(v) {
         console.log("tag clicked");
-        uni.$emit("search_tag", v);
+        uni.$emit("search_key", v.name);
       }
-    }
+    },
   }
 </script>
 

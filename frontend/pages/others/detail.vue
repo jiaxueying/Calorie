@@ -9,7 +9,7 @@
     </view>
     
     <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
-      <image :src="src" class="img" v-if="isimg"></image>
+      <image :src="'http://cal.hanlh.com:8000'+food.picture" class="img" v-if="isimg"></image>
       <view class="tab" v-if="!isimg">
         <tab>
           <ttr align="left">
@@ -85,7 +85,6 @@
         tempX:Number,
         min:'',
         max:'',
-        src:'../../static/chocolate.png',
         isimg:true,
         name:"菜品名称",
         cal:"100KCAL/100g",
