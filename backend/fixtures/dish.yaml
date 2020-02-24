@@ -26,7 +26,7 @@
     fat: 10.00
     protein: 10.00
     sodium: 120.00
-    water: 1200.00
+    water: 10.00
     picture: 2.jpg
     tag: [1, 2]
 
@@ -34,17 +34,195 @@
   pk: 3
   fields:
     name: '测试菜3'
-    calorie: 100.00
+    calorie: 1000.00
     like: 0
     dislike: 0
     carbohydrate: 0.00
     energy: 100.00
-    fat: 10.00
+    fat: 9.00
     protein: 10.00
-    sodium: 120.00
+    sodium: 1.00
     water: 1.00
     picture: 3.jpg
     tag: [1, 2, 3]
+
+- model: dish.Dish
+  pk: 4
+  fields:
+    name: '鱼香肉丝'
+    calorie: 1672.00
+    like: 0
+    dislike: 0
+    carbohydrate: 98.00
+    energy: 1021.00
+    fat: 10.00
+    protein: 140.00
+    sodium: 520.00
+    water: 1.01
+    picture: 4.jpg
+    tag: [2, 3]
+
+- model: dish.Dish
+  pk: 5
+  fields:
+    name: '京酱肉丝'
+    calorie: 82.00
+    like: 0
+    dislike: 0
+    carbohydrate: 0.00
+    energy: 230.00
+    fat: 10.00
+    protein: 180.00
+    sodium: 920.00
+    water: 1.60
+    picture: 6.jpg
+    tag: [1, 3]
+
+- model: dish.Dish
+  pk: 6
+  fields:
+    name: '土豆肉丝'
+    calorie: 10.00
+    like: 0
+    dislike: 0
+    carbohydrate: 4.00
+    energy: 1.00
+    fat: 990.00
+    protein: 11.01
+    sodium: 124.00
+    water: 1.09
+    picture: 6.jpg
+    tag: [2]
+
+- model: dish.Dish
+  pk: 7
+  fields:
+    name: '苦瓜肉丝'
+    calorie: 1532.00
+    like: 0
+    dislike: 0
+    carbohydrate: 24.03
+    energy: 87.00
+    fat: 94.00
+    protein: 11.01
+    sodium: 74.00
+    water: 9.09
+    picture: 7.jpg
+    tag: [3]
+
+- model: dish.Dish
+  pk: 8
+  fields:
+    name: '蒜薹肉丝'
+    calorie: 1532.00
+    like: 0
+    dislike: 0
+    carbohydrate: 25.03
+    energy: 237.00
+    fat: 94.00
+    protein: 174.01
+    sodium: 174.00
+    water: 9.09
+    picture: 8.jpg
+    tag: [1, 2]
+
+
+
+- model: dish.Dish
+  pk: 9
+  fields:
+    name: '土豆肉丝'
+    calorie: 10.00
+    like: 0
+    dislike: 0
+    carbohydrate: 0.00
+    energy: 10.00
+    fat: 10.00
+    protein: 11.01
+    sodium: 120.00
+    water: 1.00
+    picture: 6.jpg
+    tag: [1, 3]
+
+- model: dish.Dish
+  pk: 10
+  fields:
+    name: '青椒肉丝'
+    calorie: 10.00
+    like: 0
+    dislike: 0
+    carbohydrate: 0.00
+    energy: 10.00
+    fat: 10.00
+    protein: 11.01
+    sodium: 120.00
+    water: 1.00
+    picture: 10.jpg
+    tag: [2, 3]
+
+- model: dish.Dish
+  pk: 11
+  fields:
+    name: '粉蒸羊肉'
+    calorie: 1033.00
+    like: 0
+    dislike: 0
+    carbohydrate: 0.00
+    energy: 1444.00
+    fat: 10.00
+    protein: 1123.01
+    sodium: 1320.00
+    water: 142.00
+    picture: 11.jpg
+    tag: [1, 2, 3]
+
+- model: dish.Dish
+  pk: 12
+  fields:
+    name: '粉蒸羊肉'
+    calorie: 1033.00
+    like: 0
+    dislike: 0
+    carbohydrate: 0.00
+    energy: 1444.00
+    fat: 10.00
+    protein: 1123.01
+    sodium: 1320.00
+    water: 142.00
+    picture: 12.jpg
+    tag: [2, 3]
+
+- model: dish.Dish
+  pk: 13
+  fields:
+    name: '驴肉火烧'
+    calorie: 1033.00
+    like: 0
+    dislike: 0
+    carbohydrate: 0.00
+    energy: 1444.00
+    fat: 10.00
+    protein: 1123.01
+    sodium: 1320.00
+    water: 142.00
+    picture: 13.jpg
+    tag: [1]
+
+- model: dish.Dish
+  pk: 14
+  fields:
+    name: '冷吃兔'
+    calorie: 1033.00
+    like: 0
+    dislike: 0
+    carbohydrate: 40.00
+    energy: 1424.00
+    fat: 11.00
+    protein: 5123.01
+    sodium: 1320.00
+    water: 1342.00
+    picture: 14.jpg
+    tag: [2]
 
 - model: dish.Tag
   pk: 1

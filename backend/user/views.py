@@ -33,8 +33,7 @@ class UserLoginAPI(rest_auth.ObtainAuthToken):
         request - 前端发来的请求
         """
         login_data = copy(request.data)
-        if 'name' not in login_data:
-            raise FieldException("请求中缺少微信昵称")
+        return_data = {'token': 'no token', 'is_first': False}
         try:
             assert login_data['code'] is not None
         except MultiValueDictKeyError as _:
@@ -48,7 +47,10 @@ class UserLoginAPI(rest_auth.ObtainAuthToken):
             login_data['password'] = self.get_password(login_data['username'])
             if not User.objects.filter(username=login_data['username']):
                 User.objects.create_user(username=login_data['username'], password=login_data['password'], name=login_data['name'])
-            return self.get_or_create_token(login_data, request)
+                return_data['is_first'] = True
+            token = self.get_or_create_token(login_data, request)
+            return_data['token'] = token
+            return Response(return_data, status=status.HTTP_200_OK)
 
     @staticmethod
     def get_openid(code):
@@ -83,7 +85,7 @@ class UserLoginAPI(rest_auth.ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, _ = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        return token.key
 
 class UserProfileAPI(APIView):
     """
@@ -93,13 +95,15 @@ class UserProfileAPI(APIView):
         """
         修改用户信息
         """
-        required_fields = ('name', 'weight')
+        required_fields = ('weight', 'target_weight', 'plan')
         for required_field in required_fields:
             if required_field not in request.data:
                 raise FieldException("没有字段%s"%required_field)
         user_obj = request.user
-        user_obj.name = request.data['name']
+        # how about reflection
         user_obj.weight = request.data['weight']
+        user_obj.target_weight = request.data['target_weight']
+        user_obj.plan = request.data['plan']
         user_obj.save()
         return self.success()
 
@@ -113,6 +117,5 @@ class UserProfileAPI(APIView):
             return self.success(data=serializer.data)
         except Exception as _:
             return self.error(err=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # Create your views here.

@@ -10,9 +10,13 @@ from django.utils.translation import ugettext_lazy as _
 
 class SearchItem(models.Model):
     '''搜索条目'''
-
+    SEARCH_CATEGORYS = [
+        ('keyword', 'keyword'),
+        ('tag', 'tag'),
+    ]
     name = models.CharField(_("search item"), max_length=50)
-    search_time = models.IntegerField(_("search_time"))
+    count = models.IntegerField(_("search count"), default=0)
+    category = models.CharField(_("search category"), choices=SEARCH_CATEGORYS, max_length=10)
 
     class Meta:
         verbose_name = _("SearchItem")

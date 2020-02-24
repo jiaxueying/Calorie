@@ -7,7 +7,7 @@ from menu.views import GetMenuHistoryAPI, SubmitMenuAPI, MenuDetailAPI, DeleteMe
 
 urlpatterns = [
     path('query/', GetMenuHistoryAPI.as_view()),
-    path('submit/', SubmitMenuAPI.as_view()),
+    path('order/', SubmitMenuAPI.as_view()),
     path('detail/', MenuDetailAPI.as_view()),
     path('delete/', DeleteMenuAPI.as_view()),
 ]
