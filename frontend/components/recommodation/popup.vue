@@ -22,8 +22,8 @@
         })
       },
       gotohome:function(){
-        uni.redirectTo({
-          url:"../../pages/index/index"
+        uni.navigateBack({
+          delta:99
         })
       }
     }

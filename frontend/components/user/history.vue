@@ -69,9 +69,10 @@
            Authorization:'Token '+uni.getStorageSync('token')
          },
          data:{
-           user_id:uni.getStorageSync('userid')
+           
          },
          success: (res) => {
+           console.log(res)
            this.list=res.data.data.user_menus
            if(this.list.length==0)
            {this.list[0]=this.replacelist}

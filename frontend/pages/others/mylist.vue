@@ -61,19 +61,20 @@
     },
       
       created: function (e) {
-        console.log(this.meallist);
-           uni.setStorageSync('meallist', [{ mysrc:"../../static/shrimp.png",mealname:"shrimp",cal:"100"},{ mysrc:"../../static/shrimp.png",mealname:"shrimp",cal:"100"}]);
-         console.log(this.meallist);                     
+        console.log(this.meallist)
+         console.log(this.meallist)                
           let that=this
           uni.getStorage({
-              key: 'meallist',
+              key: 'meal-list',
               success: function (res) {
                   console.log(res.data);
                   that.meallist=res.data;
                   that.draw();
+                  that.post()
               }
           });   
           console.log(this.meallist)
+          
       },
       methods: {
         draw:function(e){
@@ -103,7 +104,7 @@
            var ctx = uni.createCanvasContext('canvas')          
             console.log(ctx)
             ctx.setFillStyle("#FFFFFF")
-            ctx.fillRect(0,0,300*rp,400*rp)
+            ctx.fillRect(0,0,300*rp,j*45+400*rp)
            
             ctx.setStrokeStyle("#59453D")
             ctx.moveTo(50*rp,50*rp)
@@ -124,8 +125,17 @@
             ctx.fillText(this.date,200*rp,390*rp+j*90*rp)
             
             for(var i=0;i<this.meallist.length;i++){
-                          ctx.drawImage(this.meallist[i].mysrc,0, 0, 600*rp, 600*rp,70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
-                          ctx.fillText(this.meallist[i].mealname,180*rp,71*rp+i*90*rp)
+                          uni.getImageInfo({
+                            src:'http://cal.hanlh.com:8000'+this.meallist[i].picture,
+                            success: (res) => {
+                              ctx.drawImage(res.path,0, 0, 600*rp, 600*rp,70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
+                              console.log(res.path)
+                            },
+                            fail: () => {
+                              console.log('fail')
+                            }
+                          })
+                          ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
                           ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
                         }
                         
@@ -189,9 +199,36 @@
             			}
             		})
            
-         }
+         },
           
-          
+          post:function(){
+            var menulist=new Array(this.meallist.length)
+            for(let i=0;i<menulist.length;i++)
+            {
+              let templist={}
+              templist.dish_id=this.meallist[i].id
+              templist.mass=this.meallist[i].sum
+              menulist[i]=templist
+            }
+            console.log(menulist)
+            uni.request({
+              url:'http://cal.hanlh.com:8000/menu/order',
+              method:'POST',
+              header:{
+                Authorization:'Token '+uni.getStorageSync('token')
+              },
+              data:{
+                dishes:menulist
+                },
+               success: (res) => {
+                 console.log(res)
+               }
+            })
+            uni.setStorage({
+              key:'meal-list',
+              data:[]
+            })
+          }
       }
   }
 </script>

@@ -13,7 +13,7 @@
       </view>
   </popup>
   
-	<recrange></recrange>
+	<recrange v-if="isrange"></recrange>
 	
   <view style="display: flex;flex-direction: column;align-items: center;">
       <view class="title">
@@ -52,7 +52,7 @@
 			return {
         isfirst:true,
 				msg:'',
-        
+        isrange:false
 			}
 		},
 		methods: {
@@ -80,6 +80,7 @@
               key:'range',
               data:[1300,1350]
             })
+			this.isrange=!this.isrange
           }
         })
       }
@@ -120,6 +121,7 @@
           })
         }
       })
+	   
     }
 	}
 </script>

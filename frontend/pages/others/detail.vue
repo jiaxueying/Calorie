@@ -120,6 +120,13 @@
       this.nutrition[3].value = this.food.carbohydrate+'g';
       this.nutrition[4].value = this.food.sodium+'mg';
       console.log(this.nutrition);
+      uni.getStorage({
+        key:'range',
+        success: (rec) => {
+          this.min=rec.data[0]
+          this.max=rec.data[1]
+        }
+      })
     },
     methods:{
       start:function(event){
