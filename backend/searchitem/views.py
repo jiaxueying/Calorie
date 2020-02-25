@@ -41,9 +41,11 @@ class GetSearchHistoryAPI(APIView):
         获取用户的历史查询记录
         """
         # 或者像get_popular_item一样分两个表进行查询，有性能差距吗
+        history = HistorySearch.objects.filter(user=user_id).order_by('-datetime').values_list('searchitem', flat=True)
+        history = list(dict.fromkeys(history, 0))[:10]
         serializer = SearchItemSerializer(
             SearchItem.objects.filter(
-                id__in=HistorySearch.objects.filter(user=user_id).order_by('-datetime').values('searchitem').values_list('searchitem', flat=True)
+                id__in=history
             ), many=True
         )
-        return serializer.data[:10]
+        return serializer.data
