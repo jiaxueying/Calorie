@@ -5,7 +5,7 @@
     <dt  v-for="(item,index) in meals" :key="index" >
       <view class="block">
         <checkbox color="#59453D" :checked="item.checked" @click="weatherAll(index)"></checkbox>
-        <image style="width:85px;height:85px;" :src="item.picture"></image>
+        <image style="width:85px;height:85px;" :src="'http://cal.hanlh.com:8000'+item.picture"></image>
         <view class="data">
           <p>{{item.name}}</p>
           <p style="font-size:0.5em;color: #59453D;">{{item.calorie}}</p>
@@ -51,7 +51,7 @@
               Authorization:'Token '+uni.getStorageSync('token')
               },               
     	   success:(res)=>{
-              var meallist=res.data.data.dishes
+              var meallist=res.data.data
               this.meals=meallist
               for(let i=0;i<this.meals.length;i++)
               {
@@ -92,7 +92,7 @@
       },
       add:function(){
         this.isshow=true
-        for(let i=0;i<this.meals.length;i++)
+        for(let i=this.meals.length-1;i>=0;i--)
         {
           if(this.meals[i].checked==false)
           {
@@ -100,7 +100,7 @@
           }
         }
         uni.setStorage({
-            key: 'meallist',
+            key: 'meal-list',
             data: this.meals,
             success: function () {
                 console.log('success');
@@ -108,7 +108,7 @@
         });
         
         uni.getStorage({
-            key: 'meallist',
+            key: 'meal-list',
             success: function (res) {
                 console.log(res.data);
             }

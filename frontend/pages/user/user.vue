@@ -53,7 +53,8 @@
         targetweight:600,
         pop:false,
         tempweight:1,
-        targetweightshow:'999KG'
+        targetweightshow:'999KG',
+        plan:true
 			}
 		},
 		methods: {
@@ -62,20 +63,31 @@
       },
       changetarget:function(a){
         if(a!="暂无计划")
-        {this.targetweight=a
-        this.targetweightshow=a+'KG'}
-        else{this.targetweightshow=a}
+        {
+        this.targetweight=a
+        this.targetweightshow=a+'KG'
+        this.plan=true
+        
+        }
+        else
+        {
+        this.targetweightshow=a
+        this.plan=false
+        }
         uni.request({
-          url:"cal.hanlh.com:8000/user/profile",
+          url:"http://cal.hanlh.com:8000/user/profile/",
           method:"POST",
           header:{
             Authorization:'Token '+uni.getStorageSync('token')
           },
           data:{
             user_id:uni.getStorageSync('userid'),
-            //target_weight:this.targetweight
+            plan:this.plan,
+            weight:this.weight,
+            target_weight:this.targetweight
           }
         })
+        
       },
       changeweight:function(){
         this.tempweight=this.weight
@@ -96,6 +108,8 @@
           data:{
             user_id:uni.getStorageSync('userid'),
             weight:this.weight,
+            plan:this.plan,
+            target_weight:this.targetweight
           }
         })
         uni.request({
@@ -125,11 +139,18 @@
 				this.targetweight=res.data.data.target_weight
         this.minCalForDay=res.data.data.min_calorie
         this.maxCalForDay=res.data.data.max_calorie
-        this.targetweightshow=this.targetweight+'KG'
+        this.plan=res.data.data.plan
+        if(this.plan)
+        {
+          this.targetweightshow=this.targetweight+'KG'
+        }
+        else
+        {
+          this.targetweightshow='暂无计划'
+        }
 			}
 		})
     
-      
     }
 	}
 </script>

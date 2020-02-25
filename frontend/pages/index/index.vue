@@ -13,7 +13,7 @@
       </view>
   </popup>
   
-	<recrange></recrange>
+	<recrange v-if="isrange"></recrange>
 	
   <view style="display: flex;flex-direction: column;align-items: center;">
       <view class="title">
@@ -28,7 +28,7 @@
               </navigator>
             </view>
             <view class="btn">
-              <navigator url="../recommondation/range" hover-class="none">推荐功能
+              <navigator url="../recommondation/list" hover-class="none">推荐功能
               <text>\n戳这里摇出今天吃什么</text>
               </navigator>
             </view>
@@ -52,7 +52,7 @@
 			return {
         isfirst:true,
 				msg:'',
-        
+        isrange:false
 			}
 		},
 		methods: {
@@ -80,6 +80,7 @@
               key:'range',
               data:[1300,1350]
             })
+			this.isrange=!this.isrange
           }
         })
       }
@@ -120,6 +121,7 @@
           })
         }
       })
+	   
     }
 	}
 </script>
