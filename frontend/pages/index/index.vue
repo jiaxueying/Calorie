@@ -28,7 +28,7 @@
               </navigator>
             </view>
             <view class="btn">
-              <navigator url="../recommondation/list" hover-class="none">推荐功能
+              <navigator url="../recommondation/range" hover-class="none">推荐功能
               <text>\n戳这里摇出今天吃什么</text>
               </navigator>
             </view>
