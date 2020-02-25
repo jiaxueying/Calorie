@@ -61,9 +61,9 @@
     },
       
       created: function (e) {
-        console.log(this.meallist)
+        console.log(this.meallist);
            uni.setStorageSync('meallist', [{ mysrc:"../../static/shrimp.png",mealname:"shrimp",cal:"100"},{ mysrc:"../../static/shrimp.png",mealname:"shrimp",cal:"100"}]);
-         console.log(this.meallist)                        
+         console.log(this.meallist);                     
           let that=this
           uni.getStorage({
               key: 'meallist',
