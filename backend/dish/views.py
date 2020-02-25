@@ -107,30 +107,26 @@ class LikeDishAPI(APIView):
             like = request.data['like']
             dislike = request.data['dislike']
             dish_object = Dish.objects.get(pk=dish_id)
-
             likedish_object, _ = LikeDish.objects.get_or_create(dish_id=dish_id, user=user)
             with transaction.atomic():
-
                 if likedish_object.like is not None:
                     if likedish_object.like:
                         dish_object.like -= 1
                     else:
                         dish_object.dislike -= 1
 
-                if like == "1" and dislike == "0":
+                if str(like) == "1" and str(dislike) == "0":
                     likedish_object.like = True
                     dish_object.like += 1
-                elif like == "0" and dislike == "1":
+                elif str(like) == "0" and str(dislike) == "1":
                     likedish_object.like = False
                     dish_object.dislike += 1
-                elif like == "0" and dislike == "0":
+                elif str(like) == "0" and str(dislike) == "0":
                     likedish_object.like = None
                 else:
                     raise FieldException("点赞和点踩的值应该是bool类型，并且不能全为1")
-
                 likedish_object.save()
                 dish_object.save()
-
         except Exception as e:
             return self.error(err=str(e))
         return self.success()
