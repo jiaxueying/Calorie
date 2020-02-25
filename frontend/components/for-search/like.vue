@@ -61,7 +61,7 @@
       },
       detail() {
         console.log(this.food);
-        this.IsShow = false;
+        this.$parent.IsShow = false;
         wx.navigateTo({
           url:'../others/detail?foodDetail='+JSON.stringify(this.food),
         });

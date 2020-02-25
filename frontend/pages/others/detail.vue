@@ -184,6 +184,8 @@
           name: this.food.name,
           cal: this.food.calorie,
           sum: 100,
+          picture: this.food.picture,
+          id: this.food.id
         });
         uni.setStorageSync("meal-list", OrderedFood);
       }
