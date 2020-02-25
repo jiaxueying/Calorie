@@ -49,7 +49,7 @@ class SubmitMenuAPI(APIView):
         post方法
         """
         try:
-            json_data = json.loads(request.body)
+            json_data = request.data
             user_id = get_user_id(request)
             menu_object = Menu.objects.create(if_show=True, user_id=user_id)
             menu_object.save()

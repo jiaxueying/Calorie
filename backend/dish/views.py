@@ -3,30 +3,17 @@ dish.views
 """
 
 import json
+
+from django.db import transaction
 from calorie.api import APIView
-from calorie.api import get_user_id
-
-from dish.models import Dish, Tag
+from calorie.api import check_and_get_str, check_and_get_int, check_one_field, FieldException
+from dish.models import Dish
 from dish.serializers import DishSerializer
-
+from dish.serializers import DishWithLikeSerializer
+from dish.query import DishQueryFunctionSet
 from user.models import LikeDish
 
 # Create your views here.
-
-
-def get_user_like(dishes, user_id):
-    """
-    查询用户是否喜欢该菜品
-    """
-    for dish in dishes:
-        dish['user_like'] = 0
-        dish['user_dislike'] = 0
-        likedish_object = LikeDish.objects.filter(dish__id=dish['id'], user__id=user_id).first()
-        if likedish_object:
-            if likedish_object.like == True:
-                dish['user_like'] = 1
-            elif likedish_object.like == False:
-                dish['user_dislike'] = 1
 
 
 class TagQueryAPI(APIView):
@@ -37,14 +24,21 @@ class TagQueryAPI(APIView):
         """
         get 方法
         """
-        request_data = request.query_params
+        check_one_field(request.query_params, "tag_id")
+        tag_ids = request.query_params['tag_id']
+        if not tag_ids:
+            return FieldException("tag_id不能为空")
+        if tag_ids[0] != "[":
+            tag_ids = check_and_get_int(request.query_params, "tag_id")
+            tag_ids = [tag_ids]
+        else:
+            tag_ids = json.loads(tag_ids)
+        dishes = DishQueryFunctionSet.tag_ids(request.user, tag_ids)
+        serializer = DishWithLikeSerializer(dishes, many=True)
         try:
-            tag_id = request_data['tag_id']
-            dish_objects = Tag.objects.get(pk=tag_id).dish_set
-            dishes = DishSerializer(dish_objects, many=True).data
+            return self.success(data=serializer.data)
         except Exception as e:
             return self.error(err=str(e))
-        return self.success(data={'dishes': dishes})
 
 
 class KeyQueryAPI(APIView):
@@ -55,14 +49,13 @@ class KeyQueryAPI(APIView):
         """
         get 方法
         """
-        request_data = request.query_params
+        keyword = check_and_get_str(request.query_params, 'key_word')
+        dishes = DishQueryFunctionSet.keyword(request.user, keyword)
+        serializer = DishWithLikeSerializer(dishes, many=True)
         try:
-            key_word = request_data['key_word']
-            dish_objects = Dish.objects.filter(name__contains=key_word)
-            dishes = DishSerializer(dish_objects, many=True).data
+            return self.success(data=serializer.data)
         except Exception as e:
             return self.error(err=str(e))
-        return self.success(data={'dishes': dishes})
 
 
 class CalorieQueryAPI(APIView):
@@ -73,18 +66,14 @@ class CalorieQueryAPI(APIView):
         """
         get 方法
         """
-        request_data = request.query_params
+        min_calorie = check_and_get_int(request.query_params, "min_calorie")
+        max_calorie = check_and_get_int(request.query_params, "max_calorie")
+        dishes = DishQueryFunctionSet.calorie(request.user, min_calorie, max_calorie)
+        serializer = DishWithLikeSerializer(dishes, many=True)
         try:
-            user_id = get_user_id(request)
-            min_calorie = int(request_data['min_calorie'])
-            max_calorie = int(request_data['max_calorie'])
-            dish_objects = Dish.objects.filter(calorie__gt=min_calorie, calorie__lt=max_calorie)
-            dishes = DishSerializer(dish_objects, many=True).data
-            get_user_like(dishes, user_id)
+            return self.success(data=serializer.data)
         except Exception as e:
             return self.error(err=str(e))
-        return self.success(data={'dishes': dishes})
-
 
 class DishDetailAPI(APIView):
     """
@@ -113,32 +102,35 @@ class LikeDishAPI(APIView):
         post方法
         """
         try:
-            json_data = json.loads(request.body)
-            user_id = get_user_id(request)
-            dish_id = json_data['dish_id']
-            like = json_data['like']
-            dislike = json_data['dislike']
-            likedish_object = LikeDish.objects.filter(dish__id=dish_id, user__id=user_id).first()
+            user = request.user
+            dish_id = request.data['dish_id']
+            like = request.data['like']
+            dislike = request.data['dislike']
             dish_object = Dish.objects.get(pk=dish_id)
-            if not likedish_object:
-                likedish_object = LikeDish.objects.create(dish__id=dish_id, user__id=user_id)
-            else:
-                if likedish_object.like == True:
-                    dish_object.like -= 1
-                elif likedish_object.like == False:
-                    dish_object.dislike -= 1
-            if like == "1" and dislike == "0":
-                likedish_object.like = True
-                dish_object.like += 1
-            elif like == "0" and dislike == "1":
-                likedish_object.like = False
-                dish_object.dislike += 1
-            elif like == "0" and dislike == "0":
-                likedish_object.like = None
-            else:
-                raise Exception("Like/Dislike Status Error")
-            likedish_object.save()
-            dish_object.save()
+
+            likedish_object, _ = LikeDish.objects.get_or_create(dish_id=dish_id, user=user)
+            with transaction.atomic():
+
+                if likedish_object.like is not None:
+                    if likedish_object.like:
+                        dish_object.like -= 1
+                    else:
+                        dish_object.dislike -= 1
+
+                if like == "1" and dislike == "0":
+                    likedish_object.like = True
+                    dish_object.like += 1
+                elif like == "0" and dislike == "1":
+                    likedish_object.like = False
+                    dish_object.dislike += 1
+                elif like == "0" and dislike == "0":
+                    likedish_object.like = None
+                else:
+                    raise FieldException("点赞和点踩的值应该是bool类型，并且不能全为1")
+
+                likedish_object.save()
+                dish_object.save()
+
         except Exception as e:
             return self.error(err=str(e))
         return self.success()

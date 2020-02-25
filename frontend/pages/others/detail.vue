@@ -9,7 +9,7 @@
     </view>
     
     <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
-      <image :src="src" class="img" v-if="isimg"></image>
+      <image :src="'http://cal.hanlh.com:8000'+food.picture" class="img" v-if="isimg"></image>
       <view class="tab" v-if="!isimg">
         <tab>
           <ttr align="left">
@@ -65,6 +65,7 @@
 
 <script>
   import { like, dislike } from '@/common/helper.js';
+  import { backendUrl, request } from '@/common/helper.js';
   import tab from "../../components/t-table/t-table.vue";
   import ttr from "../../components/t-table/t-tr.vue";
   import tth from "../../components/t-table/t-th.vue";
@@ -80,12 +81,13 @@
       return{
         food: null,
         like_count:666,
+        liked: 0,
+        disliked: 0,
         dislike_count:666,
         X:Number,
         tempX:Number,
         min:'',
         max:'',
-        src:'../../static/chocolate.png',
         isimg:true,
         name:"菜品名称",
         cal:"100KCAL/100g",
@@ -145,10 +147,24 @@
       like:function(){
         console.log("like")
         like(this.food.id);
+        request('/dish/key_query/', 'GET', {
+          key_word: this.food.name,
+        }).then(res => {
+          this.like_count = res[1].data.data[0].like;
+          this.dislike_count = res[1].data.data[0].dislike;
+          console.log(res);
+        });
       },
       dislike:function(){
         console.log("dislike")
         dislike(this.food.id);
+        request('/dish/key_query/', 'GET', {
+          key_word: this.food.name,
+        }).then(res => {
+          this.like_count = res[1].data.data[0].like;
+          this.dislike_count = res[1].data.data[0].dislike;
+          console.log(res);
+        });
       },
       taptag:function(index){
         console.log(this.tags[index]);

@@ -20,7 +20,7 @@
       class="History"
     >
       <search-history :viewname="name1" :Names="HistoryName" />
-      <search-history :viewname="name2" />
+      <search-history :viewname="name2" :Names="PopularName" />
     </view>
     <view
       v-show="IsShow"
@@ -55,6 +55,7 @@ export default {
       name1: '搜索历史',
       name2: '热门搜索',
       HistoryName: new Array(),
+      PopularName: new Array(),
       OrderedFood: new Array(),
     };
   },
@@ -79,18 +80,25 @@ export default {
       this.HistoryShow = true;
       this.IsShow = false;
       console.log('HistoryShow changed: ' + this.HistoryShow);
+      request('/searchitem/query/', 'GET', { }).then(res => {
+        console.log(res);
+        this.HistoryName = res[1].data.data.history_items;
+        console.log(this.HistoryName);
+        this.PopularName = res[1].data.data.popular_items;
+        console.log(this.PopularName);
+      });
     },
     HideHistory() {
       this.HistoryShow = false;
       console.log('HistoryShow changed: ' + this.HistoryShow);
     },
     MealListRefresh(key) {
-      console.log("meallist fresh");
+      console.log("meallist fresh:" + key);
       request('/dish/key_query/', 'GET', {
         key_word: key,
       }).then(res => {
-        this.foods = res[1].data.data.dishes;
-        console.log(this.foods);
+        this.foods = res[1].data.data;
+        console.log(res);
       });
     },
     searchBykey(key) {
@@ -107,21 +115,6 @@ export default {
         this.foods = res[1].data.data.dishes;
         console.log(this.foods);
       });
-    },
-    addHistoryBykey(key) {
-      if(key.match(/^[ ]*$/)) return;
-      var i = 0;
-      for(; i < this.HistoryName.length; i++) {
-        if(this.HistoryName[i] === key) {
-          var arr1 = this.HistoryName.slice(0, i);
-          var arr2 = this.HistoryName.slice(i + 1);
-          this.HistoryName = arr1.concat(arr2);
-          break;
-        }
-      }
-      this.HistoryName.unshift(key);
-      if(this.HistoryName.length > 10)this.HistoryName.pop();
-      console.log("history added " + key);
     },
     addWeight(name) {
       console.log("addWeight in search.vue");
@@ -162,9 +155,6 @@ export default {
   },
   mounted() {
     this.MealListRefresh('');
-    request('/searchitem/query/', 'GET', { }).then(res => {
-      console.log(res);
-    });
     console.log(this.OrderedFood);
   },
 };

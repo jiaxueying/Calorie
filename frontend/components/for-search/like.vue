@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        src="../../static/chocolate.png"
+        :src="'http://cal.hanlh.com:8000'+food.picture"
         mode=""
         @tap="detail"
       />
@@ -45,17 +45,19 @@
     props: ['food'],
     data() {
       return {
-        isChoose:flase
+        isChoose:flase,
       }
     },
     methods: {
       like_() {
         console.log("like clicked");
         like(this.food.id);
+        uni.$emit("search_key","");
       },
       dislike_() {
         console.log("dislike clicked");
         dislike(this.food.id);
+        uni.$emit("search_key","");
       },
       detail() {
         console.log(this.food);
@@ -66,9 +68,9 @@
       },
       search_tag(v) {
         console.log("tag clicked");
-        uni.$emit("search_tag", v);
+        uni.$emit("search_key", v.name);
       }
-    }
+    },
   }
 </script>
 
