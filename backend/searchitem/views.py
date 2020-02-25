@@ -32,10 +32,12 @@ class GetSearchHistoryAPI(APIView):
         history_searches = HistorySearch.objects.values('searchitem').\
             annotate(count=Count('searchitem')).order_by('-count').\
             values_list('searchitem', flat=True)
+        print(history_searches)
         if not history_searches:
             return []
         if len(history_searches) > 10:
             history_searches = history_searches[0:10]
+        print(history_searches)
         serializer = SearchItemSerializer(SearchItem.objects.filter(id__in=history_searches), many=True)
         return serializer.data
 

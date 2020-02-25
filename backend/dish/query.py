@@ -56,3 +56,4 @@ class DishQueryFunctionSet:
         search_obj, _ = SearchItem.objects.get_or_create(name=content, category=category)
         HistorySearch.objects.create(user=user_obj, searchitem=search_obj)
         search_obj.count = F('count') + 1
+        search_obj.save()
