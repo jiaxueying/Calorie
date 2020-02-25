@@ -52,10 +52,12 @@
       like_() {
         console.log("like clicked");
         like(this.food.id);
+        uni.$emit("search_key","");
       },
       dislike_() {
         console.log("dislike clicked");
         dislike(this.food.id);
+        uni.$emit("search_key","");
       },
       detail() {
         console.log(this.food);

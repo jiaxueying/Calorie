@@ -65,6 +65,7 @@
 
 <script>
   import { like, dislike } from '@/common/helper.js';
+  import { backendUrl, request } from '@/common/helper.js';
   import tab from "../../components/t-table/t-table.vue";
   import ttr from "../../components/t-table/t-tr.vue";
   import tth from "../../components/t-table/t-th.vue";
@@ -80,6 +81,8 @@
       return{
         food: null,
         like_count:666,
+        liked: 0,
+        disliked: 0,
         dislike_count:666,
         X:Number,
         tempX:Number,
@@ -137,10 +140,24 @@
       like:function(){
         console.log("like")
         like(this.food.id);
+        request('/dish/key_query/', 'GET', {
+          key_word: this.food.name,
+        }).then(res => {
+          this.like_count = res[1].data.data[0].like;
+          this.dislike_count = res[1].data.data[0].dislike;
+          console.log(res);
+        });
       },
       dislike:function(){
         console.log("dislike")
         dislike(this.food.id);
+        request('/dish/key_query/', 'GET', {
+          key_word: this.food.name,
+        }).then(res => {
+          this.like_count = res[1].data.data[0].like;
+          this.dislike_count = res[1].data.data[0].dislike;
+          console.log(res);
+        });
       },
       taptag:function(index){
         console.log(this.tags[index]);

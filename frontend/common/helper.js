@@ -16,6 +16,8 @@ export const like = function(id) {
     dish_id: id,
     like: 1,
     dislike: 0,
+    }).then(res => {
+      console.log(res);
     });
 };
 
@@ -24,6 +26,8 @@ export const dislike = function(id) {
     dish_id: id,
     like: 0,
     dislike: 1,
+    }).then(res => {
+      console.log(res);
     });
 };
 
