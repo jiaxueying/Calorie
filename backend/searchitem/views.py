@@ -33,7 +33,7 @@ class GetSearchHistoryAPI(APIView):
                 id__in=HistorySearch.objects.values('searchitem').annotate(count=Count('searchitem')).order_by('-count').values_list('searchitem', flat=True)
             ), many=True
         )
-        return serializer.data
+        return serializer.data[:10]
 
     @staticmethod
     def get_history_item(user_id):
