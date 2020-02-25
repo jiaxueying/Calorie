@@ -55,7 +55,7 @@ class SubmitMenuAPI(APIView):
             menu_object.save()
             dishes = json_data['dishes']
             for dish in dishes:
-                dishorder_object = DishOrder.objects.create(dish__id=dish['dish_id'], mass=dish['mass'], menu=menu_object)
+                dishorder_object = DishOrder.objects.create(dish_id=dish['dish_id'], mass=dish['mass'], menu=menu_object)
                 dishorder_object.save()
         except Exception as e:
             return self.error(err=str(e))
