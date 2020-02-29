@@ -49,7 +49,7 @@
 		methods: {
 			Close() {
 				console.log("add button clicked");
-				uni.$emit("showorders");
+				this.$parent.IsShow = false;
 			},
 			caloriesChange(v) {
 				console.log(v);
@@ -65,7 +65,9 @@
 					console.log(this.Foods[i]);
 			},
       clrAll() {
-        uni.$emit("clear_all");
+        uni.setStorageSync('meal-list', []);
+        uni.$emit("refresh1");
+        uni.$emit("refresh2");
       },
       mylist() {
         console.log("mylist clicked");

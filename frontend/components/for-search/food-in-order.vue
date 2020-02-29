@@ -30,10 +30,33 @@
 		},
 		methods: {
 			MinusWeight() {
-				uni.$emit("mWeight", this.foodname);
+				var ordered_food = uni.getStorageSync("meal-list");
+				for(var i = 0; i < ordered_food.length; i++) {
+				  var f = ordered_food[i];
+				  if(f.name === this.foodname) {
+				    f.cal -= f.cal / f.sum * 50;
+				    f.sum -= 50;
+				    uni.setStorageSync("meal-list", ordered_food);
+            uni.$emit("refresh1");
+            uni.$emit("refresh2");
+				    return;
+				  }
+				}
+				uni.$emit("refresh");
 			},
 			AddWeight() {
-        uni.$emit("aWeight", this.foodname);
+        var ordered_food = uni.getStorageSync("meal-list");
+        for(var i = 0; i < ordered_food.length; i++) {
+          var f = ordered_food[i];
+          if(f.name === this.foodname) {
+            f.cal += f.cal / f.sum * 50;
+            f.sum += 50;
+            uni.setStorageSync("meal-list", ordered_food);
+            uni.$emit("refresh1");
+            uni.$emit("refresh2");
+            return;
+          }
+        }
 			}
 		},
 	}

@@ -60,12 +60,19 @@
       <image src="../../static/tableware.jpg" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
       <view class="buttun" @click="add">Add to List</view>
     </view>
+    <view
+      v-show="IsShow"
+      class="orders"
+    >
+      <Orders :Foods="ordered_food" />
+    </view>
   </view>
 </template>
 
 <script>
   import { like, dislike } from '@/common/helper.js';
   import { backendUrl, request } from '@/common/helper.js';
+  import Orders from '../../components/for-search/orders.vue';
   import tab from "../../components/t-table/t-table.vue";
   import ttr from "../../components/t-table/t-tr.vue";
   import tth from "../../components/t-table/t-th.vue";
@@ -75,7 +82,8 @@
       tab,
       ttr,
       tth,
-      ttd
+      ttd,
+      Orders
     },
     data(){
       return{
@@ -105,9 +113,13 @@
           {item:'钠',value:'663mg',percent:'33%'},
           {item:'钙',value:'280mg',percent:'35%'}
         ],
+        IsShow: false,
+        ordered_food: new Array(),
       }
     },
     onLoad: function(options) {
+      uni.$on('refresh2',this.refresh);
+      this.ordered_food = uni.getStorageSync("meal-list");
       this.food = JSON.parse(options.foodDetail);
       console.log(this.food);
       this.like_count = this.food.like;
@@ -126,9 +138,13 @@
           this.min=rec.data[0]
           this.max=rec.data[1]
         }
-      })
+      });
     },
     methods:{
+      refresh() {
+        this.ordered_food = uni.getStorageSync('meal-list');
+        console.log('refresh');
+      },
       start:function(event){
         this.X=event.touches[0].pageX
         console.log(this.X)
@@ -173,6 +189,8 @@
       },
       mylist:function(){
         console.log("mylist");
+        this.IsShow = true;
+        this.ordered_food = uni.getStorageSync('meal-list');
       },
       add:function(){
         console.log("add")
@@ -198,6 +216,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height:100vh;
   }
   .head{
     display: flex;
@@ -328,5 +347,12 @@
       position: absolute;
       left: 520rpx;
       border-radius: 15rpx;
+    }
+    .orders {
+      width:100%;
+      position:fixed;
+      right: 0;
+      bottom: 0;
+      z-index: 5;
     }
 </style>

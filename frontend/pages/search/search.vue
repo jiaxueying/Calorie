@@ -66,9 +66,7 @@ export default {
     uni.$on('search_key',this.searchBykey);
     uni.$on('search_tag',this.searchByTag);
     uni.$on('addHistory',this.addHistoryBykey);
-    uni.$on('aWeight',this.addWeight);
-    uni.$on('mWeight',this.minusWeight);
-    uni.$on("clear_all",this.clrAll);
+    uni.$on('refresh1',this.refresh);
   },
   methods: {
     ChangeIsShow() {
@@ -116,41 +114,8 @@ export default {
         console.log(this.foods);
       });
     },
-    addWeight(name) {
-      console.log("addWeight in search.vue");
-      for(var i = 0; i < this.OrderedFood.length; i++) {
-        var f = this.OrderedFood[i];
-        console.log(f);
-        if(f.name === name) {
-          f.cal += f.cal / f.sum * 50;
-          f.sum += 50;
-          uni.setStorageSync("meal-list", this.OrderedFood);
-          return;
-        }
-      }
-    },
-    minusWeight(name) {
-      console.log("addWeight in search.vue");
-      for(var i = 0; i < this.OrderedFood.length; i++) {
-        var f = this.OrderedFood[i];
-        console.log(f);
-        if(f.name === name) {
-          f.cal -= f.cal / f.sum * 50;
-          f.sum -= 50;
-          if(f.sum <= 0) {
-            var a = this.OrderedFood.slice(0, i);
-            var b = this.OrderedFood.slice(i + 1);
-            this.OrderedFood = a.concat(b);
-          }
-          uni.setStorageSync("meal-list", this.OrderedFood);
-          return;
-        }
-      }
-    },
-    clrAll() {
-      console.log("clear all");
-      while(this.OrderedFood.length)this.OrderedFood.pop();
-      uni.setStorageSync("meal-list", this.OrderedFood);
+    refresh() {
+      this.OrderedFood = uni.getStorageSync('meal-list');
     },
   },
   mounted() {
