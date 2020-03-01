@@ -13,7 +13,6 @@
       >
         <like :food="Food" />
       </view>
-      <view v-if="!foods.length">对不起！没有您想查询的菜品</view>
     </scroll-view>
     <view
       v-show="HistoryShow"
@@ -90,14 +89,21 @@ export default {
       this.HistoryShow = false;
       console.log('HistoryShow changed: ' + this.HistoryShow);
     },
-    MealListRefresh(key) {
+    MealListRefresh: async function(key) {
       console.log("meallist fresh:" + key);
-      request('/dish/key_query/', 'GET', {
+      await request('/dish/key_query/', 'GET', {
         key_word: key,
       }).then(res => {
         this.foods = res[1].data.data;
         console.log(res);
       });
+      if(this.foods.length === 0) {
+        uni.showModal({
+          title: '提示',
+          content: '抱歉，没有您想搜索的菜品',
+        });
+        this.MealListRefresh('');
+      }
     },
     searchBykey(key) {
       console.log("searchBykey");

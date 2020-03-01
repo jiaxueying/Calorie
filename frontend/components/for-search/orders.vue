@@ -71,6 +71,13 @@
       },
       mylist() {
         console.log("mylist clicked");
+        if(this.Foods.length === 0) {
+          uni.showModal({
+            title: '提示',
+            content: '您的购物车中还没有菜品哦~',
+          });
+          return;
+        }
 				uni.$emit("showorders");
         wx.navigateTo({
           url: '../others/mylist',

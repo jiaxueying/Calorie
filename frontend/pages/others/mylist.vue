@@ -63,8 +63,11 @@
     created: async function (e) {
       this.meallist = uni.getStorageSync('meal-list');   
       console.log(this.meallist)
-      for(var i = 0; i < this.meallist.length; i++)
+      this.msg = 0;
+      for(var i = 0; i < this.meallist.length; i++) {
+        this.msg += this.meallist[i].cal;
         await this.get(i);
+      }
       this.draw();
       this.post();
     },
