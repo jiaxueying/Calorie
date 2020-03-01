@@ -6,13 +6,13 @@
     <dl>
     <dt class="historyList" v-for="(item,index) in list" :key="index">
       <view class="mealimg">
-        <image style="width: 100rpx;height: 100rpx;" :src="item.picture"></image>
+        <image style="width: 100rpx;height: 100rpx;" :src='item.picture'></image>
       </view>
       <view class="historyInfo">
         <text>{{item.date}}\n</text>
         <text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.calorie}}kcal</text>
       </view>
-      <image src="../../static/timg.jpg" class="deleteIcon" @click="deleteItem(index,list)"></image>
+      <image src="../../static/timg.jpg" class="deleteIcon" @click="deleteItem(index,list)" v-if="isdelete"></image>
     </dt>
     </dl>
   </view>
@@ -35,12 +35,13 @@
           
         ],
         replacelist:{picture:'../../static/default.jpg',calorie:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
+        isdelete:true
       }
     },
     methods:{
       deleteItem:function(index,list){
         uni.request({
-          url:"http://cal.hanlh.com:8000/menu/delete",
+          url:"http://cal.hanlh.com:8000/menu/delete/",
           method:"POST",
           header:{
             Authorization:'Token '+uni.getStorageSync('token')
@@ -57,6 +58,7 @@
         })
         if(this.list.length==0){
           this.list[0]=this.replacelist
+          this.isdelete=false
           console.log('default')
         }
       }
@@ -75,7 +77,18 @@
            console.log(res)
            this.list=res.data.data.user_menus
            if(this.list.length==0)
-           {this.list[0]=this.replacelist}
+           {
+             this.list[0]=this.replacelist
+             this.isdelete=false
+           }
+           else
+           {
+             for(let i=0;i<this.list.length;i++)
+             {
+               this.list[i].picture='http://cal.hanlh.com:8000/media/'+this.list[i].picture
+             }
+           }
+           console.log(this.list)
          }
        })
       }
@@ -125,7 +138,7 @@
     width:40rpx;
     height: 40rpx;
     position:relative;
-    left:500rpx;
+    left: 100rpx;
     top:25rpx;
     opacity:0.4
   }

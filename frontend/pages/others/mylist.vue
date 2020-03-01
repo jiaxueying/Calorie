@@ -211,7 +211,7 @@
         }
         console.log(menulist)
         uni.request({
-          url:'http://cal.hanlh.com:8000/menu/order',
+          url:'http://cal.hanlh.com:8000/menu/order/',
           method:'POST',
           header:{
             Authorization:'Token '+uni.getStorageSync('token')

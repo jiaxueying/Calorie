@@ -193,11 +193,11 @@
         this.ordered_food = uni.getStorageSync('meal-list');
       },
       add:function(){
+        uni.showToast({
+          title:'添加成功'
+        })
         console.log("add")
         var OrderedFood = uni.getStorageSync("meal-list");
-        for(var i = 0; i < OrderedFood.length; i++) {
-          if(OrderedFood[i].name === this.food.name) return;
-        }
         OrderedFood.push({
           name: this.food.name,
           cal: this.food.calorie,
