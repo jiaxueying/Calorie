@@ -104,6 +104,7 @@ class UserProfileAPI(APIView):
         user_obj.weight = request.data['weight']
         user_obj.target_weight = request.data['target_weight']
         user_obj.plan = request.data['plan']
+        user_obj.rate = request.data['rate']
         user_obj.save()
         return self.success()
 
