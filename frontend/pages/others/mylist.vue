@@ -1,40 +1,39 @@
 <template>
   <view>
     <scroll-view scroll-y="true" style="height:1260rpx">
-      
-   <view class="all">
+    <view class="all">
     <!--my list 的菜单部分-->
     <view class="list">
       <text class="title">My list</text>
       <view class="content">
       <view class="scroll">
         <!--菜单可滚动部分-->
-        <scroll-view  scroll-y="true" style="height:660rpx;border-top: #333333 inset 5rpx; border-bottom: #333333 outset 5rpx;">
-                 <view v-for="(srcitem,i) in path">
-                      <image :src="srcitem"></image>
-                      <view class="mealinfor">
-                          <text>\n{{meallist[i].name}}\n\n</text>
-                          <text> {{meallist[i].cal}} kcal</text>
-                      </view>
-                 </view>
-            </scroll-view>
+        <scroll-view  scroll-y="true" class="scrollview" style="height:660rpx;">
+            <view v-for="(srcitem,i) in path">
+                <image :src="srcitem"></image>
+                <view class="mealinfor">
+                    <text>\n{{meallist[i].name}}\n\n</text>
+                    <text> {{meallist[i].cal}} kcal</text>
+                </view>
+            </view>
+        </scroll-view>
         <!--菜单下方文本部分-->
         <view>
            <text class="intakeinfor">本餐共摄入\n</text>
            <text class="intakeinfor">{{msg}}kcal\n</text>
         </view>
-    </view><!--scroll-->
-   </view><!--content-->
-    <!--最下方文本-->
-    <view style="border-top: #333333 groove 5rpx;">
-            <text >#粟 </text>
-            <text style="position: absolute; right:50rpx;">{{date}}</text>
-    </view>    
-    <canvas canvas-id="canvas" :style="size" :width="width" :height="height"></canvas>
-    
+      </view><!--scroll-->
+      </view><!--content-->
+      <!--最下方文本-->
+      <view class="listBottomText">
+          <text >#粟 </text>
+          <text class="date">{{date}}</text>
+      </view>    
+      <canvas canvas-id="canvas" :style="size" :width="width" :height="height"></canvas>
     </view><!--list-->
     </view><!--all-->
     </scroll-view>
+    
     <view class="allbtn">
         
         <view class="btn" >
@@ -65,11 +64,11 @@
 
 <script>
   export default {
-    //发送给朋友图标对应函数
+    //发送给朋友图标
     onShareAppMessage(res) {
       if (res.from === 'button') {
         console.log(res.target)
-      }
+        }
       return {
         title: '粟',
         path: '/pages/index/index?url='
@@ -95,24 +94,25 @@
       for(var i = 0; i < this.meallist.length; i++) {
         this.msg += this.meallist[i].cal;
         await this.get(i);
-      }
+        }
       this.draw();
       this.post();
     },
+    
     methods: {
       
       get(i) {
         return new Promise((resolve, reject) => {
-            uni.getImageInfo({
+              uni.getImageInfo({
               src:'http://cal.hanlh.com:8000'+this.meallist[i].picture,
               success: (res) => {
                 this.path.push(res.path);//push是什么
                 resolve('success');//这句的作用
-              },
+                },
               fail: () => {
                 reject('error');//这句的作用
-              }
-            })
+                }
+              })
         });
       },
       draw:function(e){
@@ -123,8 +123,8 @@
         wx.getSystemInfo({
           success(res) {
             rp = res.windowWidth/375;
-          },
-        })
+            },
+          })
         
         var widthNum=600*rp; 
         this.width=widthNum.toString();
@@ -132,14 +132,11 @@
         this.height=heightNum.toString();
         var p=k+100*rp;
         this.size+="height:"+k+"rpx;"
-        
-                      
-         
+                 
         var time=new Date();
         this.date=time.toLocaleDateString();
-                   
-        var ctx = uni.createCanvasContext('canvas') 
         
+        var ctx = uni.createCanvasContext('canvas') 
         ctx.setFillStyle("#FFFFFF")
         ctx.fillRect(0,0,300*rp,j*90+400*rp)//在画布上填充背景，未设置颜色默认为黑色
          
@@ -192,17 +189,19 @@
             })
           }
         });
+        
         uni.showModal({
           title: '小程序的锅',
           content: '图片已保存至本地，手动分享叭亲',
           success: function (res) {
             if (res.confirm) {
               console.log('用户点击确定');
-            } else if (res.cancel) {
+              } 
+            else if (res.cancel) {
               console.log('用户点击取消');
+              }
             }
-          }
-        });
+          });
       },
        
       //保存到本地
@@ -277,11 +276,9 @@
     justify-content: center;
     margin-bottom: 5%;
   }
-  
   .scroll{
     width:80%;
   }
-  
   .allbtn{
     width:100%;
     display:flex;
@@ -296,9 +293,9 @@
     color:"#59453D";
   }
   button{
-  display: flex;
-  flex-direction: column;
-  align-items: center;  
+   display: flex;
+   flex-direction: column;
+   align-items: center;  
   }
   .icon{
     width:70rpx;
@@ -308,7 +305,6 @@
         top:5rpx;
         left:-25rpx;
   }
- 
   image{
     width:180rpx;
     height:180rpx;
@@ -324,9 +320,6 @@
     display: block;
     margin-top: 80rpx;
   }
-  scroll-view{
-    
-    }
   .mealinfor{
     display: inline-block;
     position: absolute;
@@ -339,5 +332,16 @@
   canvas{
     position:fixed;
     left:-10000rpx;
+  }
+  .scrollview{
+    border-top: #333333 inset 5rpx; 
+    border-bottom: #333333 outset 5rpx;
+  }
+  .listBottomText{
+    border-top: #333333 groove 5rpx;
+  }
+  .date{
+    position: absolute; 
+    right:50rpx;
   }
 </style>
