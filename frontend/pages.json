@@ -5,7 +5,10 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
-		}
+		},
+        {
+            "path": "pages/index/indexOfMealManagment"
+        }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

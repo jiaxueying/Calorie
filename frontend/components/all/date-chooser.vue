@@ -1,0 +1,59 @@
+<template>
+  <view>
+    <picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+      <view class="uni-input">{{date}}</view>
+    </picker>
+  </view>
+</template>
+
+<script>
+  export default {
+    data() {
+      const currentDate = this.getDate({
+        format: true
+      })
+      return {
+        date: "点击此处选择日期(默认：" + currentDate + ")",
+      }
+    },
+    computed: {
+      startDate() {
+        return this.getDate('start');
+      },
+      endDate() {
+        return this.getDate('end');
+      }
+    },
+    methods: {
+      bindDateChange: function(e) {
+        this.date = e.target.value
+      },
+      getDate(type) {
+        const date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        if (type === 'start') {
+          year = year - 60;
+        } else if (type === 'end') {
+          year = year + 2;
+        }
+        month = month > 9 ? month : '0' + month;;
+        day = day > 9 ? day : '0' + day;
+        return `${year}-${month}-${day}`;
+      }
+    },
+    onLoad() {
+    }
+  }
+</script>
+
+<style>
+  picker{
+    text-align: center;
+    border: #59453D 7rpx solid;
+    border-radius: 40rpx;
+    font-size: 1.0em;
+  }
+</style>
