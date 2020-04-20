@@ -45,7 +45,7 @@
     props: ['food'],
     data() {
       return {
-        isChoose:flase,
+        isChoose:false,
       }
     },
     methods: {
