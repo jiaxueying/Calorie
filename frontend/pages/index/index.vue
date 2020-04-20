@@ -6,9 +6,7 @@
          <text >粟</text>
         </view>
         <text class="timeitem" @tap="setRange('breakfast')">breakfast</text>          
-        <text class="timeitem" @tap="setRange('brunch')">brunch</text>
         <text class="timeitem" @tap="setRange('lunch')">lunch</text>
-        <text class="timeitem" @tap="setRange('afternoon tea')">afternoon tea</text>
         <text class="timeitem" @tap="setRange('dinner')">dinner</text>
       </view>
   </popup>
@@ -23,18 +21,18 @@
       
       <view class="allbtn">
             <view class="btn">
-              <navigator url="../search/search" hover-class="none">查询功能
-              <text>\n戳这里了解今天摄入了多少卡路里</text>
+              <navigator url="../search/search" hover-class="none">订餐功能
+              <text>\n戳这里可以根据卡路里订餐呦</text>
               </navigator>
             </view>
             <view class="btn">
               <navigator url="../recommondation/range" hover-class="none">推荐功能
-              <text>\n戳这里摇出今天吃什么</text>
+              <text>\n不知道今天吃什么？戳这里！</text>
               </navigator>
             </view>
             <view class="btn">
               <navigator url="../user/user" hover-class="none">用户中心
-              <text>\n了解您的信息可以更好的为您推荐呦</text>
+              <text>\n了解您的信息就可以更好地为您推荐啦</text>
               </navigator>
             </view>
    </view>
@@ -70,6 +68,8 @@
             
           },
           success: (res) => {
+            let a=uni.getStorageSync('token')
+            console.log(a)
             console.log(res.data.data)
             weight=res.data.data.weight
             console.log(weight)

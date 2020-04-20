@@ -1,20 +1,22 @@
 <template>
   <view class="content">
+      <!--上方文本-->
       <view class="text-area">
-        <text>点击下方按钮\n</text>
-        <text>选择本餐摄入的卡路里数据范围</text>
-        <view  class="more">
-          <text @click="more"> #点击此处获取更多关于卡路里的信息</text>
-        </view>
+          <text>点击下方按钮\n</text>
+          <text>选择本餐摄入的卡路里数据范围</text>
+          <view  class="more">
+              <text @click="more"> #点击此处获取更多关于卡路里的信息</text>
+          </view>
       </view>
-	    <calPicker @refresh="change">
-		    <view class="minmax"  :MIN="MIN" :MAX="MAX">
-          <button size="mini" style="background-color: #59453D;color: #FFFFFF;">{{MIN}}</button>
-          <text class="and">&</text>
-          <button size="mini">{{MAX}}</button>
-        </view>
-	  </calPicker>
-    <button class="skip" plain=true @click="skip">确定</button>
+	  <!--min max按键-->
+      <calPicker @refresh="change">
+          <view class="minmax"  :MIN="MIN" :MAX="MAX">
+                <button size="mini" style="background-color: #59453D;color: #FFFFFF;">{{MIN}}</button>
+                <text class="and">&</text>
+                <button size="mini">{{MAX}}</button>
+         </view>
+      </calPicker>
+      <button class="skip" plain=true @click="skip">确定</button>
   </view>
 </template>
 
@@ -26,8 +28,8 @@
   },
   data() {
     return {
-	  MIN:'MIN',
-	  MAX:'MAX'
+	  MIN:"MIN",
+	  MAX:"MAX"
     };
   },
  
@@ -35,10 +37,11 @@
       
   },
   methods: {
+	//获取更多
     more:function() {
         uni.showModal({
-          title: '提示',
-          content: 'go to baidu' ,
+          title: "当然是关注公众号啦",
+          content: "'粟的工具人'欢迎您来" ,
         }).then(data => {
           let [error, res] = data
           if (res.confirm) {
@@ -51,8 +54,8 @@
       change:function(cal,index){
         this.MIN=cal[0][index[0]];
         this.MAX=cal[1][index[1]];
-        console.log(cal[0][index[0]])
         let that=this
+		//把min和max的值存到缓存中
         uni.setStorage({
             key: 'minmax',
             data: [this.MIN,this.MAX],
@@ -60,12 +63,13 @@
                 console.log('success');
             }
         });
+		/*
         uni.getStorage({
             key: 'minmax',
             success: function (res) {
                 console.log(res.data);
             }
-        });
+        });*/
       },
       skip:function(){
         if((this.MAX-this.MIN)<1)
