@@ -22,6 +22,10 @@
         {
             "path" : "pages/MealManagement/MealManagement",
             "style" : {}
+        },
+        {
+            "path" : "pages/MealList/MealList",
+            "style" : {}
         }
     ],
 	"globalStyle": {

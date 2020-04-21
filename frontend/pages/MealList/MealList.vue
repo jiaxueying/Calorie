@@ -1,27 +1,35 @@
-<!-- TODO:meal-management search -->
+<!-- TODO:change onLoad -->
 
 <template>
 	<view>
-    <InputBox :show_button="true"></InputBox>
-    <scroll-view class="scroll" scroll-y="true">
-      <view v-for="Food in MealList" :key="Food.name">
-        <Food :food="Food" :show_radio_button="false" :ischecked="false"></Food>
-      </view>
-    </scroll-view>
+		<DateChooser></DateChooser>
+    <MealClassifier :name="breakfast_name" :meallist="breakfast" 
+      :modifyable="shows.modifyable" :countable="shows.countable">
+    </MealClassifier>
+    <MealClassifier :name="lunch_name" :meallist="lunch" 
+      :modifyable="shows.modifyable" :countable="shows.countable">
+    </MealClassifier>
+    <MealClassifier :name="dinner_name" :meallist="dinner" 
+      :modifyable="shows.modifyable" :countable="shows.countable">
+    </MealClassifier>
 	</view>
 </template>
 
 <script>
-  import InputBox from "../../components/for-meal-management/input-box.vue"
-  import Food from "../../components/for-meal-management/food.vue"
+  import MealClassifier from "../../components/for-meallist/meal-classifier.vue"
+  import DateChooser from "../../components/all/date-chooser.vue"
 	export default {
     components: {
-      InputBox,
-      Food
+      DateChooser,
+      MealClassifier
     },
 		data() {
 			return {
-				MealList: [
+        shows: null,
+        breakfast_name: "早餐",
+        lunch_name: "午餐",
+        dinner_name: "晚餐",
+        breakfast: [
           {"name":"菜品1", "pic":"logo.png", "count":10},
           {"name":"菜品2", "pic":"logo.png", "count":10},
           {"name":"菜品3", "pic":"logo.png", "count":10},
@@ -30,6 +38,8 @@
           {"name":"菜品6", "pic":"logo.png", "count":10},
           {"name":"菜品7", "pic":"logo.png", "count":10},
           {"name":"菜品8", "pic":"logo.png", "count":10},
+        ],
+				lunch: [
           {"name":"菜品9", "pic":"logo.png", "count":10},
           {"name":"菜品10", "pic":"logo.png", "count":10},
           {"name":"菜品11", "pic":"logo.png", "count":10},
@@ -38,6 +48,8 @@
           {"name":"菜品14", "pic":"logo.png", "count":10},
           {"name":"菜品15", "pic":"logo.png", "count":10},
           {"name":"菜品16", "pic":"logo.png", "count":10},
+        ],
+        dinner: [
           {"name":"菜品17", "pic":"logo.png", "count":10},
           {"name":"菜品18", "pic":"logo.png", "count":10},
           {"name":"菜品19", "pic":"logo.png", "count":10},
@@ -46,27 +58,20 @@
           {"name":"菜品22", "pic":"logo.png", "count":10},
           {"name":"菜品23", "pic":"logo.png", "count":10},
           {"name":"菜品24", "pic":"logo.png", "count":10},
-        ],
+        ]
 			}
 		},
 		methods: {
-			search:function(key) {
-        console.log("search in /pages/MealManagement/MealManagement.vue: " + key);
-        console.log("need to complete");
-        console.log("meal-management-search on completed!");
-      }
+			
 		},
-    onLoad() {
-      uni.$on("meal-management-search", this.search);
+    onLoad(options) {
+      this.shows = JSON.parse(options.booleans);
+      console.log(this.shows);
+      // 从后端获取breakfast等
     }
 	}
 </script>
 
 <style>
-  .scroll {
-    width:100%;
-    position:absolute;
-    left:0;
-    top:80rpx;
-  }
+
 </style>

@@ -43,8 +43,12 @@
       openDealQuery:function() {
         console.log("查询订单 button clicked");
         wx.navigateTo({
-          url: "",
-        })
+          url:"../MealList/MealList?booleans=" +
+          JSON.stringify({
+           modifyable:false,
+           countable:true
+          })
+        });
       },
 			
 		},

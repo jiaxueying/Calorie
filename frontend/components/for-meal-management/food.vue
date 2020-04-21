@@ -3,7 +3,7 @@
 
 <template>
   <view class="food">
-    <checkbox v-if="show_radio_button" class="radioButton" @tap="changeCheckedStatus($event)">
+    <checkbox v-if="show_radio_button" class="radioButton" :checked="ischecked" @tap="changeCheckedStatus()">
     </checkbox>
     <image 
       class="listImg"
@@ -12,35 +12,29 @@
       @tap="openDetail"
     />
     <view class="listText" @tap="openDetail">
-      <text>{{food.name}}</text>
+      <text>{{food.name}}\n</text>
+      <text v-if="show_count">份数：{{food.count}}</text>
     </view>
   </view>
 </template>
 
 <script>
   export default {
-    props: ['food', 'show_radio_button'],
+    props: ['food', 'show_radio_button', 'ischecked', 'show_count'],
     data() {
       return {
-        checked: false,
+        checked: this.ischecked,
       }
     },
     methods: {
-      changeCheckedStatus:function(event) {
-        this.checked = !this.checked;
-        if(this.checked){
-          console.log(this.food.name + " checked");
-          uni.$emit("add-checked-meal-list", this.food);
-        }
-        else {
-          console.log(this.food.name + " unchecked");
-          uni.$emit("remove-checked-meal-list", this.food);
-        }
+      changeCheckedStatus:function() {
+        console.log(this.food.name + " checkbox clicked");
+        uni.$emit("change-checked-meal-list", this.food);
       },
       openDetail:function() {
         console.log(this.food.name + " clicked");
         wx.navigateTo({
-          url:""
+          url:"../../pages/dishinfo/modify?foodDetail=" + JSON.stringify(this.food),
         });
       }
     },

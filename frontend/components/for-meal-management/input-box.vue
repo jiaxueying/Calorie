@@ -3,7 +3,7 @@
 <template>
 	<view class="out">
 		<input v-model=value id="in" placeholder="你可以在这里搜索" class="inbox" @change="search($event)"/>
-		<button class="tableware-icon" @tap="openAddMealList" v-if="show_button">添加菜品</button>
+		<button class="add" @tap="openAddMealList" v-if="show_button">添加菜品</button>
 	</view>
 </template>
 
@@ -52,7 +52,7 @@
 		border: 1rpx solid #cecece;
 		border-radius: 30rpx;
 	}
-	.tableware-icon {
+	.add {
 		height: 70rpx;
 		width: 200rpx;
 		position: absolute;

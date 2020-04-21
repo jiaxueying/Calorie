@@ -1,12 +1,14 @@
+<!-- TODO:change img src -->
+
 <template>
   <view>
     <!--访问权限问题-->
     <view class="list">
-        <image :src="src" @click="changeimage"></image>
+        <image :src="'../../static/' + food.pic" @click="changeimage"></image>
         <text class="hint">点击上方图片更换菜品图片</text>
         <view class="table">
             <text class="dishname">菜品名称：</text>
-            <input :placeholder="dishname"
+            <input :placeholder="food.name"
                    focus="true"
                    @input="changename"/>
         </view>
@@ -25,13 +27,12 @@
 export default {
     components:{
     },
-		data() {
-			return {
-        dishname:"  "+"烤鸭盖饭",
-        src:"../../static/dish.jpg",
-			}
-		},
-		methods: {
+	data() {
+		return {
+			food: null,
+		}
+	},
+	methods: {
       
       changeimage:function(){
         var that=this;
@@ -100,23 +101,23 @@ export default {
       },
       
 		},
-    onLoad() {
-      
-      uni.getStorage({
-        key:'meal-list',
-        success: (res) => {
-          console.log(res)
-        },
-        fail: () => {
-          uni.setStorage({
-            key:'meal-list',
-            data:[],
-            success: () => {
-              console.log('set meal-list')
-            }
-          })
-        }
-      })
+    onLoad(options) {
+      this.food = JSON.parse(options.foodDetail);
+      // uni.getStorage({
+      //   key:'meal-list',
+      //   success: (res) => {
+      //     console.log(res)
+      //   },
+      //   fail: () => {
+      //     uni.setStorage({
+      //       key:'meal-list',
+      //       data:[],
+      //       success: () => {
+      //         console.log('set meal-list')
+      //       }
+      //     })
+      //   }
+      // })
 	   
     }
 	}  

@@ -1,3 +1,5 @@
+<!-- TODO:emit changing -->
+
 <template>
   <view>
     <picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
@@ -26,7 +28,8 @@
     },
     methods: {
       bindDateChange: function(e) {
-        this.date = e.target.value
+        this.date = e.target.value;
+        console.log("date changed " + this.date);
       },
       getDate(type) {
         const date = new Date();

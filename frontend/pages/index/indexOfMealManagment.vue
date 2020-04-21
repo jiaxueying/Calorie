@@ -48,13 +48,21 @@
       openCheckMealList:function() {
         console.log("查看已发布菜单 button clicked");
         wx.navigateTo({
-          url:"../MealManagement/AlternativeMealList"
+          url:"../MealList/MealList?booleans=" +
+          JSON.stringify({
+           modifyable:false,
+           countable:false
+          })
         });
       },
       openRealeaseNewMealList:function() {
         console.log("发布新菜单 button clicked");
         wx.navigateTo({
-          url:"../dishinfo/add"
+          url:"../MealList/MealList?booleans=" +
+          JSON.stringify({
+           modifyable:true,
+           countable:false
+          })
         });
       }
 		},
