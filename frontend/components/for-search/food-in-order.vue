@@ -1,9 +1,9 @@
 <template>
 	<view class="FoodInOrder">
 		<view class="FoodName">{{foodname}}</view>
-		<view class="Calories">{{calorie}}kcal</view>
+		<view style="color:#FFFFFF;"class="Calories">{{calorie}}kcal</view>
 		<button class="ButtonInOrder" @tap="MinusWeight">-</button>
-		<view class="Weight">{{weight}}g</view>
+		<view class="Weight">{{weight}}</view>
 		<button class="ButtonInOrder" @tap="AddWeight">+</button>
 	</view>
 </template>

@@ -12,7 +12,7 @@
         style="flex: 1;"
       >
         <view class="title" @tap="detail">
-          {{ food.name }}     <text>{{ food.calorie }}kcal</text>
+          {{ food.name }}     <text style="display: none;">{{ food.calorie }}kcal</text>
         </view>
         <view class="content" >
           <view class="label" v-for="tag in food.tag" :key="tag.id" @tap="search_tag(tag)">
