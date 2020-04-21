@@ -48,7 +48,7 @@
       openCheckMealList:function() {
         console.log("查看已发布菜单 button clicked");
         wx.navigateTo({
-          url:""
+          url:"../MealManagement/AlternativeMealList"
         });
       },
       openRealeaseNewMealList:function() {

@@ -25,6 +25,7 @@
           {"name":"菜品1", "pic":"logo.png"},
           {"name":"菜品2", "pic":"logo.png"},
         ],
+        checkedMealList: [],
 			}
 		},
 		methods: {
@@ -32,10 +33,32 @@
         console.log("search in /pages/MealManagement/MealManagement.vue: " + key);
         console.log("need to complete");
         console.log("meal-management-search on completed!");
+      },
+      addCheckedMealList:function(f) {
+        console.log("add " + f.name + " into checkedMealList");
+        this.checkedMealList.push(f);
+        console.log("checkedMealList now is: " + this.checkedMealList);
+      },
+      removeCheckedMealList:function(f) {
+        console.log("remove " + f.name + " from checkedMealList");
+        let i = 0;
+        let l = this.checkedMealList.length;
+        for(; i < l; i++)
+          if(this.checkedMealList[i].name == f.name)
+            break;
+        if(i >= l){
+          console.log("there is no meal named " + f.name + " in checkedMealList");
+          return;
+        }
+        this.checkedMealList[i] = this.checkedMealList[l - 1];
+        this.checkedMealList.pop();
+        console.log("checkedMealList now is: " + this.checkedMealList);
       }
 		},
     onLoad() {
       uni.$on("meal-management-search", this.search);
+      uni.$on("add-checked-meal-list", this.addCheckedMealList);
+      uni.$on("remove-checked-meal-list", this.removeCheckedMealList);
     }
 	}
 </script>

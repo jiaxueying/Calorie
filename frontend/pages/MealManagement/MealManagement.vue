@@ -5,7 +5,7 @@
     <InputBox :show_button="true"></InputBox>
     <scroll-view class="scroll" scroll-y="true">
       <view v-for="Food in MealList" :key="Food.name">
-        <Food :food="Food"></Food>
+        <Food :food="Food" :show_radio_button="false"></Food>
       </view>
     </scroll-view>
 	</view>
