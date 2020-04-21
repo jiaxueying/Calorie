@@ -42,7 +42,7 @@
       openMealListManage:function() {
         console.log("菜品信息管理 button clicked");
         wx.navigateTo({
-          url:""
+          url:"../MealManagement/MealManagement"
         });
       },
       openCheckMealList:function() {

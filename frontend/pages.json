@@ -8,8 +8,12 @@
 		},
         {
             "path": "pages/index/indexOfMealManagment"
+        },
+        {
+            "path" : "pages/MealManagement/MealManagement",
+            "style" : {}
         }
-	],
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

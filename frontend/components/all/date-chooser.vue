@@ -13,7 +13,7 @@
         format: true
       })
       return {
-        date: "点击此处选择日期(默认：" + currentDate + ")",
+        date: currentDate,
       }
     },
     computed: {
