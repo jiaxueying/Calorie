@@ -54,7 +54,7 @@
       openRealeaseNewMealList:function() {
         console.log("发布新菜单 button clicked");
         wx.navigateTo({
-          url:""
+          url:"../dishinfo/add"
         });
       }
 		},

@@ -21,7 +21,7 @@
       openAddMealList:function() {
         console.log("添加菜品 button clicked");
         wx.navigateTo({
-          url:"",
+          url:"../../pages/dishinfo/add",
         });
       },
       search:function(event) {
