@@ -13,14 +13,14 @@
                 <image :src="srcitem"></image>
                 <view class="mealinfor">
                     <text>\n{{meallist[i].name}}\n\n</text>
-                    <text> {{meallist[i].cal}} kcal</text>
+                   <!--<text> {{meallist[i].cal}} kcal</text>-->
                 </view>
             </view>
         </scroll-view>
         <!--菜单下方文本部分-->
-        <view>
-           <text class="intakeinfor">本餐共摄入\n</text>
-           <text class="intakeinfor">{{msg}}kcal\n</text>
+        <view style="height:100rpx;">
+           <!--<text class="intakeinfor">本餐共摄入\n</text>
+           <text class="intakeinfor">{{msg}}kcal\n</text>-->
         </view>
       </view><!--scroll-->
       </view><!--content-->
@@ -119,18 +119,14 @@
         var j=(this.meallist.length>=3)?(this.meallist.length-3):0
         var k=j*220+800
         
-        let rp=1
+        let rp;
         wx.getSystemInfo({
           success(res) {
             rp = res.windowWidth/375;
             },
           })
+        console.log(rp);
         
-        var widthNum=600*rp; 
-        this.width=widthNum.toString();
-        var heightNum=k*rp;
-        this.height=heightNum.toString();
-        var p=k+100*rp;
         this.size+="height:"+k+"rpx;"
                  
         var time=new Date();
@@ -153,15 +149,15 @@
         ctx.setFillStyle('#59453D')//设置绘图的背景颜色
         ctx.setTextBaseline('middle')
         ctx.fillText("My List",130*rp,40*rp)
-        ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
-        ctx.fillText(this.msg+"kcal",200*rp,360*rp+j*90*rp)
+        //ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
+        //ctx.fillText(this.msg+"kcal",200*rp,360*rp+j*90*rp)
         ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
         ctx.fillText(this.date,200*rp,390*rp+j*90*rp)
           
         for(var i=0;i<this.meallist.length;i++){
           ctx.drawImage(this.path[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
           ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
-          ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
+          //ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
         }
                     
         ctx.setStrokeStyle("#000000")
@@ -268,7 +264,7 @@
     margin-top: 5%;
     margin-bottom: 5%;
     border:#333333 solid 5rpx;
-    background-color: #F5F5F5;
+    background-color: #FFFFFF;
   }
   .content{
     display: flex;

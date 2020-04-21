@@ -76,7 +76,7 @@
         if(data.string!="暂无计划")
         {
         this.targetweight=data.targetweight
-        this.targetweightshow=data.targetweight+"KG"//字符串拼接
+        this.targetweightshow=data.targetweight+"KG"
         this.weightrate=data.rate//无法动态接受
         this.plan=true
         }

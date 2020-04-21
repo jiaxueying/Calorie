@@ -16,23 +16,24 @@
   <view style="display: flex;flex-direction: column;align-items: center;">
       <view class="title">
           <navigator>首页</navigator>
+          <text>由于疫情期间，本团队无法进入学校进行卡路里测算\n故暂时不开放与卡路里监测相关的功能\n疫情结束后现在用着的你们也毕业了hhhhh，那就——毕业快乐！</text>
           <text class="time">本餐是 : {{msg}}</text>
       </view>
       
       <view class="allbtn">
             <view class="btn">
               <navigator url="../search/search" hover-class="none">订餐功能
-              <text>\n戳这里可以根据卡路里订餐呦</text>
+              <text>\n戳这里（不）可以根据卡路里订餐呦。</text>
               </navigator>
             </view>
             <view class="btn">
-              <navigator url="../recommondation/range" hover-class="none">推荐功能
-              <text>\n不知道今天吃什么？戳这里！</text>
+              <navigator url="../recommondation/shake" hover-class="none">推荐功能
+              <text>\n不知道今天吃什么？戳这里！（真的完全随机哟。）</text>
               </navigator>
             </view>
             <view class="btn">
               <navigator url="../user/user" hover-class="none">用户中心
-              <text>\n了解您的信息就可以更好地为您推荐啦</text>
+              <text>\n了解您的信息（其实也不）可以更好地为您推荐啦。</text>
               </navigator>
             </view>
    </view>
@@ -54,6 +55,36 @@
 			}
 		},
 		methods: {
+      deletemeal:function(){
+        uni.request({
+          url:'http://cal.hanlh.com:8000/menu/delete/',
+          method:'POST',
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          data:{
+            user_id:6,
+            menu_id:46,
+          },
+          success: (res) => {
+            console.log(res)
+            console.log("删了一个")
+          }
+        });
+        uni.request({
+        	url:"http://cal.hanlh.com:8000/user/profile",
+        	method:"GET",
+        	header:{
+        		Authorization:"Token"+uni.getStorageSync("token")
+        	},
+        	success: (res) => {
+        		console.log("get")
+        	}
+        })
+        
+        
+      },
+      
       setRange:function(rec){
         this.isfirst=false
         this.msg=rec
