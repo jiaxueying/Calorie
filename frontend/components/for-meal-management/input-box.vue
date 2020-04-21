@@ -2,8 +2,8 @@
 
 <template>
 	<view class="out">
-		<input v-model=value id="in" placeholder="你可以在这里搜索" class="inbox" @change="search($event)"/>
-		<button class="add" @tap="openAddMealList" v-if="show_button">添加菜品</button>
+		<input v-model=value id="in" placeholder="  在此处输入菜品名称搜索" class="inbox" @change="search($event)"/>
+    <button class="add" @tap="openAddMealList" v-if="show_button">添加菜品</button>
 	</view>
 </template>
 
@@ -48,8 +48,8 @@
 		height: 80rpx;
 		padding-left: 15rpx;
 		padding-right: 220rpx;
-		font-size: 50rpx;
-		border: 1rpx solid #cecece;
+		font-size: 30rpx;
+		border: 1rpx solid #C0C0C0;
 		border-radius: 30rpx;
 	}
 	.add {
@@ -59,7 +59,7 @@
     right: 0;
     top: 0;
 		margin: 7rpx 10rpx 0 5rpx;
-		border: 1rpx #FFFFFF;
+		border: 1rpx #FFFFFF solid;
 		border-radius: 30rpx;
     font-size: 30rpx;
 	}

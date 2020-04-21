@@ -9,7 +9,9 @@
         <Food :food="Food" :show_radio_button="true" :ischecked="isChecked(Food)"></Food>
       </view>
     </scroll-view>
-    <button class="add" @tap="addNewMealList">生成新菜单</button>
+    <view class="bottom">
+        <button class="add" @tap="addNewMealList">生成新菜单</button>
+    </view>
 	</view>
 </template>
 
@@ -76,6 +78,13 @@
       },
       addNewMealList: function() {
         console.log("生成新菜单 button clicked");
+        wx.navigateTo({
+          url:"../MealList/MealList?booleans=" +
+          JSON.stringify({
+           modifyable:true,
+           countable:false
+          })
+        });
       },
       isChecked: function(f) {
         for(let i = 0; i < this.checkedMealList.length; i++)
@@ -103,13 +112,26 @@
     top:80rpx;
   }
   .add {
-    height: 70rpx;
-		width: 100%;
-		position: fixed;
-    bottom:5rpx;
+    z-index: 2;
+    height: 80rpx;
+		width:250rpx;
     margin:auto;
-		border: 1rpx #FFFFFF;
-		border-radius: 30rpx;
+		border: 1rpx solid #C8C7CC;
+		border-radius: 10rpx;
     font-size: 30rpx;
+    font-weight: 500;
+    color:#59453D;
+  }
+  .bottom{
+    z-index: 1;
+    position: fixed;
+    height:120rpx;
+    bottom:0rpx;
+    background-color: #FAFAFA;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: #C0C0C0 2rpx solid;
   }
 </style>

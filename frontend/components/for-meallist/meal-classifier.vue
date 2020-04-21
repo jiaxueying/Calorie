@@ -2,14 +2,14 @@
   <view class="meal_classifier">
     <view class="title">
       <text>{{name}}</text>
-      <button v-if="modifyable" @tap="openAlternativeMealList" class="buttona">编辑</button>
+      <view v-if="modifyable" @click="openAlternativeMealList"  class="{buttona:true;buttonb:true}" >编辑</view>
     </view>
     <scroll-view scroll-y="true" :class="fold ? 'fold' : 'unfold'">
       <view v-for="Food in MealList" :key="Food.name" >
         <Food :food="Food" :show_radio_button="false" :ischecked="false" :show_count="countable"></Food>
       </view>
     </scroll-view>
-    <button @tap="changeFold" class="buttona">{{button_name}}</button>
+    <button @tap="changeFold" class="buttona" plain="true" >{{button_name}}</button>
   </view>
 </template>
 
@@ -67,9 +67,13 @@
     height: 70rpx;
     width: 200rpx;
     margin:auto;
-    border: 1rpx #FFFFFF;
-    border-radius: 30rpx;
     font-size: 30rpx;
+    line-height: 70rpx;
+  }
+  .buttonb{
+    width: auto;
+    margin-left: 50rpx;
+    color:#555555;
   }
   .meal_classifier {
     padding: 10rpx;

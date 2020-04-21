@@ -91,7 +91,7 @@ export default {
                   if (res.confirm) {
                     console.log('用户点击确定');
                     wx.navigateTo({
-                      url: "../index/indexOfMealManagment",
+                      url: "../MealManagement/MealManagement",
                     })
                   } else if (res.cancel) {
                     console.log('用户点击取消');
