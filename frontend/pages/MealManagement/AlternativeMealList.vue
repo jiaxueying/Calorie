@@ -110,6 +110,7 @@
     position:absolute;
     left:0;
     top:80rpx;
+    bottom: 120rpx;
   }
   .add {
     z-index: 2;

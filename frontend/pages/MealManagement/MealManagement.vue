@@ -2,12 +2,12 @@
 
 <template>
 	<view>
-    <InputBox :show_button="true"></InputBox>
-    <scroll-view class="scroll" scroll-y="true">
-      <view v-for="Food in MealList" :key="Food.name">
-        <Food :food="Food" :show_radio_button="false" :ischecked="false"></Food>
-      </view>
-    </scroll-view>
+		<InputBox :show_button="true"></InputBox>
+		<scroll-view class="scroll" scroll-y="true">
+		  <view v-for="Food in MealList" :key="Food.name">
+			<Food :food="Food" :show_radio_button="false" :ischecked="false"></Food>
+		  </view>
+		</scroll-view>
 	</view>
 </template>
 
