@@ -1,12 +1,10 @@
 <template>
-  <view class="content">
+  <scroll-view scroll-y="true" class="content">
     <view class="head">
       <text>本餐推荐的卡路里范围为{{min}}-{{max}}cal</text>
     </view>
     
-    <view style="height: 50rpx;width: 750rpx;">
-      
-    </view>
+    <view style="height: 50rpx;width: 750rpx;"> </view>
     
     <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
       <image :src="'http://cal.hanlh.com:8000'+food.picture" class="img" v-if="isimg"></image>
@@ -28,7 +26,8 @@
         <view :class="{blackspot:isimg,whitespot:!isimg}" style="margin-right: 10rpx;"></view><view :class="{whitespot:isimg,blackspot:!isimg}" style="margin-left: 10rpx;"></view>
       </view>
     </view>
-    
+
+    <view style="display:flex;flex-direction: column;align-items: center;"><!--scroll-view里的bug，必须再包一层-->
     <view class="detail">
       <view class="name">{{name}}</view>
       <view class="cal" style="display: none;">{{cal}}</view>
@@ -41,10 +40,20 @@
       <view class="count" @click="dislike">{{dislike_count}}</view>
     </view>
     
+    <view style="width: 550rpx;margin-top: 10rpx;">
+      <view style="display: flex;">
+          <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;margin-top: 5rpx;"></view>
+          <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">套餐详情</view>
+      </view>
+      <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
+          <view v-for="(dishname,index) in dishnames" class="dishnames">No.{{index+1}}  {{dishname.name}}</view> 
+      </view>
+    </view>   
+     
     <view style="margin-top: 50rpx;">
     <view style="width: 550rpx;display: flex;height: 30rpx;margin-top: 10rpx;">
       <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;margin-top: 5rpx;"></view>
-      <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 500;">关键词</view>
+      <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">关键词</view>
     </view>
     
     <view class="tags">
@@ -55,7 +64,7 @@
     <view style="background-color: #FFFFFF;width: 750rpx;height: 100rpx;">
       
     </view>
-    
+    </view>
     <view class="bottom">
       <image src="../../static/tableware.jpg" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
       <view class="buttun" @click="add">Add to List</view>
@@ -66,7 +75,7 @@
     >
       <Orders :Foods="ordered_food" />
     </view>
-  </view>
+  </scroll-view>
 </template>
 
 <script>
@@ -113,6 +122,12 @@
           {item:'钠',value:'--',percent:'--'},
           {item:'钙',value:'--',percent:'--'}
         ],
+        dishnames:[
+          {name:"鸡蛋烤兔"},
+          {name:"爆炒莲花"},
+          {name:"巧克力炸腰花"},
+          {name:"米饭炒面"}
+        ],
         IsShow: false,
         ordered_food: new Array(),
       }
@@ -132,6 +147,8 @@
       this.nutrition[3].value = this.food.carbohydrate+'g';
       this.nutrition[4].value = this.food.sodium+'mg';
       console.log(this.nutrition);
+      //property to add
+      //this.dishnames=this.food.dishnames; 
       uni.getStorage({
         key:'range',
         success: (rec) => {
@@ -216,7 +233,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height:100vh;
   }
   .head{
     display: flex;
@@ -231,20 +247,20 @@
     background-color: #FFFFFF;
     z-index: 3;
     }
-    .imgarea{
+  .imgarea{
       margin-top: 40rpx;
       height: 600rpx;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    .img{
+  .img{
       position: relative;
       width: 600rpx;
       height: 600rpx;
       animation: showimg 0.5s;
     }
-    .tab{
+  .tab{
       position: relative;
       width: 600rpx;
       height: 600rpx;
@@ -259,7 +275,7 @@
       from{left: 600rpx;}
       to{left: 0;}
     }
-    .blackspot{
+   .blackspot{
       background-color: #000000;
       width: 20rpx;
       height: 20rpx;
@@ -273,7 +289,7 @@
     }
     .detail{
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       margin-top: 30rpx;
     }
     .name{
@@ -291,10 +307,10 @@
     }
     .opinion{
       align-self: flex-end;
+      margin-right: 25rpx;
       display: flex;
       height: 50rpx;
-      margin-right: 50rpx;
-      margin-top: 30rpx;
+      
     }
     .countimg{
       width: 50rpx;
@@ -308,6 +324,7 @@
     }
     .tags{
       display: flex;
+      align-self: center;
       width: 550rpx;
       margin-top: 30rpx;
       flex-wrap: wrap;
@@ -354,5 +371,13 @@
       right: 0;
       bottom: 0;
       z-index: 5;
+    }
+    .dishnames{
+      color: #000000;
+      font-size: 25rpx;
+      line-height: 45rpx;
+      height:45rpx;
+      font-weight:350;
+      margin-left: 40rpx;
     }
 </style>
