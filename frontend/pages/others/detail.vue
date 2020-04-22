@@ -184,7 +184,7 @@
       },
       taptag:function(index){
         console.log(this.tags[index]);
-        uni.$emit("search_tag", this.tags[index]);
+        uni.$emit("search_key", this.tags[index].name);
         wx.navigateBack();
       },
       mylist:function(){
