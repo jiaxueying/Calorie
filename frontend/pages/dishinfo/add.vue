@@ -5,12 +5,21 @@
     <view class="list">
         <image :src="src" @click="chooseimage"></image>
         <view class="table">
-            <text class="dishname">菜品名称：</text>
+            <text class="meal">套餐名称：</text>
             <input placeholder="  输入内容"
                    focus="true"
                    @input="addname"
                    />
         </view>
+        <view v-for="(dishname,index) in dishnames">
+        <view class="table">
+            <text class="dishname">菜品名称{{index+1}}：</text>
+            <input placeholder="  输入套餐内菜品名称"
+                   @input="dishnameadd(index,$event)"
+                   />
+        </view>
+        </view>
+        <view style="height:150rpx"></view>
         <view class="bottom">
             <button plain="true" @click="complete">完成</button>
         </view>
@@ -25,7 +34,12 @@ export default {
 		data() {
 			return {
         src:"../../static/upload.jpg",
-        dishname:"",//预留给上传菜品名称
+        mealname:"",//预留给套餐名称
+        dishnames:[
+          {name:"dish1"},
+          {name:"dish2"},
+          {name:"dish3"}
+        ],
 			}
 		},
 		methods: {
@@ -46,8 +60,15 @@ export default {
      
      addname:function(event){
        console.log(event.detail);
-       this.dishname=event.detail.value;
-       console.log(this.dishname);
+       this.mealname=event.detail.value;
+       console.log(this.mealname);
+     },
+     
+     dishnameadd:function(index,event){
+       console.log("in dishnameadd!"+index);
+       console.log(event.detail.value);
+       this.dishnames[index].name=event.detail.value;
+       console.log(this.dishnames[index].name);
      },
      //所有的上传在此处完成
      complete:function(){
@@ -125,13 +146,17 @@ export default {
     justify-content: center;
     align-items: center;
     }
-  .image{
-    width: 250rpx;
-    height: 250rpx;
+  image{
+    width: 550rpx;
+    height: 500rpx;
    }
-  .dishname{
+  .meal{
     font-size: 50rpx;
     font-weight: 600;
+   }
+   .dishname{
+     font-size: 45rpx;
+     font-weight: 600;
    }
   .table{
     margin-top: 100rpx;
@@ -162,5 +187,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index:10;
+    background-color: #FFFFFF;
     }
 </style>

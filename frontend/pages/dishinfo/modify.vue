@@ -7,11 +7,22 @@
         <image :src="'../../static/' + food.pic" @click="changeimage"></image>
         <text class="hint">点击上方图片更换菜品图片</text>
         <view class="table">
-            <text class="dishname">菜品名称：</text>
+            <text class="mealname">套餐名称：</text>
             <input :placeholder="food.name"
                    focus="true"
                    @input="changename"/>
         </view>
+        
+        <view v-for="(dishname,index) in dishnames">
+        <view class="table">
+            <text class="dishname">菜品名称{{index+1}}：</text>
+            <input :placeholder="dishname.name"
+                   @input="dishnamechange(index,$event)"
+                   />
+        </view>
+        </view>
+        
+        <view style="height:150rpx"></view>
         <view class="bottom">
           <button plain="true" class="delete" @click="deletedish">
               <image class="icon" src="../../static/delete.jpg"></image>
@@ -30,6 +41,11 @@ export default {
 	data() {
 		return {
 			food: null,
+      dishnames:[
+        {name:"dish1"},
+        {name:"dish2"},
+        {name:"dish3"}
+      ],
 		}
 	},
 	methods: {
@@ -45,6 +61,14 @@ export default {
         })
         
       },
+      
+      dishnamechange:function(index,event){
+        console.log("in dishnameadd!"+index);
+        console.log(event.detail.value);
+        this.dishnames[index].name=event.detail.value;
+        console.log(this.dishnames[index].name);
+      },
+      
       changename:function(event){
         this.dishname=event.detail.value;
         console.log(this.dishname);
@@ -138,14 +162,18 @@ export default {
     justify-content: center;
     align-items: center;
     }
-  .image{
-    width: 250rpx;
-    height: 250rpx;
+  image{
+    width: 450rpx;
+    height: 450rpx;
    }
-  .dishname{
+  .mealname{
     font-size: 50rpx;
     font-weight: 600;
    }
+   .dishname{
+     font-size: 45rpx;
+     font-weight: 600;
+     }
   .table{
     margin-top: 100rpx;
     display: flex;
@@ -175,6 +203,8 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    background-color: #FFFFFF;
+    z-index:10;
     }
   .icon{
     width:40rpx;
