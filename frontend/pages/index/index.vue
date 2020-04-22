@@ -12,6 +12,7 @@
   </popup>
   
 	<recrange v-if="isrange"></recrange>
+  
 	
   <view style="display: flex;flex-direction: column;align-items: center;">
       <view class="title">
@@ -19,6 +20,8 @@
           <text>由于疫情期间，本团队无法进入学校进行卡路里测算\n故暂时不开放与卡路里监测相关的功能\n疫情结束后现在用着的你们也毕业了hhhhh，那就——毕业快乐！</text>
           <text class="time">本餐是 : {{msg}}</text>
       </view>
+      
+      <DateChooser style="margin-top: 50rpx;"></DateChooser>
       
       <view class="allbtn">
             <view class="btn">
@@ -43,9 +46,11 @@
 
 <script>
   import recrange from '../../components/all/recommendrange.vue'
+  import DateChooser from "../../components/all/date-chooser.vue"
 	export default {
     components:{
       recrange,
+      DateChooser
     },
 		data() {
 			return {
