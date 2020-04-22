@@ -59,10 +59,10 @@
 				console.log("DelName activated");
 				var i = 0;
 				for(; i < this.Foods.length; i++) 
-          if(this.Foods[i].foodname == v)break;
-				this.Foods.splice(i,1);
-				for(i = 0; i < this.Foods.length; i++)
-					console.log(this.Foods[i]);
+				if(this.Foods[i].foodname == v)break;
+					this.Foods.splice(i,1);
+					for(i = 0; i < this.Foods.length; i++)
+						console.log(this.Foods[i]);
 			},
       clrAll() {
         uni.setStorageSync('meal-list', []);

@@ -1,7 +1,7 @@
 <template>
-	<view class="FoodInOrder">
+	<view v-if=weight class="FoodInOrder">
 		<view class="FoodName">{{foodname}}</view>
-		<view style="color:#FFFFFF;"class="Calories">{{calorie}}kcal</view>
+		<view style="color:#FFFFFF;" class="Calories">{{calorie}}kcal</view>
 		<button class="ButtonInOrder" @tap="MinusWeight">-</button>
 		<view class="Weight">{{weight}}</view>
 		<button class="ButtonInOrder" @tap="AddWeight">+</button>
@@ -35,7 +35,7 @@
 				  var f = ordered_food[i];
 				  if(f.name === this.foodname) {
 				    f.cal -= f.cal / f.sum * 50;
-				    f.sum -= 50;
+				    f.sum -= 1;
 				    uni.setStorageSync("meal-list", ordered_food);
             uni.$emit("refresh1");
             uni.$emit("refresh2");
@@ -50,7 +50,7 @@
           var f = ordered_food[i];
           if(f.name === this.foodname) {
             f.cal += f.cal / f.sum * 50;
-            f.sum += 50;
+            f.sum += 1;
             uni.setStorageSync("meal-list", ordered_food);
             uni.$emit("refresh1");
             uni.$emit("refresh2");

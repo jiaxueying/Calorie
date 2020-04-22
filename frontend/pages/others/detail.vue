@@ -57,7 +57,7 @@
     </view>
     
     <view class="bottom">
-      <image src="../../static/tableware.jpg" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
+      <image src="../../static/tableware.png" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
       <view class="buttun" @click="add">Add to List</view>
     </view>
     <view
@@ -201,7 +201,7 @@
         OrderedFood.push({
           name: this.food.name,
           cal: this.food.calorie,
-          sum: 100,
+          sum: 1,
           picture: this.food.picture,
           id: this.food.id
         });
