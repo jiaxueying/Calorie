@@ -1,6 +1,7 @@
 <template>
 	<view class="out">
-		<button class="tableware-icon" @tap="ShowOrders()"></button>
+		<button class="tableware-icon" @tap="ShowOrders()" >
+    </button>
 		<input v-model=value id="in" class="inbox" @change="search($event)" @focus="ShowHistory()" @blur="HideHistory" />
 		<button class="search-icon"></button>
 	</view>
@@ -68,10 +69,12 @@
 		width: 75rpx;
 		position: absolute;
 		margin: 1rpx 0 0 1rpx;
-		background-image: url(../../static/tableware.jpg);
-		background-repeat: no-repeat;
-		background-position: 0 5rpx;
 		background-size: 75rpx;
+    background-image: url(../../static/default.jpg);
+    background-repeat: no-repeat;
 		border: none;
 	}
+  button::after{
+    border: none;
+  }
 </style>

@@ -32,13 +32,14 @@
 </template>
 
 <script>
-  import recrange from '../../components/all/recommendrange.vue'
+  import recrange from "../../components/all/recommendrange.vue"
   import uniNumberBox from"@/components/uni-ui/uni-number-box/uni-number-box.vue"
   import popup from "./popup.vue"
   export default {
     created(){
-        let value = uni.getStorageSync('minmax');
-        let userid= uni.getStorageSync('userid')
+        let value = uni.getStorageSync("minmax");//从缓存获取本餐卡路里推荐范围
+        let userid= uni.getStorageSync("userid");//从缓存获取userid
+        //向后端发送请求
         uni.request({
       	 url:"http://cal.hanlh.com:8000/dish/calorie_query/",
     	   method:"GET",
@@ -48,22 +49,21 @@
     		    max_calorie:10000
     	        },
          header:{
-              Authorization:'Token '+uni.getStorageSync('token')
-              },               
+              Authorization:'Token '+uni.getStorageSync("token")
+              }, 
+         //呈现从后端获取的推荐菜品
     	   success:(res)=>{
               var meallist=res.data.data
               this.meals=meallist
               for(let i=0;i<this.meals.length;i++)
-              {
+               {
                 this.meals[i].checked=false
                 this.meals[i].sum=1
                 this.meals[i].cal=this.meals[i].calorie
-                
-              }
-              console.log(this.meals)
-    	                  }
-                  })
-    },
+               }
+    	       }
+          })
+        },
     components:{
       uniNumberBox,
       popup,
@@ -71,11 +71,9 @@
     },
     props: [],
     methods: {    
-      
+      //判断是否为全选
       weatherAll:function(index){
             this.meals[index].checked=!this.meals[index].checked
-            
-            console.log(index)
             if(this.meals[index].checked==true)
             {this.flag+=1}
             else{this.flag-=1}
@@ -85,11 +83,13 @@
         }
         else {this.select=false}
       },
+      
+      //记录某一菜品的已选份数
       addproperty:function(value,index){
         this.meals[index].sum=value
-        console.log(value)
-        console.log(this.meals[index].sum)
       },
+      
+      //将菜品添加到菜单
       add:function(){
         this.isshow=true
         for(let i=this.meals.length-1;i>=0;i--)
@@ -99,6 +99,8 @@
             this.meals.splice(i,1)
           }
         }
+        
+        //将已选菜品添加到缓存
         uni.setStorage({
             key: 'meal-list',
             data: this.meals,
@@ -106,14 +108,16 @@
                 console.log('success');
             }
         });
-        
-        uni.getStorage({
+        //开发阶段用于验证是否已存入缓存
+        /*uni.getStorage({
             key: 'meal-list',
             success: function (res) {
                 console.log(res.data);
             }
-        });
+        });*/
       },
+      
+      //表示选中某一菜品
       tap:function(){
         this.select=!this.select
         for(let i=0;i<this.meals.length;i++)
@@ -128,14 +132,13 @@
        return {
          isshow:false,
          flag:0,
-         select:false,
+         select:false,//表示某一菜品是否选中
          meals:[null],
          
        };
      },
      
      }
-  
   
 </script>
 

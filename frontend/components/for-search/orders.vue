@@ -8,7 +8,7 @@
         <view class="name_head">我的菜单</view>
         <view class="cont_head">{{Calories}}kcal</view>
       </view>
-      <view class="cancel_head"><button @tap="clrAll">清空</button></view>
+      <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view>
 		</view>
     <view class="orderMid">
      <view class="midOne">推荐卡路里摄入范围</view>
@@ -126,7 +126,9 @@
           width: 113rpx;
           height: 50rpx;        
           color: rgba(255, 255, 255, 1);
+          color: rgba(219, 207, 202, 1);
           background-color: rgba(89, 69, 61, 1);
+          background-color:  rgba(219, 207, 202, 1);
           font-size: 26rpx;
           line-height: 50rpx;
           text-align: center;
@@ -135,13 +137,12 @@
       
       .cancel_head {
         text-align: right;
-        button {
-          text-align: right;
+        .button {
           background-color: rgba(0,0,0,0);
           font-size: 24rpx;
           color: rgba(80, 80, 80, 1);
-          border: none;
           display: inline-block;
+          margin-right: 20rpx;
         }
       }
     }

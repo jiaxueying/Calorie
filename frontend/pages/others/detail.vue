@@ -31,7 +31,7 @@
     
     <view class="detail">
       <view class="name">{{name}}</view>
-      <view class="cal">{{cal}}</view>
+      <view class="cal" style="display: none;">{{cal}}</view>
     </view>
     
     <view class="opinion">
@@ -106,12 +106,12 @@
           {id:1,name:'五号窗口'},
         ],
         nutrition:[
-          {item:'能量',value:'2012KJ',percent:'24%'},
-          {item:'蛋白质',value:'10.0g',percent:'17%'},
-          {item:'脂肪',value:'21.0g',percent:'35%'},
-          {item:'碳水化合物',value:'62.5g',percent:'21%'},
-          {item:'钠',value:'663mg',percent:'33%'},
-          {item:'钙',value:'280mg',percent:'35%'}
+          {item:'能量',value:'--',percent:'--'},
+          {item:'蛋白质',value:'--',percent:'--'},
+          {item:'脂肪',value:'--',percent:'--'},
+          {item:'碳水化合物',value:'--',percent:'--'},
+          {item:'钠',value:'--',percent:'--'},
+          {item:'钙',value:'--',percent:'--'}
         ],
         IsShow: false,
         ordered_food: new Array(),

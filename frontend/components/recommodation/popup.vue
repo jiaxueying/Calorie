@@ -1,13 +1,18 @@
+//添加成功弹出框
 <template>
   <view class="content">
     <view class="popup">
-      <view style="display: flex;flex-direction: column;justify-content: flex-end;">
-      <view style="display: flex;justify-content: center;"><image src="../../static/success.png" class="img"></image></view>
-      <view style="display: flex;justify-content: center;"><text class="text">添加成功!</text></view>
-      <view class="buttomarea">
-        <view class="button" @click="gotoshake">继续摇一摇</view>
-        <view class="button" @click="gotohome">返回首页</view>
-      </view>
+      <view class="popup_1">
+        <view class="popup_2">
+		       <image class="img"
+           src="../../static/success.png" 
+           ></image>
+           <text>添加成功!</text>
+	      </view>
+        <view class="buttomarea">
+          <view class="button" @click="gotoshake">继续摇一摇</view>
+          <view class="button" @click="gotohome">返回首页</view>
+        </view>
       </view>
     </view>
   </view>
@@ -37,11 +42,11 @@
   position: fixed;
   width: 100%;
   height:100%;
-  background-color: rgba(0,0,0,.30);
+  background-color: rgba(0,0,0,0.3);
 }
 .popup{
   display: flex;
-  justify-content: center;
+  justify-content: center;//popup1会居中
   width: 70%;
   height: 25%;
   margin-top: 45%;
@@ -49,12 +54,20 @@
   border: 1px #333333 solid;
   border-radius: 10px;
 }
-.img{
-  height: 160rpx;
-  width: 160rpx;
+.popup_1{
+	display: flex;
+	flex-direction: column;//改变主轴方向,纵向为主轴
+	justify-content: flex-end;//popup2,text,button向下对齐
 }
-.text{
-  margin-bottom: 8%;
+.popup_2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.img{
+  height: 150rpx;
+  width: 150rpx;
 }
 .buttomarea{
   display: flex;
@@ -65,9 +78,9 @@
   width: 50%;
   height: 100%;
   background-color: #ffffff;
-  color: #007AFF;
+  color: #59453d;
   text-align: center;
-  border-radius: 10px;
   line-height: 100rpx;
+  border-radius: 20rpx;
 }
 </style>
