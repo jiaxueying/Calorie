@@ -28,16 +28,12 @@ class GetSearchHistoryAPI(APIView):
         """
         获取当前热门搜索
         """
-        # 或者直接使用search_time?
-        history_searches = HistorySearch.objects.values('searchitem').\
-            annotate(count=Count('searchitem')).order_by('-count').\
-            values_list('searchitem', flat=True)
-        if not history_searches:
-            return []
-        if len(history_searches) > 10:
-            history_searches = history_searches[0:10]
-        serializer = SearchItemSerializer(SearchItem.objects.filter(id__in=history_searches), many=True)
-        return serializer.data
+        serializer = SearchItemSerializer(
+            SearchItem.objects.filter(
+                id__in=HistorySearch.objects.values('searchitem').annotate(count=Count('searchitem')).order_by('-count').values_list('searchitem', flat=True)
+            ), many=True
+        )
+        return serializer.data[:10]
 
     @staticmethod
     def get_history_item(user_id):
@@ -45,5 +41,11 @@ class GetSearchHistoryAPI(APIView):
         获取用户的历史查询记录
         """
         # 或者像get_popular_item一样分两个表进行查询，有性能差距吗
-        serializer = SearchItemSerializer(SearchItem.objects.filter(historysearch__user__id=user_id), many=True)
-        return serializer.data[:10]
+        history = HistorySearch.objects.filter(user=user_id).order_by('-datetime').values_list('searchitem', flat=True)
+        history = list(dict.fromkeys(history, 0))[:10]
+        serializer = SearchItemSerializer(
+            SearchItem.objects.filter(
+                id__in=history
+            ), many=True
+        )
+        return serializer.data

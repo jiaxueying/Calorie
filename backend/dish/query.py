@@ -53,6 +53,9 @@ class DishQueryFunctionSet:
     @transaction.atomic()
     def add_search_item(user_obj, category, content):
         """向数据库添加search item"""
+        if not content:
+            return
         search_obj, _ = SearchItem.objects.get_or_create(name=content, category=category)
         HistorySearch.objects.create(user=user_obj, searchitem=search_obj)
         search_obj.count = F('count') + 1
+        search_obj.save()

@@ -16,6 +16,7 @@ class User(AbstractUser):
     plan = models.BooleanField(_("if diet"), default=False)
     min_calorie = models.DecimalField(_("user min_calorie"), max_digits=8, decimal_places=2, default=100)
     max_calorie = models.DecimalField(_("user max_calorie"), max_digits=8, decimal_places=2, default=2000)
+    rate = models.DecimalField(_("weight change rate"), max_digits=8, decimal_places=2, default=0)
     like_dish = models.ManyToManyField("dish.Dish", verbose_name=_("like_dish"), through='LikeDish', through_fields=('user', 'dish'))
 
     class Meta:
