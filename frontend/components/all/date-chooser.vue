@@ -15,7 +15,7 @@
         format: true
       })
       return {
-        date: currentDate,
+        date: "请在这里选择订餐日期哦",
       }
     },
     computed: {

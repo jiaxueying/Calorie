@@ -21,7 +21,7 @@
           <text class="time">本餐是 : {{msg}}</text>
       </view>
       
-      <DateChooser style="margin-top: 50rpx;"></DateChooser>
+      <DateChooser style="margin-top: 50rpx; width: 700rpx;"></DateChooser>
       
       <view class="allbtn">
             <view class="btn">
