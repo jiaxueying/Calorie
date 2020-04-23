@@ -1,7 +1,7 @@
 <template>
   <view>
   <popup  v-if="isfirst" style="background-color:rgba(0,0,0,0.7);position:fixed;width:100%;height:100%;display: flex;justify-content: center;" >
-      <view v-if="isisfirst" style="margin-top:450rpx;width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
+      <view v-if="isisfirst" style="margin-top:0rpx;width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
         <view class="logo" style="font-size: 2em;">
          <text >粟</text>
         </view>
@@ -18,7 +18,7 @@
       </view>
   </popup>
   
-	<recrange v-if="isrange"></recrange>
+	<recrange v-if="isrange"></recrange> 
   
 	
   <view style="display: flex;flex-direction: column;align-items: center;">
@@ -183,7 +183,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 450rpx;
+    margin-top: 0rpx;
     font-size: 2em;
     width:80%;
     color:#000000;
