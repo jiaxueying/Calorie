@@ -34,9 +34,9 @@
     </view>
     
     <view class="opinion">
-      <image src="../../static/like.png" class="countimg" @click="like"></image>
+      <image :src="likeicon" class="countimg" @click="like"></image>
       <view class="count" @click="like">{{like_count}}</view>
-      <image src="../../static/sad.png" class="countimg" @click="dislike"></image>
+      <image :src="dislikeicon" class="countimg" @click="dislike"></image>
       <view class="count" @click="dislike">{{dislike_count}}</view>
     </view>
     
@@ -96,6 +96,8 @@
     },
     data(){
       return{
+        likeicon:"../../static/like.png",
+        dislikeicon:"../../static/dislike.png",
         food: null,
         like_count:666,
         liked: 0,
@@ -178,10 +180,12 @@
         console.log(this.tempX)
       },
       like:function(){
-        console.log("like")
+        console.log("like");
+        this.likeicon="../../static/liked.png";
+        this.dislikeicon="../../static/dislike.png";
         like(this.food.id);
         request('/dish/key_query/', 'GET', {
-          key_word: this.food.name,
+          key_word: this.food.name, 
         }).then(res => {
           this.like_count = res[1].data.data[0].like;
           this.dislike_count = res[1].data.data[0].dislike;
@@ -189,7 +193,9 @@
         });
       },
       dislike:function(){
-        console.log("dislike")
+        console.log("dislike");
+        this.likeicon="../../static/like.png";
+        this.dislikeicon="../../static/disliked.png";
         dislike(this.food.id);
         request('/dish/key_query/', 'GET', {
           key_word: this.food.name,
