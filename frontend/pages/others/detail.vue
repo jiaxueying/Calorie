@@ -34,7 +34,7 @@
     </view>
     
     <view class="opinion">
-      <image src="../../static/happy.png" class="countimg" @click="like"></image>
+      <image src="../../static/like.png" class="countimg" @click="like"></image>
       <view class="count" @click="like">{{like_count}}</view>
       <image src="../../static/sad.png" class="countimg" @click="dislike"></image>
       <view class="count" @click="dislike">{{dislike_count}}</view>
