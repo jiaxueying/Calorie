@@ -2,10 +2,11 @@
   <view>
   <popup  v-if="isfirst" style="background-color:rgba(0,0,0,0.7);position:fixed;width:100%;height:100%;display: flex;justify-content: center;" >
       <view v-if="isisfirst" style="margin-top:0rpx;width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
+      <view v-if="isisfirst" style="width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
         <view class="logo" style="font-size: 2em;">
-         <text >粟</text>
+          <text >粟</text>
         </view>
-        <text style="color:#59453D;font-weight: 500; font-size:30rpx;margin-left: 20rpx;margin-right: 20rpx;;">由于疫情期间，本团队无法进入学校进行卡路里测算,故暂时不开放与卡路里监测相关的功能。\n疫情结束后屏幕前的你也毕业了...\n那就——毕业快乐！</text>
+        <text style="color:#59453D;font-weight: 500; font-size:30rpx;margin-left: 20rpx;margin-right: 20rpx;">由于疫情期间，本团队无法进入学校进行卡路里测算,故暂时不开放与卡路里监测相关的功能。\n疫情结束后屏幕前的你也毕业了...\n那就——毕业快乐！</text>
         <view @click="this.isisfirst=false" style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" ><text style="color:#59453D;font-weight: 600; font-size:30rpx;">我知道啦</text></view>
       </view>
       <view v-if="!isisfirst" class="timelist" >

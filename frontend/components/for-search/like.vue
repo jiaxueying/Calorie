@@ -137,7 +137,7 @@
     .unlikeButton {
         height: 50rpx;
         font-size: 20rpx;
-        background-image: url(../../static/sad.png);
+        background-image: url(../../static/dislike.png);
         background-color: #FFFFFF;
         background-repeat: no-repeat;
         background-size: 40rpx;
