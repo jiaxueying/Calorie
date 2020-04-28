@@ -89,7 +89,7 @@ class DishDetailAPI(APIView):
             dish_object = Dish.objects.get(id=dish_id)
             dish = DishSerializer(dish_object).data
         except Exception as e:
-            return self.error(err=str(e))
+            return self.error(err=str(e)) 
         return self.success(data={'dish': dish})
 
 
