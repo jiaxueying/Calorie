@@ -1,0 +1,62 @@
+"""
+canteen.models
+数据库设计
+"""
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+
+# Create your models here.
+
+
+class dish(models.Model):
+    '''套餐'''
+
+    picture = models.ImageField(_("dish picture"), upload_to=None, max_length=100)
+    name = models.CharField(_("dish name"), max_length=50)
+    calorie = models.IntegerField(_("dish calorie"))
+
+    class Meta:
+        verbose_name = _("dish")
+        verbose_name_plural = _("dishes")
+
+    def __str__(self):
+        return self.name
+
+class dish_meta(models.Model):
+    '''套餐详情'''
+
+    dish = models.ForeignKey(dish,on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = _("dish_meta")
+        verbose_name_plural = _("dish_metas")
+
+    def __str__(self):
+        return self.name
+
+class menu(models.Model):
+    '''菜单'''
+
+    date = models.DateTimeField()
+    period = models.CharField(max_length=3)
+
+    class Meta:
+        verbose_name = _("menu")
+        verbose_name_plural = _("menus")
+
+    def __str__(self):
+        return self.name
+
+class meta(models.Model):
+    '''菜单详情'''
+
+    menu = models.ForeignKey(menu,on_delete=models.CASCADE)
+    dish = models.ForeignKey(dish,on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("meta")
+        verbose_name_plural = _("metas")
+
+    def __str__(self):
+        return self.name

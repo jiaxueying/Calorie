@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'menu',
     'searchitem',
     'user',
+    'canteen',
 ]
 
 MIDDLEWARE = [

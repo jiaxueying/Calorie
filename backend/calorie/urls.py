@@ -25,5 +25,6 @@ urlpatterns = [
     path('menu/', include('menu.urls')),
     path('dish/', include('dish.urls')),
     path('user/', include('user.urls')),
+    path('canteen/', include('canteen.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
