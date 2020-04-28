@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'calorie',
         'USER': 'dev',
         'PASSWORD': '0x0da6e805',
-        'HOST': 'localhost',
+        'HOST': 'localhost',              
         'PORT': '3306',
         'OPTIONS': {
             'autocommit': True,

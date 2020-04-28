@@ -11,9 +11,10 @@ from django.utils.translation import ugettext_lazy as _
 class dish(models.Model):
     '''套餐'''
 
-    picture = models.ImageField(_("dish picture"), upload_to=None, max_length=100)
+    picture = models.ImageField(
+        _("dish picture"), upload_to="canteen", max_length=100)
     name = models.CharField(_("dish name"), max_length=50)
-    calorie = models.IntegerField(_("dish calorie"))
+    calorie = models.IntegerField(_("dish calorie"), default=0)
 
     class Meta:
         verbose_name = _("dish")
@@ -22,10 +23,11 @@ class dish(models.Model):
     def __str__(self):
         return self.name
 
+
 class dish_meta(models.Model):
     '''套餐详情'''
 
-    dish = models.ForeignKey(dish,on_delete=models.CASCADE)
+    dish = models.ForeignKey(dish, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
 
     class Meta:
@@ -34,6 +36,7 @@ class dish_meta(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class menu(models.Model):
     '''菜单'''
@@ -48,15 +51,26 @@ class menu(models.Model):
     def __str__(self):
         return self.name
 
+
 class meta(models.Model):
     '''菜单详情'''
 
-    menu = models.ForeignKey(menu,on_delete=models.CASCADE)
-    dish = models.ForeignKey(dish,on_delete=models.CASCADE)
+    menu = models.ForeignKey(menu, on_delete=models.CASCADE)
+    dish = models.ForeignKey(dish, on_delete=models.CASCADE)
+    num = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = _("meta")
         verbose_name_plural = _("metas")
+
+    def __str__(self):
+        return self.name
+
+
+class auth(models.Model):
+    '''授权用户'''
+
+    user_id = models.IntegerField()
 
     def __str__(self):
         return self.name
