@@ -4,7 +4,7 @@
   <view>
     <!--访问权限问题-->
     <view class="list">
-        <image :src="'../../static/' + food.pic" @click="changeimage"></image>
+        <image :src="'http://cal.hanlh.com:8000' + food.img" @click="changeimage"></image>
         <text class="hint">点击上方图片更换菜品图片</text>
         <view class="table">
             <text class="mealname">套餐名称：</text>

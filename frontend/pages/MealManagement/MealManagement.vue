@@ -4,7 +4,7 @@
 	<view>
 		<InputBox :show_button="true"></InputBox>
 		<scroll-view class="scroll" scroll-y="true">
-		  <view v-for="Food in MealList" :key="Food.name">
+		  <view v-for="Food in ShowedMealList" :key="Food.name">
 			<Food :food="Food" :show_radio_button="false" :ischecked="false"></Food>
 		  </view>
 		</scroll-view>
@@ -23,12 +23,18 @@
 		data() {
 			return {
 				MealList: [ ],
+        ShowedMealList: [ ],
 			}
 		},
 		methods: {
 			search:function(key) {
         console.log("search in /pages/MealManagement/MealManagement.vue: " + key);
-        console.log("need to complete");
+        this.ShowedMealList = [];
+        for(let i = 0, l = this.MealList.length; i < l; i++) {
+          if(this.MealList[i].dish.indexOf(key) != -1) {
+            this.ShowedMealList.push(this.MealList[i]);
+          }
+        }
         console.log("meal-management-search on completed!");
       }
 		},
@@ -38,8 +44,10 @@
         'Content-Type': 'application/x-www-form-urlencoded',
         'token':uni.getStorageSync('token')
         }).then(res => {
+        console.log(res);
         console.log('meals returned:\n' + res[1].data.dishes);
         this.MealList = res[1].data.dishes;
+        this.ShowedMealList = res[1].data.dishes;
       })
     }
 	}
