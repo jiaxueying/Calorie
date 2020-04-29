@@ -93,29 +93,28 @@ export default {
      //此处完善上传图片文件和菜品名称的api
      upload:function(){
          console.log("into upload");
-         /*uni.uploadFile({
-                   url: 'http://cal.hanlh.com:8000/', 
+         let names = [];
+         for(let i = 0; i < this.dishnames.length; i++) {
+           names.push(this.dishnames[i].name);
+         }
+         console.log(JSON.stringify(names))
+         uni.uploadFile({
+                   url: 'http://cal.hanlh.com:8000/canteen/adddish/', 
                    filePath: this.src,
-                   name: '',
+                   name: 'img',
+                   header:{
+                       Authorization:'Token '+uni.getStorageSync('token'),
+                       'Content-Type': 'application/x-www-form-urlencoded',
+                     },
                    formData: {
-                       
+                        'dish':this.mealname,
+                        'img':this.src,
+                        'names':JSON.stringify(names)
                    },
                    success: (uploadFileRes) => {
-                       console.log(uploadFileRes.data);
+                       console.log(uploadFileRes.data.dish);
                    }
-               });*/
-        let names = [];
-        for(let i = 0; i < this.dishnames.length; i++) {
-          names.push(this.dishnames[i].name);
-        }
-        console.log(JSON.stringify(names))
-       request('/canteen/adddish', 'POST', {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'token':uni.getStorageSync('token'),
-          'dish':this.mealname,
-          'img':this.src,
-          'names':JSON.stringify(names)
-         });
+               });
      },
      
      

@@ -16,7 +16,7 @@
         <view v-for="(dishname,index) in dishnames">
         <view class="table">
             <text class="dishname">菜品名称{{index+1}}：</text>
-            <input :placeholder="dishname.name"
+            <input :placeholder="dishname"
                    @input="dishnamechange(index,$event)"
                    />
         </view>
@@ -40,7 +40,7 @@ export default {
     },
 	data() {
 		return {
-			food: null,
+			food:null,
       dishid:1,
       dishnames:[
         {name:"dish1"},
@@ -109,6 +109,7 @@ export default {
       //待完善，删除菜品信息的api
       deletedish:function(){
           console.log("进入删除函数")
+          var that=this;
           uni.showModal({
               title: '提示',
               content: '确认删除',
@@ -123,7 +124,7 @@ export default {
                                 'Content-Type': 'application/x-www-form-urlencoded',
                               },
                               data:{
-                                dish_id:this.dishid,
+                                dish_id:that.dishid,
                               },
                               success: (res) => {
                                 console.log(res)
@@ -143,6 +144,24 @@ export default {
 		},
     onLoad(options) {
       this.food = JSON.parse(options.foodDetail);
+      this.dishid=this.food.dish_id;
+      uni.request({
+                url:'http://cal.hanlh.com:8000/canteen/dishview/',
+                method:'GET',
+                header:{
+                  Authorization:'Token '+uni.getStorageSync('token'),
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                data:{
+                  dish_id:this.dishid,
+                },
+                success: (res) => {
+                  console.log(res)
+                  this.food=res.data
+                  this.dishnames=res.data.names;
+                  this.food.name=res.data.dish;
+                }
+              });
       // uni.getStorage({
       //   key:'meal-list',
       //   success: (res) => {
