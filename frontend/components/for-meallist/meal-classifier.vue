@@ -5,7 +5,7 @@
       <view v-if="modifyable" @click="openAlternativeMealList"  class="{buttona:true;buttonb:true}" >编辑</view>
     </view>
     <scroll-view scroll-y="true" :class="fold ? 'fold' : 'unfold'">
-      <view v-for="Food in MealList" :key="Food.name" >
+      <view v-for="Food in MealList" :key="Food.dish" >
         <Food :food="Food" :show_radio_button="false" :ischecked="false" :show_count="countable"></Food>
       </view>
     </scroll-view>

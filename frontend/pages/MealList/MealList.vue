@@ -3,21 +3,25 @@
 <template>
 	<view>
 		<DateChooser></DateChooser>
-    <MealClassifier :name="breakfast_name" :meallist="breakfast" 
+    <MealClassifier :name="breakfast_name" :meallist="breakfast"  v-if="breakfast.length"
       :modifyable="shows.modifyable" :countable="shows.countable">
     </MealClassifier>
-    <MealClassifier :name="lunch_name" :meallist="lunch" 
+    <MealClassifier :name="lunch_name" :meallist="lunch" v-if="lunch.length"
       :modifyable="shows.modifyable" :countable="shows.countable">
     </MealClassifier>
-    <MealClassifier :name="dinner_name" :meallist="dinner" 
+    <MealClassifier :name="dinner_name" :meallist="dinner" v-if="dinner.length"
       :modifyable="shows.modifyable" :countable="shows.countable">
     </MealClassifier>
+    <view v-if="!breakfast.length && !lunch.length && !dinner.length">
+      {{error}}
+    </view>
 	</view>
 </template>
 
 <script>
   import MealClassifier from "../../components/for-meallist/meal-classifier.vue"
   import DateChooser from "../../components/all/date-chooser.vue"
+  import {request, backendurl} from "../../common/helper.js"
 	export default {
     components: {
       DateChooser,
@@ -29,45 +33,42 @@
         breakfast_name: "早餐",
         lunch_name: "午餐",
         dinner_name: "晚餐",
-        breakfast: [
-          {"name":"菜品1", "pic":"logo.png", "count":10},
-          {"name":"菜品2", "pic":"logo.png", "count":10},
-          {"name":"菜品3", "pic":"logo.png", "count":10},
-          {"name":"菜品4", "pic":"logo.png", "count":10},
-          {"name":"菜品5", "pic":"logo.png", "count":10},
-          {"name":"菜品6", "pic":"logo.png", "count":10},
-          {"name":"菜品7", "pic":"logo.png", "count":10},
-          {"name":"菜品8", "pic":"logo.png", "count":10},
-        ],
-				lunch: [
-          {"name":"菜品9", "pic":"logo.png", "count":10},
-          {"name":"菜品10", "pic":"logo.png", "count":10},
-          {"name":"菜品11", "pic":"logo.png", "count":10},
-          {"name":"菜品12", "pic":"logo.png", "count":10},
-          {"name":"菜品13", "pic":"logo.png", "count":10},
-          {"name":"菜品14", "pic":"logo.png", "count":10},
-          {"name":"菜品15", "pic":"logo.png", "count":10},
-          {"name":"菜品16", "pic":"logo.png", "count":10},
-        ],
-        dinner: [
-          {"name":"菜品17", "pic":"logo.png", "count":10},
-          {"name":"菜品18", "pic":"logo.png", "count":10},
-          {"name":"菜品19", "pic":"logo.png", "count":10},
-          {"name":"菜品20", "pic":"logo.png", "count":10},
-          {"name":"菜品21", "pic":"logo.png", "count":10},
-          {"name":"菜品22", "pic":"logo.png", "count":10},
-          {"name":"菜品23", "pic":"logo.png", "count":10},
-          {"name":"菜品24", "pic":"logo.png", "count":10},
-        ]
+        error:"该日期没有菜单哦～",
+        breakfast: [],
+				lunch: [],
+        dinner: []
 			}
 		},
 		methods: {
-			
+			searchDate:function(date) {
+        console.log('searched date:' + date);
+        request('/canteen/menuview', 'GET', {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'token':uni.getStorageSync('token'),
+          'date':date
+          }).then(res => {
+          if(res[1].statusCode != 404) {
+            console.log('OK!');
+            this.breakfast = res[1].data.bre.dishes;
+            this.lunch = res[1].data.lun.dishes;
+            this.dinner = res[1].data.din.dishes;
+          }
+        })
+      }
 		},
     onLoad(options) {
+      uni.$on('date changed', this.searchDate);
       this.shows = JSON.parse(options.booleans);
       console.log(this.shows);
       // 从后端获取breakfast等
+      const date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      month = month > 9 ? month : '0' + month;;
+      day = day > 9 ? day : '0' + day;
+      var d = `${year}-${month}-${day}`;
+      this.searchDate(d);
     }
 	}
 </script>

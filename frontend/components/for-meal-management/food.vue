@@ -7,13 +7,13 @@
     </checkbox>
     <image 
       class="listImg"
-      :src="'../../static/' + food.pic"
+      :src="'http://cal.hanlh.com:8000'+food.img"
       mode=""
       @tap="openDetail"
     />
     <view class="listText" @tap="openDetail">
       <text>{{food.name}}\n</text>
-      <text v-if="show_count">份数：{{food.count}}</text>
+      <text v-if="show_count">份数：{{food.num}}</text>
     </view>
   </view>
 </template>
