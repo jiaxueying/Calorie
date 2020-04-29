@@ -24,7 +24,7 @@
         
         <view style="height:150rpx"></view>
         <view class="bottom">
-          <button plain="true" class="delete" @click="deletedish">
+          <button plain="true" class="delete"  @click="deletedish">
               <image class="icon" src="../../static/delete.jpg"></image>
               删除菜品
           </button>
@@ -41,6 +41,7 @@ export default {
 	data() {
 		return {
 			food: null,
+      dishid:1,
       dishnames:[
         {name:"dish1"},
         {name:"dish2"},
@@ -114,6 +115,21 @@ export default {
               success: function (res) {
                   if (res.confirm) {
                     console.log('用户点击确定');
+                    uni.request({
+                              url:'http://cal.hanlh.com:8000/canteen/deletedish/',
+                              method:'POST',
+                              header:{
+                                Authorization:'Token '+uni.getStorageSync('token'),
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                              },
+                              data:{
+                                dish_id:this.dishid,
+                              },
+                              success: (res) => {
+                                console.log(res)
+                                console.log("删了一个")
+                              }
+                            });
                     wx.navigateTo({
                       url: "../MealManagement/MealManagement",
                     })
