@@ -30,11 +30,9 @@ class test(APIView):
         if not permission_veri(request):
             return http403("Permission denied")
         else:
-            try:
-                names = request.POST["names"].split(",")
-                return http(names[1])
-            except:
-                return http("no")
+            names = request.POST.get("names")
+            names = j.loads(names)
+            return http(names[0])
 
 
 class adddish(APIView):
@@ -45,7 +43,7 @@ class adddish(APIView):
         else:
             if len(request.FILES) == 1:
                 name = request.POST["dish"]
-                names = request.POST["names"].split(",")
+                names = j.loads(request.POST["names"])
                 img = request.FILES["img"]
                 d = dish(
                     name=name,
@@ -114,7 +112,7 @@ class editdish(APIView):
             dish_id = request.POST["dish_id"]
             name = request.POST["dish"]
             names = request.POST["names"]
-            names = names.split(",")
+            names = j.loads(names)
             try:
                 d = dish.objects.get(id=dish_id)
             except:
@@ -198,9 +196,9 @@ class addmenu(APIView):
             return http403("Permission denied")
         else:
             date = request.POST["date"]
-            bre = request.POST["bre"].split(",")
-            lun = request.POST["lun"].split(",")
-            din = request.POST["din"].split(",")
+            bre = j.loads(request.POST["bre"])
+            lun = j.loads(request.POST["lun"])
+            din = j.loads(request.POST["din"])
             mbre = menu(date=date, period="bre")
             mbre.save()
             bre_id = mbre.id
@@ -226,7 +224,7 @@ class editmenu(APIView):
             return http403("Permission denied")
         else:
             menu_id = request.POST["menu_id"]
-            dish_ids = request.POST["dishes"].split(",")
+            dish_ids = j.loads(request.POST["dishes"])
             lists = meta.objects.filter(menu_id=menu_id)
             for x in lists:
                 x.delete()
@@ -267,7 +265,7 @@ class orderdish(APIView):
         if not permission_veri(request):
             return http403("Permission denied")
         else:
-            orders = request.POST["orders"].split(",")
+            orders = j.loads(request.POST["orders"])
             for x in orders:
                 try:
                     meta.objects.get(
