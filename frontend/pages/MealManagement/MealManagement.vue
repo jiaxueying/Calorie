@@ -40,12 +40,11 @@
 		},
     onLoad() {
       uni.$on("meal-management-search", this.search);
-      request('/canteen/dishesview', 'GET', {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'token':uni.getStorageSync('token')
+      request('/canteen/dishesview/', 'GET', {
         }).then(res => {
         console.log(res);
-        console.log('meals returned:\n' + res[1].data.dishes);
+        console.log('meals returned:\n');
+        console.log(res[1].data.dishes);
         this.MealList = res[1].data.dishes;
         this.ShowedMealList = res[1].data.dishes;
       })

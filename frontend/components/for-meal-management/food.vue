@@ -12,7 +12,7 @@
       @tap="openDetail"
     />
     <view class="listText" @tap="openDetail">
-      <text>{{food.name}}\n</text>
+      <text>{{food.dish}}\n</text>
       <text v-if="show_count">份数：{{food.num}}</text>
     </view>
   </view>

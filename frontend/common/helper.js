@@ -7,6 +7,7 @@ export const request = function(url, method, data) {
     data: data,
     header: {
       Authorization: 'Token ' + uni.getStorageSync('token'),
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
   });
 };

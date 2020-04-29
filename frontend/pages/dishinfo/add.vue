@@ -109,9 +109,7 @@ export default {
           names.push(this.dishnames[i].name);
         }
         console.log(JSON.stringify(names))
-       request('/canteen/adddish', 'POST', {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'token':uni.getStorageSync('token'),
+       request('/canteen/adddish/', 'POST', {
           'dish':this.mealname,
           'img':this.src,
           'names':JSON.stringify(names)

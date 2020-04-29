@@ -8,7 +8,7 @@
         <text class="hint">点击上方图片更换菜品图片</text>
         <view class="table">
             <text class="mealname">套餐名称：</text>
-            <input :placeholder="food.name"
+            <input :placeholder="food.dish"
                    focus="true"
                    @input="changename"/>
         </view>
@@ -24,7 +24,7 @@
         
         <view style="height:150rpx"></view>
         <view class="bottom">
-          <button plain="true" class="delete"  @click="deletedish">
+          <button plain="true" class="delete" @click="deletedish">
               <image class="icon" src="../../static/delete.jpg"></image>
               删除菜品
           </button>
@@ -35,13 +35,13 @@
 </template>
 
 <script>
+import {request} from "../../common/helper.js"
 export default {
     components:{
     },
 	data() {
 		return {
-			food: null,
-      dishid:1,
+			food: {dish_id: -1, img: "", dish:""},
       dishnames:[
         {name:"dish1"},
         {name:"dish2"},
@@ -115,21 +115,6 @@ export default {
               success: function (res) {
                   if (res.confirm) {
                     console.log('用户点击确定');
-                    uni.request({
-                              url:'http://cal.hanlh.com:8000/canteen/deletedish/',
-                              method:'POST',
-                              header:{
-                                Authorization:'Token '+uni.getStorageSync('token'),
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                              },
-                              data:{
-                                dish_id:this.dishid,
-                              },
-                              success: (res) => {
-                                console.log(res)
-                                console.log("删了一个")
-                              }
-                            });
                     wx.navigateTo({
                       url: "../MealManagement/MealManagement",
                     })
@@ -143,6 +128,17 @@ export default {
 		},
     onLoad(options) {
       this.food = JSON.parse(options.foodDetail);
+      request("/canteen/dishview/", "GET", {
+        'dish_id':this.food.dish_id
+      }).then(res => {
+        console.log(res);
+        this.food.dish_id = res[1].data.dish_id;
+        this.food.dish = res[1].data.dish;
+        this.food.img = res[1].data.img;
+        for(let i = 1; i < this.dishnames.length; i++) {
+          this.dishnames[i].name = res[1].data.names[i];
+        }    
+      })
       // uni.getStorage({
       //   key:'meal-list',
       //   success: (res) => {
