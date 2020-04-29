@@ -26,10 +26,6 @@
       },
       search:function(event) {
           console.log("search in /components/for-meal-management/input-box.vue:" + event.target.value);
-          if(event.target.value == "") {
-            console.log("try to search empty string, do nothing!");
-            return;
-          }
           uni.$emit("meal-management-search", event.target.value);
           console.log("meal-management-search emit completed!");
       },

@@ -5,7 +5,7 @@
 	<view>
     <InputBox :show_button="false"></InputBox>
     <scroll-view class="scroll" scroll-y="true">
-      <view v-for="Food in MealList" :key="Food.name">
+      <view v-for="Food in ShowedMealList" :key="Food.dish">
         <Food :food="Food" :show_radio_button="true" :ischecked="isChecked(Food)"></Food>
       </view>
     </scroll-view>
@@ -18,6 +18,7 @@
 <script>
   import InputBox from "../../components/for-meal-management/input-box.vue"
   import Food from "../../components/for-meal-management/food.vue"
+  import {request, backendurl} from "../../common/helper.js"
 	export default {
     components: {
       InputBox,
@@ -25,51 +26,37 @@
     },
 		data() {
 			return {
-				MealList: [
-          {"name":"菜品1", "pic":"logo.png", "count":10},
-          {"name":"菜品2", "pic":"logo.png", "count":10},
-          {"name":"菜品3", "pic":"logo.png", "count":10},
-          {"name":"菜品4", "pic":"logo.png", "count":10},
-          {"name":"菜品5", "pic":"logo.png", "count":10},
-          {"name":"菜品6", "pic":"logo.png", "count":10},
-          {"name":"菜品7", "pic":"logo.png", "count":10},
-          {"name":"菜品8", "pic":"logo.png", "count":10},
-          {"name":"菜品9", "pic":"logo.png", "count":10},
-          {"name":"菜品10", "pic":"logo.png", "count":10},
-          {"name":"菜品11", "pic":"logo.png", "count":10},
-          {"name":"菜品12", "pic":"logo.png", "count":10},
-          {"name":"菜品13", "pic":"logo.png", "count":10},
-          {"name":"菜品14", "pic":"logo.png", "count":10},
-          {"name":"菜品15", "pic":"logo.png", "count":10},
-          {"name":"菜品16", "pic":"logo.png", "count":10},
-          {"name":"菜品17", "pic":"logo.png", "count":10},
-          {"name":"菜品18", "pic":"logo.png", "count":10},
-          {"name":"菜品19", "pic":"logo.png", "count":10},
-          {"name":"菜品20", "pic":"logo.png", "count":10},
-          {"name":"菜品21", "pic":"logo.png", "count":10},
-          {"name":"菜品22", "pic":"logo.png", "count":10},
-          {"name":"菜品23", "pic":"logo.png", "count":10},
-          {"name":"菜品24", "pic":"logo.png", "count":10},
-        ],
+				MealList: [],
         checkedMealList: [],
+        ShowedMealList: [],
+        time: ""
 			}
 		},
 		methods: {
 			search:function(key) {
         console.log("search in /pages/MealManagement/MealManagement.vue: " + key);
-        console.log("need to complete");
+        if(key.replace(" ", "") === "") {
+          this.ShowedMealList = this.MealList;
+          return;
+        }
+        this.ShowedMealList = [];
+        for(let i = 0, l = this.MealList.length; i < l; i++) {
+          if(this.MealList[i].dish.indexOf(key) != -1) {
+            this.ShowedMealList.push(this.MealList[i]);
+          }
+        }
         console.log("meal-management-search on completed!");
       },
       changeCheckedMealList:function(f) {
-        console.log("change " + f.name + " from checkedMealList");
+        console.log("change " + f.dish + " from checkedMealList");
         let i = 0;
         let l = this.checkedMealList.length;
         for(; i < l; i++)
-          if(this.checkedMealList[i].name == f.name)
+          if(this.checkedMealList[i].dish == f.dish)
             break;
         if(i >= l){
           this.checkedMealList.push(f);
-          console.log("there is no meal named " + f.name + " in checkedMealList");
+          console.log("there is no meal named " + f.dish + " in checkedMealList");
           return;
         }
         this.checkedMealList[i] = this.checkedMealList[l - 1];
@@ -78,7 +65,8 @@
       },
       addNewMealList: function() {
         console.log("生成新菜单 button clicked");
-        wx.navigateTo({
+        uni.$emit("changeMealList", {time:this.time, list:this.checkedMealList});
+        wx.navigateBack({
           url:"../MealList/MealList?booleans=" +
           JSON.stringify({
            modifyable:true,
@@ -88,8 +76,8 @@
       },
       isChecked: function(f) {
         for(let i = 0; i < this.checkedMealList.length; i++)
-          if(f.name == this.checkedMealList[i].name) {
-            console.log(f.name + " checked");
+          if(f.dish == this.checkedMealList[i].dish) {
+            console.log(f.dish + " checked");
             return true;
           }
         return false;
@@ -99,7 +87,17 @@
       uni.$on("meal-management-search", this.search);
       uni.$on("change-checked-meal-list", this.changeCheckedMealList);
       this.checkedMealList = JSON.parse(options.selectedFood);
+      this.time = options.time;
+      console.log(this.time);
       // 从后端获取MealList
+      request('/canteen/dishesview/', 'GET', {
+        }).then(res => {
+        console.log(res);
+        console.log('meals returned:\n');
+        console.log(res[1].data.dishes);
+        this.MealList = res[1].data.dishes;
+        this.ShowedMealList = res[1].data.dishes;
+      })
     }
 	}
 </script>

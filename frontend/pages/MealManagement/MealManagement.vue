@@ -5,7 +5,7 @@
 		<InputBox :show_button="true"></InputBox>
 		<scroll-view class="scroll" scroll-y="true">
 		  <view v-for="Food in ShowedMealList" :key="Food.name">
-			<Food :food="Food" :show_radio_button="false" :ischecked="false"></Food>
+        <Food :food="Food" :show_radio_button="false" :ischecked="false"></Food>
 		  </view>
 		</scroll-view>
 	</view>
@@ -29,6 +29,10 @@
 		methods: {
 			search:function(key) {
         console.log("search in /pages/MealManagement/MealManagement.vue: " + key);
+        if(key.replace(" ", "") === "") {
+          this.ShowedMealList = this.MealList;
+          return;
+        }
         this.ShowedMealList = [];
         for(let i = 0, l = this.MealList.length; i < l; i++) {
           if(this.MealList[i].dish.indexOf(key) != -1) {

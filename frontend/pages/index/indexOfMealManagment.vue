@@ -48,7 +48,7 @@
           url:"../MealList/MealList?booleans=" +
           JSON.stringify({
            modifyable:false,
-           countable:true
+           countable:true,
           })
         });
       },

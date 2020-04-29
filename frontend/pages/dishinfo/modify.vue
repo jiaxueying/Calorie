@@ -16,7 +16,7 @@
         <view v-for="(dishname,index) in dishnames">
         <view class="table">
             <text class="dishname">菜品名称{{index+1}}：</text>
-            <input :placeholder="dishname.name"
+            <input :placeholder="dishname"
                    @input="dishnamechange(index,$event)"
                    />
         </view>
@@ -41,7 +41,8 @@ export default {
     },
 	data() {
 		return {
-			food: {dish_id: -1, img: "", dish:""},
+			food:null,
+      dishid:1,
       dishnames:[
         {name:"dish1"},
         {name:"dish2"},
@@ -109,12 +110,28 @@ export default {
       //待完善，删除菜品信息的api
       deletedish:function(){
           console.log("进入删除函数")
+          var that=this;
           uni.showModal({
               title: '提示',
               content: '确认删除',
               success: function (res) {
                   if (res.confirm) {
                     console.log('用户点击确定');
+                    uni.request({
+                              url:'http://cal.hanlh.com:8000/canteen/deletedish/',
+                              method:'POST',
+                              header:{
+                                Authorization:'Token '+uni.getStorageSync('token'),
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                              },
+                              data:{
+                                dish_id:that.dishid,
+                              },
+                              success: (res) => {
+                                console.log(res)
+                                console.log("删了一个")
+                              }
+                            });
                     wx.navigateTo({
                       url: "../MealManagement/MealManagement",
                     })
@@ -128,17 +145,24 @@ export default {
 		},
     onLoad(options) {
       this.food = JSON.parse(options.foodDetail);
-      request("/canteen/dishview/", "GET", {
-        'dish_id':this.food.dish_id
-      }).then(res => {
-        console.log(res);
-        this.food.dish_id = res[1].data.dish_id;
-        this.food.dish = res[1].data.dish;
-        this.food.img = res[1].data.img;
-        for(let i = 1; i < this.dishnames.length; i++) {
-          this.dishnames[i].name = res[1].data.names[i];
-        }    
-      })
+      this.dishid=this.food.dish_id;
+      uni.request({
+                url:'http://cal.hanlh.com:8000/canteen/dishview/',
+                method:'GET',
+                header:{
+                  Authorization:'Token '+uni.getStorageSync('token'),
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                data:{
+                  dish_id:this.dishid,
+                },
+                success: (res) => {
+                  console.log(res)
+                  this.food=res.data
+                  this.dishnames=res.data.names;
+                  this.food.name=res.data.dish;
+                }
+              });
       // uni.getStorage({
       //   key:'meal-list',
       //   success: (res) => {
