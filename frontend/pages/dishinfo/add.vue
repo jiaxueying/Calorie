@@ -11,7 +11,7 @@
                    @input="addname"
                    />
         </view>
-        <view v-for="(dishname,index) in dishnames">
+        <view v-for="(dishname,index) in dishnames" :key="index">
         <view class="table">
             <text class="dishname">菜品名称{{index+1}}：</text>
             <input placeholder="  输入套餐内菜品名称"
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import {request, backendurl} from "../../common/helper.js"
 export default {
     components:{
     },
@@ -71,10 +72,10 @@ export default {
        console.log(this.dishnames[index].name);
      },
      //所有的上传在此处完成
-     complete:function(){
+     complete:async function(){
        var that=this
          console.log("进入完成函数")
-         uni.showModal({
+         await uni.showModal({
            title: '提示',
            content: '确认上传',
            success: function (res) {
@@ -87,6 +88,7 @@ export default {
                }
              }
          });
+         
      },
      //此处完善上传图片文件和菜品名称的api
      upload:function(){
@@ -102,6 +104,18 @@ export default {
                        console.log(uploadFileRes.data);
                    }
                });*/
+        let names = [];
+        for(let i = 0; i < this.dishnames.length; i++) {
+          names.push(this.dishnames[i].name);
+        }
+        console.log(JSON.stringify(names))
+       request('/canteen/adddish', 'POST', {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'token':uni.getStorageSync('token'),
+          'dish':this.mealname,
+          'img':this.src,
+          'names':JSON.stringify(names)
+         });
      },
      
      
