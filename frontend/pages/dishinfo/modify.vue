@@ -4,7 +4,7 @@
   <view>
     <!--访问权限问题-->
     <view class="list">
-        <image :src="'http://cal.hanlh.com:8000' + food.img" @click="changeimage"></image>
+        <image :src="src" @click="changeimage"></image>
         <text class="hint">点击上方图片更换菜品图片</text>
         <view class="table">
             <text class="mealname">套餐名称：</text>
@@ -35,19 +35,21 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import {request} from "../../common/helper.js"
+=======
+import {request, backendurl} from "../../common/helper.js"
+>>>>>>> 5cad8c8f48b8c0cee644604e30755bdbeaf19bab
 export default {
     components:{
     },
 	data() {
 		return {
+      src:"",
+      changeimg:false,
 			food:null,
       dishid:1,
-      dishnames:[
-        {name:"dish1"},
-        {name:"dish2"},
-        {name:"dish3"}
-      ],
+      dishnames:[" "," "," "],
 		}
 	},
 	methods: {
@@ -59,6 +61,7 @@ export default {
           count:1,
           success:function(res){
             that.src=res.tempFilePaths[0];
+            that.changeimg=true;
           }
         })
         
@@ -67,28 +70,50 @@ export default {
       dishnamechange:function(index,event){
         console.log("in dishnameadd!"+index);
         console.log(event.detail.value);
-        this.dishnames[index].name=event.detail.value;
-        console.log(this.dishnames[index].name);
+        this.dishnames[index]=event.detail.value;
+        console.log(this.dishnames[index]);
       },
       
       changename:function(event){
-        this.dishname=event.detail.value;
-        console.log(this.dishname);
+        this.food.dish=event.detail.value;
+        console.log(this.food.dish);
       },
       //待完善
       upload:function(){
         console.log("into upload");
-         /* uni.uploadFile({
-                    url: 'http://cal.hanlh.com:8000/', 
-                    filePath: this.src,
-                    name: '',
-                    formData: {
-                        
+        let names = [];
+        for(let i = 0; i < this.dishnames.length; i++) {
+          names.push(this.dishnames[i]);
+        }
+        console.log(JSON.stringify(names))
+        if(this.changeimg===true){
+        uni.uploadFile({
+                  url: 'http://cal.hanlh.com:8000/canteen/editdish/', 
+                  filePath: this.src,
+                  name: 'img',
+                  header:{
+                      Authorization:'Token '+uni.getStorageSync('token'),
+                      'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    success: (uploadFileRes) => {
-                        console.log(uploadFileRes.data);
-                    }
-                });*/
+                  formData: {
+                       'dish_id':this.dishid,
+                       'dish':this.food.dish,
+                       'img':this.src,
+                       'names':JSON.stringify(names)
+                  },
+                  success: (uploadFileRes) => {
+                      console.log(uploadFileRes.data.dish);
+                  }
+              });}
+        else request('/canteen/editdish/', 'POST', {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'dish_id':this.dishid,
+          'dish':this.food.dish,
+          'names':JSON.stringify(names)
+         });
+         wx.redirectTo({
+           url: "../MealManagement/MealManagement",
+         })
       },
       
       complete:function(){
@@ -146,6 +171,7 @@ export default {
     onLoad(options) {
       this.food = JSON.parse(options.foodDetail);
       this.dishid=this.food.dish_id;
+      this.src='http://cal.hanlh.com:8000' + this.food.img;
       uni.request({
                 url:'http://cal.hanlh.com:8000/canteen/dishview/',
                 method:'GET',
@@ -159,8 +185,9 @@ export default {
                 success: (res) => {
                   console.log(res)
                   this.food=res.data
+                  if(res.data.names.length!=0){
                   this.dishnames=res.data.names;
-                  this.food.name=res.data.dish;
+                  }
                 }
               });
       // uni.getStorage({

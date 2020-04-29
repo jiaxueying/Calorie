@@ -36,11 +36,7 @@ export default {
 			return {
         src:"../../static/upload.jpg",
         mealname:"",//预留给套餐名称
-        dishnames:[
-          {name:"dish1"},
-          {name:"dish2"},
-          {name:"dish3"}
-        ],
+        dishnames:["dish1","dish2","dish3"],
 			}
 		},
 		methods: {
@@ -83,6 +79,7 @@ export default {
                    console.log('用户点击确定');
                    console.log(that.src);
                    that.upload();
+                   
                } else if (res.cancel) {
                    console.log('用户点击取消');
                }
@@ -113,16 +110,24 @@ export default {
                    },
                    success: (uploadFileRes) => {
                        console.log(uploadFileRes.data.dish);
+<<<<<<< HEAD
                    },
           });
                
+=======
+                   }
+               });
+               wx.redirectTo({
+                 url: "../MealManagement/MealManagement",
+               })
+>>>>>>> 5cad8c8f48b8c0cee644604e30755bdbeaf19bab
      },
      
      
 		},
     onLoad() {
       
-      uni.getStorage({
+      /*uni.getStorage({
         key:'meal-list',
         success: (res) => {
           console.log(res)
@@ -136,7 +141,7 @@ export default {
             }
           })
         }
-      })
+      })*/
 	   
     }
 	}  
