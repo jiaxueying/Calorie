@@ -45,8 +45,7 @@ export default {
       changeimg:false,
 			food:null,
       dishid:1,
-      dishnames:[
-      ],
+      dishnames:[" "," "," "],
 		}
 	},
 	methods: {
@@ -67,8 +66,8 @@ export default {
       dishnamechange:function(index,event){
         console.log("in dishnameadd!"+index);
         console.log(event.detail.value);
-        this.dishnames[index].name=event.detail.value;
-        console.log(this.dishnames[index].name);
+        this.dishnames[index]=event.detail.value;
+        console.log(this.dishnames[index]);
       },
       
       changename:function(event){
@@ -182,7 +181,9 @@ export default {
                 success: (res) => {
                   console.log(res)
                   this.food=res.data
+                  if(res.data.names.length!=0){
                   this.dishnames=res.data.names;
+                  }
                 }
               });
       // uni.getStorage({
