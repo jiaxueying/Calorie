@@ -7,20 +7,20 @@
       v-show="!HistoryShow"
     >
       <view
-        v-if="foods.length"
-        v-for="Food in foods"
+        v-if="showedFoods.length"
+        v-for="Food in showedFoods"
         :key="Food.name"
       >
         <like :food="Food" />
       </view>
     </scroll-view>
-    <view
+    <!-- <view
       v-show="HistoryShow"
       class="History"
     >
       <search-history :viewname="name1" :Names="HistoryName" />
       <search-history :viewname="name2" :Names="PopularName" />
-    </view>
+    </view> -->
     <view
       v-show="IsShow"
       class="orders"
@@ -51,6 +51,7 @@ export default {
       IsShow: false,
       HistoryShow: false,
       foods: new Array(),
+      showedFoods:[],
       name1: '搜索历史',
       name2: '热门搜索',
       HistoryName: new Array(),
@@ -66,12 +67,28 @@ export default {
     uni.$on('search_tag',this.searchByTag);
     uni.$on('addHistory',this.addHistoryBykey);
     uni.$on('refresh1',this.refresh);
+    this.searchDate();
   },
   methods: {
     ChangeIsShow() {
       this.IsShow = !this.IsShow;
       console.log('IsShow changed: ' + this.IsShow);
       this.OrderedFood = uni.getStorageSync("meal-list");
+    },
+    searchDate() {
+      let index = getCurrentPages()[0];
+      let d = index.$vm.getDate();
+      let msg = index.$vm.getMsg();
+      request('/canteen/menuview/', 'GET', {
+        date: d,
+      }).then(res =>{
+        switch(msg) {
+          case "breakfast":this.foods = res[1].data.bre;break;
+          case "lunch":this.foods = res[1].data.lun;break;
+          case "dinner":this.foods = res[1].data.din;break;
+        }
+        this.showedFoods = this.foods.dishes;
+      })
     },
     ShowHistory() {
       this.HistoryShow = true;
@@ -91,13 +108,15 @@ export default {
     },
     MealListRefresh: async function(key) {
       console.log("meallist fresh:" + key);
-      await request('/dish/key_query/', 'GET', {
-        key_word: key,
-      }).then(res => {
-        this.foods = res[1].data.data;
-        console.log(res);
-      });
-      if(this.foods.length === 0) {
+      if(key === "") {this.searchDate();return;}
+      this.showedFoods = [];
+      for(let i = 0; i < this.foods.dishes.length; i++) {
+        let f = this.foods.dishes[i];
+        if(f.dish.indexOf(key) != -1) {
+          this.showedFoods.push(f);
+        }
+      }
+      if(this.showedFoods.length === 0) {
         uni.showModal({
           title: '提示',
           content: '抱歉，没有您想搜索的菜品',
@@ -110,23 +129,11 @@ export default {
       this.$refs.input.setValue(key);
       this.MealListRefresh(key);
     },
-    searchByTag(tag) {
-      console.log("searchBytag");
-      this.$refs.input.setValue(tag.name);
-      request('/dish/tag_query', 'GET', {
-        tag_id: tag.id,
-      }).then(res => {
-        this.foods = res[1].data.data.dishes;
-        console.log(this.foods);
-      });
-    },
     refresh() {
       this.OrderedFood = uni.getStorageSync('meal-list');
     },
   },
   mounted() {
-    this.MealListRefresh('');
-	
     console.log(this.OrderedFood);
   },
 };

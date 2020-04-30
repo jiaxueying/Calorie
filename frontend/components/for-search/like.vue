@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        :src="'http://cal.hanlh.com:8000'+food.picture"
+        :src="'http://cal.hanlh.com:8000'+food.img"
         mode=""
         @tap="detail"
       />
@@ -12,7 +12,7 @@
         style="flex: 1;"
       >
         <view class="title" @tap="detail">
-          {{ food.name }}     <text style="display: none;">{{ food.calorie }}kcal</text>
+          {{ food.dish }}     <text style="display: none;">{{ food.calorie }}kcal</text>
         </view>
         <view class="content" >
           <view class="label" v-for="tag in food.tag" :key="tag.id" @tap="search_tag(tag)">
@@ -20,7 +20,7 @@
           </view>
         </view>
         
-        <view class="bottom">
+        <!-- <view class="bottom">
           <view class="item">
             <button class="likeButton" @tap="like_">
               LIKE {{ food.like }}
@@ -31,7 +31,7 @@
               DISLIKE {{ food.dislike }}
             </button>
           </view>
-        </view>
+        </view> -->
       
       </view>
     </view>
