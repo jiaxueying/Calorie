@@ -127,7 +127,8 @@
             user_id:uni.getStorageSync('userid'),
             weight:this.weight,
             plan:this.plan,
-            target_weight:this.targetweight
+            target_weight:this.targetweight,
+            rate:this.rate,
           }
         })
         /*uni.request({
@@ -165,6 +166,7 @@
         this.minCalForDay=res.data.data.min_calorie
         this.maxCalForDay=res.data.data.max_calorie
         this.plan=res.data.data.plan
+        this.rate=res.data.data.rate
         if(this.plan)
         {
           this.targetweightshow=this.targetweight+"KG"
@@ -286,7 +288,7 @@
     color: #00aa00;
   }
   .nickname{
-    font-size: 2em;
+    font-size: 1.5em;
     height:85rpx;
     }
   .editbut{

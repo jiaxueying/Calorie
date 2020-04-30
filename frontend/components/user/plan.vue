@@ -56,7 +56,8 @@
       //设置目标体重
       set:function(event){
           if(event.detail.value!=""){
-              this.targetweight=event.detail.value
+              this.targetweight=event.detail.value;
+              this.rate=this.rate.toFixed(2);
               let data={
                   targetweight:this.targetweight,
                   string:this.string,
@@ -69,7 +70,8 @@
       //计算减重速率
       calculation:function(event){
           if(event.detail.value!=""){
-              this.rate=(this.targetweight-this.weight)/event.detail.value
+              this.rate=(this.targetweight-this.weight)/event.detail.value;
+              this.rate=this.rate.toFixed(2);
               let data={
                   targetweight:this.targetweight,
                   string:this.string,
@@ -109,17 +111,17 @@
     height: 80rpx;
     line-height: 80rpx;
     margin: 20rpx;
-    border: 2px #D2A9A9 solid;
-    color: #d2a9a9;
+    border: 2px #9a7c7c solid;
+    color: #9a7c7c;
     border-radius: 12rpx;
 	  background-color: #FFFFFF;
   }
   .chosen{
     color: #ffffff;
-    background-color: #D2A9A9;
+    background-color: #9a7c7c;
   }
   .input{
-    color:#d2a9a9;
+    color:#9a7c7c;
     font-size: 45rpx;
     margin-top: 10rpx;
     animation: pushup 1s;

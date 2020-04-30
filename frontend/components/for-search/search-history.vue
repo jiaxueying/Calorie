@@ -48,6 +48,7 @@
 	}
   .SearchHistoryName {
     padding: 15rpx 0;
+    color:#555C60;
   }
   .historyDetail {
     padding-left:20rpx;

@@ -6,7 +6,7 @@
           <text >粟</text>
         </view>
         <text style="color:#59453D;font-weight: 500; font-size:30rpx;margin-left: 20rpx;margin-right: 20rpx;">由于疫情期间，本团队无法进入学校进行卡路里测算,故暂时不开放与卡路里监测相关的功能。\n疫情结束后屏幕前的你也毕业了...\n那就——毕业快乐！</text>
-        <view @click="this.isisfirst=false" style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" ><text style="color:#59453D;font-weight: 600; font-size:30rpx;">我知道啦</text></view>
+        <view style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" ><text style="color:#59453D;font-weight: 600; font-size:30rpx;" @click="isisfirstchange">我知道啦</text></view>
       </view>
       <view v-if="!isisfirst" class="timelist" >
         <view class="logo">
@@ -68,6 +68,14 @@
 			}
 		},
 		methods: {
+      isisfirstchange:function(){
+        this.isisfirst=false;
+        uni.setStorage({
+          key:'isisfirst',
+          data:false,
+          
+        })
+      },
       deletemeal:function(){
         uni.request({
           url:'http://cal.hanlh.com:8000/menu/delete/',
@@ -122,7 +130,7 @@
             console.log(userid)
             uni.setStorage({
               key:'range',
-              data:[1300,1350]
+              data:[1000,1500]
             })
 			this.isrange=!this.isrange
           }

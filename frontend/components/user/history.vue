@@ -5,10 +5,10 @@
     </view>
     <dl>
     <dt class="historyList" v-for="(item,index) in list" :key="index">
-      <view class="mealimg">
+      <view class="mealimg"  @click="showhistorymenu(item.id)">
         <image style="width: 100rpx;height: 100rpx;" :src='item.picture'></image>
       </view>
-      <view class="historyInfo">
+      <view class="historyInfo" @click="showhistorymenu(item.id)">
         <text>{{item.date}}\n</text>
         <text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.calorie}}kcal</text>
       </view>
@@ -35,10 +35,30 @@
           
         ],
         replacelist:{picture:'../../static/default.jpg',calorie:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
-        isdelete:true
+        isdelete:true,
       }
     },
     methods:{
+      showhistorymenu:function(index){
+        uni.request({
+          url:"http://cal.hanlh.com:8000/menu/detail/",
+          method:"GET",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          data:{
+            menu_id:index,
+          },
+          success: (res) => {
+            console.log(res.data)
+            uni.$emit('showhistorydedail',res.date)
+            uni.navigateTo({
+              url:"../../pages/others/mylist"
+            });
+            // [{'id': , 'picture':, 'date': ‘calorie’: }]
+          }
+        })
+      },
       deleteItem:function(index,list){
         uni.request({
           url:"http://cal.hanlh.com:8000/menu/delete/",
@@ -71,7 +91,7 @@
            Authorization:'Token '+uni.getStorageSync('token')
          },
          data:{
-           
+           user_id:uni.getStorageSync('userid')
          },
          success: (res) => {
            console.log(res)
@@ -86,6 +106,12 @@
              for(let i=0;i<this.list.length;i++)
              {
                this.list[i].picture='http://cal.hanlh.com:8000/media/'+this.list[i].picture
+               var str="";
+               for(let j=0;j<10;j++){
+                 str+=this.list[i].date[j];
+               }
+               this.list[i].date=str;
+               console.log(this.list[i].date);
              }
            }
            console.log(this.list)
