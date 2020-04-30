@@ -28,10 +28,11 @@
             "style" : {}
         }
     ],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+	"globalStyle": {        		
+                "navigationBarTextStyle": "black",
+        		"navigationBarTitleText": "粟",
+        		"navigationBarBackgroundColor": "#d9cfca",
+        		"backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh":false
 	}
 }
