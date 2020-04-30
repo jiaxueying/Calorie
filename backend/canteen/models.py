@@ -74,3 +74,23 @@ class auth(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class history(models.Model):
+    '''历史菜单'''
+
+    user_id = models.IntegerField()
+    time = models.DateTimeField()
+
+    def __str__(self):
+        return self.name
+
+
+class history_meta(models.Model):
+    '''历史菜单详情'''
+
+    history = models.ForeignKey(history, on_delete=models.CASCADE)
+    dish = models.ForeignKey(dish, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name

@@ -18,4 +18,6 @@ urlpatterns = [
     path('editmenu/', views.editmenu.as_view()),
     path('userdishview/', views.userdishview.as_view()),
     path('orderdish/', views.orderdish.as_view()),
+    path('historyview/', views.historyview.as_view()),
+    path('deletehistory/', views.deletehistory.as_view()),
 ]
