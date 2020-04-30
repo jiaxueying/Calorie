@@ -45,8 +45,9 @@
                 success: (res) => {
                       console.log(res.data.data)
                       uni.$emit('showhistorydedail',res.data.data)
+                      uni.$emit('date',{date:this.date})
                       uni.navigateTo({
-                          url:"../../pages/others/mylist?date=this.date"//不确定能不能这么传
+                          url:"../../pages/others/mylist"
                           });
                 }
         })
