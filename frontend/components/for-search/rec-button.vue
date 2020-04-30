@@ -25,9 +25,10 @@
 		font-size: 20rpx;
 		display:inline-block;
 		border-radius: 26rpx;
-		border: 3rpx solid #000000;
+		border: 4rpx solid #8F8F94;
 		background-color: #FFFFFF;
     padding-left: 30rpx;
     padding-right: 30rpx;
+    color:#555C60;
 	}
 </style>

@@ -20,7 +20,7 @@
                     type="number"
                     maxlength="4"
                     :placeholder="day"
-                    @input="calculation"/><text>Day</text>
+                    @input="changedate"/><text>Day</text>
           </view>
       </view>
       <view class="tip" v-if="!choice">恰如其分，就是最好的你</view>
@@ -43,12 +43,16 @@
       
       Switch:function(choi){
           this.choice=choi
-          if(choi==false){this.string="暂无计划"}
-          else{this.string="有计划"}
+          if(choi==false){this.string="暂无计划";this.rate=0;}
+          else{
+            this.string="有计划";
+            this.rate=(this.targetweight-this.weight)/this.day;
+            this.rate=this.rate.toFixed(2);
+            }
           let data={
               targetweight:this.targetweight,
               string:this.string,
-              rate:0
+              rate:this.rate,
               }
           this.$emit('input',data)
       },
@@ -56,21 +60,30 @@
       //设置目标体重
       set:function(event){
           if(event.detail.value!=""){
-              this.targetweight=event.detail.value
+              this.targetweight=event.detail.value;
+              this.rate=(this.targetweight-this.weight)/this.day;
+              this.rate=this.rate.toFixed(2);
               let data={
                   targetweight:this.targetweight,
                   string:this.string,
                   rate:this.rate
                   }
               this.$emit('input',data)
+            
           }
       },
       
-      //计算减重速率
-      calculation:function(event){
+      //设置所用天数
+      changedate:function(event){
           if(event.detail.value!=""){
-              this.rate=(this.targetweight-this.weight)/event.detail.value
-              let data={
+            uni.setStorage({
+              key:'weightdate',
+              data:event.detail.value
+            })
+            this.day=event.detail.value
+            this.rate=(this.targetweight-this.weight)/event.detail.value;
+            this.rate=this.rate.toFixed(2);
+             let data={
                   targetweight:this.targetweight,
                   string:this.string,
                   rate:this.rate
@@ -87,6 +100,8 @@
         this.targetweight=this.targetweightrec
         if(this.plan=="暂无计划"){this.choice=false}
         else{this.choice=true}
+        this.day=uni.getStorageSync('weightdate')
+        
       }
   }
 </script>
@@ -109,17 +124,17 @@
     height: 80rpx;
     line-height: 80rpx;
     margin: 20rpx;
-    border: 2px #D2A9A9 solid;
-    color: #d2a9a9;
+    border: 2px #9a7c7c solid;
+    color: #9a7c7c;
     border-radius: 12rpx;
 	  background-color: #FFFFFF;
   }
   .chosen{
     color: #ffffff;
-    background-color: #D2A9A9;
+    background-color: #9a7c7c;
   }
   .input{
-    color:#d2a9a9;
+    color:#9a7c7c;
     font-size: 45rpx;
     margin-top: 10rpx;
     animation: pushup 1s;

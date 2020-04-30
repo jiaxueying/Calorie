@@ -23,7 +23,7 @@
     
     <!--计划设置组件-->
     <view class="plan" v-if="Switch">
-        <plan @input="changetarget" :plan="targetweightshow" :targetweightrec="targetweight" :weight="weight"></plan>
+        <plan @input="changetarget" :plan="targetweightshow" :targetweightrec="targetweight" :weight="weight" :rate="weightrate"></plan>
         <!--弹出框组件-->
         <view class="popcontent" v-if="pop">
             <view class="popup">
@@ -56,12 +56,13 @@
         minCalForDay:'1000',
         maxCalForDay:'1500',
         Switch:false,
-        targetweight:600,
+        targetweight:0,
         pop:false,
         tempweight:1,//pop组件里的体重变量
         targetweightshow:"999KG",
         plan:true,
         weightrate:0,
+        weightdate:60,
 			}
 		},
 		methods: {
@@ -69,6 +70,32 @@
       //编辑模式选择
 			set:function(){
         this.Switch=!this.Switch
+        if(this.Switch==false){
+          uni.request({
+            url:"http://cal.hanlh.com:8000/user/profile/",
+            method:"POST",
+            header:{
+              Authorization:'Token '+uni.getStorageSync('token')
+            },
+            data:{
+              plan:this.plan,
+              weight:this.weight,
+              target_weight:this.targetweight,
+              rate:this.weightrate,
+            },
+            
+          });
+          uni.request({
+            url:"http://cal.hanlh.com:8000/user/profile/",
+            method:"GET",
+            header:{
+              Authorization:'Token '+uni.getStorageSync('token')
+            },
+            success: (res) => {
+              console.log(res.data)
+            }
+          })
+        }
       },
       
       //此事件被子组件触发，a就是从子组件获取的数据，targetweight
@@ -77,28 +104,16 @@
         {
         this.targetweight=data.targetweight
         this.targetweightshow=data.targetweight+"KG"
-        this.weightrate=data.rate//无法动态接受
+        this.weightrate=data.rate
         this.plan=true
         }
         else
         {
         this.targetweightshow="暂无计划"
         this.weightrate=data.rate
+        this.targetweight=0
         this.plan=false
         }
-        uni.request({
-          url:"http://cal.hanlh.com:8000/user/profile/",
-          method:"POST",
-          header:{
-            Authorization:'Token '+uni.getStorageSync('token')
-          },
-          data:{
-            user_id:uni.getStorageSync('userid'),
-            plan:this.plan,
-            weight:this.weight,
-            target_weight:this.targetweight
-          }
-        })
         
       },
       
@@ -117,27 +132,33 @@
       confirm:function(){
         this.weight=this.tempweight
         this.pop=false
-        uni.request({
+          
+         this.weightdate=uni.getStorageSync('weightdate')
+         this.weightrate=(this.targetweight-this.weight)/this.weightdate 
+         this.weightrate=this.weightrate.toFixed(2);
+        
+        
+       /* uni.request({
           url:"http://cal.hanlh.com:8000/user/profile/",
           method:"POST",
           header:{
             Authorization:'Token '+uni.getStorageSync('token')
           },
           data:{
-            user_id:uni.getStorageSync('userid'),
             weight:this.weight,
             plan:this.plan,
-            target_weight:this.targetweight
+            target_weight:this.targetweight,
+            rate:this.weightrate,
           }
         })
-        /*uni.request({
-          url:"http://cal.hanlh.com:8000/user/profile",
+        uni.request({
+          url:"http://cal.hanlh.com:8000/user/profile/",
           method:"GET",
           header:{
             Authorization:'Token '+uni.getStorageSync('token')
           },
           success: (res) => {
-            console.log(res.data.data)
+            console.log(res.data)
           }
         })*/
       },
@@ -153,26 +174,27 @@
     onLoad() {
       //一个函数，在页面加载时自动执行
       //获取页面所需的所有用户数据
-		uni.request({
-			url:"http://cal.hanlh.com:8000/user/profile",
-			method:"GET",
-			header:{
-				Authorization:"Token"+uni.getStorageSync("token")
-			},
-			success: (res) => {
-				this.weight=res.data.data.weight
-				this.targetweight=res.data.data.target_weight
-        this.minCalForDay=res.data.data.min_calorie
-        this.maxCalForDay=res.data.data.max_calorie
-        this.plan=res.data.data.plan
-        if(this.plan)
-        {
-          this.targetweightshow=this.targetweight+"KG"
-        }
-        else
-        {
-          this.targetweightshow="暂无计划"
-        }
+      console.log(uni.getStorageSync("token"));
+      this.weightdate=uni.getStorageSync('weightdate')
+      uni.request({
+        url:"http://cal.hanlh.com:8000/user/profile/",
+        method:"GET",
+        header:{
+          Authorization:"Token "+uni.getStorageSync("token")
+        },
+        success: (res) => {
+          this.weight=res.data.data.weight
+          this.targetweight=res.data.data.target_weight
+          this.plan=res.data.data.plan
+          this.weightrate=res.data.data.rate
+          if(this.plan)
+          {
+            this.targetweightshow=this.targetweight+"KG"
+          }
+          else
+          {
+            this.targetweightshow="暂无计划"
+          }
 			}
 		})
     
@@ -286,7 +308,7 @@
     color: #00aa00;
   }
   .nickname{
-    font-size: 2em;
+    font-size: 1.5em;
     height:85rpx;
     }
   .editbut{

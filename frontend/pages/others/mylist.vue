@@ -84,29 +84,41 @@
         meallist:[ null ],
         path: [],//图片的路径
         size:"width:600rpx;",
+        ispost:true,
       }
     },
       //created用于组件加载，onload用于页面加载
     created: async function (e) {
       //异步函数
-      this.meallist = uni.getStorageSync('meal-list');   
+      this.meallist = uni.getStorageSync('meal-list');
+      uni.$on("showhistorydetail",function(data){
+           for(var i=0;i<data.length;i++)
+           {
+             this.meallist[i].cal=data[i].calorie
+             this.meallist[i].id=data[i].id
+             this.meallist[i].name=data[i].name
+             this.meallist[i].picture=data[i].picture
+           }
+           this.date=data[0].date
+           this.ispost=false
+           console.log("from history list~")
+         })
       this.msg = 0;
       for(var i = 0; i < this.meallist.length; i++) {
         this.msg += this.meallist[i].cal;
         await this.get(i);
         }
       this.draw();
-      this.post();
+      if(this.ispost) this.post();
     },
     
     methods: {
-      
       get(i) {
         return new Promise((resolve, reject) => {
               uni.getImageInfo({
               src:'http://cal.hanlh.com:8000'+this.meallist[i].picture,
               success: (res) => {
-                this.path.push(res.path);//push是什么
+                this.path.push(res.path);
                 resolve('success');//这句的作用
                 },
               fail: () => {

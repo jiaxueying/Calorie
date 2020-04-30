@@ -7,7 +7,7 @@
           <text >粟</text>
         </view>
         <text style="color:#59453D;font-weight: 500; font-size:30rpx;margin-left: 20rpx;margin-right: 20rpx;">由于疫情期间，本团队无法进入学校进行卡路里测算,故暂时不开放与卡路里监测相关的功能。\n疫情结束后屏幕前的你也毕业了...\n那就——毕业快乐！</text>
-        <view @click="this.isisfirst=false" style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" ><text style="color:#59453D;font-weight: 600; font-size:30rpx;">我知道啦</text></view>
+        <view style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" ><text style="color:#59453D;font-weight: 600; font-size:30rpx;" @click="isisfirstchange">我知道啦</text></view>
       </view>
       <view v-if="!isisfirst" class="timelist" >
         <view class="logo">
@@ -69,36 +69,15 @@
 			}
 		},
 		methods: {
-      deletemeal:function(){
-        uni.request({
-          url:'http://cal.hanlh.com:8000/menu/delete/',
-          method:'POST',
-          header:{
-            Authorization:'Token '+uni.getStorageSync('token')
-          },
-          data:{
-            user_id:6,
-            menu_id:46,
-          },
-          success: (res) => {
-            console.log(res)
-            console.log("删了一个")
-          }
-        });
-        uni.request({
-        	url:"http://cal.hanlh.com:8000/user/profile",
-        	method:"GET",
-        	header:{
-        		Authorization:"Token"+uni.getStorageSync("token")
-        	},
-        	success: (res) => {
-        		console.log("get")
-        	}
+      isisfirstchange:function(){
+        this.isisfirst=false;
+        uni.setStorage({
+          key:'isisfirst',
+          data:false,
+          
         })
-        
-        
       },
-      
+     
       setRange:function(rec){
         this.isfirst=false
         this.msg=rec
@@ -114,16 +93,12 @@
           },
           success: (res) => {
             let a=uni.getStorageSync('token')
-            console.log(a)
-            console.log(res.data.data)
             weight=res.data.data.weight
-            console.log(weight)
             uni.setStorageSync('userid',res.data.data.id)
             let userid=uni.getStorageSync('userid')
-            console.log(userid)
             uni.setStorage({
               key:'range',
-              data:[1300,1350]
+              data:[1000,1500]
             })
 			this.isrange=!this.isrange
           }
@@ -132,26 +107,42 @@
 			
 		},
     onLoad() {
+      
       uni.login({
         success: (res) => {
-          uni.request({
-            url:'http://cal.hanlh.com:8000/user/login/',
-            data:{
-              code:res.code,
-              name:'123'
-            },
-            method:"POST",
-            success: (res) => {
-              //console.log(res)
-              uni.setStorage({
-                key:'token',
-                data:res.data.token,
+            uni.request({
+              url:'http://cal.hanlh.com:8000/user/login/',
+              data:{
+                code:res.code,
+                name:'123'
+              },
+              method:"POST",
+              success: (res) => {
+                  uni.setStorage({
+                  key:'token',
+                  data:res.data.token,
+                  })
+                  }
               })
+        }
+      })
+      
+      
+      uni.getStorage({
+        key:'weightdate',
+        success: (res) => {
+          console.log(res)
+        },
+        fail: () => {
+          uni.setStorage({
+            key:'weightdate',
+            data:60,
+            success: () => {
+              console.log('set weightdate')
             }
           })
         }
       })
-      
       
       uni.getStorage({
         key:'meal-list',
@@ -170,6 +161,7 @@
       })
 	   
     }
+    
 	}
 </script>
 
