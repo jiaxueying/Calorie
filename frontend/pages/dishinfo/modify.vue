@@ -107,7 +107,7 @@ export default {
           'dish':this.food.dish,
           'names':JSON.stringify(names)
          });
-         wx.redirectTo({
+         wx.navigateBack({
            url: "../MealManagement/MealManagement",
          })
       },
