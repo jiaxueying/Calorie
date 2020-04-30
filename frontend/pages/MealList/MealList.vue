@@ -3,7 +3,7 @@
 <template>
 	<view>
 		<DateChooser></DateChooser>
-    <view v-if="breakfast.length == 0 && lunch.length == 0 && dinner.length == 0">
+    <view v-if="breakfast.dishes.length == 0 && lunch.dishes.length == 0 && dinner.dishes.length == 0">
       {{error}}
     </view>
     <MealClassifier :name="breakfast_name" :meallist="breakfast.dishes"
@@ -59,14 +59,14 @@
             this.hasMenu = true;
           }
           else {
-            this.hasMenu = true;
-            this.breakfast = [];
-            this.lunch = [];
-            this.dinner = [];
+            this.hasMenu = false;
+            this.breakfast = {menu_id:0, dishes:[]};
+            this.lunch = {menu_id:0, dishes:[]};
+            this.dinner = {menu_id:0, dishes:[]};
           }
         })
       },
-      getIDs(a) {
+      getIDs:function(a) {
         let ids = [];
         for(let i = 0; i < a.length; i++) {
           ids.push(a[i].dish_id);
@@ -99,11 +99,14 @@
           din_ids = this.getIDs(c.list);
           changed_ids = din_ids;
         }
-        if(!this.hasMenu) {
+        console.log(this.hasMenu)
+        if(this.hasMenu == false) {
+          console.log("add menu")
           console.log(this.date)
           console.log(bre_ids)
           console.log(lun_ids)
           console.log(din_ids)
+          this.hasMenu = true;
           request("/canteen/addmenu/", 'POST', {
             date:this.date, 
             bre:JSON.stringify(bre_ids),
@@ -112,6 +115,7 @@
           })
         }
         else {
+          console.log("modify menu")
           console.log(changed_id)
           console.log(changed_ids)
           request("/canteen/editmenu/", 'POST', {
@@ -119,6 +123,7 @@
             dishes: JSON.stringify(changed_ids)
           })
         }
+        this.searchDate(this.date);
       }
 		},
     onLoad(options) {
