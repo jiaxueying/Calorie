@@ -3,7 +3,7 @@
 <template>
 	<view>
 		<DateChooser></DateChooser>
-    <view v-if="!breakfast.length && !lunch.length && !dinner.length">
+    <view v-if="breakfast.length == 0 && lunch.length == 0 && dinner.length == 0">
       {{error}}
     </view>
     <MealClassifier :name="breakfast_name" :meallist="breakfast.dishes"
@@ -60,6 +60,9 @@
           }
           else {
             this.hasMenu = true;
+            this.breakfast = [];
+            this.lunch = [];
+            this.dinner = [];
           }
         })
       },
