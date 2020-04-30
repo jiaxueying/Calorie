@@ -11,7 +11,7 @@ export const request = function(url, method, data) {
     },
   });
 };
-
+ 
 export default {
   backendUrl,
   request,
