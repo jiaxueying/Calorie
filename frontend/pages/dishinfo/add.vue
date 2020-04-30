@@ -35,7 +35,7 @@ export default {
 			return {
         src:"../../static/upload.jpg",
         mealname:"",//预留给套餐名称
-        dishnames:["dish1","dish2","dish3"],
+        dishnames:["  输入套餐内菜品名称","  输入套餐内菜品名称","  输入套餐内菜品名称"],
 			}
 		},
 		methods: {
