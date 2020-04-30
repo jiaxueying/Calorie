@@ -42,7 +42,7 @@
   import { like, dislike } from '@/common/helper.js';
   import { backendUrl, request } from '@/common/helper.js';
   export default {
-    props: ['food'],
+    props: ['food', 'menu_id'],
     data() {
       return {
         isChoose:false,
@@ -63,7 +63,7 @@
         console.log(this.food);
         this.$parent.IsShow = false;
         wx.navigateTo({
-          url:'../others/detail?foodDetail='+JSON.stringify(this.food),
+          url:'../others/detail?foodDetail='+JSON.stringify(this.food) + '&id=' + this.menu_id,
         });
       },
       search_tag(v) {

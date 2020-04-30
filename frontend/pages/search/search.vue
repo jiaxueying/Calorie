@@ -9,9 +9,9 @@
       <view
         v-if="showedFoods.length"
         v-for="Food in showedFoods"
-        :key="Food.name"
+        :key="Food.dish"
       >
-        <like :food="Food" />
+        <like :food="Food" :menu_id="foods.menu_id"/>
       </view>
     </scroll-view>
     <!-- <view
