@@ -6,13 +6,13 @@
     <view v-if="!breakfast.length && !lunch.length && !dinner.length">
       {{error}}
     </view>
-    <MealClassifier :name="breakfast_name" :meallist="breakfast"
+    <MealClassifier :name="breakfast_name" :meallist="breakfast.dishes"
       :modifyable="shows.modifyable" :countable="shows.countable">
     </MealClassifier>
-    <MealClassifier :name="lunch_name" :meallist="lunch"
+    <MealClassifier :name="lunch_name" :meallist="lunch.dishes"
       :modifyable="shows.modifyable" :countable="shows.countable">
     </MealClassifier>
-    <MealClassifier :name="dinner_name" :meallist="dinner"
+    <MealClassifier :name="dinner_name" :meallist="dinner.dishes"
       :modifyable="shows.modifyable" :countable="shows.countable">
     </MealClassifier>
 	</view>
@@ -29,6 +29,7 @@
     },
 		data() {
 			return {
+        hasMenu: false,
         shows: null,
         date: "",
         breakfast_name: "早餐",
@@ -51,47 +52,70 @@
           }).then(res => {
           if(res[1].statusCode != 404) {
             console.log('OK!');
-            this.breakfast = res[1].data.bre.dishes;
-            this.lunch = res[1].data.lun.dishes;
-            this.dinner = res[1].data.din.dishes;
+            console.log(res)
+            this.breakfast = res[1].data.bre;
+            this.lunch = res[1].data.lun;
+            this.dinner = res[1].data.din;
+            this.hasMenu = true;
+          }
+          else {
+            this.hasMenu = true;
           }
         })
+      },
+      getIDs(a) {
+        let ids = [];
+        for(let i = 0; i < a.length; i++) {
+          ids.push(a[i].dish_id);
+        }
+        return ids;
       },
       changeList:function(c) {
         console.log("changing list");
         console.log(c);
+        let changed_id = 0;
+        let bre_ids = [], lun_ids = [], din_ids = [], changed_ids = [];
         if(c.time === "\"早餐\"") {
           console.log("早餐 changed");
-          this.breakfast = c.list;
+          this.breakfast.dishes = c.list;
+          changed_id = this.breakfast.menu_id;
+          bre_ids = this.getIDs(c.list);
+          changed_ids = bre_ids;
         }
         else if(c.time === "\"午餐\"") {
           console.log("午餐 changed");
-          this.lunch = c.list;
+          this.lunch.dishes = c.list;
+          changed_id = this.lunch.menu_id;
+          lun_ids = this.getIDs(c.list);
+          changed_ids = lun_ids;
         }
         else if(c.time === "\"晚餐\"") {
           console.log("晚餐 changed");
-          this.dinner = c.list;
+          this.dinner.dishes = c.list;
+          changed_id = this.dinner.menu_id;
+          din_ids = this.getIDs(c.list);
+          changed_ids = din_ids;
         }
-        let bre_ids = [], lun_ids = [], din_ids = [];
-        for(let i = 0; i < this.breakfast.length; i++) {
-          bre_ids.push(this.breakfast[i].dish_id);
+        if(!this.hasMenu) {
+          console.log(this.date)
+          console.log(bre_ids)
+          console.log(lun_ids)
+          console.log(din_ids)
+          request("/canteen/addmenu/", 'POST', {
+            date:this.date, 
+            bre:JSON.stringify(bre_ids),
+            lun:JSON.stringify(lun_ids),
+            din:JSON.stringify(din_ids)
+          })
         }
-        for(let i = 0; i < this.lunch.length; i++) {
-          lun_ids.push(this.lunch[i].dish_id);
+        else {
+          console.log(changed_id)
+          console.log(changed_ids)
+          request("/canteen/editmenu/", 'POST', {
+            menu_id: changed_id,
+            dishes: JSON.stringify(changed_ids)
+          })
         }
-        for(let i = 0; i < this.lunch.length; i++) {
-          din_ids.push(this.lunch[i].dish_id);
-        }
-        console.log(this.date)
-        console.log(bre_ids)
-        console.log(lun_ids)
-        console.log(din_ids)
-        request("/canteen/addmenu/", 'POST', {
-          date:this.date, 
-          bre:JSON.stringify(bre_ids),
-          lun:JSON.stringify(lun_ids),
-          din:JSON.stringify(din_ids)
-        })
       }
 		},
     onLoad(options) {

@@ -110,17 +110,11 @@ export default {
                    },
                    success: (uploadFileRes) => {
                        console.log(uploadFileRes.data.dish);
-<<<<<<< HEAD
-                   },
-          });
-               
-=======
                    }
                });
                wx.redirectTo({
                  url: "../MealManagement/MealManagement",
                })
->>>>>>> 5cad8c8f48b8c0cee644604e30755bdbeaf19bab
      },
      
      

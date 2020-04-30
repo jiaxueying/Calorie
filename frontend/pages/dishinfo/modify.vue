@@ -35,11 +35,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import {request} from "../../common/helper.js"
-=======
-import {request, backendurl} from "../../common/helper.js"
->>>>>>> 5cad8c8f48b8c0cee644604e30755bdbeaf19bab
 export default {
     components:{
     },
