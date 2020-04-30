@@ -3,7 +3,7 @@
 <template>
 	<view>
 		<DateChooser></DateChooser>
-    <view v-if="breakfast.dishes.length == 0 && lunch.dishes.length == 0 && dinner.dishes.length == 0">
+    <view v-if="breakfast.dishes.length == 0 && lunch.dishes.length == 0 && dinner.dishes.length == 0" class="warning">
       {{error}}
     </view>
     <MealClassifier :name="breakfast_name" :meallist="breakfast.dishes"
@@ -37,7 +37,7 @@
         dinner_name: "晚餐",
         error:"该日期没有菜单哦～",
         breakfast: [],
-				lunch: [],
+		lunch: [],
         dinner: []
 			}
 		},
@@ -146,5 +146,8 @@
 </script>
 
 <style>
+	.warning{
+    margin-left: 35%;
+	}
 
 </style>

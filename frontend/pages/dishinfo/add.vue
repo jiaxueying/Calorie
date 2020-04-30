@@ -1,7 +1,6 @@
 <template>
   <view>
     <text class="hint">请输入以下信息,点击图标上传菜品图片</text>
-    <!--访问权限问题-->
     <view class="list">
         <image :src="src" @click="chooseimage"></image>
         <view class="table">
@@ -64,8 +63,8 @@ export default {
      dishnameadd:function(index,event){
        console.log("in dishnameadd!"+index);
        console.log(event.detail.value);
-       this.dishnames[index].name=event.detail.value;
-       console.log(this.dishnames[index].name);
+       this.dishnames[index]=event.detail.value;
+       console.log(this.dishnames[index]);
      },
      //所有的上传在此处完成
      complete:async function(){
@@ -92,7 +91,7 @@ export default {
          console.log("into upload");
          let names = [];
          for(let i = 0; i < this.dishnames.length; i++) {
-           names.push(this.dishnames[i].name);
+           names.push(this.dishnames[i]);
          }
          console.log(JSON.stringify(names))
          uni.uploadFile({
@@ -120,23 +119,6 @@ export default {
      
 		},
     onLoad() {
-      
-      /*uni.getStorage({
-        key:'meal-list',
-        success: (res) => {
-          console.log(res)
-        },
-        fail: () => {
-          uni.setStorage({
-            key:'meal-list',
-            data:[],
-            success: () => {
-              console.log('set meal-list')
-            }
-          })
-        }
-      })*/
-	   
     }
 	}  
 </script>
@@ -161,14 +143,14 @@ export default {
     }
   image{
     width: 550rpx;
-    height: 500rpx;
+    height: 450rpx;
    }
   .meal{
-    font-size: 50rpx;
+    font-size: 1.5em;
     font-weight: 600;
    }
    .dishname{
-     font-size: 45rpx;
+     font-size:1.2em;
      font-weight: 600;
    }
   .table{
@@ -181,6 +163,7 @@ export default {
     border-radius: 10rpx;
     outline: none;
     height: 80rpx;;
+    width:60%;
    }
   button{
     font-size: 20rpx;
