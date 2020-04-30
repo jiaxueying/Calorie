@@ -76,36 +76,7 @@
           
         })
       },
-      deletemeal:function(){
-        uni.request({
-          url:'http://cal.hanlh.com:8000/menu/delete/',
-          method:'POST',
-          header:{
-            Authorization:'Token '+uni.getStorageSync('token')
-          },
-          data:{
-            user_id:6,
-            menu_id:46,
-          },
-          success: (res) => {
-            console.log(res)
-            console.log("删了一个")
-          }
-        });
-        uni.request({
-        	url:"http://cal.hanlh.com:8000/user/profile",
-        	method:"GET",
-        	header:{
-        		Authorization:"Token"+uni.getStorageSync("token")
-        	},
-        	success: (res) => {
-        		console.log("get")
-        	}
-        })
-        
-        
-      },
-      
+     
       setRange:function(rec){
         this.isfirst=false
         this.msg=rec
@@ -121,13 +92,9 @@
           },
           success: (res) => {
             let a=uni.getStorageSync('token')
-            console.log(a)
-            console.log(res.data.data)
             weight=res.data.data.weight
-            console.log(weight)
             uni.setStorageSync('userid',res.data.data.id)
             let userid=uni.getStorageSync('userid')
-            console.log(userid)
             uni.setStorage({
               key:'range',
               data:[1000,1500]
@@ -139,26 +106,42 @@
 			
 		},
     onLoad() {
+      
       uni.login({
         success: (res) => {
-          uni.request({
-            url:'http://cal.hanlh.com:8000/user/login/',
-            data:{
-              code:res.code,
-              name:'123'
-            },
-            method:"POST",
-            success: (res) => {
-              //console.log(res)
-              uni.setStorage({
-                key:'token',
-                data:res.data.token,
+            uni.request({
+              url:'http://cal.hanlh.com:8000/user/login/',
+              data:{
+                code:res.code,
+                name:'123'
+              },
+              method:"POST",
+              success: (res) => {
+                  uni.setStorage({
+                  key:'token',
+                  data:res.data.token,
+                  })
+                  }
               })
+        }
+      })
+      
+      
+      uni.getStorage({
+        key:'weightdate',
+        success: (res) => {
+          console.log(res)
+        },
+        fail: () => {
+          uni.setStorage({
+            key:'weightdate',
+            data:60,
+            success: () => {
+              console.log('set weightdate')
             }
           })
         }
       })
-      
       
       uni.getStorage({
         key:'meal-list',
@@ -177,6 +160,7 @@
       })
 	   
     }
+    
 	}
 </script>
 

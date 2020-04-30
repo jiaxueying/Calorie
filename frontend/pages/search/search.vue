@@ -126,6 +126,7 @@ export default {
   },
   mounted() {
     this.MealListRefresh('');
+	
     console.log(this.OrderedFood);
   },
 };

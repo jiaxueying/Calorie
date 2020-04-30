@@ -20,7 +20,7 @@
                     type="number"
                     maxlength="4"
                     :placeholder="day"
-                    @input="calculation"/><text>Day</text>
+                    @input="changedate"/><text>Day</text>
           </view>
       </view>
       <view class="tip" v-if="!choice">恰如其分，就是最好的你</view>
@@ -43,12 +43,16 @@
       
       Switch:function(choi){
           this.choice=choi
-          if(choi==false){this.string="暂无计划"}
-          else{this.string="有计划"}
+          if(choi==false){this.string="暂无计划";this.rate=0;}
+          else{
+            this.string="有计划";
+            this.rate=(this.targetweight-this.weight)/this.day;
+            this.rate=this.rate.toFixed(2);
+            }
           let data={
               targetweight:this.targetweight,
               string:this.string,
-              rate:0
+              rate:this.rate,
               }
           this.$emit('input',data)
       },
@@ -57,6 +61,7 @@
       set:function(event){
           if(event.detail.value!=""){
               this.targetweight=event.detail.value;
+              this.rate=(this.targetweight-this.weight)/this.day;
               this.rate=this.rate.toFixed(2);
               let data={
                   targetweight:this.targetweight,
@@ -64,15 +69,21 @@
                   rate:this.rate
                   }
               this.$emit('input',data)
+            
           }
       },
       
-      //计算减重速率
-      calculation:function(event){
+      //设置所用天数
+      changedate:function(event){
           if(event.detail.value!=""){
-              this.rate=(this.targetweight-this.weight)/event.detail.value;
-              this.rate=this.rate.toFixed(2);
-              let data={
+            uni.setStorage({
+              key:'weightdate',
+              data:event.detail.value
+            })
+            this.day=event.detail.value
+            this.rate=(this.targetweight-this.weight)/event.detail.value;
+            this.rate=this.rate.toFixed(2);
+             let data={
                   targetweight:this.targetweight,
                   string:this.string,
                   rate:this.rate
@@ -89,6 +100,8 @@
         this.targetweight=this.targetweightrec
         if(this.plan=="暂无计划"){this.choice=false}
         else{this.choice=true}
+        this.day=uni.getStorageSync('weightdate')
+        
       }
   }
 </script>

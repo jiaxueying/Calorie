@@ -24,14 +24,6 @@
       return{
         list:[
           {picture:'../../static/shrimp.png',calorie:'100',date:'date1'},
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date2'},
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date3'},
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date4'},
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date5'},
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date6'},
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date7'},
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date8'},
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date9'},
           
         ],
         replacelist:{picture:'../../static/default.jpg',calorie:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
@@ -164,7 +156,7 @@
     width:40rpx;
     height: 40rpx;
     position:relative;
-    left: 100rpx;
+    left: 400rpx;
     top:25rpx;
     opacity:0.4
   }
