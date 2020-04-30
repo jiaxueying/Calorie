@@ -247,7 +247,9 @@ export default {
     border: #808080 2rpx solid;
     border-radius: 10rpx;
     outline: none;
-    height: 80rpx;;
+    height: 80rpx;
+    width:60%;
+    
    }
   button{
     font-size: 20rpx;
