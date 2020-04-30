@@ -153,9 +153,11 @@ export default {
                                 console.log("删了一个")
                               }
                             });
-                    wx.navigateTo({
+                    wx.navigateBack({
                       url: "../MealManagement/MealManagement",
                     })
+                    console.log("need to refresh!");
+                    uni.$emit("refresh");
                   } else if (res.cancel) {
                     console.log('用户点击取消');
                   }

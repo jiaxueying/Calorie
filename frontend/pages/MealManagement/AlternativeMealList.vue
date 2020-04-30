@@ -81,11 +81,23 @@
             return true;
           }
         return false;
+      },
+      refresh:function() {
+        console.log("refreshing!");
+        request('/canteen/dishesview/', 'GET', {
+          }).then(res => {
+          console.log(res);
+          console.log('meals returned:\n');
+          console.log(res[1].data.dishes);
+          this.MealList = res[1].data.dishes;
+          this.ShowedMealList = res[1].data.dishes;
+        })
       }
 		},
     onLoad(options) {
       uni.$on("meal-management-search", this.search);
       uni.$on("change-checked-meal-list", this.changeCheckedMealList);
+      uni.$on("refresh", this.refresh);
       this.checkedMealList = JSON.parse(options.selectedFood);
       this.time = options.time;
       console.log(this.time);
