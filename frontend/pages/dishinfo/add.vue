@@ -111,7 +111,7 @@ export default {
                        console.log(uploadFileRes.data.dish);
                    }
                });
-               wx.redirectTo({
+               wx.navigateBack({
                  url: "../MealManagement/MealManagement",
                })
      },

@@ -32,6 +32,10 @@
         time: ""
 			}
 		},
+    onShow() {
+      console.log("onShow in AML")
+      this.refresh();
+    },
 		methods: {
 			search:function(key) {
         console.log("search in /pages/MealManagement/MealManagement.vue: " + key);

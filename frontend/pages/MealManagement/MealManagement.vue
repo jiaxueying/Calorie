@@ -26,6 +26,9 @@
         ShowedMealList: [ ],
 			}
 		},
+    onShow() {
+      this.refresh()
+    },
 		methods: {
 			search:function(key) {
         console.log("search in /pages/MealManagement/MealManagement.vue: " + key);
@@ -40,6 +43,17 @@
           }
         }
         console.log("meal-management-search on completed!");
+      },
+      refresh:function() {
+        console.log("refreshing!");
+        request('/canteen/dishesview/', 'GET', {
+          }).then(res => {
+          console.log(res);
+          console.log('meals returned:\n');
+          console.log(res[1].data.dishes);
+          this.MealList = res[1].data.dishes;
+          this.ShowedMealList = res[1].data.dishes;
+        })
       }
 		},
     onLoad() {

@@ -151,13 +151,16 @@ export default {
                               success: (res) => {
                                 console.log(res)
                                 console.log("删了一个")
+                                let pages = getCurrentPages();
+                                let page = pages[pages.length - 1];
+                                console.log(pages)
+                                page.onShow();
                               }
                             });
                     wx.navigateBack({
                       url: "../MealManagement/MealManagement",
+                      isRefresh: true,
                     })
-                    console.log("need to refresh!");
-                    uni.$emit("refresh");
                   } else if (res.cancel) {
                     console.log('用户点击取消');
                   }
