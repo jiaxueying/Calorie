@@ -224,15 +224,15 @@ export default {
     align-items: center;
     }
   image{
-    width: 450rpx;
+    width: 550rpx;
     height: 450rpx;
    }
   .mealname{
-    font-size: 50rpx;
+    font-size: 1.5em;
     font-weight: 600;
    }
    .dishname{
-     font-size: 45rpx;
+     font-size: 1.2em;
      font-weight: 600;
      }
   .table{
