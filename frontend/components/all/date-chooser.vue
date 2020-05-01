@@ -29,7 +29,6 @@
     methods: {
       bindDateChange: function(e) {
         this.date = e.target.value;
-        uni.$emit("date change", this.date);
         console.log("date changed " + this.date);
       },
       getDate(type) {

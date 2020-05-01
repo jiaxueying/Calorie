@@ -6,9 +6,9 @@
     
     <view style="height: 50rpx;width: 750rpx;"> </view>
     
-   <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
-      <image :src="'http://cal.hanlh.com:8000'+food.img" class="img" v-if="isimg"></image>
-      <!-- <view class="tab" v-if="!isimg">
+    <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
+      <image :src="'http://cal.hanlh.com:8000'+food.picture" class="img" v-if="isimg"></image>
+      <view class="tab" v-if="!isimg">
         <tab>
           <ttr align="left">
             <tth style="width: 200rpx;">项目</tth>
@@ -21,7 +21,7 @@
             <ttd style="width: 200rpx;">{{content.percent}}</ttd>
           </ttr>
         </tab>
-      </view> -->
+      </view>
       <view style="display: flex;margin-top: 20rpx;">
         <view :class="{blackspot:isimg,whitespot:!isimg}" style="margin-right: 10rpx;"></view><view :class="{whitespot:isimg,blackspot:!isimg}" style="margin-left: 10rpx;"></view>
       </view>
@@ -29,16 +29,16 @@
 
     <view style="display:flex;flex-direction: column;align-items: center;"><!--scroll-view里的bug，必须再包一层-->
     <view class="detail">
-      <view class="name">{{food.dish}}</view>
+      <view class="name">{{name}}</view>
       <view class="cal" style="display: none;">{{cal}}</view>
     </view>
     
-    <!-- <view class="opinion">
+    <view class="opinion">
       <image :src="likeicon" class="countimg" @click="like"></image>
       <view class="count" @click="like">{{like_count}}</view>
       <image :src="dislikeicon" class="countimg" @click="dislike"></image>
       <view class="count" @click="dislike">{{dislike_count}}</view>
-    </view> -->
+    </view>
     
     <view style="width: 550rpx;margin-top: 10rpx;">
       <view style="display: flex;">
@@ -46,19 +46,19 @@
           <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">套餐详情</view>
       </view>
       <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
-          <view v-for="(dishname,index) in dishnames" class="dishnames">No.{{index+1}}  {{dishname}}</view> 
+          <view v-for="(dishname,index) in dishnames" class="dishnames">No.{{index+1}}  {{dishname.name}}</view> 
       </view>
     </view>   
      
-   <!-- <view style="margin-top: 50rpx;">
+    <view style="margin-top: 50rpx;">
     <view style="width: 550rpx;display: flex;height: 30rpx;margin-top: 10rpx;">
       <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;margin-top: 5rpx;"></view>
       <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">关键词</view>
-    </view> -->
+    </view>
     
-    <!-- <view class="tags">
+    <view class="tags">
       <view v-for="(tag,index) in tags" class="tag" :key="index" @click="taptag(index)">{{tag.name}}</view>
-    </view> -->
+    </view>
     </view>
     
     <view style="background-color: #FFFFFF;width: 750rpx;height: 100rpx;">
@@ -125,6 +125,10 @@
           {item:'钙',value:'--',percent:'--'}
         ],
         dishnames:[
+          {name:"鸡蛋烤兔"},
+          {name:"爆炒莲花"},
+          {name:"巧克力炸腰花"},
+          {name:"米饭炒面"}
         ],
         IsShow: false,
         ordered_food: new Array(),
@@ -134,26 +138,17 @@
       uni.$on('refresh2',this.refresh);
       this.ordered_food = uni.getStorageSync("meal-list");
       this.food = JSON.parse(options.foodDetail);
-      let id = JSON.parse(options.id);
-      request('/canteen/userdishview/', 'GET', {
-        menu_id:id,
-        dish_id:this.food.dish_id
-      }).then(res =>{
-        console.log(res)
-        this.dishnames = res[1].data.names;
-        console.log(this.dishnames)
-      })
-      // console.log(this.food);
-      // this.like_count = this.food.like;
-      // this.dislike_count = this.food.dislike;
-      // this.name = this.food.dish;
-      // this.cal = this.food.calorie + "KCAL/100g";
-      // this.tags = this.food.tag;
-      // this.nutrition[1].value = this.food.protein+'g';
-      // this.nutrition[2].value = this.food.fat+'g';
-      // this.nutrition[3].value = this.food.carbohydrate+'g';
-      // this.nutrition[4].value = this.food.sodium+'mg';
-      // console.log(this.nutrition);
+      console.log(this.food);
+      this.like_count = this.food.like;
+      this.dislike_count = this.food.dislike;
+      this.name = this.food.name;
+      this.cal = this.food.calorie + "KCAL/100g";
+      this.tags = this.food.tag;
+      this.nutrition[1].value = this.food.protein+'g';
+      this.nutrition[2].value = this.food.fat+'g';
+      this.nutrition[3].value = this.food.carbohydrate+'g';
+      this.nutrition[4].value = this.food.sodium+'mg';
+      console.log(this.nutrition);
       //property to add
       //this.dishnames=this.food.dishnames; 
       uni.getStorage({
@@ -184,32 +179,32 @@
         this.tempX=event.touches[0].pageX-this.X
         console.log(this.tempX)
       },
-      // like:function(){
-      //   console.log("like");
-      //   this.likeicon="../../static/liked.png";
-      //   this.dislikeicon="../../static/dislike.png";
-      //   like(this.food.id);
-      //   request('/dish/key_query/', 'GET', {
-      //     key_word: this.food.name, 
-      //   }).then(res => {
-      //     this.like_count = res[1].data.data[0].like;
-      //     this.dislike_count = res[1].data.data[0].dislike;
-      //     console.log(res);
-      //   });
-      // },
-      // dislike:function(){
-      //   console.log("dislike");
-      //   this.likeicon="../../static/like.png";
-      //   this.dislikeicon="../../static/disliked.png";
-      //   dislike(this.food.id);
-      //   request('/dish/key_query/', 'GET', {
-      //     key_word: this.food.name,
-      //   }).then(res => {
-      //     this.like_count = res[1].data.data[0].like;
-      //     this.dislike_count = res[1].data.data[0].dislike;
-      //     console.log(res);
-      //   });
-      // },
+      like:function(){
+        console.log("like");
+        this.likeicon="../../static/liked.png";
+        this.dislikeicon="../../static/dislike.png";
+        like(this.food.id);
+        request('/dish/key_query/', 'GET', {
+          key_word: this.food.name, 
+        }).then(res => {
+          this.like_count = res[1].data.data[0].like;
+          this.dislike_count = res[1].data.data[0].dislike;
+          console.log(res);
+        });
+      },
+      dislike:function(){
+        console.log("dislike");
+        this.likeicon="../../static/like.png";
+        this.dislikeicon="../../static/disliked.png";
+        dislike(this.food.id);
+        request('/dish/key_query/', 'GET', {
+          key_word: this.food.name,
+        }).then(res => {
+          this.like_count = res[1].data.data[0].like;
+          this.dislike_count = res[1].data.data[0].dislike;
+          console.log(res);
+        });
+      },
       taptag:function(index){
         console.log(this.tags[index]);
         uni.$emit("search_key", this.tags[index].name);
@@ -227,11 +222,11 @@
         console.log("add")
         var OrderedFood = uni.getStorageSync("meal-list");
         OrderedFood.push({
-          name: this.food.dish,
+          name: this.food.name,
           cal: this.food.calorie,
           sum: 1,
-          picture: this.food.img,
-          id: this.food.dish_id
+          picture: this.food.picture,
+          id: this.food.id
         });
         uni.setStorageSync("meal-list", OrderedFood);
       }

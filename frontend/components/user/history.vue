@@ -28,93 +28,88 @@
         ],
         replacelist:{picture:'../../static/default.jpg',calorie:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
         isdelete:true,
-        date:"",
       }
     },
     methods:{
       showhistorymenu:function(index){
-          uni.request({
-                url:"http://cal.hanlh.com:8000/menu/detail/",
-                method:"GET",
-                header:{
-                Authorization:'Token '+uni.getStorageSync('token')
-                },
-                data:{
-                menu_id:index,
-                },
-                success: (res) => {
-                      console.log(res.data.data)
-                      uni.$emit('showhistorydedail',res.data.data)
-                      uni.navigateTo({
-                          url:"../../pages/others/mylist?date=this.date"//不确定能不能这么传
-                          });
-                }
+        uni.request({
+          url:"http://cal.hanlh.com:8000/menu/detail/",
+          method:"GET",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          data:{
+            menu_id:index,
+          },
+          success: (res) => {
+            console.log(res.data)
+            uni.$emit('showhistorydedail',res.date)
+            uni.navigateTo({
+              url:"../../pages/others/mylist"
+            });
+            // [{'id': , 'picture':, 'date': ‘calorie’: }]
+          }
         })
       },
-      
-     deleteItem:function(index,list){
-            uni.request({
-                url:"http://cal.hanlh.com:8000/menu/delete/",
-                method:"POST",
-                header:{
-                Authorization:'Token '+uni.getStorageSync('token')
-                },
-                data:{
-                user_id:uni.getStorageSync('userid'),
-                menu_id:this.list[index].id
-                }
-                })
-            list.splice(index,1);
-            uni.showToast({
-                title:'删除成功',
-                duration:2000
-                })
-            if(this.list.length==0){
-                this.list[0]=this.replacelist
-                this.isdelete=false
-                console.log('default')
-                }
+      deleteItem:function(index,list){
+        uni.request({
+          url:"http://cal.hanlh.com:8000/menu/delete/",
+          method:"POST",
+          header:{
+            Authorization:'Token '+uni.getStorageSync('token')
+          },
+          data:{
+            user_id:uni.getStorageSync('userid'),
+            menu_id:this.list[index].id
           }
+        })
+        list.splice(index,1);
+        uni.showToast({
+          title:'删除成功',
+          duration:2000
+        })
+        if(this.list.length==0){
+          this.list[0]=this.replacelist
+          this.isdelete=false
+          console.log('default')
+        }
+      }
      },
-     
      created:function(){
-          uni.request({
-              url:"http://cal.hanlh.com:8000/menu/query",
-              method:"GET",
-              header:{
-              Authorization:'Token '+uni.getStorageSync('token')
-                      },
-              data:{
-              user_id:uni.getStorageSync('userid')
-              },
-              success: (res) => {
-              console.log(res)
-              this.list=res.data.data.user_menus
-              if(this.list.length==0)
-              {
-              this.list[0]=this.replacelist
-              this.isdelete=false
-              }
-              else
-              {
-                  for(let i=0;i<this.list.length;i++)
-                  {
-                  this.list[i].picture='http://cal.hanlh.com:8000/media/'+this.list[i].picture
-                  var str="";
-                  for(let j=0;j<10;j++){
-                      str+=this.list[i].date[j];
-                  }
-                  this.date=str;
-                  this.list[i].date=str;
-                  console.log(this.list[i].date);
-                  }
-              }
-              console.log(this.list)
-              }
-          })
-      },
-      
-      
+       uni.request({
+         url:"http://cal.hanlh.com:8000/menu/query",
+         method:"GET",
+         header:{
+           Authorization:'Token '+uni.getStorageSync('token')
+         },
+         data:{
+           user_id:uni.getStorageSync('userid')
+         },
+         success: (res) => {
+           console.log(res)
+           this.list=res.data.data.user_menus
+           if(this.list.length==0)
+           {
+             this.list[0]=this.replacelist
+             this.isdelete=false
+           }
+           else
+           {
+             for(let i=0;i<this.list.length;i++)
+             {
+               this.list[i].picture='http://cal.hanlh.com:8000/media/'+this.list[i].picture
+               var str="";
+               for(let j=0;j<10;j++){
+                 str+=this.list[i].date[j];
+               }
+               this.list[i].date=str;
+               console.log(this.list[i].date);
+             }
+           }
+           console.log(this.list)
+         }
+       })
+      }
   }
 
 </script>
