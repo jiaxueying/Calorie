@@ -34,21 +34,18 @@
     methods:{
       showhistorymenu:function(index){
           uni.request({
-                url:"http://cal.hanlh.com:8000/menu/detail/",
+                url:"http://cal.hanlh.com:8000/canteen/historyview/",
                 method:"GET",
                 header:{
                 Authorization:'Token '+uni.getStorageSync('token')
                 },
-                data:{
-                menu_id:index,
-                },
                 success: (res) => {
                       console.log(res.data.data)
-                      uni.$emit('showhistorydedail',res.data.data)
-                      uni.$emit('date',{date:this.date})
+                     /* uni.$emit('showhistorydedail',res.data.data)
+                     uni.$emit('date',{date:this.date})
                       uni.navigateTo({
                           url:"../../pages/others/mylist"
-                          });
+                          });*/
                 }
         })
       },
@@ -80,17 +77,14 @@
      
      created:function(){
           uni.request({
-              url:"http://cal.hanlh.com:8000/menu/query",
+              url:"http://cal.hanlh.com:8000/canteen/historyview/",
               method:"GET",
               header:{
               Authorization:'Token '+uni.getStorageSync('token')
                       },
-              data:{
-              user_id:uni.getStorageSync('userid')
-              },
               success: (res) => {
               console.log(res)
-              this.list=res.data.data.user_menus
+              this.list=res.data.history
               if(this.list.length==0)
               {
               this.list[0]=this.replacelist
@@ -100,10 +94,10 @@
               {
                   for(let i=0;i<this.list.length;i++)
                   {
-                  this.list[i].picture='http://cal.hanlh.com:8000/media/'+this.list[i].picture
+                  this.list[i].picture='http://cal.hanlh.com:8000/media/'+this.list[i].img
                   var str="";
                   for(let j=0;j<10;j++){
-                      str+=this.list[i].date[j];
+                      str+=this.list[i].time[j];
                   }
                   this.date=str;
                   this.list[i].date=str;

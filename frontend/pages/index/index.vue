@@ -93,6 +93,16 @@
                                     uni.navigateTo({
                                     url:"../search/search"
                                     })
+                                    var menuid;
+                                    switch(this.msg) {
+                                    case "breakfast": menuid= res[1].data.bre.menu_id;break;
+                                    case "lunch":menuid = res[1].data.lun.menu_id;break;
+                                    case "dinner":menuid = res[1].data.di.menu_id;break;
+                                    }
+                                    uni.setStorage({
+                                      key:'menuid',
+                                      data:menuid
+                                    })
                                     }
                          })
                

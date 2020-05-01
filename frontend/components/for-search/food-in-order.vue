@@ -34,7 +34,7 @@
 				for(var i = 0; i < ordered_food.length; i++) {
 				  var f = ordered_food[i];
 				  if(f.name === this.foodname) {
-				    f.cal -= f.cal / f.sum * 50;
+				    //f.cal -= f.cal / f.sum * 50;
 				    f.sum -= 1;
 				    uni.setStorageSync("meal-list", ordered_food);
             uni.$emit("refresh1");
@@ -49,7 +49,7 @@
         for(var i = 0; i < ordered_food.length; i++) {
           var f = ordered_food[i];
           if(f.name === this.foodname) {
-            f.cal += f.cal / f.sum * 50;
+           // f.cal += f.cal / f.sum * 50;
             f.sum += 1;
             uni.setStorageSync("meal-list", ordered_food);
             uni.$emit("refresh1");
