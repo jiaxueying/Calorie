@@ -59,5 +59,6 @@
     border: #59453D 7rpx solid;
     border-radius: 40rpx;
     font-size: 1.0em;
+    color:#59453D;
   }
 </style>

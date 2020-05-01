@@ -27,20 +27,20 @@
   <view style="display: flex;flex-direction: column;align-items: center;">
       <view class="title">
           <navigator>首页</navigator>
-          <text class="time" @tap="setIsFirst">本餐是 : {{msg}}</text>
       </view>
       
      
-      <DateChooser style="margin-top: 50rpx; width: 700rpx;"></DateChooser>
+      <DateChooser style="margin-top: 50rpx; width: 700rpx;" @click.native="choosedate"></DateChooser>
+      <text class="time" @tap="setIsFirst">{{msg}}</text>
       
       <view class="allbtn">
             <view class="btn">
-              <navigator url="../search/search" hover-class="none">订餐功能
+              <view @click="ordermeal" class="navigator">订餐功能</view><!--url="../search/search" hover-class="none"-->
               <text>\n戳这里（不）可以根据卡路里订餐呦。</text>
               </navigator>
             </view>
             <view class="btn">
-              <navigator url="../recommondation/shake" hover-class="none">推荐功能
+              <view @click="recommend" class="navigator">推荐功能</view><!--url="../recommondation/shake" hover-class="none"-->
               <text>\n不知道今天吃什么？戳这里！（真的完全随机哟。）</text>
               </navigator>
             </view>
@@ -57,6 +57,8 @@
 <script>
   import recrange from '../../components/all/recommendrange.vue'
   import DateChooser from "../../components/all/date-chooser.vue"
+  import { backendUrl, request } from '@/common/helper.js';
+  
 	export default {
     components:{
       recrange,
@@ -65,63 +67,163 @@
 		data() {
 			return {
         isisfirst:true,
-        isfirst:true,
-				msg:'',
+        isfirst:false,
+				msg:'点击此处选择餐品时间段',
         isrange:false,
         date:"",
+        isdate:false,
 			}
 		},
 		methods: {
+        
+      ordermeal:function(){
+        console.log(this.isdate)
+        if(this.isdate==true){
+          var length=0;
+          request('/canteen/menuview/', 'GET', {
+                date: this.date,
+                }).then(res =>{
+                  console.log(res)
+                        if(res[1].statusCode==404){
+                                    uni.showModal({
+                                    content:"当日当前时段的菜单还未生成哦",
+                                    })
+                                    }
+                         else{
+                                    uni.navigateTo({
+                                    url:"../search/search"
+                                    })
+                                    }
+                         })
+               
+        }
+        else{
+            uni.showModal({
+                title: '提示',
+                content: '请先选择日期',
+                success: function (res) {
+                          if (res.confirm) {
+                          console.log('用户点击确定');
+                          } else if (res.cancel) {
+                          console.log('用户点击取消');
+                          }
+                          }
+                });
+            }
+      },
+      
+      choosedate:function(){
+        console.log("in choosedate")
+        var that=this
+        uni.$on('date change', function(){
+            that.isdate=true;
+            console.log(that.isdate)
+            });
+      },
+      
+      recommend:function(){
+        console.log(this.isdate)
+        if(this.isdate==true){
+             var length=0;
+             request('/canteen/menuview/', 'GET', {
+                   date: this.date,
+                   }).then(res =>{
+                     console.log(res)
+                           if(res[1].statusCode==404){
+                                       uni.showModal({
+                                       content:"当日当前时段的菜单还未生成哦",
+                                       })
+                                       }
+                            else{
+                                       uni.navigateTo({
+                                       url:"../recommondation/shake"
+                                       })
+                                       }
+                            })
+        }
+        else{
+            uni.showModal({
+                title: '提示',
+                content: '请先选择日期',
+                success: function (res) {
+                          if (res.confirm) {
+                          console.log('用户点击确定');
+                          } else if (res.cancel) {
+                          console.log('用户点击取消');
+                          }
+                          }
+                });
+            }
+      },
+      
       isisfirstchange:function(){
-        this.isisfirst=false;
-        uni.setStorage({
-          key:'isisfirst',
-          data:false,
-          
-        })
+            this.isisfirst=false;
+            uni.setStorage({
+            key:'isisfirst',
+            data:false,
+            })
       },
      
       setRange:function(rec){
-        this.isfirst=false
-        this.msg=rec
-        let weight
-        uni.request({
-          url:"http://cal.hanlh.com:8000/user/profile",
-          method:"GET",
-          header:{
-            Authorization:'Token '+uni.getStorageSync('token')
-          },
-          data:{
-            
-          },
-          success: (res) => {
-            let a=uni.getStorageSync('token')
-            weight=res.data.data.weight
-            uni.setStorageSync('userid',res.data.data.id)
-            let userid=uni.getStorageSync('userid')
-            uni.setStorage({
-              key:'range',
-              data:[1000,1500]
+            this.isfirst=false
+            this.msg=rec
+            let weight
+            uni.request({
+                url:"http://cal.hanlh.com:8000/user/profile",
+                method:"GET",
+                header:{
+                Authorization:'Token '+uni.getStorageSync('token')
+                },
+                success: (res) => {
+                let a=uni.getStorageSync('token')
+                weight=res.data.data.weight
+                uni.setStorageSync('userid',res.data.data.id)
+                let userid=uni.getStorageSync('userid')
+                    uni.setStorage({
+                    key:'range',
+                    data:[1000,1500]
+                    })
+                this.isrange=!this.isrange
+                }
             })
-			this.isrange=!this.isrange
-          }
-        })
       },
+      
       setDate(d) {
         this.date = d;
       },
+        
       setIsFirst() {
         this.isfirst = true;
       },
+      
       getDate() {
         return this.date;
       },
+      
       getMsg() {
         return this.msg;
       }
 			
 		},
+    
     onLoad() {
+      uni.getStorage({
+       key:'isisfirst',
+       success: (res) => {
+         console.log(res.data)
+         this.isisfirst=res.data
+       },
+       fail() {
+         uni.setStorage({
+           key:'isisfirst',
+           data:true,
+           success() {
+             this.isisfirst=true,
+             console.log("isisfirst set"+this.isisfirst)
+           }
+         })
+       }
+      })
       const date = new Date();
       let year = date.getFullYear();
       let month = date.getMonth() + 1;
@@ -232,6 +334,11 @@ navigator{
   font-weight: 800;
   color:#59453D;
 }
+.navigator{
+  font-size: 1.5em;
+  font-weight: 800;
+  color:#59453D;
+}
 .title{
   display: flex;
   flex-direction: column;
@@ -242,14 +349,16 @@ navigator{
 }
 
 .time{
-  border:2rpx solid #59453D;
-  border-radius: 25rpx;
   line-height: 120%;
   margin-top: 35rpx;
   font-size: 1em;
   color:#59453D;
   padding-right: 20rpx;
   padding-left: 20rpx;
+  border:#59453D 7rpx solid;
+  border-radius: 40rpx;
+  width:650rpx;
+  text-align: center;
 }
 .allbtn{
   margin-top: 50rpx;;
