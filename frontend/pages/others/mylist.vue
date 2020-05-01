@@ -64,7 +64,8 @@
 
 <script>
   export default {
-    //发送给朋友图标
+        
+    //发送给朋友的图标
     onShareAppMessage(res) {
       if (res.from === 'button') {
         console.log(res.target)
@@ -81,36 +82,46 @@
         date:'',
         width:"",//确定类型
         height:"",//确定类型
-        meallist:[ null ],
+        meallist:[],
         path: [],//图片的路径
         size:"width:600rpx;",
-        ispost:true,
+        ispost:true,//是否上传，区分来自于查看历史菜单详情还是生成新菜单
       }
     },
       //created用于组件加载，onload用于页面加载
     created: async function (e) {
       //异步函数
+      var time=new Date();
+      this.date=time.toLocaleDateString();
       this.meallist = uni.getStorageSync('meal-list');
+      uni.$on('date',function(data){
+        this.date=data.date;
+        console.log(this.date)
+        console.log("in on date")
+      })
       uni.$on("showhistorydetail",function(data){
+        console.log("in on showhistorydetail")
+        
            for(var i=0;i<data.length;i++)
            {
              this.meallist[i].cal=data[i].calorie
              this.meallist[i].id=data[i].id
              this.meallist[i].name=data[i].name
              this.meallist[i].picture=data[i].picture
+             this.meallist[i].num=data[i].mass
            }
-           this.date=data[0].date
            this.ispost=false
            console.log("from history list~")
-         })
-      this.msg = 0;
-      for(var i = 0; i < this.meallist.length; i++) {
-        this.msg += this.meallist[i].cal;
-        await this.get(i);
-        }
-      this.draw();
-      if(this.ispost) this.post();
-    },
+           })
+          this.msg = 0;
+          for(var i = 0; i < this.meallist.length; i++) {
+                  this.msg += this.meallist[i].cal;
+                  await this.get(i);
+                  }
+          this.draw();
+          if(this.ispost) this.post();
+          },
+    
     
     methods: {
       get(i) {
@@ -118,69 +129,67 @@
               uni.getImageInfo({
               src:'http://cal.hanlh.com:8000'+this.meallist[i].picture,
               success: (res) => {
-                this.path.push(res.path);
-                resolve('success');//这句的作用
-                },
+                  this.path.push(res.path);
+                  resolve('success');
+                  },
               fail: () => {
-                reject('error');//这句的作用
-                }
+                  reject('error');
+                  }
               })
         });
       },
+      
       draw:function(e){
-        var j=(this.meallist.length>=3)?(this.meallist.length-3):0
-        var k=j*220+800
+          var j=(this.meallist.length>=3)?(this.meallist.length-3):0
+          var k=j*220+800
         
-        let rp;
-        wx.getSystemInfo({
-          success(res) {
+          let rp;
+          wx.getSystemInfo({
+            success(res) {
             rp = res.windowWidth/375;
             },
-          })
-        console.log(rp);
+            })
         
-        this.size+="height:"+k+"rpx;"
-                 
-        var time=new Date();
-        this.date=time.toLocaleDateString();
+          this.size+="height:"+k+"rpx;"
         
-        var ctx = uni.createCanvasContext('canvas') 
-        ctx.setFillStyle("#FFFFFF")
-        ctx.fillRect(0,0,300*rp,j*90+400*rp)//在画布上填充背景，未设置颜色默认为黑色
+          var ctx = uni.createCanvasContext('canvas') 
+          ctx.setFillStyle("#FFFFFF")
+          ctx.fillRect(0,0,300*rp,j*90+400*rp)//在画布上填充背景，未设置颜色默认为黑色
          
-        ctx.setStrokeStyle("#59453D")
-        ctx.moveTo(50*rp,50*rp)
-        ctx.lineTo(250*rp,50*rp)//mylist 下面的线
-        ctx.moveTo(50*rp,320*rp+j*90*rp)
-        ctx.lineTo(250*rp,320*rp+j*90*rp)//本餐共摄入之上的线
-        ctx.moveTo(0*rp,370*rp+j*90*rp)
-        ctx.lineTo(300*rp,370*rp+j*90*rp)//日期之上的线
-        ctx.stroke()
+          ctx.setStrokeStyle("#59453D")
+          ctx.moveTo(50*rp,50*rp)
+          ctx.lineTo(250*rp,50*rp)//mylist 下面的线
+          ctx.moveTo(50*rp,320*rp+j*90*rp)
+          ctx.lineTo(250*rp,320*rp+j*90*rp)//本餐共摄入之上的线
+          ctx.moveTo(0*rp,370*rp+j*90*rp)
+          ctx.lineTo(300*rp,370*rp+j*90*rp)//日期之上的线
+          ctx.stroke()
           
-        ctx.font="15rpx Arial";
-        ctx.setFillStyle('#59453D')//设置绘图的背景颜色
-        ctx.setTextBaseline('middle')
-        ctx.fillText("My List",130*rp,40*rp)
-        //ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
-        //ctx.fillText(this.msg+"kcal",200*rp,360*rp+j*90*rp)
-        ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
-        ctx.fillText(this.date,200*rp,390*rp+j*90*rp)
+          ctx.font="15rpx Arial";
+          ctx.setFillStyle('#59453D')//设置绘图的背景颜色
+          ctx.setTextBaseline('middle')
+          ctx.fillText("My List",130*rp,40*rp)
+          //ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
+          //ctx.fillText(this.msg+"kcal",200*rp,360*rp+j*90*rp)
+          ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
+          ctx.fillText(this.date,200*rp,390*rp+j*90*rp)
           
-        for(var i=0;i<this.meallist.length;i++){
-          ctx.drawImage(this.path[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
-          ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
-          //ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
-        }
+          for(var i=0;i<this.meallist.length;i++){
+            ctx.drawImage(this.path[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
+            ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
+            ctx.fillText(this.meallist[i].num+"份",180*rp,96*rp+i*90*rp)
+            //ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
+          }
                     
-        ctx.setStrokeStyle("#000000")
-        ctx.setLineWidth(2)
-        ctx.rect(0,0,300*rp,400*rp+j*90*rp)//绘制一个矩形
-        ctx.shadowBlur=7
-        ctx.shadowColor="#808080"
-        ctx.shadowOffsetY=5
-        ctx.stroke()//无其他颜色设置，默认用黑色笔画线
+          ctx.setStrokeStyle("#000000")
+          ctx.setLineWidth(2)
+          ctx.rect(0,0,300*rp,400*rp+j*90*rp)//绘制一个矩形
+          ctx.shadowBlur=7
+          ctx.shadowColor="#808080"
+          ctx.shadowOffsetY=5
+          ctx.stroke()//无其他颜色设置，默认用黑色笔画线
         
-        ctx.draw();
+          ctx.draw();
       },
       canvasIdErrorCallback: function (e) {
         console.error(e.detail.errMsg)
@@ -188,15 +197,15 @@
          
       //分享到朋友圈
       friendcircle:function(){
-        uni.canvasToTempFilePath({
-          canvasId:'canvas',
-          success: function(res){
-            console.log(res.tempFilePath)
-            uni.saveImageToPhotosAlbum({
-              filePath:res.tempFilePath,
-            })
-          }
-        });
+          uni.canvasToTempFilePath({
+                canvasId:'canvas',
+                success: function(res){
+                console.log(res.tempFilePath)
+                uni.saveImageToPhotosAlbum({
+                      filePath:res.tempFilePath,
+                      })
+                }
+              });
         
         uni.showModal({
           title: '小程序的锅',

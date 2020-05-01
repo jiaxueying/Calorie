@@ -2,21 +2,23 @@
   <view>
   <popup  v-if="isfirst" style="background-color:rgba(0,0,0,0.7);position:fixed;width:100%;height:100%;display: flex;justify-content: center;" >
       <view v-if="isisfirst" style="margin-top:0rpx;width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
-      <view v-if="isisfirst" style="width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
-        <view class="logo" style="font-size: 2em;">
-          <text >粟</text>
+        <view v-if="isisfirst" style="width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
+          <view class="logo" style="font-size: 2em;">
+            <text >粟</text>
+          </view>
+          <text style="color:#59453D;font-weight: 500; font-size:30rpx;margin-left: 20rpx;margin-right: 20rpx;">由于疫情期间，本团队无法进入学校进行卡路里测算,故暂时不开放与卡路里监测相关的功能。\n疫情结束后屏幕前的你也毕业了...\n那就——毕业快乐！</text>
+          <view style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" ><text style="color:#59453D;font-weight: 600; font-size:30rpx;" @click="isisfirstchange">我知道啦</text></view>
         </view>
-        <text style="color:#59453D;font-weight: 500; font-size:30rpx;margin-left: 20rpx;margin-right: 20rpx;">由于疫情期间，本团队无法进入学校进行卡路里测算,故暂时不开放与卡路里监测相关的功能。\n疫情结束后屏幕前的你也毕业了...\n那就——毕业快乐！</text>
-        <view style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" ><text style="color:#59453D;font-weight: 600; font-size:30rpx;" @click="isisfirstchange">我知道啦</text></view>
-      </view>
-      <view v-if="!isisfirst" class="timelist" >
-        <view class="logo">
-         <text >粟</text>
+        
         </view>
-        <text class="timeitem" @tap="setRange('breakfast')">breakfast</text>          
-        <text class="timeitem" @tap="setRange('lunch')">lunch</text>
-        <text class="timeitem" @tap="setRange('dinner')">dinner</text>
-      </view>
+        <view v-if="!isisfirst" class="timelist" >
+          <view class="logo">
+           <text >粟</text>
+          </view>
+          <text class="timeitem" @tap="setRange('breakfast')">breakfast</text>          
+          <text class="timeitem" @tap="setRange('lunch')">lunch</text>
+          <text class="timeitem" @tap="setRange('dinner')">dinner</text>
+        </view>
   </popup>
   
 	<recrange v-if="isrange"></recrange> 
@@ -25,7 +27,7 @@
   <view style="display: flex;flex-direction: column;align-items: center;">
       <view class="title">
           <navigator>首页</navigator>
-          <text class="time">本餐是 : {{msg}}</text>
+          <text class="time" @tap="setIsFirst">本餐是 : {{msg}}</text>
       </view>
       
      
@@ -65,7 +67,8 @@
         isisfirst:true,
         isfirst:true,
 				msg:'',
-        isrange:false
+        isrange:false,
+        date:"",
 			}
 		},
 		methods: {
@@ -103,11 +106,30 @@
 			this.isrange=!this.isrange
           }
         })
+      },
+      setDate(d) {
+        this.date = d;
+      },
+      setIsFirst() {
+        this.isfirst = true;
+      },
+      getDate() {
+        return this.date;
+      },
+      getMsg() {
+        return this.msg;
       }
 			
 		},
     onLoad() {
-      
+      const date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      month = month > 9 ? month : '0' + month;;
+      day = day > 9 ? day : '0' + day;
+      this.date =  `${year}-${month}-${day}`;
+      uni.$on('date change', this.setDate);
       uni.login({
         success: (res) => {
             uni.request({
