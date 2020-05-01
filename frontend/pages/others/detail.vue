@@ -1,12 +1,12 @@
 <template>
   <scroll-view scroll-y="true" class="content">
     <view class="head">
-      <text>本餐推荐的卡路里范围为{{min}}-{{max}}cal</text>
+      <text>本日推荐的卡路里范围为{{min}}-{{max}}cal</text>
     </view>
     
     <view style="height: 50rpx;width: 750rpx;"> </view>
     
-   <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
+   <view class="imgarea" > <!--@touchstart="start" @touchend="end" @touchmove="move"-->
       <image :src="'http://cal.hanlh.com:8000'+food.img" class="img" v-if="isimg"></image>
       <!-- <view class="tab" v-if="!isimg">
         <tab>
@@ -22,9 +22,10 @@
           </ttr>
         </tab>
       </view> -->
+      <!--
       <view style="display: flex;margin-top: 20rpx;">
         <view :class="{blackspot:isimg,whitespot:!isimg}" style="margin-right: 10rpx;"></view><view :class="{whitespot:isimg,blackspot:!isimg}" style="margin-left: 10rpx;"></view>
-      </view>
+      </view> -->
     </view>
 
     <view style="display:flex;flex-direction: column;align-items: center;"><!--scroll-view里的bug，必须再包一层-->
@@ -40,9 +41,9 @@
       <view class="count" @click="dislike">{{dislike_count}}</view>
     </view> -->
     
-    <view style="width: 550rpx;margin-top: 10rpx;">
+    <view style="width: 550rpx;margin-top: 25rpx;">
       <view style="display: flex;">
-          <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;margin-top: 5rpx;"></view>
+          <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;margin-top: 25rpx;"></view>
           <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">套餐详情</view>
       </view>
       <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
@@ -226,6 +227,13 @@
         })
         console.log("add")
         var OrderedFood = uni.getStorageSync("meal-list");
+		for(let i = 0; i < OrderedFood.length; i++) {
+			if(OrderedFood[i].name === this.food.dish) {
+				OrderedFood[i].sum += 1;
+				uni.setStorageSync("meal-list", OrderedFood);
+				return;
+			}
+		}
         OrderedFood.push({
           name: this.food.dish,
           cal: this.food.calorie,

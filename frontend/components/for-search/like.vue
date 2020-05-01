@@ -90,7 +90,6 @@
         }
         .content{
             padding-bottom: 20upx;
-            border-bottom: 2upx solid #999;
             .label{
                 height: 40upx;
                 line-height: 40upx;

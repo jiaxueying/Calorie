@@ -13,7 +13,7 @@
                 <image :src="srcitem"></image>
                 <view class="mealinfor">
                     <text>\n{{meallist[i].name}}\n\n</text>
-                   <!--<text> {{meallist[i].cal}} kcal</text>-->
+                    <text> {{meallist[i].sum}} 份</text>
                 </view>
             </view>
         </scroll-view>
@@ -78,6 +78,7 @@
     
     data(){
       return{
+        menuid:"",
         msg:'300',
         date:'',
         width:"",//确定类型
@@ -93,8 +94,18 @@
       //异步函数
       var time=new Date();
       this.date=time.toLocaleDateString();
-      this.meallist = uni.getStorageSync('meal-list');
-      uni.$on('date',function(data){
+      this.menuid=uni.getStorageSync('menuid');
+      var tempmeallist = uni.getStorageSync('meal-list');
+      console.log(tempmeallist);
+      var that=this;
+      for(var i=0,j=0;i<tempmeallist.length;i++){
+        if(tempmeallist[i].sum!=0){
+            that.meallist[j]=tempmeallist[i];
+            that.path.push('http://cal.hanlh.com:8000'+that.meallist[j].picture)
+            j++;
+        }
+      }
+     /* uni.$on('date',function(data){
         this.date=data.date;
         console.log(this.date)
         console.log("in on date")
@@ -104,20 +115,13 @@
         
            for(var i=0;i<data.length;i++)
            {
-             this.meallist[i].cal=data[i].calorie
              this.meallist[i].id=data[i].id
-             this.meallist[i].name=data[i].name
              this.meallist[i].picture=data[i].picture
              this.meallist[i].num=data[i].mass
            }
            this.ispost=false
            console.log("from history list~")
-           })
-          this.msg = 0;
-          for(var i = 0; i < this.meallist.length; i++) {
-                  this.msg += this.meallist[i].cal;
-                  await this.get(i);
-                  }
+           })*/
           this.draw();
           if(this.ispost) this.post();
           },
@@ -177,7 +181,7 @@
           for(var i=0;i<this.meallist.length;i++){
             ctx.drawImage(this.path[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
             ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
-            ctx.fillText(this.meallist[i].num+"份",180*rp,96*rp+i*90*rp)
+            ctx.fillText(this.meallist[i].sum+"份",180*rp,96*rp+i*90*rp)
             //ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
           }
                     
@@ -246,20 +250,23 @@
         var menulist=new Array(this.meallist.length)
         for(let i=0;i<menulist.length;i++)
         {
-          let templist={}
-          templist.dish_id=this.meallist[i].id
-          templist.mass=this.meallist[i].sum
-          menulist[i]=templist
-        }
-        console.log(menulist)
+              let templist={dish_id:0,menu_id:0}
+              templist.dish_id=this.meallist[i].id
+              templist.menu_id=this.menuid
+              menulist[i]=templist
+          }
+          console.log(menulist)
+          
+        
         uni.request({
-          url:'http://cal.hanlh.com:8000/menu/order/',
+          url:'http://cal.hanlh.com:8000/canteen/orderdish/',
           method:'POST',
           header:{
-            Authorization:'Token '+uni.getStorageSync('token')
+            Authorization:'Token '+uni.getStorageSync('token'),
+            'Content-Type': 'application/x-www-form-urlencoded'
           },
           data:{
-            dishes:menulist
+            orders:menulist
           },
           success: (res) => {
             console.log(res)

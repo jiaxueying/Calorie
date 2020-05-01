@@ -79,16 +79,20 @@ export default {
       let index = getCurrentPages()[0];
       let d = index.$vm.getDate();
       let msg = index.$vm.getMsg();
+      var that=this;
       request('/canteen/menuview/', 'GET', {
-        date: d,
-      }).then(res =>{
-        switch(msg) {
-          case "breakfast":this.foods = res[1].data.bre;break;
-          case "lunch":this.foods = res[1].data.lun;break;
-          case "dinner":this.foods = res[1].data.din;break;
-        }
-        this.showedFoods = this.foods.dishes;
-      })
+            date: d,
+            }).then(res =>{
+                    switch(msg) {
+                    case "breakfast":that.foods = res[1].data.bre;break;
+                    case "lunch":that.foods = res[1].data.lun;break;
+                    case "dinner":that.foods = res[1].data.din;break;
+                    }
+                    that.showedFoods =that.foods.dishes;
+                    console.log(that.showedFoods)
+                    
+                    })
+     
     },
     ShowHistory() {
       this.HistoryShow = true;
@@ -131,6 +135,7 @@ export default {
     },
     refresh() {
       this.OrderedFood = uni.getStorageSync('meal-list');
+      console.log(this.OrderedFood);
     },
   },
   mounted() {
