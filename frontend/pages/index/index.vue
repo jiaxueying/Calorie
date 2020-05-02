@@ -6,7 +6,10 @@
     <view style="display: flex;flex-direction: column;align-items: center;">
     
       <view class="title">
-        <view class="navigator">食堂管理首页</view>
+        <view class="navigator">食堂管理首页
+            <image src="../../static/icon.png" style="width:50rpx;height:50rpx"></image>
+        </view>
+        <text style="font-size: 0.8em;color:#808080">@软件学院出品</text>
       </view>
     
       <view class="allbtn">
