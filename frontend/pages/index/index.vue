@@ -1,17 +1,22 @@
 <template>
   <view>
-  <popup  v-if="isfirst" style="background-color:rgba(0,0,0,0.7);position:fixed;width:100%;height:100%;display: flex;justify-content: center;" >
-      <view v-if="isisfirst" style="margin-top:0rpx;width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
-        <view v-if="isisfirst" style="width:500rpx;border:#C8C7CC 2rpx solid;border-radius:40rpx;background-color:#E8E8E8;z-index: 10;display: flex;flex-direction: column;align-items: center;">
-          <view class="logo" style="font-size: 2em;">
-            <text >粟</text>
+  <popup  v-if="isisfirst">
+    <view  class="popupforfirst" >
+          <view  class="popupinfo" >
+            <view class="logo" style="font-size: 2em;">
+                <text >粟</text>
+            </view>
+            <text class="popuptext">由于疫情期间，本团队无法进入学校进行卡路里测算,故暂时不开放与卡路里监测相关的功能。\n疫情结束后屏幕前的你也毕业了...\n那就——毕业快乐！</text>
+            <view style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" >
+                <text style="color:#59453D;font-weight: 600; font-size:30rpx;" @click="isisfirstchange">我知道啦
+                </text>
+            </view>
           </view>
-          <text style="color:#59453D;font-weight: 500; font-size:30rpx;margin-left: 20rpx;margin-right: 20rpx;">由于疫情期间，本团队无法进入学校进行卡路里测算,故暂时不开放与卡路里监测相关的功能。\n疫情结束后屏幕前的你也毕业了...\n那就——毕业快乐！</text>
-          <view style="width:100%;display:flex;justify-content: center;border-top: #C0C0C0 1rpx solid;" ><text style="color:#59453D;font-weight: 600; font-size:30rpx;" @click="isisfirstchange">我知道啦</text></view>
-        </view>
+    </view>
+  </popup>
+  <popup  v-if="isfirst" >
         
-        </view>
-        <view v-if="!isisfirst" class="timelist" >
+        <view  class="timelist" >
           <view class="logo">
            <text >粟</text>
           </view>
@@ -19,34 +24,35 @@
           <text class="timeitem" @tap="setRange('lunch')">lunch</text>
           <text class="timeitem" @tap="setRange('dinner')">dinner</text>
         </view>
+        
   </popup>
   
-	<recrange v-if="isrange"></recrange> 
+	<!--<recrange v-if="isrange"></recrange> -->
   
 	
   <view style="display: flex;flex-direction: column;align-items: center;">
-      <view class="title">
-          <navigator>首页</navigator>
+      <view class="title" style="display: inline-block;">
+          <navigator >首页 <image src="../../static/twentyfour.png" style="width:115rpx;height:90rpx;position:relative;right:-380rpx;bottom:-40rpx"></image></navigator>
+          <text style="font-size: 0.8em;color:#808080">@软件学院出品</text>
       </view>
+      
       
      
       <DateChooser style="margin-top: 50rpx; width: 700rpx;" @click.native="choosedate"></DateChooser>
       <text class="time" @tap="setIsFirst">{{msg}}</text>
       
       <view class="allbtn">
-            <view class="btn">
-              <view @click="ordermeal" class="navigator">订餐功能</view><!--url="../search/search" hover-class="none"-->
-              <text>\n戳这里（不）可以根据卡路里订餐呦。</text>
-              </navigator>
+            <view @click="ordermeal" class="btn">
+              <view  class="navigator">订餐功能</view><!--url="../search/search" hover-class="none"-->
+              <!--<text>\n戳这里（不）可以根据卡路里订餐呦。</text>-->
+            </view>
+            <view   @click="recommend" class="btn">
+              <view class="navigator">推荐功能</view><!--url="../recommondation/shake" hover-class="none"-->
+              <!--<text>\n不知道今天吃什么？戳这里！（真的完全随机哟。）</text>-->
             </view>
             <view class="btn">
-              <view @click="recommend" class="navigator">推荐功能</view><!--url="../recommondation/shake" hover-class="none"-->
-              <text>\n不知道今天吃什么？戳这里！（真的完全随机哟。）</text>
-              </navigator>
-            </view>
-            <view class="btn">
-              <navigator url="../user/user" hover-class="none">用户中心
-              <text>\n了解您的信息（其实也不）可以更好地为您推荐啦。</text>
+              <navigator url="../user/user" hover-class="none" class="navigator">用户中心
+              <!--<text>\n了解您的信息（其实也不）可以更好地为您推荐啦。</text>-->
               </navigator>
             </view>
    </view>
@@ -224,7 +230,7 @@
          console.log(res.data)
          this.isisfirst=res.data
        },
-       fail() {
+       fail:()=> {
          uni.setStorage({
            key:'isisfirst',
            data:true,
@@ -305,6 +311,39 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color:rgba(0,0,0,0.7);
+    position:fixed;width:100%;
+    height:100%;
+    display: flex;
+    justify-content: center;
+  }
+  .popupforfirst{
+    margin-top:0rpx;
+    width:500rpx;
+    border:#C8C7CC 2rpx solid;
+    border-radius:40rpx;
+    background-color:#E8E8E8;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .popupinfo{
+    width:500rpx;
+    border:#C8C7CC 2rpx solid;
+    border-radius:40rpx;
+    background-color:#E8E8E8;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .popuptext{
+    color:#59453D;
+    font-weight: 500; 
+    font-size:30rpx;
+    margin-left: 20rpx;
+    margin-right: 20rpx;
   }
   .timelist{
     display: flex;
@@ -349,6 +388,7 @@ navigator{
   font-size: 1.5em;
   font-weight: 800;
   color:#59453D;
+  text-align: center;
 }
 .title{
   display: flex;

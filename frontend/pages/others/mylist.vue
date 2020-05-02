@@ -110,7 +110,6 @@
         this.onloadtime++
         if(this.onloadtime==this.meallist.length){
           setTimeout(this.draw,1000);
-          //this.draw();
           console.log("to draw !")
           if(this.ispost) this.post();
         }

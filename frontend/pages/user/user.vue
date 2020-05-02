@@ -14,7 +14,7 @@
             </view>
             <image src="../../static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
             <view><text class="weightSet">体重：{{weight}}KG\n目标体重：{{targetweightshow}}\n体重变化速率：{{weightrate}}KG/Day</text></view>
-            <text class="calorieForDay">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>
+            <!--<text class="calorieForDay">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>-->
         </view>
     </view>
       
@@ -169,7 +169,31 @@
       }
 		},
     
-    
+    onShow(){
+      console.log(uni.getStorageSync("token"));
+        this.weightdate=uni.getStorageSync('weightdate')
+        uni.request({
+          url:"http://cal.hanlh.com:8000/user/profile/",
+          method:"GET",
+          header:{
+            Authorization:"Token "+uni.getStorageSync("token")
+          },
+          success: (res) => {
+            this.weight=res.data.data.weight
+            this.targetweight=res.data.data.target_weight
+            this.plan=res.data.data.plan
+            this.weightrate=res.data.data.rate
+            if(this.plan)
+            {
+              this.targetweightshow=this.targetweight+"KG"
+            }
+            else
+            {
+              this.targetweightshow="暂无计划"
+            }
+      	}
+      })
+    },
     
     onLoad() {
       //一个函数，在页面加载时自动执行

@@ -11,8 +11,8 @@
       <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view>
 		</view>
     <view class="orderMid">
-     <view class="midOne">推荐卡路里摄入范围</view>
-     <view class="midTwo">1350kcal-1750kcal/day</view>
+     <view class="midOne">西米提醒您</view><!--推荐卡路里摄入范围-->
+     <view class="midTwo">合理搭配饮食哈，健康最重要</view><!--1350kcal-1750kcal/day-->
     </view>
 		
 		<view class="order_list" v-for="food in Foods" :key="food.name">

@@ -1,8 +1,8 @@
 <template>
   <scroll-view scroll-y="true" class="content">
-    <view class="head">
+    <!--<view class="head">
       <text>本日推荐的卡路里范围为{{min}}-{{max}}cal</text>
-    </view>
+    </view>-->
     
     <view style="height: 50rpx;width: 750rpx;"> </view>
     
