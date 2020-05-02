@@ -6,19 +6,19 @@
     <view style="display: flex;flex-direction: column;align-items: center;">
     
       <view class="title">
-        <navigator>食堂管理首页</navigator>
+        <view class="navigator">食堂管理首页</view>
       </view>
     
       <view class="allbtn">
         <view class="btn" @tap="openDealQuery">
-          <navigator hover-class="none">查询订单
+          <view class="navigator">查询订单
           <!-- <text>\n戳这里了解今天摄入了多少卡路里</text> -->
-          </navigator>
+          </view>
         </view>
         <view class="btn" @tap="openMealManage">
-          <navigator hover-class="none">菜品管理
+          <view class="navigator">菜品管理
           <!-- <text>\n戳这里摇出今天吃什么</text> -->
-          </navigator>
+          </view>
         </view>
       </view>
     </view>
@@ -93,7 +93,7 @@
 </script>
 
 <style>
-navigator{
+.navigator{
   font-size: 1.5em;
   font-weight: 800;
   color:#59453D;

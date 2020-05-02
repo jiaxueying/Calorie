@@ -6,21 +6,21 @@
   <view style="display: flex;flex-direction: column;align-items: center;">
     
     <view class="title">
-      <navigator>菜品管理</navigator>
+      <view class="navigator">菜品管理</view>
     </view>
     
     <view class="allbtn">
       <view class="btn" @tap="openRealeaseNewMealList">
-        <navigator hover-class="none">发布新菜单
-        </navigator>
+        <view class="navigator">发布新菜单
+        </view>
       </view>
       <view class="btn" @tap="openCheckMealList">
-        <navigator hover-class="none">查看已发布菜单
-        </navigator>
+        <view class="navigator">查看已发布菜单
+        </view>
       </view>
       <view class="btn" @tap="openMealListManage">
-        <navigator hover-class="none">菜品信息管理
-        </navigator>
+        <view class="navigator">菜品信息管理
+        </view>
       </view>
     </view>
    </view>
@@ -70,7 +70,7 @@
 </script>
 
 <style>
-navigator{
+.navigator{
   font-size: 1.5em;
   font-weight: 800;
   color:#59453D;

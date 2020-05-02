@@ -108,12 +108,13 @@ export default {
                         'names':JSON.stringify(names)
                    },
                    success: (uploadFileRes) => {
-                       console.log(uploadFileRes.data.dish);
+                       console.log(uploadFileRes);
+                       wx.navigateBack({
+                       url: "../MealManagement/MealManagement",
+                       })
                    }
                });
-               wx.navigateBack({
-                 url: "../MealManagement/MealManagement",
-               })
+               
      },
      
      

@@ -133,8 +133,8 @@ export default {
           console.log("进入删除函数")
           var that=this;
           uni.showModal({
-              title: '提示',
-              content: '确认删除',
+              title: '确认删除',
+              content: '删除后将影响已发布菜单',
               success: function (res) {
                   if (res.confirm) {
                     console.log('用户点击确定');
@@ -155,12 +155,13 @@ export default {
                                 let page = pages[pages.length - 1];
                                 console.log(pages)
                                 page.onShow();
+                                wx.navigateBack({
+                                url: "../MealManagement/MealManagement",
+                                isRefresh: true,
+                                })
                               }
                             });
-                    wx.navigateBack({
-                      url: "../MealManagement/MealManagement",
-                      isRefresh: true,
-                    })
+                   
                   } else if (res.cancel) {
                     console.log('用户点击取消');
                   }
