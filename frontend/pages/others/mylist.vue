@@ -9,8 +9,8 @@
       <view class="scroll">
         <!--菜单可滚动部分-->
         <scroll-view  scroll-y="true" class="scrollview" style="height:660rpx;">
-            <view v-for="(srcitem,i) in path">
-                <image :src="srcitem"></image>
+            <view v-for="(srcitem,i) in path" >
+                <image :src="srcitem" ref="conf0" @load="onload"></image>
                 <view class="mealinfor">
                     <text>\n{{meallist[i].name}}\n\n</text>
                     <text> {{meallist[i].sum}} 份</text>
@@ -88,6 +88,7 @@
         paths:[],
         size:"width:600rpx;",
         ispost:true,//是否上传，区分来自于查看历史菜单详情还是生成新菜单
+        onloadtime:0,
       }
     },
     
@@ -95,13 +96,25 @@
     created: async function (e) {
       //异步函数
       await this.show();
-      for(var j=0;j<this.meallist.length;j++){
+     /* for(var j=0;j<this.meallist.length;j++){
         await this.get(j);
-      }
+      }*/
       },
     
     
     methods: {
+        
+        
+     onload:function(){
+        console.log("in onload!")
+        this.onloadtime++
+        if(this.onloadtime==this.meallist.length){
+          setTimeout(this.draw,1000);
+          //this.draw();
+          console.log("to draw !")
+          if(this.ispost) this.post();
+        }
+      },
       show(){
         return new Promise((resolve, reject) => {
                 uni.getStorage({
@@ -113,13 +126,14 @@
                     console.log(data.date)
                     for(var i=0;i<data.detail.dishes.length;i++)
                     {
+                    this.meallist[i].picture=data.detail.dishes[i].img
                     this.path.push('http://cal.hanlh.com:8000'+data.detail.dishes[i].img)
+                    this.getinfo(i)
                     this.meallist[i].name=data.detail.dishes[i].dish
                     this.meallist[i].sum=1
                     console.log(this.meallist[i])
                     }
                     this.ispost=false
-                    this.draw();
                     console.log("from history list~");
                     uni.removeStorageSync('historymsg');
                     resolve('success');
@@ -131,20 +145,15 @@
                     this.menuid=uni.getStorageSync('menuid');
                     var tempmeallist = uni.getStorageSync('meal-list');
                     console.log(tempmeallist);
-                    var that=this;
                     for(var i=0,j=0;i<tempmeallist.length;i++){
                     if(tempmeallist[i].sum!=0){
-                        that.meallist[j]=tempmeallist[i];
-                        that.path.push('http://cal.hanlh.com:8000'+that.meallist[j].picture)
+                        this.meallist[j]=tempmeallist[i];
+                        this.path.push('http://cal.hanlh.com:8000'+this.meallist[j].picture);
+                        this.getinfo(j);
                         j++;
                         }
                     
                     }
-                      if(tempmeallist.length==0){
-                      that.ispost=false;
-                      }
-                  this.draw();
-                  if(this.ispost) this.post();    
                   },
                 })
             })
@@ -152,6 +161,16 @@
             
             
             },
+        
+      getinfo:function(i){
+        uni.getImageInfo({
+          src:'http://cal.hanlh.com:8000'+this.meallist[i].picture,
+          success: (res) => {
+            this.paths.push(res.path)
+            console.log("get one picture!")
+          }
+        })
+      },
             
       get(i) {
         return new Promise((resolve, reject) => {
@@ -202,13 +221,12 @@
           //ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
           //ctx.fillText(this.msg+"kcal",200*rp,360*rp+j*90*rp)
           ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
-          ctx.fillText(this.date,200*rp,390*rp+j*90*rp)
+          ctx.fillText(this.date,210*rp,390*rp+j*90*rp)
           
-          var path=uni.getStorageSync('path')
+         // var path=uni.getStorageSync('path')
           for(var i=0;i<this.meallist.length;i++){
-            /* var img = new Image();
-             img.src = this.path[i];
-             img.onload = function(){
+            /*let img = this.$refs.conf0;
+            img.onload=() =>{
                console.log(this.path[i])
                console.log(img.src)
                     ctx.drawImage(img, 70*rp, 57*rp+i*90*rp, 70*rp, 70*rp);
