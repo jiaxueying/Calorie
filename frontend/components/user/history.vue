@@ -5,14 +5,14 @@
     </view>
     <dl>
     <dt class="historyList" v-for="(item,index) in list" :key="index">
-      <view class="mealimg"  @click="showhistorymenu(item.id)">
+      <view class="mealimg"  @click="showhistorymenu(index)">
         <image style="width: 100rpx;height: 100rpx;" :src='item.picture'></image>
       </view>
-      <view class="historyInfo" @click="showhistorymenu(item.id)">
+      <view class="historyInfo" @click="showhistorymenu(index)">
         <text>{{item.date}}\n</text>
-        <text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.calorie}}kcal</text>
+        <!--<text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.calorie}}kcal</text>-->
       </view>
-      <image src="../../static/timg.jpg" class="deleteIcon" @click="deleteItem(index,list)" v-if="isdelete"></image>
+      <image src="../../static/timg.jpg" class="deleteIcon" @click="deleteItem(item.id,index)" v-if="isdelete"></image>
     </dt>
     </dl>
   </view>
@@ -22,10 +22,7 @@
   export default{
     data(){
       return{
-        list:[
-          {picture:'../../static/shrimp.png',calorie:'100',date:'date1'},
-          
-        ],
+        list:[],
         replacelist:{picture:'../../static/default.jpg',calorie:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
         isdelete:true,
         date:"",
@@ -37,32 +34,44 @@
                 url:"http://cal.hanlh.com:8000/canteen/historyview/",
                 method:"GET",
                 header:{
-                Authorization:'Token '+uni.getStorageSync('token')
+                Authorization:'Token '+uni.getStorageSync('token'),
+                'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 success: (res) => {
-                      console.log(res.data.data)
-                     /* uni.$emit('showhistorydedail',res.data.data)
-                     uni.$emit('date',{date:this.date})
-                      uni.navigateTo({
+                      console.log(res.data)
+                      console.log(res.data.history[index])
+                    var tempdate="";
+                    for(var i=0;i<10;i++){
+                      tempdate+=res.data.history[index].time[i]
+                    }
+                    this.date=tempdate//这里是把time的格式调整一下，
+                    console.log(tempdate)  
+                    var data={detail:res.data.history[index],date:this.date}
+                    uni.setStorage({
+                      key:'historymsg',
+                      data:data,
+                    })
+                    uni.navigateTo({
                           url:"../../pages/others/mylist"
-                          });*/
+                          });
                 }
         })
       },
       
-     deleteItem:function(index,list){
+     deleteItem:function(id,index){
+       console.log(id)
             uni.request({
-                url:"http://cal.hanlh.com:8000/menu/delete/",
+                url:"http://cal.hanlh.com:8000/canteen/deletehistory/",
                 method:"POST",
                 header:{
-                Authorization:'Token '+uni.getStorageSync('token')
+                Authorization:'Token '+uni.getStorageSync('token'),
+                'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 data:{
-                user_id:uni.getStorageSync('userid'),
-                menu_id:this.list[index].id
+                history_id:id
                 }
                 })
-            list.splice(index,1);
+            this.list.splice(index,1);
             uni.showToast({
                 title:'删除成功',
                 duration:2000
@@ -80,10 +89,12 @@
               url:"http://cal.hanlh.com:8000/canteen/historyview/",
               method:"GET",
               header:{
-              Authorization:'Token '+uni.getStorageSync('token')
+              Authorization:'Token '+uni.getStorageSync('token'),
+              'Content-Type': 'application/x-www-form-urlencoded'
                       },
               success: (res) => {
               console.log(res)
+              console.log(res.data.history[0].dishes[0].img)
               this.list=res.data.history
               if(this.list.length==0)
               {
@@ -94,7 +105,7 @@
               {
                   for(let i=0;i<this.list.length;i++)
                   {
-                  this.list[i].picture='http://cal.hanlh.com:8000/media/'+this.list[i].img
+                  this.list[i].picture='http://cal.hanlh.com:8000'+this.list[i].dishes[0].img
                   var str="";
                   for(let j=0;j<10;j++){
                       str+=this.list[i].time[j];

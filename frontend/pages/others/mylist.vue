@@ -83,57 +83,83 @@
         date:'',
         width:"",//确定类型
         height:"",//确定类型
-        meallist:[],
+        meallist:[{name:"",sum:0,picture:''}],//一定要先格式化
         path: [],//图片的路径
+        paths:[],
         size:"width:600rpx;",
         ispost:true,//是否上传，区分来自于查看历史菜单详情还是生成新菜单
       }
     },
+    
       //created用于组件加载，onload用于页面加载
     created: async function (e) {
       //异步函数
-      var time=new Date();
-      this.date=time.toLocaleDateString();
-      this.menuid=uni.getStorageSync('menuid');
-      var tempmeallist = uni.getStorageSync('meal-list');
-      console.log(tempmeallist);
-      var that=this;
-      for(var i=0,j=0;i<tempmeallist.length;i++){
-        if(tempmeallist[i].sum!=0){
-            that.meallist[j]=tempmeallist[i];
-            that.path.push('http://cal.hanlh.com:8000'+that.meallist[j].picture)
-            j++;
-        }
+      await this.show();
+      for(var j=0;j<this.meallist.length;j++){
+        await this.get(j);
       }
-     /* uni.$on('date',function(data){
-        this.date=data.date;
-        console.log(this.date)
-        console.log("in on date")
-      })
-      uni.$on("showhistorydetail",function(data){
-        console.log("in on showhistorydetail")
-        
-           for(var i=0;i<data.length;i++)
-           {
-             this.meallist[i].id=data[i].id
-             this.meallist[i].picture=data[i].picture
-             this.meallist[i].num=data[i].mass
-           }
-           this.ispost=false
-           console.log("from history list~")
-           })*/
-          this.draw();
-          if(this.ispost) this.post();
-          },
+      },
     
     
     methods: {
+      show(){
+        return new Promise((resolve, reject) => {
+                uni.getStorage({
+                  key:'historymsg',
+                  success:()=> {
+                    var data=uni.getStorageSync('historymsg')
+                    console.log(data)
+                    this.date=data.date;
+                    console.log(data.date)
+                    for(var i=0;i<data.detail.dishes.length;i++)
+                    {
+                    this.path.push('http://cal.hanlh.com:8000'+data.detail.dishes[i].img)
+                    this.meallist[i].name=data.detail.dishes[i].dish
+                    this.meallist[i].sum=1
+                    console.log(this.meallist[i])
+                    }
+                    this.ispost=false
+                    this.draw();
+                    console.log("from history list~");
+                    uni.removeStorageSync('historymsg');
+                    resolve('success');
+                  },
+                  fail:() =>{
+                    reject('error');
+                    var time=new Date();
+                    this.date=time.toLocaleDateString();
+                    this.menuid=uni.getStorageSync('menuid');
+                    var tempmeallist = uni.getStorageSync('meal-list');
+                    console.log(tempmeallist);
+                    var that=this;
+                    for(var i=0,j=0;i<tempmeallist.length;i++){
+                    if(tempmeallist[i].sum!=0){
+                        that.meallist[j]=tempmeallist[i];
+                        that.path.push('http://cal.hanlh.com:8000'+that.meallist[j].picture)
+                        j++;
+                        }
+                    
+                    }
+                      if(tempmeallist.length==0){
+                      that.ispost=false;
+                      }
+                  this.draw();
+                  if(this.ispost) this.post();    
+                  },
+                })
+            })
+           
+            
+            
+            },
+            
       get(i) {
         return new Promise((resolve, reject) => {
               uni.getImageInfo({
               src:'http://cal.hanlh.com:8000'+this.meallist[i].picture,
               success: (res) => {
-                  this.path.push(res.path);
+                  this.paths.push(res.path);
+                  console.log(this.paths);
                   resolve('success');
                   },
               fail: () => {
@@ -178,8 +204,17 @@
           ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
           ctx.fillText(this.date,200*rp,390*rp+j*90*rp)
           
+          var path=uni.getStorageSync('path')
           for(var i=0;i<this.meallist.length;i++){
-            ctx.drawImage(this.path[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
+            /* var img = new Image();
+             img.src = this.path[i];
+             img.onload = function(){
+               console.log(this.path[i])
+               console.log(img.src)
+                    ctx.drawImage(img, 70*rp, 57*rp+i*90*rp, 70*rp, 70*rp);
+                }*/
+            //console.log(this.paths[i])
+            ctx.drawImage(this.paths[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
             ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
             ctx.fillText(this.meallist[i].sum+"份",180*rp,96*rp+i*90*rp)
             //ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
@@ -201,28 +236,28 @@
          
       //分享到朋友圈
       friendcircle:function(){
-          uni.canvasToTempFilePath({
+            uni.canvasToTempFilePath({
                 canvasId:'canvas',
                 success: function(res){
                 console.log(res.tempFilePath)
                 uni.saveImageToPhotosAlbum({
-                      filePath:res.tempFilePath,
-                      })
+                    filePath:res.tempFilePath,
+                    })
                 }
               });
         
         uni.showModal({
-          title: '小程序的锅',
-          content: '图片已保存至本地，手动分享叭亲',
-          success: function (res) {
-            if (res.confirm) {
-              console.log('用户点击确定');
-              } 
-            else if (res.cancel) {
-              console.log('用户点击取消');
-              }
-            }
-          });
+              title: '小程序的锅',
+              content: '图片已保存至本地，手动分享叭亲',
+              success: function (res) {
+                    if (res.confirm) {
+                    console.log('用户点击确定');
+                    } 
+                    else if (res.cancel) {
+                    console.log('用户点击取消');
+                    }
+                    }
+        });
       },
        
       //保存到本地
@@ -233,13 +268,13 @@
           uni.canvasToTempFilePath({
               canvasId:'canvas',
               success: function(res){
-                  uni.hideLoading()
-                  console.log(res.tempFilePath)
-                  uni.saveImageToPhotosAlbum({
-                      filePath:res.tempFilePath,
-                      success : function(res){
-                      uni.showToast({title : '图片已保存'})
-                      }
+                       uni.hideLoading()
+                       console.log(res.tempFilePath)
+                       uni.saveImageToPhotosAlbum({
+                       filePath:res.tempFilePath,
+                       success : function(res){
+                       uni.showToast({title : '图片已保存'})
+                       }
                   })
               }
           })
@@ -247,35 +282,33 @@
       
       
       post:function(){
-        var menulist=new Array(this.meallist.length)
-        for(let i=0;i<menulist.length;i++)
-        {
+           var menulist=new Array(this.meallist.length)
+           for(let i=0;i<menulist.length;i++)
+           {
               let templist={dish_id:0,menu_id:0}
               templist.dish_id=this.meallist[i].id
               templist.menu_id=this.menuid
               menulist[i]=templist
-          }
-          console.log(menulist)
-          
-        
-        uni.request({
-          url:'http://cal.hanlh.com:8000/canteen/orderdish/',
-          method:'POST',
-          header:{
-            Authorization:'Token '+uni.getStorageSync('token'),
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          data:{
-            orders:menulist
-          },
-          success: (res) => {
-            console.log(res)
-          }
-        })
-        uni.setStorage({
-          key:'meal-list',
-          data:[]
-        })
+           }
+           console.log(menulist)
+          uni.request({
+              url:'http://cal.hanlh.com:8000/canteen/orderdish/',
+              method:'POST',
+              header:{
+              Authorization:'Token '+uni.getStorageSync('token'),
+              'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              data:{
+              orders:JSON.stringify(menulist)
+              },
+              success: (res) => {
+              console.log(res)
+              }
+              })
+          uni.setStorage({
+              key:'meal-list',
+              data:[]
+              })
       }
     }
   }
