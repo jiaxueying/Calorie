@@ -46,10 +46,10 @@
               <view  class="navigator">订餐功能</view><!--url="../search/search" hover-class="none"-->
               <!--<text>\n戳这里（不）可以根据卡路里订餐呦。</text>-->
             </view>
-            <view   @click="recommend" class="btn">
-              <view class="navigator">推荐功能</view><!--url="../recommondation/shake" hover-class="none"-->
-              <!--<text>\n不知道今天吃什么？戳这里！（真的完全随机哟。）</text>-->
-            </view>
+            <!--<view   @click="recommend" class="btn">
+              <view class="navigator">推荐功能</view>url="../recommondation/shake" hover-class="none"
+              <text>\n不知道今天吃什么？戳这里！（真的完全随机哟。）</text>
+            </view>-->
             <view class="btn">
               <navigator url="../user/user" hover-class="none" class="navigator">用户中心
               <!--<text>\n了解您的信息（其实也不）可以更好地为您推荐啦。</text>-->

@@ -109,7 +109,7 @@
         console.log("in onload!")
         this.onloadtime++
         if(this.onloadtime==this.meallist.length){
-          setTimeout(this.draw,1000);
+          setTimeout(this.draw,500);
           console.log("to draw !")
           if(this.ispost) this.post();
         }
@@ -282,9 +282,11 @@
           uni.showLoading({
               title: '图片绘制中...',
               })
+          var that=this
           uni.canvasToTempFilePath({
               canvasId:'canvas',
               success: function(res){
+                       setTimeout(that.wait,300);
                        uni.hideLoading()
                        console.log(res.tempFilePath)
                        uni.saveImageToPhotosAlbum({
@@ -297,6 +299,9 @@
           })
       }, 
       
+      wait:function(e){
+        console.log("wait")
+      },
       
       post:function(){
            var menulist=new Array(this.meallist.length)
