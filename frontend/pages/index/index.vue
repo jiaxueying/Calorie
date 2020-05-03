@@ -43,7 +43,7 @@
       
       <view class="allbtn">
             <view @click="ordermeal" class="btn">
-              <view  class="navigator">订餐功能</view><!--url="../search/search" hover-class="none"-->
+              <view><text class="navigator" >订餐功能</text></view><!--url="../search/search" hover-class="none"-->
               <!--<text>\n戳这里（不）可以根据卡路里订餐呦。</text>-->
             </view>
             <!--<view   @click="recommend" class="btn">
@@ -51,7 +51,7 @@
               <text>\n不知道今天吃什么？戳这里！（真的完全随机哟。）</text>
             </view>-->
             <view class="btn">
-              <navigator url="../user/user" hover-class="none" class="navigator">用户中心
+              <navigator url="../user/user" hover-class="none" ><text class="navigator">用户中心</text>
               <!--<text>\n了解您的信息（其实也不）可以更好地为您推荐啦。</text>-->
               </navigator>
             </view>
@@ -380,15 +380,16 @@
     font-size: 1em;
   }
 navigator{
-  font-size: 1.5em;
+  font-size: 50rpx;
   font-weight: 800;
   color:#59453D;
 }
 .navigator{
-  font-size: 1.5em;
+  font-size: 50rpx;
   font-weight: 800;
   color:#59453D;
   text-align: center;
+  margin-right: 15rpx;
 }
 .title{
   display: flex;
@@ -416,8 +417,8 @@ navigator{
 }
 .btn{
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
   border:#59453D 7rpx solid;
   border-radius: 40rpx;
   width:650rpx;
