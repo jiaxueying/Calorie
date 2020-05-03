@@ -14,12 +14,12 @@
     
       <view class="allbtn">
         <view class="btn" @tap="openDealQuery">
-          <view class="navigator">查询订单
+          <view ><text class="navigator">查询订单</text>
           <!-- <text>\n戳这里了解今天摄入了多少卡路里</text> -->
           </view>
         </view>
         <view class="btn" @tap="openMealManage">
-          <view class="navigator">菜品管理
+          <view ><text class="navigator">菜品管理</text>
           <!-- <text>\n戳这里摇出今天吃什么</text> -->
           </view>
         </view>
@@ -97,8 +97,10 @@
 
 <style>
 .navigator{
-  font-size: 1.5em;
+  font-size: 50rpx;
   font-weight: 800;
+  text-align: center;
+  margin-right: 15rpx;
   color:#59453D;
 }
 .title{
@@ -115,8 +117,8 @@
 }
 .btn{
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
   border:#59453D 7rpx solid;
   border-radius: 40rpx;
   width:650rpx;
