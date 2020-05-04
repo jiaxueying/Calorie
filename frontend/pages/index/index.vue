@@ -42,8 +42,8 @@
       <text class="time" @tap="setIsFirst">{{msg}}</text>
       
       <view class="allbtn">
-            <view @click="ordermeal" class="btn">
-              <view><text class="navigator" >订餐功能</text></view><!--url="../search/search" hover-class="none"-->
+            <view class="btn">
+              <view><text  @click="ordermeal" class="navigator" >订餐功能</text></view><!--url="../search/search" hover-class="none"-->
               <!--<text>\n戳这里（不）可以根据卡路里订餐呦。</text>-->
             </view>
             <!--<view   @click="recommend" class="btn">
@@ -185,7 +185,7 @@
             this.msg=rec
             let weight
             uni.request({
-                url:"http://cal.hanlh.com:8000/user/profile",
+                url:"https://cal.liyangpu.com:8000/user/profile",
                 method:"GET",
                 header:{
                 Authorization:'Token '+uni.getStorageSync('token')
@@ -235,8 +235,7 @@
            key:'isisfirst',
            data:true,
            success() {
-             this.isisfirst=true,
-             console.log("isisfirst set"+this.isisfirst)
+             
            }
          })
        }
@@ -248,11 +247,12 @@
       month = month > 9 ? month : '0' + month;;
       day = day > 9 ? day : '0' + day;
       this.date =  `${year}-${month}-${day}`;
+      console.log(this.date)
       uni.$on('date change', this.setDate);
       uni.login({
         success: (res) => {
             uni.request({
-              url:'http://cal.hanlh.com:8000/user/login/',
+              url:'https://cal.liyangpu.com:8000/user/login/',
               data:{
                 code:res.code,
                 name:'123'

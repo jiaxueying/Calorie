@@ -7,7 +7,7 @@
     <view style="height: 50rpx;width: 750rpx;"> </view>
     
    <view class="imgarea" > <!--@touchstart="start" @touchend="end" @touchmove="move"-->
-      <image :src="'http://cal.hanlh.com:8000'+food.img" class="img" v-if="isimg"></image>
+      <image :src="'https://cal.liyangpu.com:8000'+food.img" class="img" v-if="isimg"></image>
       <!-- <view class="tab" v-if="!isimg">
         <tab>
           <ttr align="left">

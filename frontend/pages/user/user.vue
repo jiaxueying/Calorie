@@ -72,7 +72,7 @@
         this.Switch=!this.Switch
         if(this.Switch==false){
           uni.request({
-            url:"http://cal.hanlh.com:8000/user/profile/",
+            url:"https://cal.liyangpu.com:8000/user/profile/",
             method:"POST",
             header:{
               Authorization:'Token '+uni.getStorageSync('token')
@@ -86,7 +86,7 @@
             
           });
           uni.request({
-            url:"http://cal.hanlh.com:8000/user/profile/",
+            url:"https://cal.liyangpu.com:8000/user/profile/",
             method:"GET",
             header:{
               Authorization:'Token '+uni.getStorageSync('token')
@@ -139,7 +139,7 @@
         
         
        /* uni.request({
-          url:"http://cal.hanlh.com:8000/user/profile/",
+          url:"https://cal.liyangpu.com:8000/user/profile/",
           method:"POST",
           header:{
             Authorization:'Token '+uni.getStorageSync('token')
@@ -152,7 +152,7 @@
           }
         })
         uni.request({
-          url:"http://cal.hanlh.com:8000/user/profile/",
+          url:"https://cal.liyangpu.com:8000/user/profile/",
           method:"GET",
           header:{
             Authorization:'Token '+uni.getStorageSync('token')
@@ -173,7 +173,7 @@
       console.log(uni.getStorageSync("token"));
         this.weightdate=uni.getStorageSync('weightdate')
         uni.request({
-          url:"http://cal.hanlh.com:8000/user/profile/",
+          url:"https://cal.liyangpu.com:8000/user/profile/",
           method:"GET",
           header:{
             Authorization:"Token "+uni.getStorageSync("token")
@@ -201,7 +201,7 @@
       console.log(uni.getStorageSync("token"));
       this.weightdate=uni.getStorageSync('weightdate')
       uni.request({
-        url:"http://cal.hanlh.com:8000/user/profile/",
+        url:"https://cal.liyangpu.com:8000/user/profile/",
         method:"GET",
         header:{
           Authorization:"Token "+uni.getStorageSync("token")

@@ -5,7 +5,7 @@
     <dt  v-for="(item,index) in meals" :key="index" >
       <view class="block">
         <checkbox color="#59453D" :checked="item.checked" @click="weatherAll(index)"></checkbox>
-        <image style="width:85px;height:85px;" :src="'http://cal.hanlh.com:8000'+item.picture"></image>
+        <image style="width:85px;height:85px;" :src="'https://cal.liyangpu.com:8000'+item.picture"></image>
         <view class="data">
           <p>{{item.name}}</p>
           <p style="font-size:0.5em;color: #59453D;">{{item.calorie}}</p>
@@ -41,7 +41,7 @@
         let userid= uni.getStorageSync("userid");//从缓存获取userid
         //向后端发送请求
         uni.request({
-      	 url:"http://cal.hanlh.com:8000/dish/calorie_query/",
+      	 url:"https://cal.liyangpu.com:8000/dish/calorie_query/",
     	   method:"GET",
     	   data:{
             user_id:this.userid,

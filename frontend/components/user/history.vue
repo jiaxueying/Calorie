@@ -31,7 +31,7 @@
     methods:{
       showhistorymenu:function(index){
           uni.request({
-                url:"http://cal.hanlh.com:8000/canteen/historyview/",
+                url:"https://cal.liyangpu.com:8000/canteen/historyview/",
                 method:"GET",
                 header:{
                 Authorization:'Token '+uni.getStorageSync('token'),
@@ -61,7 +61,7 @@
      deleteItem:function(id,index){
        console.log(id)
             uni.request({
-                url:"http://cal.hanlh.com:8000/canteen/deletehistory/",
+                url:"https://cal.liyangpu.com:8000/canteen/deletehistory/",
                 method:"POST",
                 header:{
                 Authorization:'Token '+uni.getStorageSync('token'),
@@ -86,7 +86,7 @@
      
      created:function(){
           uni.request({
-              url:"http://cal.hanlh.com:8000/canteen/historyview/",
+              url:"https://cal.liyangpu.com:8000/canteen/historyview/",
               method:"GET",
               header:{
               Authorization:'Token '+uni.getStorageSync('token'),
@@ -105,7 +105,7 @@
               {
                   for(let i=0;i<this.list.length;i++)
                   {
-                  this.list[i].picture='http://cal.hanlh.com:8000'+this.list[i].dishes[0].img
+                  this.list[i].picture='https://cal.liyangpu.com:8000'+this.list[i].dishes[0].img
                   var str="";
                   for(let j=0;j<10;j++){
                       str+=this.list[i].time[j];

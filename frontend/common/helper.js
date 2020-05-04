@@ -1,4 +1,4 @@
-export const backendUrl = 'http://cal.hanlh.com:8000';
+export const backendUrl = 'https://cal.liyangpu.com:8000';
 
 export const request = function(url, method, data) {
   return uni.request({
