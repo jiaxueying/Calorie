@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'searchitem',
     'user',
     'canteen',
+    'werkzeug_debugger_runserver',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
