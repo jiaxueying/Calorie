@@ -40,11 +40,8 @@
                 success: (res) => {
                       console.log(res.data)
                       console.log(res.data.history[index])
-                    var tempdate="";
-                    for(var i=0;i<10;i++){
-                      tempdate+=res.data.history[index].time[i]
-                    }
-                    this.date=tempdate//这里是把time的格式调整一下，
+                    var tempdate= new Date(res.data.history[index].time);
+                    this.date = tempdate.toLocaleDateString();; 
                     console.log(tempdate)  
                     var data={detail:res.data.history[index],date:this.date}
                     uni.setStorage({

@@ -13,7 +13,7 @@
                 <switch color="#59453D" :checked="Switch" @click="set"></switch>
             </view>
             <image src="../../static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
-            <view><text class="weightSet">体重：{{weight}}KG\n目标体重：{{targetweightshow}}\n体重变化速率：{{weightrate}}KG/Day</text></view>
+            <view><text class="weightSet">体重：{{weight}}kg\n目标体重：{{targetweightshow}}\n体重变化速率：{{weightrate}}kg/Day</text></view>
             <!--<text class="calorieForDay">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>-->
         </view>
     </view>
@@ -59,7 +59,7 @@
         targetweight:0,
         pop:false,
         tempweight:1,//pop组件里的体重变量
-        targetweightshow:"999KG",
+        targetweightshow:"999kg",
         plan:true,
         weightrate:0,
         weightdate:60,
@@ -103,7 +103,7 @@
         if(data.string!="暂无计划")
         {
         this.targetweight=data.targetweight
-        this.targetweightshow=data.targetweight+"KG"
+        this.targetweightshow=data.targetweight+"kg"
         this.weightrate=data.rate
         this.plan=true
         }
