@@ -158,37 +158,35 @@ class editdish(APIView):
             return http("修改成功")
 
 
-class menuview(APIView):
-
-    def get(self, request):
-        if False:
-            return http403("没有权限")
-        else:
-            try:
-                date = request.GET["date"][0:10]
-            except:
-                return http400("参数不完整")
-            lists = menu.objects.all()
-            for x in lists:
-                if getdate(x) == date:
-                    if x.period == "bre":
-                        mbre = x
-                    if x.period == "lun":
-                        mlun = x
-                    if x.period == "din":
-                        mdin = x
-            try:
-                mbre
-            except:
-                return http404("当天菜单不存在")
-            bre = {"menu_id": mbre.id}
-            lun = {"menu_id": mlun.id}
-            din = {"menu_id": mdin.id}
-            bre["dishes"] = query.getdishes(mbre.id)
-            lun["dishes"] = query.getdishes(mlun.id)
-            din["dishes"] = query.getdishes(mdin.id)
-            menus = {"bre": bre, "lun": lun, "din": din}
-            return json(menus)
+def menuview(request):
+    if False:
+        return http403("没有权限")
+    else:
+        try:
+            date = request.GET["date"][0:10]
+        except:
+            return http400("参数不完整")
+        lists = menu.objects.all()
+        for x in lists:
+            if getdate(x) == date:
+                if x.period == "bre":
+                    mbre = x
+                if x.period == "lun":
+                    mlun = x
+                if x.period == "din":
+                    mdin = x
+        try:
+            mbre
+        except:
+            return http404("当天菜单不存在")
+        bre = {"menu_id": mbre.id}
+        lun = {"menu_id": mlun.id}
+        din = {"menu_id": mdin.id}
+        bre["dishes"] = query.getdishes(mbre.id)
+        lun["dishes"] = query.getdishes(mlun.id)
+        din["dishes"] = query.getdishes(mdin.id)
+        menus = {"bre": bre, "lun": lun, "din": din}
+        return json(menus)
 
 
 class addmenu(APIView):
@@ -269,29 +267,27 @@ class editmenu(APIView):
             return http("修改成功")
 
 
-class userdishview(APIView):
-
-    def get(self, request):
-        if not permission_veri(request):
-            return http403("没有权限")
-        else:
-            try:
-                menu_id = request.GET["menu_id"]
-                dish_id = request.GET["dish_id"]
-            except:
-                return http400("参数不完整")
-            if len(meta.objects.filter(menu_id=menu_id, dish_id=dish_id)) == 0:
-                return http404("当日该套餐不存在")
-            m = menu.objects.get(id=menu_id)
-            res = {
-                "date": getdate(m),
-                "period": m.period
-            }
-            d = dish.objects.get(id=dish_id)
-            res["dish"] = d.name
-            res["img"] = d.picture.url
-            res["names"] = query.getnames(d.id)
-            return json(res)
+def userdishview(request):
+    if False:
+        return http403("没有权限")
+    else:
+        try:
+            menu_id = request.GET["menu_id"]
+            dish_id = request.GET["dish_id"]
+        except:
+            return http400("参数不完整")
+        if len(meta.objects.filter(menu_id=menu_id, dish_id=dish_id)) == 0:
+            return http404("当日该套餐不存在")
+        m = menu.objects.get(id=menu_id)
+        res = {
+            "date": getdate(m),
+            "period": m.period
+        }
+        d = dish.objects.get(id=dish_id)
+        res["dish"] = d.name
+        res["img"] = d.picture.url
+        res["names"] = query.getnames(d.id)
+        return json(res)
 
 
 class orderdish(APIView):
