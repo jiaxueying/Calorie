@@ -221,7 +221,9 @@
           //ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
           //ctx.fillText(this.msg+"kcal",200*rp,360*rp+j*90*rp)
           ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
-          ctx.fillText(this.date,180*rp,390*rp+j*90*rp)
+          const metrics = ctx.measureText(this.date).width
+          console.log(metrics)
+          ctx.fillText(this.date,300*rp-metrics,390*rp+j*90*rp)
           
          // var path=uni.getStorageSync('path')
           for(var i=0;i<this.meallist.length;i++){
