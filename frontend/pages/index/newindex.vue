@@ -1,6 +1,8 @@
 <template>
   <view>
   <view class="container">
+      <img id="img1" src="../../static/background.jpg"/>
+      <img id="img2" src="../../static/background.jpg"/>
       <view class="header">
           <p>首页</p>
       </view>
@@ -12,7 +14,7 @@
           <view class="button date" hover-class="hover-button">
                 <view class="bar">.....</view>
                 <picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
-                  <view class="uni-input">{{date}}</view> 
+                    <view class="uni-input">{{date}}</view> 
                 </picker>
           </view>
           <view class="button" hover-class="hover-button">
@@ -72,6 +74,21 @@
 </script>
 
 <style>
+  #img1{
+    position: fixed;
+    top:0;
+    height: 85%;
+    width:100%;
+    z-index:-1;
+    
+  }
+  #img2{
+    position: fixed;
+    top:15%;
+    height: 85%;
+    width:100%;
+    z-index:-1;
+  }
   .header{
     position: absolute;
     top:5%;
@@ -79,7 +96,7 @@
   .header>p{
     font-size: 60rpx;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: 600;
+    font-weight: 800;
     color: rgba(80,80,80,0.6);
     
   }
@@ -91,6 +108,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    overflow: hidden;
   }
   .main{
     width:90%;

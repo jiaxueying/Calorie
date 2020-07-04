@@ -21,6 +21,8 @@
         <view style="height:100rpx;">
            <!--<text class="intakeinfor">本餐共摄入\n</text>
            <text class="intakeinfor">{{msg}}kcal\n</text>-->
+           <text :class="{'ordertime':isorder,'inorder':!isorder}">订餐时间：{{time}}\n订单号：01</text>
+           
         </view>
       </view><!--scroll-->
       </view><!--content-->
@@ -34,28 +36,25 @@
     </view><!--all-->
     </scroll-view>
     
+    
     <view class="allbtn">
         
-        <view class="btn" >
-          <button type="default" plain style="border:none" @click="friendcircle">
-               <image class="icon" src="../../static/friendcircle.jpg"></image>
-               <text>分享至朋友圈</text>
+          <button>
+               <image class="icon" src="../../static/friendcircle.jpg" style="opacity: 0.7;"></image>
+               <picker style="z-index:999" mode="time" :value="time" start="09:01" end="21:01" @change="bindTimeChange">
+                         <text>食堂订餐</text>
+               </picker>
           </button>
-        </view>
         
-        <view class="btn" >
-          <button type="default" open-type="share" plain style="border:none">
+        <button open-type="share" class="button">
             <image class="icon" src="../../static/friend.jpg" style=""></image>
-            <text>发送给朋友</text>
-          </button>
-        </view>
+            <view><text>发送给朋友</text></view>
+        </button>
         
-        <view class="btn">
-            <button type="default" plain style="border:none" @click="save">
+        <button  @click="save" class="button">
               <image class="icon" src="../../static/download.jpg" ></image>
-              <text>保存到手机</text>
-            </button>
-        </view>
+              <view><text>保存到手机</text></view>
+        </button>
         
     </view>
     
@@ -89,6 +88,8 @@
         size:"width:600rpx;",
         ispost:true,//是否上传，区分来自于查看历史菜单详情还是生成新菜单
         onloadtime:0,
+        time:"食堂订餐",
+        isorder:false
       }
     },
     
@@ -221,6 +222,7 @@
           //ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
           //ctx.fillText(this.msg+"kcal",200*rp,360*rp+j*90*rp)
           ctx.fillText("#粟",3*rp,390*rp+j*90*rp)
+          ctx.fillText(this.time,270*rp,350*rp+j*90*rp)
           const metrics = ctx.measureText(this.date).width
           console.log(metrics)
           ctx.fillText(this.date,300*rp-metrics,390*rp+j*90*rp)
@@ -254,33 +256,34 @@
         console.error(e.detail.errMsg)
       },
          
-      //分享到朋友圈
-      friendcircle:function(){
-            uni.canvasToTempFilePath({
-                canvasId:'canvas',
-                success: function(res){
-                console.log(res.tempFilePath)
-                uni.saveImageToPhotosAlbum({
-                    filePath:res.tempFilePath,
-                    })
-                }
-              });
-        
-        uni.showModal({
-              title: '小程序的锅',
-              content: '图片已保存至本地，手动分享叭亲',
-              success: function (res) {
-                    if (res.confirm) {
-                    console.log('用户点击确定');
-                    } 
-                    else if (res.cancel) {
-                    console.log('用户点击取消');
-                    }
-                    }
-        });
-      },
+      //食堂订餐
+      bindTimeChange: function(e) {
+                  this.time = e.target.value
+                  this.isorder=true
+                  uni.showModal({
+                      title: '请您确认',
+                      content: "取餐时间为"+this.time,
+                      success: function (res) {
+                          if (res.confirm) {
+                              console.log('用户点击确定');
+                              uni.showToast({
+                                  title: '下单成功',
+                                  duration: 2000
+                              });
+                          } else if (res.cancel) {
+                              console.log('用户点击取消');
+                          }
+                      }
+                  });
+                 
+              },
+              
+         
+       
+       
        
       //保存到本地
+      
       save:function(){
           uni.showLoading({
               title: '图片绘制中...',
@@ -301,6 +304,7 @@
               }
           })
       }, 
+      
       
       wait:function(e){
         console.log("wait")
@@ -364,10 +368,10 @@
   .allbtn{
     width:100%;
     display:flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     position:fixed;
     bottom:0rpx;
-    background-color: #FFFFFF;
+    background-color:#FFFFFF;
   }
   text{
     font-size: 30rpx;
@@ -377,23 +381,27 @@
   button{
    display: flex;
    flex-direction: column;
+   align-items: center; 
+   width: 72px;
+   padding: 0px;
+   background-color: rgb(255,255,255,1);
+  }
+  button::after{
+   border: none;
+  }
+  .button{
+   display: flex;
+   flex-direction: column;
    align-items: center;  
   }
   .icon{
     width:70rpx;
     height:70rpx;
     opacity: 0.8;
-    position: relative;
-        top:5rpx;
-        left:-25rpx;
   }
   image{
     width:180rpx;
     height:180rpx;
-    margin-top: 20rpx;
-    margin-left: 40rpx;
-    padding-bottom: 20rpx;
-    display: inline-block;
   }
   .title{
     font-size: 40rpx;
@@ -425,5 +433,11 @@
   .date{
     position: absolute; 
     right:50rpx;
+  }
+  .ordertime{
+    display: inline;
+  }
+  .inorder{
+    display: none;
   }
 </style>

@@ -10,7 +10,7 @@
            <text>添加成功!</text>
 	      </view>
         <view class="buttomarea">
-          <view class="button" @click="gotoshake">继续摇一摇</view>
+          <view class="button" @click="gotoshake">重新推荐</view>
           <view class="button" @click="gotohome">返回首页</view>
         </view>
       </view>
@@ -36,6 +36,10 @@
 </script>
 
 <style>
+ image{
+   width:160rpx;
+   height: 140rpx;
+    }
 .content{
   display: flex;
   justify-content: center;
@@ -51,7 +55,6 @@
   height: 25%;
   margin-top: 45%;
   background-color: #ffffff;
-  border: 1px #333333 solid;
   border-radius: 10px;
 }
 .popup_1{
