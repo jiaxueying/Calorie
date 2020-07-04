@@ -6,9 +6,9 @@
     
     <view style="height: 50rpx;width: 750rpx;"> </view>
     
-   <view class="imgarea" > <!--@touchstart="start" @touchend="end" @touchmove="move"-->
-      <image :src="'https://cal.liyangpu.com:8000'+food.img" class="img" v-if="isimg"></image>
-      <!-- <view class="tab" v-if="!isimg">
+   <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
+      <image :src="'../../static/dishes/'+food.img" class="img" v-if="isimg"></image>
+      <view class="tab" v-if="!isimg">
         <tab>
           <ttr align="left">
             <tth style="width: 200rpx;">项目</tth>
@@ -21,11 +21,11 @@
             <ttd style="width: 200rpx;">{{content.percent}}</ttd>
           </ttr>
         </tab>
-      </view> -->
-      <!--
+      </view>
+      
       <view style="display: flex;margin-top: 20rpx;">
         <view :class="{blackspot:isimg,whitespot:!isimg}" style="margin-right: 10rpx;"></view><view :class="{whitespot:isimg,blackspot:!isimg}" style="margin-left: 10rpx;"></view>
-      </view> -->
+      </view> 
     </view>
 
     <view style="display:flex;flex-direction: column;align-items: center;"><!--scroll-view里的bug，必须再包一层-->
@@ -41,6 +41,7 @@
       <view class="count" @click="dislike">{{dislike_count}}</view>
     </view> -->
     
+    <!--
     <view style="width: 550rpx;margin-top: 25rpx;">
       <view style="display: flex;">
           <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;margin-top: 25rpx;"></view>
@@ -50,6 +51,7 @@
           <view v-for="(dishname,index) in dishnames" class="dishnames">No.{{index+1}}  {{dishname}}</view> 
       </view>
     </view>   
+    -->
      
    <!-- <view style="margin-top: 50rpx;">
     <view style="width: 550rpx;display: flex;height: 30rpx;margin-top: 10rpx;">
@@ -118,12 +120,12 @@
           {id:1,name:'五号窗口'},
         ],
         nutrition:[
-          {item:'能量',value:'--',percent:'--'},
-          {item:'蛋白质',value:'--',percent:'--'},
-          {item:'脂肪',value:'--',percent:'--'},
-          {item:'碳水化合物',value:'--',percent:'--'},
-          {item:'钠',value:'--',percent:'--'},
-          {item:'钙',value:'--',percent:'--'}
+          {item:'维生素C',value:'0mg',percent:'0'},
+          {item:'蛋白质',value:'1.4g',percent:'8'},
+          {item:'脂肪',value:'0.7g',percent:'2'},
+          {item:'碳水化合物',value:'8.4g',percent:'10'},
+          {item:'钠',value:'4.1mg',percent:'0.2'},
+          {item:'钙',value:'10mg',percent:'0.5'}
         ],
         dishnames:[
         ],
@@ -136,6 +138,9 @@
       this.ordered_food = uni.getStorageSync("meal-list");
       this.food = JSON.parse(options.foodDetail);
       let id = JSON.parse(options.id);
+      this.food=JSON.parse(options)
+      console.log(this.food)
+      /*
       request('/canteen/userdishview/', 'GET', {
         menu_id:id,
         dish_id:this.food.dish_id
@@ -144,6 +149,8 @@
         this.dishnames = res[1].data.names;
         console.log(this.dishnames)
       })
+      */
+      
       // console.log(this.food);
       // this.like_count = this.food.like;
       // this.dislike_count = this.food.dislike;
@@ -239,7 +246,7 @@
           cal: this.food.calorie,
           sum: 1,
           picture: this.food.img,
-          id: this.food.dish_id
+          //id: this.food.dish_id
         });
         uni.setStorageSync("meal-list", OrderedFood);
       }

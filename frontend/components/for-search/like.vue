@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        :src="'https://cal.liyangpu.com:8000'+food.img"
+        :src="'../../static/dishes/'+food.img"
         mode=""
         @tap="detail"
       />

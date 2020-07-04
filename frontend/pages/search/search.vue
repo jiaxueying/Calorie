@@ -51,7 +51,36 @@ export default {
       IsShow: false,
       HistoryShow: false,
       foods: new Array(),
-      showedFoods:[],
+      showedFoods:[
+        {dish:"小米粥",img:"小米粥.png",calorie:"46",menu_id:"1"},
+        {dish:"煮玉米",img:"煮玉米.png",calorie:"102",menu_id:"2"},
+        {dish:"番茄炒蛋",img:"番茄炒蛋.png",calorie:"81",menu_id:"3"},
+        {dish:"西葫芦炒蛋",img:"西葫炒蛋.png",calorie:"94",menu_id:"4"},
+        {dish:"炒饼",img:"炒饼.jpg",calorie:"121",menu_id:"5"},
+        {dish:"朝鲜冷面",img:"朝鲜冷面.png",calorie:"102",menu_id:"6"},
+        {dish:"重庆小面",img:"重庆小面.jpg",calorie:"241",menu_id:"7"},
+        {dish:"黄焖鸡",img:"黄焖鸡.jpg",calorie:"83",menu_id:"8"},
+        {dish:"鸡蛋",img:"鸡蛋.png",calorie:"144",menu_id:"9"},
+        {dish:"牛肉面",img:"牛肉面.png",calorie:"610",menu_id:"10"},
+        {dish:"红烧肉",img:"红烧肉.jpg",calorie:"522",menu_id:"11"},
+        {dish:"意大利面",img:"意大利面.jpg",calorie:"137",menu_id:"12"},
+        {dish:"米饭",img:"米饭.png",calorie:"116",menu_id:"13"},
+      ],
+      allFoods:[
+        {dish:"小米粥",img:"小米粥.png",calorie:"46",menu_id:"1"},
+        {dish:"煮玉米",img:"煮玉米.png",calorie:"102",menu_id:"2"},
+        {dish:"番茄炒蛋",img:"番茄炒蛋.png",calorie:"81",menu_id:"3"},
+        {dish:"西葫芦炒蛋",img:"西葫炒蛋.png",calorie:"94",menu_id:"4"},
+        {dish:"炒饼",img:"炒饼.jpg",calorie:"121",menu_id:"5"},
+        {dish:"朝鲜冷面",img:"朝鲜冷面.png",calorie:"102",menu_id:"6"},
+        {dish:"重庆小面",img:"重庆小面.jpg",calorie:"241",menu_id:"7"},
+        {dish:"黄焖鸡",img:"黄焖鸡.jpg",calorie:"83",menu_id:"8"},
+        {dish:"鸡蛋",img:"鸡蛋.png",calorie:"144",menu_id:"9"},
+        {dish:"牛肉面",img:"牛肉面.png",calorie:"610",menu_id:"10"},
+        {dish:"红烧肉",img:"红烧肉.jpg",calorie:"522",menu_id:"11"},
+        {dish:"意大利面",img:"意大利面.jpg",calorie:"137",menu_id:"12"},
+        {dish:"米饭",img:"米饭.png",calorie:"116",menu_id:"13"},
+      ],
       name1: '搜索历史',
       name2: '热门搜索',
       HistoryName: new Array(),
@@ -63,7 +92,7 @@ export default {
     uni.$on('showhistory', this.ShowHistory);
     uni.$on('showorders', this.ChangeIsShow);
     uni.$on('hidehistory', this.HideHistory);
-    uni.$on('search_key',this.searchBykey);
+    uni.$on('search_key',this.searchBykey_t);
     uni.$on('search_tag',this.searchByTag);
     uni.$on('addHistory',this.addHistoryBykey);
     uni.$on('refresh1',this.refresh);
@@ -137,6 +166,16 @@ export default {
       this.OrderedFood = uni.getStorageSync('meal-list');
       console.log(this.OrderedFood);
     },
+    searchBykey_t(key){
+      this.showedFoods=[]
+      for(var i=0;i<13;i++)
+      {
+        if(this.allFoods[i]["dish"].indexOf(key)!=-1)
+        {
+          this.showedFoods.push(this.allFoods[i])
+        }
+      }
+    }
   },
   mounted() {
     console.log(this.OrderedFood);
