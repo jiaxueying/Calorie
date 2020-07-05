@@ -9,7 +9,7 @@
       
       <view class="main">
           <view class="button" hover-class="hover-button">
-              <navigator>点餐处</navigator>
+              <navigator url="../search/search">点餐处</navigator>
           </view>
           <view class="button date" hover-class="hover-button">
                 <view class="bar">.....</view>
@@ -18,10 +18,10 @@
                 </picker>
           </view>
           <view class="button" hover-class="hover-button">
-              <navigator>营养推荐</navigator>
+              <navigator url="../recommondation/range">营养推荐</navigator>
           </view>
           <view class="button" hover-class="hover-button">
-              <navigator>用户中心</navigator>
+              <navigator url="../user/user">用户中心</navigator>
           </view>
       </view>
       

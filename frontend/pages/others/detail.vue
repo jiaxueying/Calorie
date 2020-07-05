@@ -34,24 +34,24 @@
       <view class="cal" style="display: none;">{{cal}}</view>
     </view>
     
-    <!-- <view class="opinion">
+    <view class="opinion">
       <image :src="likeicon" class="countimg" @click="like"></image>
       <view class="count" @click="like">{{like_count}}</view>
       <image :src="dislikeicon" class="countimg" @click="dislike"></image>
       <view class="count" @click="dislike">{{dislike_count}}</view>
-    </view> -->
+    </view>
     
-    <!--
+   
     <view style="width: 550rpx;margin-top: 25rpx;">
-      <view style="display: flex;">
-          <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;margin-top: 25rpx;"></view>
-          <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">套餐详情</view>
+      <view style="display: flex;align-items: center;">
+          <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;"></view>
+          <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">关键词</view>
       </view>
       <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
           <view v-for="(dishname,index) in dishnames" class="dishnames">No.{{index+1}}  {{dishname}}</view> 
       </view>
     </view>   
-    -->
+   
      
    <!-- <view style="margin-top: 50rpx;">
     <view style="width: 550rpx;display: flex;height: 30rpx;margin-top: 10rpx;">
@@ -59,9 +59,9 @@
       <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">关键词</view>
     </view> -->
     
-    <!-- <view class="tags">
+    <view class="tags">
       <view v-for="(tag,index) in tags" class="tag" :key="index" @click="taptag(index)">{{tag.name}}</view>
-    </view> -->
+    </view>
     </view>
     
     <view style="background-color: #FFFFFF;width: 750rpx;height: 100rpx;">
@@ -335,8 +335,9 @@
       align-self: flex-end;
       margin-right: 25rpx;
       display: flex;
-      height: 50rpx;
-      
+      justify-content: center;
+      align-items: center;
+      height: 80rpx;
     }
     .countimg{
       width: 50rpx;
@@ -345,7 +346,7 @@
       margin-right: 10rpx;
     }
     .count{
-      line-height: 50rpx;
+      line-height: 80rpx;
       font-size: 40rpx;
     }
     .tags{

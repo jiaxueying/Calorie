@@ -8,8 +8,9 @@
       <view class="content">
       <view class="scroll">
         <!--菜单可滚动部分-->
-        <scroll-view  scroll-y="true" class="scrollview" style="height:660rpx;">
-            <view v-for="(srcitem,i) in path" >
+        <scroll-view  scroll-y="true" class="scrollview">
+            <view style="height:5rpx;"></view>
+            <view v-for="(srcitem,i) in path">
                 <image :src="srcitem" ref="conf0" @load="onload"></image>
                 <view class="mealinfor">
                     <text>\n{{meallist[i].name}}\n\n</text>
@@ -82,8 +83,18 @@
         date:'',
         width:"",//确定类型
         height:"",//确定类型
-        meallist:[{name:"",sum:0,picture:''}],//一定要先格式化
-        path: [],//图片的路径
+        meallist:[
+          {name:"小米粥",sum:1},
+          {name:"煮玉米",sum:1},
+          {name:"番茄炒蛋",sum:1},
+          {name:"西葫芦炒蛋",sum:1},
+        ],//一定要先格式化
+        path: [
+          "../../static/dishes/小米粥.png",
+          "../../static/dishes/煮玉米.png",
+          "../../static/dishes/番茄炒蛋.png",
+          "../../static/dishes/西葫炒蛋.png",
+          ],//图片的路径
         paths:[],
         size:"width:600rpx;",
         ispost:true,//是否上传，区分来自于查看历史菜单详情还是生成新菜单
@@ -106,7 +117,7 @@
     methods: {
         
         
-     onload:function(){
+    /* onload:function(){
         console.log("in onload!")
         this.onloadtime++
         if(this.onloadtime==this.meallist.length){
@@ -161,9 +172,9 @@
            
             
             
-            },
+            },*/
         
-      getinfo:function(i){
+      /*getinfo:function(i){
         uni.getImageInfo({
           src:'https://cal.liyangpu.com:8000'+this.meallist[i].picture,
           success: (res) => {
@@ -171,9 +182,9 @@
             console.log("get one picture!")
           }
         })
-      },
+      },*/
             
-      get(i) {
+     /* get(i) {
         return new Promise((resolve, reject) => {
               uni.getImageInfo({
               src:'https://cal.liyangpu.com:8000'+this.meallist[i].picture,
@@ -187,7 +198,7 @@
                   }
               })
         });
-      },
+      },*/
       
       draw:function(e){
           var j=(this.meallist.length>=3)?(this.meallist.length-3):0
@@ -310,7 +321,7 @@
         console.log("wait")
       },
       
-      post:function(){
+      /*post:function(){
            var menulist=new Array(this.meallist.length)
            for(let i=0;i<menulist.length;i++)
            {
@@ -338,7 +349,7 @@
               key:'meal-list',
               data:[]
               })
-      }
+      }*/
     }
   }
 </script>
@@ -399,6 +410,9 @@
     height:70rpx;
     opacity: 0.8;
   }
+  .scrollview>image{
+    z-index: -1;
+  }
   image{
     width:180rpx;
     height:180rpx;
@@ -413,7 +427,8 @@
   .mealinfor{
     display: inline-block;
     position: absolute;
-    right:120rpx;
+    left:330rpx;
+    line-height: 30rpx;
     //使用inline-block的时候所有的justify和align布局都失效
   }
   .intakeinfor{
@@ -425,7 +440,8 @@
   }
   .scrollview{
     border-top: #333333 inset 5rpx; 
-    border-bottom: #333333 outset 5rpx;
+    border-bottom: #333333 outset 8rpx;
+    height:660rpx;
   }
   .listBottomText{
     border-top: #333333 groove 5rpx;

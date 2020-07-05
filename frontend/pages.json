@@ -1,28 +1,19 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-        {
+            {
+             "path" : "pages/index/newindex",
+             "style" : {
+                 
+             }
+         },           {
             "path":"pages/recommondation/list",
             "style":{
                 
             }
         },
-        {
-             "path" : "pages/index/newindex",
-             "style" : {
-                 
-             }
-         },        
+            
         {
             "path":"pages/others/mylist"
-        },
-        
-        
-     
-	   {
-            "path" : "pages/index/index",
-            "style" : {
-                
-            }
         },
         {
             "path" : "pages/search/search",
@@ -32,12 +23,6 @@
         },
        
         
-		{
-		    "path" : "pages/index/indexOfRecommondation",
-		    "style" : {
-		        
-		    }
-		},
         
         {
 			"path": "pages/recommondation/range",
