@@ -54,5 +54,5 @@ class DishWithLikeSerializer(DishSerializer):
     user_dislike = serializers.BooleanField(default=False, initial=False, allow_null=False)
     class Meta:
         model = Dish
-        fields = ["id", "picture", "name", "calorie", "like", "dislike", "tag", "energy", "protein", "fat", "water", "carbohydrate", "sodium", "user_like", "user_dislike"]
+        fields = ["id", "picture", "name", "calorie", "like", "dislike", "tag", "energy", "protein", "fat", "carbohydrate", "sodium", "user_like", "user_dislike"]
         read_only_field = ("id", )
