@@ -116,6 +116,7 @@ def get_dish_data(raw_data):
         for i in items:
             dish_data[i] += float(ingredient_data[i])*per
 
+    dish_data['weight'] = weight
     per = 100/weight
     for i in items:
         dish_data[i] *= per

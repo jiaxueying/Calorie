@@ -14,6 +14,7 @@ class Dish(models.Model):
     picture = models.ImageField(_("dish picture"), upload_to=None, max_length=100)
     name = models.CharField(_("dish name"), max_length=50)
     calorie = models.IntegerField(_("dish calorie"))
+    weight = models.IntegerField(_("weight of single product"))
     like = models.IntegerField(_("dish like amount"))
     dislike = models.IntegerField(_("dish dislike amount"))
     tag = models.ManyToManyField("Tag", verbose_name=_("tag"))
