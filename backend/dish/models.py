@@ -20,7 +20,7 @@ class Dish(models.Model):
     energy = models.DecimalField(_("energy"), max_digits=8, decimal_places=2)
     protein = models.DecimalField(_("protein"), max_digits=8, decimal_places=2)
     fat = models.DecimalField(_("fat"), max_digits=8, decimal_places=2)
-    carbohydrate = models.DecimalField(_("carbohydrate"), max_digits=8, decimal_places=2)
+    carbohydrates = models.DecimalField(_("carbohydrate"), max_digits=8, decimal_places=2)
     sodium = models.DecimalField(_("sodium"), max_digits=8, decimal_places=2)
     dietary_fiber = models.DecimalField(_("dietary fiber"), max_digits=8, decimal_places=2)
     vitaminC = models.DecimalField(_("Vitamin C"), max_digits=8, decimal_places=2)

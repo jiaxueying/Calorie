@@ -23,7 +23,7 @@ class Nutrition(models.Model):
 
 
 class Auth(models.Model):
-    '''授权用户'''
+    '''已授权用户'''
 
     account = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
@@ -34,3 +34,4 @@ class Token(models.Model):
 
     auth_id = models.IntegerField()
     expiration = models.DateTimeField()
+    token = models.CharField(max_length=32)
