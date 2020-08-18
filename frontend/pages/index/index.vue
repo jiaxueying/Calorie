@@ -41,7 +41,7 @@ export default {
     };
   },
   onLoad() {
-
+    ////////////////////////////////////
   },
   methods: {
     onGetUserInfo(userInfo) {
