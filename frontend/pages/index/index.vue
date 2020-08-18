@@ -25,6 +25,8 @@
     <button
       type="primary"
       @click="test"
+      
+      
     >
       test
     </button>
