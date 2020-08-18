@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        :src="'../../static/dishes/'+food.img"
+        :src="'https://nkucalorie.top.com:8000/media/static/dishes/'+food.img"
         mode=""
         @tap="detail"
       />
@@ -21,18 +21,6 @@
           </view>
         </view>
         
-        <!-- <view class="bottom">
-          <view class="item">
-            <button class="likeButton" @tap="like_">
-              LIKE {{ food.like }}
-            </button>
-          </view>
-          <view class="item">
-            <button class="unlikeButton" @tap="dislike_">
-              DISLIKE {{ food.dislike }}
-            </button>
-          </view>
-        </view> -->
       
       </view>
     </view>
@@ -127,7 +115,7 @@
     .likeButton {
         height: 50rpx;
         font-size: 20rpx;
-        background-image: url(../../static/like.png);
+        background-image: url(https://nkucalorie.top.com:8000/media/static/like.png);
         background-color: #FFFFFF;
         background-repeat: no-repeat;
         background-size: 40rpx;
@@ -138,7 +126,7 @@
     .unlikeButton {
         height: 50rpx;
         font-size: 20rpx;
-        background-image: url(../../static/dislike.png);
+        background-image: url(https://nkucalorie.top.com:8000/media/static/dislike.png);
         background-color: #FFFFFF;
         background-repeat: no-repeat;
         background-size: 40rpx;

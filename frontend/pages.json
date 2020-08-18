@@ -1,56 +1,59 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
             {
-             "path" : "pages/index/newindex",
-             "style" : {
-                 
-             }
-         },           {
-            "path":"pages/recommondation/list",
-            "style":{
-                
-            }
-        },
+             "path" : "pages/index/newindex"
+            },
+            {
+             "path" : "pages/user/user"
+            },
+            {
+            "path":"pages/dishinfo/add"
+            },
             
-        {
+             
+            {
+         	 "path": "pages/index/index"
+         	},
+            {
+            "path":"pages/recommondation/list"
+            },
+            
+            {
             "path":"pages/others/mylist"
-        },
-        {
-            "path" : "pages/search/search",
-            "style":{
-                
-            }
-        },
-       
-        
-        
-        {
-			"path": "pages/recommondation/range",
-			"style": {
-				
-			}
-		}
-        ,{
-            "path" : "pages/recommondation/shake",
-            "style" : {
-                
-            }
-        },
-        
-       
-        {
-            "path":"pages/user/user",
-            "style":{
-                
-            }
-        },
-        {
+            },
+            {
+            "path" : "pages/search/search"
+            },
+            {
+			"path": "pages/recommondation/range"
+            },
+            {
+            "path" : "pages/recommondation/shake"
+            },
+            {
             "path":"pages/others/detail"
-        },
-        {
-            "path" : "components/recommodation/recommendcopy/recommendcopy",
-            "style" : {}
-        }
+            },
+            {
+            "path":"pages/user/administrator"
+            },
+            {
+            "path" : "components/recommodation/recommendcopy/recommendcopy"
+            },
+            {
+            "path":"pages/dishinfo/modify"
+            },
+            {
+            "path": "pages/index/indexOfMealManagment"
+            },
+            {
+            "path" : "pages/MealManagement/AlternativeMealList"
+            },
+            {
+            "path" : "pages/MealManagement/MealManagement"
+            },
+            {
+            "path" : "pages/MealList/MealList"
+            }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

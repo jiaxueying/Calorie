@@ -1,13 +1,10 @@
 <template>
   <scroll-view scroll-y="true" class="content">
-    <!--<view class="head">
-      <text>本日推荐的卡路里范围为{{min}}-{{max}}cal</text>
-    </view>-->
     
     <view style="height: 50rpx;width: 750rpx;"> </view>
     
    <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
-      <image :src="'../../static/dishes/'+food.img" class="img" v-if="isimg"></image>
+      <image :src="'https://cal.liyangpu.com:8000/media/static/dishes/'+food.img" class="img" v-if="isimg"></image>
       <view class="tab" v-if="!isimg">
         <tab>
           <ttr align="left">
@@ -53,11 +50,6 @@
     </view>   
    
      
-   <!-- <view style="margin-top: 50rpx;">
-    <view style="width: 550rpx;display: flex;height: 30rpx;margin-top: 10rpx;">
-      <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;margin-top: 5rpx;"></view>
-      <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">关键词</view>
-    </view> -->
     
     <view class="tags">
       <view v-for="(tag,index) in tags" class="tag" :key="index" @click="taptag(index)">{{tag.name}}</view>
@@ -69,7 +61,7 @@
     </view>
     </view>
     <view class="bottom">
-      <image src="../../static/tableware.png" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
+      <image src=".https://cal.liyangpu.com:8000/media/static/tableware.png" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
       <view class="buttun" @click="add">Add to List</view>
     </view>
     <view
@@ -99,8 +91,8 @@
     },
     data(){
       return{
-        likeicon:"../../static/like.png",
-        dislikeicon:"../../static/dislike.png",
+        likeicon:"https://cal.liyangpu.com:8000/media/static/like.png",
+        dislikeicon:"https://cal.liyangpu.com:8000/media/static/dislike.png",
         food: null,
         like_count:666,
         liked: 0,
@@ -140,30 +132,6 @@
       let id = JSON.parse(options.id);
       this.food=JSON.parse(options)
       console.log(this.food)
-      /*
-      request('/canteen/userdishview/', 'GET', {
-        menu_id:id,
-        dish_id:this.food.dish_id
-      }).then(res =>{
-        console.log(res)
-        this.dishnames = res[1].data.names;
-        console.log(this.dishnames)
-      })
-      */
-      
-      // console.log(this.food);
-      // this.like_count = this.food.like;
-      // this.dislike_count = this.food.dislike;
-      // this.name = this.food.dish;
-      // this.cal = this.food.calorie + "KCAL/100g";
-      // this.tags = this.food.tag;
-      // this.nutrition[1].value = this.food.protein+'g';
-      // this.nutrition[2].value = this.food.fat+'g';
-      // this.nutrition[3].value = this.food.carbohydrate+'g';
-      // this.nutrition[4].value = this.food.sodium+'mg';
-      // console.log(this.nutrition);
-      //property to add
-      //this.dishnames=this.food.dishnames; 
       uni.getStorage({
         key:'range',
         success: (rec) => {
@@ -192,32 +160,6 @@
         this.tempX=event.touches[0].pageX-this.X
         console.log(this.tempX)
       },
-      // like:function(){
-      //   console.log("like");
-      //   this.likeicon="../../static/liked.png";
-      //   this.dislikeicon="../../static/dislike.png";
-      //   like(this.food.id);
-      //   request('/dish/key_query/', 'GET', {
-      //     key_word: this.food.name, 
-      //   }).then(res => {
-      //     this.like_count = res[1].data.data[0].like;
-      //     this.dislike_count = res[1].data.data[0].dislike;
-      //     console.log(res);
-      //   });
-      // },
-      // dislike:function(){
-      //   console.log("dislike");
-      //   this.likeicon="../../static/like.png";
-      //   this.dislikeicon="../../static/disliked.png";
-      //   dislike(this.food.id);
-      //   request('/dish/key_query/', 'GET', {
-      //     key_word: this.food.name,
-      //   }).then(res => {
-      //     this.like_count = res[1].data.data[0].like;
-      //     this.dislike_count = res[1].data.data[0].dislike;
-      //     console.log(res);
-      //   });
-      // },
       taptag:function(index){
         console.log(this.tags[index]);
         uni.$emit("search_key", this.tags[index].name);

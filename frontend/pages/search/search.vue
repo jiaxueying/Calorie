@@ -14,13 +14,6 @@
         <like :food="Food" :menu_id="foods.menu_id"/>
       </view>
     </scroll-view>
-    <!-- <view
-      v-show="HistoryShow"
-      class="History"
-    >
-      <search-history :viewname="name1" :Names="HistoryName" />
-      <search-history :viewname="name2" :Names="PopularName" />
-    </view> -->
     <view
       v-show="IsShow"
       class="orders"

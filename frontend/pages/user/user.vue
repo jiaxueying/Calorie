@@ -8,11 +8,11 @@
         
         <view class="userinfor">
             <view class="editbut">
-                <open-data class="nickname" type="userNickName"></open-data>
+                <open-data class="nickname" type="userNickName" @click="administrator"></open-data>
                 <view class="button" @click="set">编辑模式</view>
                 <switch color="#59453D" :checked="Switch" @click="set"></switch>
             </view>
-            <image src="../../static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
+            <image src="https://nkucalorie.top:8000/media/static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
             <view><text class="weightSet">体重：{{weight}}kg\n目标体重：{{targetweightshow}}\n体重变化速率：{{weightrate}}kg/Day</text></view>
             <!--<text class="calorieForDay">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>-->
         </view>
@@ -72,7 +72,7 @@
         this.Switch=!this.Switch
         if(this.Switch==false){
           uni.request({
-            url:"https://cal.liyangpu.com:8000/user/profile/",
+            url:"https://nkucalorie.top:8000/user/profile/",
             method:"POST",
             header:{
               Authorization:'Token '+uni.getStorageSync('token')
@@ -86,7 +86,7 @@
             
           });
           uni.request({
-            url:"https://cal.liyangpu.com:8000/user/profile/",
+            url:"https://nkucalorie.top:8000/user/profile/",
             method:"GET",
             header:{
               Authorization:'Token '+uni.getStorageSync('token')
@@ -132,48 +132,31 @@
       confirm:function(){
         this.weight=this.tempweight
         this.pop=false
-          
-         this.weightdate=uni.getStorageSync('weightdate')
-         this.weightrate=(this.targetweight-this.weight)/this.weightdate 
-         this.weightrate=this.weightrate.toFixed(2);
+        this.weightdate=uni.getStorageSync('weightdate')
+        this.weightrate=(this.targetweight-this.weight)/this.weightdate 
+        this.weightrate=this.weightrate.toFixed(2);
         
         
-       /* uni.request({
-          url:"https://cal.liyangpu.com:8000/user/profile/",
-          method:"POST",
-          header:{
-            Authorization:'Token '+uni.getStorageSync('token')
-          },
-          data:{
-            weight:this.weight,
-            plan:this.plan,
-            target_weight:this.targetweight,
-            rate:this.weightrate,
-          }
-        })
-        uni.request({
-          url:"https://cal.liyangpu.com:8000/user/profile/",
-          method:"GET",
-          header:{
-            Authorization:'Token '+uni.getStorageSync('token')
-          },
-          success: (res) => {
-            console.log(res.data)
-          }
-        })*/
       },
       
       //在pop里输入当前体重
       refresh:function(event){
         this.tempweight=event.detail.value
+      },
+      
+        
+      administrator:function(){
+        console.log("in administrator")
+        uni.navigateTo({
+            url: './administrator'
+        });
       }
 		},
     
     onShow(){
-      console.log(uni.getStorageSync("token"));
         this.weightdate=uni.getStorageSync('weightdate')
         uni.request({
-          url:"https://cal.liyangpu.com:8000/user/profile/",
+          url:"https://nkucalorie.top:8000/user/profile/",
           method:"GET",
           header:{
             Authorization:"Token "+uni.getStorageSync("token")
@@ -196,12 +179,9 @@
     },
     
     onLoad() {
-      //一个函数，在页面加载时自动执行
-      //获取页面所需的所有用户数据
-      console.log(uni.getStorageSync("token"));
       this.weightdate=uni.getStorageSync('weightdate')
       uni.request({
-        url:"https://cal.liyangpu.com:8000/user/profile/",
+        url:"https://nkucalorie.top:8000/user/profile/",
         method:"GET",
         header:{
           Authorization:"Token "+uni.getStorageSync("token")
@@ -220,7 +200,7 @@
             this.targetweightshow="暂无计划"
           }
 			}
-		})
+		})//
     
     }
 	}

@@ -12,7 +12,7 @@
         <text>{{item.date}}\n</text>
         <!--<text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.calorie}}kcal</text>-->
       </view>
-      <image src="../../static/timg.jpg" class="deleteIcon" @click="deleteItem(item.id,index)" v-if="isdelete"></image>
+      <image src="https://nkucalorie.top:8000/media/static/timg.jpg" class="deleteIcon" @click="deleteItem(item.id,index)" v-if="isdelete"></image>
     </dt>
     </dl>
   </view>
@@ -23,7 +23,7 @@
     data(){
       return{
         list:[],
-        replacelist:{picture:'../../static/default.jpg',calorie:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
+        replacelist:{picture:'https://nkucalorie.top:8000/media/static/default.jpg',calorie:'这里会记录你每餐的就餐卡路里数据,例如100',date:'这里会记录你的就餐时间'},
         isdelete:true,
         date:"",
       }
@@ -31,7 +31,7 @@
     methods:{
       showhistorymenu:function(index){
           uni.request({
-                url:"https://cal.liyangpu.com:8000/canteen/historyview/",
+                url:"https://nkucalorie.top:8000/menu/quary/",
                 method:"GET",
                 header:{
                 Authorization:'Token '+uni.getStorageSync('token'),
@@ -58,7 +58,7 @@
      deleteItem:function(id,index){
        console.log(id)
             uni.request({
-                url:"https://cal.liyangpu.com:8000/canteen/deletehistory/",
+                url:"https://nkucalorie.top:8000/canteen/deletehistory/",
                 method:"POST",
                 header:{
                 Authorization:'Token '+uni.getStorageSync('token'),
@@ -83,36 +83,39 @@
      
      created:function(){
           uni.request({
-              url:"https://cal.liyangpu.com:8000/canteen/historyview/",
+              url:"https://nkucalorie.top:8000/menu/query/",
               method:"GET",
               header:{
               Authorization:'Token '+uni.getStorageSync('token'),
-              'Content-Type': 'application/x-www-form-urlencoded'
                       },
               success: (res) => {
-              console.log(res)
-              console.log(res.data.history[0].dishes[0].img)
-              this.list=res.data.history
-              if(this.list.length==0)
-              {
-              this.list[0]=this.replacelist
-              this.isdelete=false
-              }
-              else
-              {
+                console.log(res)
+                console.log(res.data.history[0].dishes[0].img)
+                this.list=res.data.history
+                if(this.list.length==0)
+                {
+                this.list[0]=this.replacelist
+                this.isdelete=false
+                }
+                else
+                {
                   for(let i=0;i<this.list.length;i++)
                   {
-                  this.list[i].picture='https://cal.liyangpu.com:8000'+this.list[i].dishes[0].img
+                  this.list[i].picture='https://nkucalorie.top:8000'+this.list[i].dishes[0].img
                   var str="";
                   for(let j=0;j<10;j++){
                       str+=this.list[i].time[j];
-                  }
+                      }
                   this.date=str;
                   this.list[i].date=str;
                   console.log(this.list[i].date);
                   }
-              }
-              console.log(this.list)
+                }
+                console.log(this.list)
+                },
+              fail:(res)=>{
+                console.log("history quary fail")
+                console.log(res)
               }
           })
       },

@@ -52,10 +52,10 @@
         flag:4,//列表元素个数
         selectAll:true,
         meals:[
-          {checked:'true',picture:'../../../static/tomato&egg.png',name:'番茄炒蛋',calorie:'81kcal'},
-          {checked:'true',picture:'../../../static/rice.png',name:'米饭',calorie:'116kcal'},
-          {checked:'true',picture:'../../../static/corn.png',name:'糯玉米',calorie:'102kcal'},
-          {checked:'true',picture:'../../../static/gruel.png',name:'小米粥',calorie:'46kcal'}
+          {checked:'true',picture:'https://cal.liyangpu.com:8000/media/static/tomato&egg.png',name:'番茄炒蛋',calorie:'81kcal'},
+          {checked:'true',picture:'https://cal.liyangpu.com:8000/media/static/rice.png',name:'米饭',calorie:'116kcal'},
+          {checked:'true',picture:'https://cal.liyangpu.com:8000/media/static/corn.png',name:'糯玉米',calorie:'102kcal'},
+          {checked:'true',picture:'https://cal.liyangpu.com:8000/media/static/gruel.png',name:'小米粥',calorie:'46kcal'}
         ],//checked，picture,name,calorie
       };
     },
@@ -63,30 +63,6 @@
     created(){
         let value = uni.getStorageSync("minmax");//从缓存获取本餐卡路里推荐范围
         let userid= uni.getStorageSync("userid");//从缓存获取userid
-        //向后端发送请求
-        /*uni.request({
-      	 url:"https://cal.liyangpu.com:8000/dish/calorie_query/",
-    	   method:"GET",
-    	   data:{
-            user_id:this.userid,
-    		    min_calorie:0,
-    		    max_calorie:10000
-    	        },
-         header:{
-              Authorization:'Token '+uni.getStorageSync("token")
-              }, 
-         //呈现从后端获取的推荐菜品
-    	   success:(res)=>{
-              var meallist=res.data.data
-              this.meals=meallist
-              for(let i=0;i<this.meals.length;i++)
-               {
-                this.meals[i].checked=false
-                this.meals[i].sum=1
-                this.meals[i].cal=this.meals[i].calorie
-               }
-    	       }
-          })*/
         },
     components:{
       uniNumberBox,
@@ -147,13 +123,6 @@
             }
             });
         
-        //开发阶段用于验证是否已存入缓存
-        /*uni.getStorage({
-            key: 'meal-list',
-            success: function (res) {
-                console.log(res.data);
-            }
-        });*/
         
       },
       

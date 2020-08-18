@@ -1,15 +1,15 @@
 <template>
   <view>
   <view class="container">
-      <img id="img1" src="../../static/background.jpg"/>
-      <img id="img2" src="../../static/background.jpg"/>
+      <img id="img1" src="https://nkucalorie.top:8000/media/static/background.jpg"/>
+      <img id="img2" src="https://nkucalorie.top:8000/media/static/background.jpg"/>
       <view class="header">
           <p>首页</p>
       </view>
       
       <view class="main">
           <view class="button" hover-class="hover-button">
-              <navigator url="../search/search">点餐处</navigator>
+              <navigator url="../search/search">菜品查询</navigator>
           </view>
           <view class="button date" hover-class="hover-button">
                 <view class="bar">.....</view>
@@ -18,11 +18,12 @@
                 </picker>
           </view>
           <view class="button" hover-class="hover-button">
-              <navigator url="../recommondation/range">营养推荐</navigator>
-          </view>
-          <view class="button" hover-class="hover-button">
               <navigator url="../user/user">用户中心</navigator>
           </view>
+          <view class="button" hover-class="hover-button">
+              <navigator url="../recommondation/range">关于“粟”</navigator>
+          </view>
+          
       </view>
       
   </view>
@@ -30,6 +31,8 @@
 </template>
 
 <script>
+  import { backendUrl, request } from '@/common/helper.js';
+  
   export default {
       data() {
           const currentDate = this.getDate({
@@ -37,6 +40,7 @@
           })
           return {
               date: currentDate,
+              
           }
       },
       computed: {
@@ -48,12 +52,18 @@
           }
       },
       methods: {
+        
           bindDateChange: function(e) {
             var txt="";
             txt+=e.target.value[8];
             txt+=e.target.value[9];
-            this.date = txt
+            this.date = txt;
+            uni.showToast({
+                title: '日期切换成功',
+                duration: 2000
+            });
           },
+          
           getDate(type) {
               const date = new Date();
               let year = date.getFullYear();
@@ -69,8 +79,75 @@
               day = day > 9 ? day : '0' + day;
               return `${day}`;
           }
+      },
+  
+      onLoad() {
+        uni.setStorageSync('meal-list', []);
+        
+        uni.login({
+          success: (res) => {
+              uni.request({
+                url:'https://nkucalorie.top:8000/user/login/',
+                data:{
+                  code:res.code,
+                  name:'123'
+                },
+                method:"POST",
+                success: (res) => {
+                    console.log("log successfully")
+                    console.log(res.data)
+                    uni.setStorage({
+                    key:'token',
+                    data:res.data.token,
+                    })
+                    }
+                })
+          }
+        })
+        
+        uni.getStorage({
+          key:'weightdate',
+          success: (res) => {console.log(res)},
+          fail: () => {
+            uni.setStorage({
+              key:'weightdate',
+              data:60,
+              success: () => {console.log('set weightdate')}
+            })
+          }
+        })
+        
+        uni.getStorage({
+          key:'meal-list',
+          success: (res) => {console.log(res)},
+          fail: () => {
+            uni.setStorage({
+              key:'meal-list',
+              data:[],
+              success: () => {console.log('set meal-list')}
+            })
+          }
+        })
+       
       }
+      
   }
+  
+  
+  	/*export default {
+      components:{
+        recrange,
+        DateChooser
+      },
+  		data() {
+  			return {
+          isfirst:false,
+  				msg:'点击此处选择餐品时间段',
+          isrange:false,
+          date:"",
+          isdate:false,
+  			}
+  		},*/
 </script>
 
 <style>
