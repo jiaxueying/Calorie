@@ -53,7 +53,22 @@
             },
             {
             "path" : "pages/MealList/MealList"
+            },
+            {
+            "path" : "pages/administrate/IngredientManage"
             }
+        ,{
+            "path" : "pages/administrate/IngredientEdit",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/administrate/DishManage",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/administrate/DishEdit",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

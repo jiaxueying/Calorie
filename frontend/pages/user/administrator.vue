@@ -1,11 +1,11 @@
 <template>
   <view>
-    <view>后台管理人员登陆</view>
+    <view class="title">后台管理人员登陆</view>
     <view>
       <p>账号</p>
-      <input type="text" v-model="form.user">
+      <input type="text" v-model="form.user" class="input">
       <p>密码</p>
-      <input type="password" v-model="form.password"/>
+      <input type="password" v-model="form.password" class="input">
       <button type="primary" @click="submit">提交</button>
     </view>
   </view>
@@ -34,19 +34,25 @@
               password:this.form.password,
             },
             success: (res) => {
-              console.log("administrator login successfully!"),
-              console.log(res)
-              uni.setStorageSync('adtoken',res.data.data.token)
-              var adtoken=uni.getStorageSync('adtoken')
-              console.log("set storage success!"+adtoken)
-              uni.navigateTo({
-                url:'../index/index'
-              })
-            },
-            fail:()=>{
-              console.log("login fail!")
+              if(res.statusCode==200)
+              {
+                console.log("administrator login successfully!"),
+                console.log(res)
+                uni.setStorageSync('adtoken',res.data.data.token)
+                var adtoken=uni.getStorageSync('adtoken')
+                console.log("set storage success!"+adtoken)
+                uni.navigateTo({
+                  url:'../index/index'
+                })
+              }
+              else
+              {
+                uni.showToast({
+                  title:'账号或密码错误',
+                  icon:'none'
+                })
+              }
             }
-        
       })//
       },
     },
@@ -54,4 +60,14 @@
 </script>
 
 <style>
+  .title {
+    width: 750rpx;
+    text-align: center;
+  }
+  .input {
+    border: solid 1px black;
+    border-radius: 2px;
+    margin: 30rpx 10rpx;
+    padding: 2px 1px;
+  }
 </style>

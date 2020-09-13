@@ -6,15 +6,15 @@
     <view style="display: flex;flex-direction: column;align-items: center;">
     
       <view class="title">
-        <view class="navigator">食堂管理首页
+        <view class="navigator">后台管理首页
             <image src="../../static/icon.png" style="width:50rpx;height:50rpx"></image>
         </view>
         <text style="font-size: 0.8em;color:#808080">@软件学院出品</text>
       </view>
     
       <view class="allbtn">
-        <view class="btn" @tap="openDealQuery">
-          <view ><text class="navigator">查询订单</text>
+        <view class="btn" @tap="openIngredientManage">
+          <view ><text class="navigator">食材管理</text>
           <!-- <text>\n戳这里了解今天摄入了多少卡路里</text> -->
           </view>
         </view>
@@ -40,17 +40,13 @@
       openMealManage:function() {
         console.log("菜品管理 button clicked");
         wx.navigateTo({
-          url: "./indexOfMealManagment",
+          url: "../administrate/DishManage",
         })
       },
-      openDealQuery:function() {
-        console.log("查询订单 button clicked");
+      openIngredientManage:function() {
+        console.log("食材管理 button clicked");
         wx.navigateTo({
-          url:"../MealList/MealList?booleans=" +
-          JSON.stringify({
-           modifyable:false,
-           countable:true
-          })
+          url:"../administrate/IngredientManage"
         });
       },
           
