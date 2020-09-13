@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'menu',
     'searchitem',
     'user',
+    'administrate',
 ]
 
 MIDDLEWARE = [
@@ -88,9 +89,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'calorie',
-        'USER': 'dev',
-        'PASSWORD': '0x0da6e805',
-        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': '127.0.0.1',              
         'PORT': '3306',
         'OPTIONS': {
             'autocommit': True,
