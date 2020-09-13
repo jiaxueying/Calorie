@@ -1,110 +1,126 @@
+<!-- TODO:change navigator Function -->
+
 <template>
-  <view class="content">
-    <image
-      class="logo"
-      src="/static/logo.png"
-    />
-    <view class="text-area">
-      <text class="title">
-        {{ title }}
-      </text>
+  <view>
+    
+    <view style="display: flex;flex-direction: column;align-items: center;">
+    
+      <view class="title">
+        <view class="navigator">后台管理首页
+            <image src="../../static/icon.png" style="width:50rpx;height:50rpx"></image>
+        </view>
+        <text style="font-size: 0.8em;color:#808080">@软件学院出品</text>
+      </view>
+    
+      <view class="allbtn">
+        <view class="btn" @tap="openIngredientManage">
+          <view ><text class="navigator">食材管理</text>
+          <!-- <text>\n戳这里了解今天摄入了多少卡路里</text> -->
+          </view>
+        </view>
+        <view class="btn" @tap="openMealManage">
+          <view ><text class="navigator">菜品管理</text>
+          <!-- <text>\n戳这里摇出今天吃什么</text> -->
+          </view>
+        </view>
+      </view>
     </view>
-    <button
-      type="primary"
-      open-type="getUserInfo"
-      @getuserinfo="onGetUserInfo"
-    >
-      授权
-    </button>
-    <button
-      type="primary"
-      open-type="openSetting"
-    >
-      权限设置
-    </button>
-    <button
-      type="primary"
-      @click="test"
-      
-      
-    >
-      test
-    </button>
-  </view>
+	</view>
 </template>
 
 <script>
-import { backendUrl, request } from '@/common/helper.js';
-export default {
-  data() {
-    return {
-      title: 'Hello',
-      emmm: 123,
-    };
-  },
-  onLoad() {
-
-  },
-  methods: {
-    onGetUserInfo(userInfo) {
-      const nickName = userInfo.detail.userInfo.nickName;
-      uni.login({
-        provider: 'weixin',
-      }).then(loginRes => {
-        const [loginError, loginData] = loginRes;
-        console.assert(loginError === null);
-        const loginCode = loginData.code;
-        uni.request({
-          url: backendUrl + '/user/login/',
-          data: {
-            code: loginCode,
-            name: nickName,
-          },
-          method: 'POST',
-        }).then(backendRes => {
-          const [backendError, backendData] = backendRes;
-          console.assert(backendError === null);
-          const token = backendData.data.token;
-          uni.setStorageSync('token', token);
-          console.log('token: ', token);
+	export default {
+    components:{
+    },
+		data() {
+			return {
+			}
+		},
+		methods: {
+      openMealManage:function() {
+        console.log("菜品管理 button clicked");
+        wx.navigateTo({
+          url: "../administrate/DishManage",
+        })
+      },
+      openIngredientManage:function() {
+        console.log("食材管理 button clicked");
+        wx.navigateTo({
+          url:"../administrate/IngredientManage"
         });
-      });
-    },
-    test() {
-      request('/dish/key_query/', 'GET', {
-        key_word: '菜',
-      }).then(res => {
-        console.log(res);
-      });
-    },
-  },
-};
+      },
+          
+		},
+    onLoad() {
+      /*uni.login({
+        success: (res) => {
+          uni.request({
+            url:'http://cal.hanlh.com:8000/user/login/',
+            data:{
+              code:res.code,
+              name:'123'
+            },
+            method:"POST",
+            success: (res) => {
+              //console.log(res)
+              uni.setStorage({
+                key:'token',
+                data:res.data.token,
+              })
+            }
+          })
+        }
+      })*/
+      
+      uni.getStorage({
+        key:'meal-list',
+        success: (res) => {console.log(res)},
+        fail: () => {
+          uni.setStorage({key:'meal-list',data:[],})
+        }
+      })
+      
+	   
+    }
+	}
 </script>
 
 <style>
-.content {
+.navigator{
+  font-size: 50rpx;
+  font-weight: 800;
+  text-align: center;
+  margin-right: 15rpx;
+  color:#59453D;
+}
+.title{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  width:100%;
+  margin-top: 100rpx;
+  margin-left: 100rpx;
 }
 
-.logo {
-  height: 200rpx;
-  width: 200rpx;
-  margin-top: 200rpx;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50rpx;
+.allbtn{
+  margin-top: 50rpx;;
 }
-
-.text-area {
+.btn{
   display: flex;
   justify-content: center;
+  align-items: center;
+  border:#59453D 7rpx solid;
+  border-radius: 40rpx;
+  width:650rpx;
+  height:200rpx;
+  margin-bottom: 50rpx;
+  padding-left: 40rpx;
+  text-align: center;
+}
+text{
+  font-size: 0.5em;
+  font-weight: 400;
+  line-height: 100%;
 }
 
-.title {
-  font-size: 36rpx;
-  color: #8f8f94;
-}
 </style>

@@ -1,5 +1,5 @@
 {
-    "name" : "frontend",
+    "name" : "粟",
     "appid" : "__UNI__A1266D5",
     "description" : "",
     "versionName" : "1.0.0",
@@ -59,7 +59,8 @@
     "mp-weixin" : {
         "appid" : "wx6310320ccdaaf1c5",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "es6" : true
         },
         "usingComponents" : true,
         "permission" : {}

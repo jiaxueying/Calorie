@@ -1,16 +1,90 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		}
-	],
+            {
+             "path" : "pages/index/newindex"
+            },
+            {
+             "path" : "pages/user/user"
+            },
+            {
+            "path":"pages/dishinfo/add"
+            },
+            
+             
+            {
+         	 "path": "pages/index/index"
+         	},
+            {
+            "path":"pages/recommondation/list"
+            },
+            
+            {
+            "path":"pages/others/mylist"
+            },
+            {
+            "path" : "pages/search/search"
+            },
+            {
+			"path": "pages/recommondation/range"
+            },
+            {
+            "path" : "pages/recommondation/shake"
+            },
+            {
+            "path":"pages/others/detail"
+            },
+            {
+            "path":"pages/user/administrator"
+            },
+            {
+            "path" : "components/recommodation/recommendcopy/recommendcopy"
+            },
+            {
+            "path":"pages/dishinfo/modify"
+            },
+            {
+            "path": "pages/index/indexOfMealManagment"
+            },
+            {
+            "path" : "pages/MealManagement/AlternativeMealList"
+            },
+            {
+            "path" : "pages/MealManagement/MealManagement"
+            },
+            {
+            "path" : "pages/MealList/MealList"
+            },
+            {
+            "path" : "pages/administrate/IngredientManage"
+            }
+        ,{
+            "path" : "pages/administrate/IngredientEdit",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/administrate/DishManage",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/administrate/DishEdit",
+            "style" : {}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+		"navigationBarTitleText": "粟",
+		"navigationBarBackgroundColor": "#d9cfca",
+		"backgroundColor": "#F8F8F8",
+        "enablePullDownRefresh":false
+	},
+    "condition" : { //模式配置，仅开发期间生效
+        "current": 0, //当前激活的模式(list 的索引项)
+        "list": [
+            {
+                "name": "", //模式名称
+                "path": "", //启动页面，必选
+                "query": "" //启动参数，在页面的onLoad函数里面得到
+            }
+        ]
+    }
 }
