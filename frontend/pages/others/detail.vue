@@ -4,7 +4,7 @@
     <view style="height: 50rpx;width: 750rpx;"> </view>
     
    <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
-      <image :src="'https://cal.liyangpu.com:8000/media/static/dishes/'+food.img" class="img" v-if="isimg"></image>
+      <image :src="'https://nkucalorie.top:8000'+food.picture" class="img" v-if="isimg"></image>
       <view class="tab" v-if="!isimg">
         <tab>
           <ttr align="left">
@@ -27,7 +27,7 @@
 
     <view style="display:flex;flex-direction: column;align-items: center;"><!--scroll-view里的bug，必须再包一层-->
     <view class="detail">
-      <view class="name">{{food.dish}}</view>
+      <view class="name">{{food.name}}</view>
       <view class="cal" style="display: none;">{{cal}}</view>
     </view>
     
@@ -61,7 +61,7 @@
     </view>
     </view>
     <view class="bottom">
-      <image src=".https://cal.liyangpu.com:8000/media/static/tableware.png" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
+      <image src=".https://nkucalorie.top:8000/media/static/tableware.png" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;" @click="mylist"></image>
       <view class="buttun" @click="add">Add to List</view>
     </view>
     <view
@@ -91,8 +91,8 @@
     },
     data(){
       return{
-        likeicon:"https://cal.liyangpu.com:8000/media/static/like.png",
-        dislikeicon:"https://cal.liyangpu.com:8000/media/static/dislike.png",
+        likeicon:"https://nkucalorie.top:8000/media/static/like.png",
+        dislikeicon:"https://nkucalorie.top:8000/media/static/dislike.png",
         food: null,
         like_count:666,
         liked: 0,

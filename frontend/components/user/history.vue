@@ -31,7 +31,7 @@
     methods:{
       showhistorymenu:function(index){
           uni.request({
-                url:"https://nkucalorie.top:8000/menu/quary/",
+                url:"https://nkucalorie.top:8000/menu/query/",
                 method:"GET",
                 header:{
                 Authorization:'Token '+uni.getStorageSync('token'),
@@ -39,11 +39,10 @@
                 },
                 success: (res) => {
                       console.log(res.data)
-                      console.log(res.data.history[index])
-                    var tempdate= new Date(res.data.history[index].time);
+                    var tempdate= new Date(res.data.data.user_menus[index].date);
                     this.date = tempdate.toLocaleDateString();; 
                     console.log(tempdate)  
-                    var data={detail:res.data.history[index],date:this.date}
+                    var data={detail:res.data.data.user_menus[index],date:this.date}
                     uni.setStorage({
                       key:'historymsg',
                       data:data,
@@ -89,9 +88,8 @@
               Authorization:'Token '+uni.getStorageSync('token'),
                       },
               success: (res) => {
-                console.log(res)
-                console.log(res.data.history[0].dishes[0].img)
-                this.list=res.data.history
+                console.log(res.data.data.user_menus)
+                this.list=res.data.data.user_menus
                 if(this.list.length==0)
                 {
                 this.list[0]=this.replacelist
@@ -101,10 +99,10 @@
                 {
                   for(let i=0;i<this.list.length;i++)
                   {
-                  this.list[i].picture='https://nkucalorie.top:8000'+this.list[i].dishes[0].img
+                  this.list[i].picture='https://nkucalorie.top:8000'+this.list[i].picture
                   var str="";
                   for(let j=0;j<10;j++){
-                      str+=this.list[i].time[j];
+                      str+=this.list[i].date[j];
                       }
                   this.date=str;
                   this.list[i].date=str;

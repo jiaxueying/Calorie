@@ -44,36 +44,8 @@ export default {
       IsShow: false,
       HistoryShow: false,
       foods: new Array(),
-      showedFoods:[
-        {dish:"小米粥",img:"小米粥.png",calorie:"46",menu_id:"1"},
-        {dish:"煮玉米",img:"煮玉米.png",calorie:"102",menu_id:"2"},
-        {dish:"番茄炒蛋",img:"番茄炒蛋.png",calorie:"81",menu_id:"3"},
-        {dish:"西葫芦炒蛋",img:"西葫炒蛋.png",calorie:"94",menu_id:"4"},
-        {dish:"豆角焖面",img:"豆角焖面.png",calorie:"121",menu_id:"5"},
-        {dish:"朝鲜冷面",img:"朝鲜冷面.png",calorie:"102",menu_id:"6"},
-        {dish:"过桥米线",img:"过桥米线.png",calorie:"241",menu_id:"7"},
-        {dish:"鸡排",img:"鸡排.png",calorie:"83",menu_id:"8"},
-        {dish:"鸡蛋",img:"鸡蛋.png",calorie:"144",menu_id:"9"},
-        {dish:"牛肉面",img:"牛肉面.png",calorie:"610",menu_id:"10"},
-        {dish:"红烧鸡块",img:"红烧鸡块.png",calorie:"522",menu_id:"11"},
-        {dish:"红薯",img:"红薯.png",calorie:"137",menu_id:"12"},
-        {dish:"米饭",img:"米饭.png",calorie:"116",menu_id:"13"},
-      ],
-      allFoods:[
-        {dish:"小米粥",img:"小米粥.png",calorie:"46",menu_id:"1"},
-        {dish:"煮玉米",img:"煮玉米.png",calorie:"102",menu_id:"2"},
-        {dish:"番茄炒蛋",img:"番茄炒蛋.png",calorie:"81",menu_id:"3"},
-        {dish:"西葫芦炒蛋",img:"西葫炒蛋.png",calorie:"94",menu_id:"4"},
-        {dish:"豆角焖面",img:"豆角焖面.png",calorie:"121",menu_id:"5"},
-        {dish:"朝鲜冷面",img:"朝鲜冷面.png",calorie:"102",menu_id:"6"},
-        {dish:"过桥米线",img:"过桥米线.png",calorie:"241",menu_id:"7"},
-        {dish:"鸡排",img:"鸡排.png",calorie:"83",menu_id:"8"},
-        {dish:"鸡蛋",img:"鸡蛋.png",calorie:"144",menu_id:"9"},
-        {dish:"牛肉面",img:"牛肉面.png",calorie:"610",menu_id:"10"},
-        {dish:"红烧鸡块",img:"红烧鸡块.png",calorie:"522",menu_id:"11"},
-        {dish:"红薯",img:"红薯.png",calorie:"137",menu_id:"12"},
-        {dish:"米饭",img:"米饭.png",calorie:"116",menu_id:"13"},
-      ],
+      showedFoods:[],
+      allFoods:[],
       name1: '搜索历史',
       name2: '热门搜索',
       HistoryName: new Array(),
@@ -89,13 +61,30 @@ export default {
     uni.$on('search_tag',this.searchByTag);
     uni.$on('addHistory',this.addHistoryBykey);
     uni.$on('refresh1',this.refresh);
-    this.searchDate();
+    this.getAllFoods();
   },
   methods: {
     ChangeIsShow() {
       this.IsShow = !this.IsShow;
       console.log('IsShow changed: ' + this.IsShow);
       this.OrderedFood = uni.getStorageSync("meal-list");
+    },
+    getAllFoods:function(){
+      uni.request({
+        url:'https://nkucalorie.top:8000/dish/key_query/',
+        method:'GET',
+        header:{
+          Authorization:"Token "+uni.getStorageSync("token")
+        },
+        data:{
+          key_word:""
+        },
+        success:(res)=> {
+          console.log(res.data.data)
+          this.allFoods=res.data.data
+          this.showedFoods=this.allFoods
+        }
+      })
     },
     searchDate() {
       let index = getCurrentPages()[0];

@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        :src="'https://nkucalorie.top.com:8000/media/static/dishes/'+food.img"
+        :src="'https://nkucalorie.top:8000'+food.picture"
         mode=""
         @tap="detail"
       />
@@ -12,7 +12,7 @@
         style="flex: 1;"
       >
         <view class="title" @tap="detail">
-          {{ food.dish }}     
+          {{ food.name }}     
           <text>\n{{ food.calorie }}kcal</text>
         </view>
         <view class="content" >
