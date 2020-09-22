@@ -227,18 +227,18 @@
         console.log("add")
         var OrderedFood = uni.getStorageSync("meal-list");
 		for(let i = 0; i < OrderedFood.length; i++) {
-			if(OrderedFood[i].name === this.food.dish) {
+			if(OrderedFood[i].name === this.food.name) {
 				OrderedFood[i].sum += 1;
 				uni.setStorageSync("meal-list", OrderedFood);
 				return;
 			}
 		}
         OrderedFood.push({
-          name: this.food.dish,
+          name: this.food.name,
           cal: this.food.calorie,
           sum: 1,
-          picture: this.food.img,
-          //id: this.food.dish_id
+          picture: this.food.picture,
+          id: this.food.id
         });
         uni.setStorageSync("meal-list", OrderedFood);
       }
