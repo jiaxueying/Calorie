@@ -111,14 +111,7 @@
           {id:3,name:'低卡'},
           {id:1,name:'五号窗口'},
         ],
-        nutrition:[
-          {item:'维生素C',value:'0mg',percent:'0'},
-          {item:'蛋白质',value:'1.4g',percent:'8'},
-          {item:'脂肪',value:'0.7g',percent:'2'},
-          {item:'碳水化合物',value:'8.4g',percent:'10'},
-          {item:'钠',value:'4.1mg',percent:'0.2'},
-          {item:'钙',value:'10mg',percent:'0.5'}
-        ],
+        nutrition:[],
         dishnames:[
         ],
         IsShow: false,
@@ -128,10 +121,67 @@
     onLoad: function(options) {
       uni.$on('refresh2',this.refresh);
       this.ordered_food = uni.getStorageSync("meal-list");
-      this.food = JSON.parse(options.foodDetail);
-      let id = JSON.parse(options.id);
-      this.food=JSON.parse(options)
-      console.log(this.food)
+      uni.request({
+        url:'https://nkucalorie.top:8000/dish/detail/',
+        method:'GET',
+        header:{
+          Authorization:"Token "+uni.getStorageSync("token")
+        },
+        data:{
+          dish_id:options.id
+        },
+        success:(res)=> {
+          this.food=res.data.data.dish
+          console.log(res)
+          
+          this.nutrition.push({
+            item:'能量(KJ)',
+            value:this.food.energy+'KJ',
+            percent:(parseFloat(this.food.energy)/8400).toFixed(2)+"%"
+          })
+          this.nutrition.push({
+            item:'能量(KCal)',
+            value:this.food.calorie+'KCal',
+            percent:(parseFloat(this.food.calorie)/2000).toFixed(2)+"%"
+          })
+          this.nutrition.push({
+            item:'蛋白质',
+            value:this.food.protein+'g',
+            percent:(parseFloat(this.food.protein)/60).toFixed(2)+"%"
+          })
+          this.nutrition.push({
+            item:'脂肪',
+            value:this.food.fat+'g',
+            percent:(parseFloat(this.food.fat)/60).toFixed(2)+"%"
+          })
+          this.nutrition.push({
+            item:'碳水化合物',
+            value:this.food.carbohydrates+'g',
+            percent:(parseFloat(this.food.carbohydrates)/300).toFixed(2)+"%"
+          })
+          this.nutrition.push({
+            item:'膳食纤维',
+            value:this.food.dietary_fiber+'g',
+            percent:(parseFloat(this.food.dietary_fiber)/25).toFixed(2)+"%"
+          })
+          this.nutrition.push({
+            item:'维生素C',
+            value:this.food.vitaminC+'mg',
+            percent:(parseFloat(this.food.vitaminC)/100).toFixed(2)+"%"
+          })
+          this.nutrition.push({
+            item:'钙',
+            value:this.food.calcium+'mg',
+            percent:(parseFloat(this.food.calcium)/800).toFixed(2)+"%"
+          })
+          this.nutrition.push({
+            item:'钠',
+            value:this.food.sodium+'mg',
+            percent:(parseFloat(this.food.sodium)/2000).toFixed(2)+"%"
+          })
+        }
+      })
+      
       uni.getStorage({
         key:'range',
         success: (rec) => {
@@ -177,18 +227,18 @@
         console.log("add")
         var OrderedFood = uni.getStorageSync("meal-list");
 		for(let i = 0; i < OrderedFood.length; i++) {
-			if(OrderedFood[i].name === this.food.dish) {
+			if(OrderedFood[i].name === this.food.name) {
 				OrderedFood[i].sum += 1;
 				uni.setStorageSync("meal-list", OrderedFood);
 				return;
 			}
 		}
         OrderedFood.push({
-          name: this.food.dish,
+          name: this.food.name,
           cal: this.food.calorie,
           sum: 1,
-          picture: this.food.img,
-          //id: this.food.dish_id
+          picture: this.food.picture,
+          id: this.food.id
         });
         uni.setStorageSync("meal-list", OrderedFood);
       }
@@ -217,7 +267,7 @@
     }
   .imgarea{
       margin-top: 40rpx;
-      height: 600rpx;
+      height: 650rpx;
       display: flex;
       flex-direction: column;
       align-items: center;

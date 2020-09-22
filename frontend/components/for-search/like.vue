@@ -52,7 +52,7 @@
         console.log(this.food);
         this.$parent.IsShow = false;
         wx.navigateTo({
-          url:'../others/detail?foodDetail='+JSON.stringify(this.food) + '&id=' + this.menu_id,
+          url:'../others/detail?id=' + this.food.id
         });
       },
       search_tag(v) {
