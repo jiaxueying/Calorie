@@ -4,6 +4,9 @@
              "path" : "pages/index/newindex"
             },
             {
+             "path" : "pages/index/about"
+            },
+            {
              "path" : "pages/user/user"
             },
             {

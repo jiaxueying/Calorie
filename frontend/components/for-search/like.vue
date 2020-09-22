@@ -68,28 +68,28 @@
         padding: 40upx 30upx;
         display: flex;
         .title{
-            display: flex;
-            flex-direction: column;
             font-size: 36upx;
             color: #333;
             margin: 10upx 80upx;
             text{
                 font-size: 30upx;
                 color: #666;
+                padding-top: 10upx;
             }
         }
         .content{
+            padding-left: 80upx;
             padding-bottom: 20upx;
             .label{
                 height: 40upx;
                 line-height: 40upx;
                 padding: 0 10upx;
                 border-radius: 20upx;
-                color: #666;
-                border: 2upx solid #333;
+                color: #333;
+                border: 1upx solid #DCDCDC;
                 font-size: 24upx;
                 display: inline-block;
-                margin-right: 20upx;
+                margin-right: 5upx;
             }
         }
     }

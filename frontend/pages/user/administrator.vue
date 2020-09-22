@@ -1,13 +1,13 @@
 <template>
-  <view>
+  <view class="page">
     <view class="title">后台管理人员登陆</view>
-    <view>
+    <view class="form">
       <p>账号</p>
       <input type="text" v-model="form.user" class="input">
       <p>密码</p>
       <input type="password" v-model="form.password" class="input">
-      <button type="primary" @click="submit">提交</button>
     </view>
+      <button type="default" @click="submit">提交</button>
   </view>
 </template>
 
@@ -61,13 +61,31 @@
 
 <style>
   .title {
-    width: 750rpx;
+    font-weight: 800;
+    font-size:40rpx;
     text-align: center;
+    padding-left: 20rpx;
+    padding-right: 20rpx;
   }
   .input {
-    border: solid 1px black;
-    border-radius: 2px;
+    border: solid 1px #D3D3D3;
+    border-radius: 5px;
     margin: 30rpx 10rpx;
     padding: 2px 1px;
+  }
+  .page{
+    padding-top: 20%;
+  }
+  .form{
+    margin-top: 20rpx;
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+    border-top: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+  }
+  button{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
   }
 </style>

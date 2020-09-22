@@ -21,7 +21,7 @@
               <navigator url="../user/user">用户中心</navigator>
           </view>
           <view class="button" hover-class="hover-button">
-              <navigator url="../recommondation/range">关于“粟”</navigator>
+              <navigator url="about">关于“粟”</navigator>
           </view>
           
       </view>
