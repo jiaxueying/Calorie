@@ -38,8 +38,8 @@
     
     <view class="allbtn">
         
-          <button>
-               <image class="icon" src="../../static/friendcircle.jpg" style="opacity: 0.7;"></image>
+          <button style="display: none;">
+               <image class="icon" src="../../static/friend.jpg" style="opacity: 0.7;"></image>
                <picker style="z-index:999" mode="time" :value="time" start="09:01" end="21:01" @change="bindTimeChange">
                          <text>食堂订餐</text>
                </picker>
@@ -82,17 +82,14 @@
         width:"",//确定类型
         height:"",//确定类型
         meallist:[
-          {name:"小米粥",sum:1},
-          {name:"煮玉米",sum:1},
-          {name:"番茄炒蛋",sum:1},
-          {name:"西葫芦炒蛋",sum:1},
-        ],//一定要先格式化
-        path: [
+         
+        ],
+        /*path: [
           "../../static/dishes/小米粥.png",
           "../../static/dishes/煮玉米.png",
           "../../static/dishes/番茄炒蛋.png",
           "../../static/dishes/西葫炒蛋.png",
-          ],//图片的路径
+          ],//图片的路径*/
         paths:[],
         size:"width:600rpx;",
         ispost:true,//是否上传，区分来自于查看历史菜单详情还是生成新菜单
@@ -113,6 +110,8 @@
         
       
       draw:function(e){
+          this.meallist=uni.getStorageSync('meal-list')
+          console.log(this.meallist)
           var j=(this.meallist.length>=3)?(this.meallist.length-3):0
           var k=j*220+800
         
@@ -150,9 +149,8 @@
           console.log(metrics)
           ctx.fillText(this.date,300*rp-metrics,390*rp+j*90*rp)
           
-         // var path=uni.getStorageSync('path')
           for(var i=0;i<this.meallist.length;i++){
-            ctx.drawImage(this.paths[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
+            ctx.drawImage("https://nkucalorie.top:8000"+this.meallist[i].picture,70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
             ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
             ctx.fillText(this.meallist[i].sum+"份",180*rp,96*rp+i*90*rp)
             //ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
