@@ -84,11 +84,7 @@
         meallist:[
          
         ],
-        /*path: [
-          "../../static/dishes/小米粥.png",
-          "../../static/dishes/煮玉米.png",
-          "../../static/dishes/番茄炒蛋.png",
-          "../../static/dishes/西葫炒蛋.png",
+        path: [
           ],//图片的路径*/
         paths:[],
         size:"width:600rpx;",
@@ -101,15 +97,102 @@
     
       //created用于组件加载，onload用于页面加载
     created: async function (e) {
-      //异步函数
-      await this.show();
-      },
+          await this.show();
+          for(var j=0;j<this.meallist.length;j++)
+          {
+            await this.get(j);
+          }
+          
+          },
     
-    
+    onload:function(){
+            console.log("in onload!")
+            this.onloadtime++
+            if(this.onloadtime==this.meallist.length)
+            {
+              setTimeout(this.draw,500);
+              console.log("to draw !")
+              if(this.ispost) this.post();
+            }
+          },
     methods: {
-        
       
-      draw:function(e){
+      show(){
+              return new Promise((resolve, reject) => {
+                      uni.getStorage({
+                        key:'historymsg',
+                        success:()=> {
+                          var data=uni.getStorageSync('historymsg')
+                          console.log(data)
+                          this.date=data.date;
+                          console.log(data.date)
+                          for(var i=0;i<data.detail.dishes.length;i++)
+                          {
+                          this.meallist[i].picture=data.detail.dishes[i].img
+                          this.path.push('https://nkucalorie.top:8000'+data.detail.dishes[i].img)
+                          this.getinfo(i)
+                          this.meallist[i].name=data.detail.dishes[i].dish
+                          this.meallist[i].sum=1//确定是1？
+                          console.log(this.meallist[i])
+                          }
+                          this.ispost=false
+                          console.log("from history list~");
+                          uni.removeStorageSync('historymsg');
+                          resolve('success');
+                        },
+                        fail:() =>{//未获取到历史菜单，从购物车进入
+                          reject('error');
+                          var time=new Date();
+                          this.date=time.toLocaleDateString();
+                          console.log(this.date)
+                          this.menuid=uni.getStorageSync('menuid');
+                          var tempmeallist = uni.getStorageSync('meal-list');
+                          console.log(tempmeallist);
+                          for(var i=0,j=0;i<tempmeallist.length;i++)
+                          {
+                            if(tempmeallist[i].sum!=0)
+                            {
+                              this.meallist[j]=tempmeallist[i];
+                              this.path.push('https://nkucalorie.top:8000'+this.meallist[j].picture);
+                              this.getinfo(j);
+                              j++;
+                            }
+                          }
+                          
+                        },//fail的结束
+                      })
+                  })
+       },
+                  
+                  
+      
+       getinfo:function(i){
+              uni.getImageInfo({
+                src:'https://nkucalorie.top:8000'+this.meallist[i].picture,
+                success: (res) => {
+                  this.paths.push(res.path)
+                  console.log("get one picture!")
+                }
+              })
+            },
+                  
+            get(i) {
+              return new Promise((resolve, reject) => {
+                    uni.getImageInfo({
+                    src:'https://nkucalorie.top:8000'+this.meallist[i].picture,
+                    success: (res) => {
+                        this.paths.push(res.path);
+                        console.log(this.paths);
+                        resolve('success');
+                        },
+                    fail: () => {
+                        reject('error');
+                        }
+                    })
+              });
+            },  
+      
+       draw:function(e){
           this.meallist=uni.getStorageSync('meal-list')
           console.log(this.meallist)
           var j=(this.meallist.length>=3)?(this.meallist.length-3):0
@@ -149,12 +232,27 @@
           console.log(metrics)
           ctx.fillText(this.date,300*rp-metrics,390*rp+j*90*rp)
           
-          for(var i=0;i<this.meallist.length;i++){
+          for(var i=0;i<this.meallist.length;i++)
+          {
             ctx.drawImage("https://nkucalorie.top:8000"+this.meallist[i].picture,70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
             ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
             ctx.fillText(this.meallist[i].sum+"份",180*rp,96*rp+i*90*rp)
             //ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
-          }
+          },
+          
+           /*for(var i=0;i<this.meallist.length;i++){
+                      let img = this.$refs.conf0;
+                      img.onload=() =>{
+                         console.log(this.path[i])
+                         console.log(img.src)
+                              ctx.drawImage(img, 70*rp, 57*rp+i*90*rp, 70*rp, 70*rp);
+                          }
+                      console.log(this.paths[i])
+                      ctx.drawImage(this.paths[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
+                      ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
+                      ctx.fillText(this.meallist[i].sum+"份",180*rp,96*rp+i*90*rp)
+                  console.log("wait")
+                },*/
                     
           ctx.setStrokeStyle("#000000")
           ctx.setLineWidth(2)
@@ -166,6 +264,8 @@
         
           ctx.draw();
       },
+      
+      
       canvasIdErrorCallback: function (e) {
         console.error(e.detail.errMsg)
       },
@@ -223,6 +323,37 @@
       wait:function(e){
         console.log("wait")
       },
+      
+      post:function(){
+                 var menulist=new Array(this.meallist.length)
+                 for(let i=0;i<menulist.length;i++)
+                 {
+                    let templist={dish_id:0,menu_id:0}
+                    templist.dish_id=this.meallist[i].id
+                    templist.menu_id=this.menuid
+                    menulist[i]=templist
+                 }
+                 console.log(menulist)
+                uni.request({
+                    url:'https://nkucalorie.top:8000/menu/order/',
+                    method:'POST',
+                    header:{
+                    Authorization:'Token '+uni.getStorageSync('token'),
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    data:{
+                    dishes:
+        
+                    },
+                    success: (res) => {
+                    console.log(res)
+                    }
+                    })
+                uni.setStorage({
+                    key:'meal-list',
+                    data:[]
+                    })
+            }
       
     }
   }
