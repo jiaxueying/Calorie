@@ -74,10 +74,10 @@
 </template>
 
 <script>
-  import {
-    like,
-    // dislike
-  } from '@/common/helper.js';
+  // import {
+  //   like,
+  //   // dislike
+  // } from '@/common/helper.js';
   import {
     backendUrl,
     request
@@ -262,20 +262,20 @@
           dish_id: this.food.id,
           like: 0,
           dislike: 1,
-          }).then(res => {
-            console.log(res);
-            this.refreshLikes();
-          });
+        }).then(res => {
+          console.log(res);
+          this.refreshLikes();
+        });
       },
       like: function() {
         return request('/dish/like/', 'POST', {
           dish_id: this.food.id,
           like: 1,
           dislike: 0,
-          }).then(res => {
-            console.log(res);
-            this.refreshLikes();
-          });
+        }).then(res => {
+          console.log(res);
+          this.refreshLikes();
+        });
       },
       add: function() {
         uni.showToast({
