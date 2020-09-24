@@ -347,7 +347,8 @@
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           data: {
-            dishes: menulist
+            // TODO: 问题出在这里？？
+            dishes: JSON.stringify(menulist)
 
           },
           success: (res) => {
