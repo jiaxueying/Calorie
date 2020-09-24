@@ -76,7 +76,7 @@
 <script>
   import {
     like,
-    dislike
+    // dislike
   } from '@/common/helper.js';
   import {
     backendUrl,
@@ -149,7 +149,9 @@
         success: (res) => {
           this.food = res.data.data.dish
           console.log(res)
-
+          this.like_count = this.food.like
+          this.dislike_count = this.food.dislike
+          this.tags = this.food.tag
           this.nutrition.push({
             item: '能量(KJ)',
             value: this.food.energy + 'KJ',
@@ -207,9 +209,26 @@
       });
     },
     methods: {
-      refresh() {
+      refresh: function() {
         this.ordered_food = uni.getStorageSync('meal-list');
         console.log('refresh');
+      },
+      refreshLikes: function() {
+        uni.request({
+          url: 'https://nkucalorie.top:8000/dish/detail/',
+          method: 'GET',
+          header: {
+            Authorization: "Token " + uni.getStorageSync("token")
+          },
+          data: {
+            dish_id: this.food.id
+          },
+          success: (res) => {
+            this.food = res.data.data.dish
+            this.like_count = this.food.like
+            this.dislike_count = this.food.dislike
+          },
+        })
       },
       start: function(event) {
         this.X = event.touches[0].pageX
@@ -237,6 +256,26 @@
         console.log("mylist");
         this.IsShow = true;
         this.ordered_food = uni.getStorageSync('meal-list');
+      },
+      dislike: function() {
+        return request('/dish/like/', 'POST', {
+          dish_id: this.food.id,
+          like: 0,
+          dislike: 1,
+          }).then(res => {
+            console.log(res);
+            this.refreshLikes();
+          });
+      },
+      like: function() {
+        return request('/dish/like/', 'POST', {
+          dish_id: this.food.id,
+          like: 1,
+          dislike: 0,
+          }).then(res => {
+            console.log(res);
+            this.refreshLikes();
+          });
       },
       add: function() {
         uni.showToast({
