@@ -117,6 +117,8 @@
     },
     methods: {
 
+      
+      
       show() {
         return new Promise((resolve, reject) => {
           uni.getStorage({
@@ -344,19 +346,16 @@
           method: 'POST',
           header: {
             Authorization: 'Token ' + uni.getStorageSync('token'),
-            'Content-Type': 'application/x-www-form-urlencoded'
           },
           data: {
-            // TODO: 问题出在这里？？
             dishes: JSON.stringify(menulist)
-
           },
           success: (res) => {
-            console.log("success ins post: ")
+            console.log("success in post: ")
             console.log(res)
           },
           fail: (res) => {
-            console.log("fail ins post: ")
+            console.log("fail in post: ")
             console.log(res)
           },
         })

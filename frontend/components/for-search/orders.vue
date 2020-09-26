@@ -71,6 +71,7 @@
       },
       mylist() {
         console.log("mylist clicked");
+        uni.removeStorageSync('historymsg');
         if(this.Foods.length === 0) {
           uni.showModal({
             title: '提示',
