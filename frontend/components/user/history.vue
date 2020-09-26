@@ -36,21 +36,24 @@
     methods: {
       showhistorymenu: function(index) {
         uni.request({
-          url: "https://nkucalorie.top:8000/menu/query/",
+          url: "https://nkucalorie.top:8000/menu/detail/",
           method: "GET",
           header: {
             Authorization: 'Token ' + uni.getStorageSync('token'),
-            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          data:{
+            menu_id:this.list[index].id
           },
           success: (res) => {
             console.log(res.data)
-            var tempdate = new Date(res.data.data.user_menus[index].date);
+            var tempdate = new Date(this.list[index].date);
             this.date = tempdate.toLocaleDateString();;
             console.log(tempdate)
             var data = {
-              detail: res.data.data.user_menus[index],
+              detail: res.data.data.dishes,
               date: this.date
             }
+            console.log(data)
             uni.setStorage({
               key: 'historymsg',
               data: data,
@@ -65,14 +68,13 @@
       deleteItem: function(id, index) {
         console.log(id)
         uni.request({
-          url: "https://nkucalorie.top:8000/canteen/deletehistory/",
+          url: "https://nkucalorie.top:8000/menu/delete/",
           method: "POST",
           header: {
             Authorization: 'Token ' + uni.getStorageSync('token'),
-            'Content-Type': 'application/x-www-form-urlencoded'
           },
           data: {
-            history_id: id
+            menu_id: id
           }
         })
         this.list.splice(index, 1);
@@ -103,7 +105,7 @@
             this.isdelete = false
           } else {
             for (let i = 0; i < this.list.length; i++) {
-              this.list[i].picture = 'https://nkucalorie.top:8000' + this.list[i].picture
+              this.list[i].picture = 'https://nkucalorie.top:8000/media/' + this.list[i].picture
               var str = "";
               for (let j = 0; j < 10; j++) {
                 str += this.list[i].date[j];

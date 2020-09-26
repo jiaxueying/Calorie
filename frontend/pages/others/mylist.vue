@@ -128,11 +128,13 @@
               console.log(data)
               this.date = data.date;
               console.log(data.date)
-              for (var i = 0; i < data.detail.dishes.length; i++) {
-                this.meallist[i].picture = data.detail.dishes[i].img
-                this.path.push('https://nkucalorie.top:8000' + data.detail.dishes[i].img)
+              console.log(data.detail[0].picture)
+              for (var i = 0; i < data.detail.length; i++) {
+                this.meallist[i]={}
+                this.meallist[i].picture = data.detail[i].picture
+                this.path.push('https://nkucalorie.top:8000' + data.detail[i].picture)
                 this.getinfo(i)
-                this.meallist[i].name = data.detail.dishes[i].dish
+                this.meallist[i].name = data.detail[i].name
                 this.meallist[i].sum = 1 //确定是1？
                 console.log(this.meallist[i])
               }
