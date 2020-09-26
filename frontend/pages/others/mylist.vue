@@ -50,12 +50,12 @@
       </button>
 
       <button open-type="share" class="button">
-        <image class="icon" src="../../static/friend.jpg" style=""></image>
+        <image class="icon" src="../../static/friend.jpg" style=""></image><br>
         <view><text>发送给朋友</text></view>
       </button>
 
       <button @click="save" class="button">
-        <image class="icon" src="../../static/download.jpg"></image>
+        <image class="icon" src="../../static/download.jpg"></image><br>
         <view><text>保存到手机</text></view>
       </button>
 
@@ -128,11 +128,13 @@
               console.log(data)
               this.date = data.date;
               console.log(data.date)
-              for (var i = 0; i < data.detail.dishes.length; i++) {
-                this.meallist[i].picture = data.detail.dishes[i].img
-                this.path.push('https://nkucalorie.top:8000' + data.detail.dishes[i].img)
+              console.log(data.detail[0].picture)
+              for (var i = 0; i < data.detail.length; i++) {
+                this.meallist[i]={}
+                this.meallist[i].picture = data.detail[i].picture
+                this.path.push('https://nkucalorie.top:8000' + data.detail[i].picture)
                 this.getinfo(i)
-                this.meallist[i].name = data.detail.dishes[i].dish
+                this.meallist[i].name = data.detail[i].name
                 this.meallist[i].sum = 1 //确定是1？
                 console.log(this.meallist[i])
               }
@@ -398,7 +400,7 @@
   .allbtn {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     position: fixed;
     bottom: 0rpx;
     background-color: #FFFFFF;
@@ -414,7 +416,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 72px;
+    width: 75px;
     padding: 0px;
     background-color: rgb(255, 255, 255, 1);
   }
@@ -424,14 +426,12 @@
   }
 
   .button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    
   }
 
   .icon {
-    width: 70rpx;
-    height: 70rpx;
+    width: 75rpx;
+    height: 75rpx;
     opacity: 0.8;
   }
 
