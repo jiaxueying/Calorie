@@ -50,12 +50,12 @@
       </button>
 
       <button open-type="share" class="button">
-        <image class="icon" src="../../static/friend.jpg" style=""></image>
+        <image class="icon" src="../../static/friend.jpg" style=""></image><br>
         <view><text>发送给朋友</text></view>
       </button>
 
       <button @click="save" class="button">
-        <image class="icon" src="../../static/download.jpg"></image>
+        <image class="icon" src="../../static/download.jpg"></image><br>
         <view><text>保存到手机</text></view>
       </button>
 
@@ -398,7 +398,7 @@
   .allbtn {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     position: fixed;
     bottom: 0rpx;
     background-color: #FFFFFF;
@@ -414,7 +414,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 72px;
+    width: 75px;
     padding: 0px;
     background-color: rgb(255, 255, 255, 1);
   }
@@ -424,14 +424,12 @@
   }
 
   .button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    
   }
 
   .icon {
-    width: 70rpx;
-    height: 70rpx;
+    width: 75rpx;
+    height: 75rpx;
     opacity: 0.8;
   }
 

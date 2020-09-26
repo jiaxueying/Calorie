@@ -70,6 +70,7 @@
         uni.$emit("refresh2");
       },
       mylist() {
+		  this.Close()
         console.log("mylist clicked");
         uni.removeStorageSync('historymsg');
         if(this.Foods.length === 0) {
