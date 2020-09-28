@@ -117,8 +117,8 @@
     },
     methods: {
 
-      
-      
+
+
       show() {
         return new Promise((resolve, reject) => {
           uni.getStorage({
@@ -130,7 +130,7 @@
               console.log(data.date)
               console.log(data.detail[0].picture)
               for (var i = 0; i < data.detail.length; i++) {
-                this.meallist[i]={}
+                this.meallist[i] = {}
                 this.meallist[i].picture = data.detail[i].picture
                 this.meallist[i].calorie = data.detail[i].calorie
                 this.path.push('https://nkucalorie.top:8000' + data.detail[i].picture)
@@ -237,26 +237,28 @@
         ctx.fillText(this.date, 300 * rp - metrics, 390 * rp + j * 90 * rp)
 
         for (var i = 0; i < this.meallist.length; i++) {
-          ctx.drawImage("https://nkucalorie.top:8000" + this.meallist[i].picture, 70 * rp, 57 * rp + i * 90 * rp, 70 *
+          ctx.drawImage(this.paths[i], 70 * rp, 57 * rp + i * 90 * rp, 70 *
             rp, 70 * rp)
           ctx.fillText(this.meallist[i].name, 180 * rp, 71 * rp + i * 90 * rp)
           ctx.fillText(this.meallist[i].sum + "份", 180 * rp, 96 * rp + i * 90 * rp)
           //ctx.fillText(this.meallist[i].calorie+"kcal",180*rp,96*rp+i*90*rp)
         }
 
-        for(var i=0;i<this.meallist.length;i++){
-                   let img = this.$refs.conf0;
-                   img.onload=() =>{
-                      console.log(this.path[i])
-                      console.log(img.src)
-                           ctx.drawImage(img, 70*rp, 57*rp+i*90*rp, 70*rp, 70*rp);
-                       }
-                   console.log(this.paths[i])
-                   ctx.drawImage(this.paths[i],70*rp, 57*rp+i*90*rp, 70*rp, 70*rp)
-                   ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
-                   ctx.fillText(this.meallist[i].sum+"份",180*rp,96*rp+i*90*rp)
-               console.log("wait")
-             }
+        // for (var i = 0; i < this.meallist.length; i++) {
+        //   console.log("refs: ")
+        //   console.log(this.$refs)
+        //   let img = this.$refs.conf0;
+        //   img.onload = () => {
+        //     console.log(this.path[i])
+        //     console.log(img.src)
+        //     ctx.drawImage(img, 70 * rp, 57 * rp + i * 90 * rp, 70 * rp, 70 * rp);
+        //   }
+        //   console.log(this.paths[i])
+        //   ctx.drawImage(this.paths[i], 70 * rp, 57 * rp + i * 90 * rp, 70 * rp, 70 * rp)
+        //   ctx.fillText(this.meallist[i].name, 180 * rp, 71 * rp + i * 90 * rp)
+        //   ctx.fillText(this.meallist[i].sum + "份", 180 * rp, 96 * rp + i * 90 * rp)
+        //   console.log("wait")
+        // }
 
         ctx.setStrokeStyle("#000000")
         ctx.setLineWidth(2)
@@ -308,22 +310,32 @@
           title: '图片绘制中...',
         })
         var that = this
-        uni.canvasToTempFilePath({
-          canvasId: 'canvas',
-          success: function(res) {
-            setTimeout(that.wait, 300);
-            uni.hideLoading()
-            console.log(res.tempFilePath)
-            uni.saveImageToPhotosAlbum({
-              filePath: res.tempFilePath,
-              success: function(res) {
-                uni.showToast({
-                  title: '图片已保存'
-                })
-              }
-            })
-          }
-        })
+        let tmpTimeout = setTimeout(() => {
+          uni.canvasToTempFilePath({
+            canvasId: 'canvas',
+            success: function(res) {
+              // this.setTimeout(that.wait, Z900);
+              uni.saveImageToPhotosAlbum({
+                filePath: res.tempFilePath,
+                success: function(res) {
+                  console.log(res.tempFilePath)
+                  uni.hideLoading()
+                  uni.showToast({
+                    title: '图片已保存'
+                  })
+                },
+                fail: function(err) {
+                  console.log(err)
+                  console.log(res.tempFilePath)
+                  uni.showToast({
+                    title: '图片保存失败'
+                  })
+                }
+              })
+            }
+          })
+          clearTimeout(tmpTimeout)
+        }, 1000)
       },
 
 
@@ -427,9 +439,7 @@
     border: none;
   }
 
-  .button {
-    
-  }
+  .button {}
 
   .icon {
     width: 75rpx;
