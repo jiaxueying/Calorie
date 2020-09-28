@@ -132,6 +132,7 @@
               for (var i = 0; i < data.detail.length; i++) {
                 this.meallist[i]={}
                 this.meallist[i].picture = data.detail[i].picture
+                this.meallist[i].calorie = data.detail[i].calorie
                 this.path.push('https://nkucalorie.top:8000' + data.detail[i].picture)
                 this.getinfo(i)
                 this.meallist[i].name = data.detail[i].name
@@ -196,7 +197,7 @@
       },
 
       draw: function(e) {
-        this.meallist = uni.getStorageSync('meal-list')
+        //this.meallist = uni.getStorageSync('meal-list')
         console.log(this.meallist)
         var j = (this.meallist.length >= 3) ? (this.meallist.length - 3) : 0
         var k = j * 220 + 800
@@ -240,10 +241,10 @@
             rp, 70 * rp)
           ctx.fillText(this.meallist[i].name, 180 * rp, 71 * rp + i * 90 * rp)
           ctx.fillText(this.meallist[i].sum + "份", 180 * rp, 96 * rp + i * 90 * rp)
-          //ctx.fillText(this.meallist[i].cal+"kcal",180*rp,96*rp+i*90*rp)
+          //ctx.fillText(this.meallist[i].calorie+"kcal",180*rp,96*rp+i*90*rp)
         }
 
-        /*for(var i=0;i<this.meallist.length;i++){
+        for(var i=0;i<this.meallist.length;i++){
                    let img = this.$refs.conf0;
                    img.onload=() =>{
                       console.log(this.path[i])
@@ -255,7 +256,7 @@
                    ctx.fillText(this.meallist[i].name,180*rp,71*rp+i*90*rp)
                    ctx.fillText(this.meallist[i].sum+"份",180*rp,96*rp+i*90*rp)
                console.log("wait")
-             },*/
+             }
 
         ctx.setStrokeStyle("#000000")
         ctx.setLineWidth(2)
@@ -302,6 +303,7 @@
       //保存到本地
 
       save: function() {
+        this.draw()
         uni.showLoading({
           title: '图片绘制中...',
         })
