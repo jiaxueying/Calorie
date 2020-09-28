@@ -315,10 +315,10 @@
             canvasId: 'canvas',
             success: function(res) {
               // this.setTimeout(that.wait, Z900);
+              console.log(res.tempFilePath)
               uni.saveImageToPhotosAlbum({
                 filePath: res.tempFilePath,
                 success: function(res) {
-                  console.log(res.tempFilePath)
                   uni.hideLoading()
                   uni.showToast({
                     title: '图片已保存'
@@ -326,7 +326,6 @@
                 },
                 fail: function(err) {
                   console.log(err)
-                  console.log(res.tempFilePath)
                   uni.showToast({
                     title: '图片保存失败'
                   })
