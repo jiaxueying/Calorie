@@ -80,7 +80,7 @@
           });
           return;
         }
-				uni.$emit("showorders");
+				this.$parent.IsShow = false;
         wx.navigateTo({
           url: '../others/mylist',
         });
