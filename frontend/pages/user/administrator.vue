@@ -41,7 +41,7 @@
                 uni.setStorageSync('adtoken',res.data.data.token)
                 var adtoken=uni.getStorageSync('adtoken')
                 console.log("set storage success!"+adtoken)
-                uni.navigateTo({
+                uni.redirectTo({
                   url:'../index/index'
                 })
               }

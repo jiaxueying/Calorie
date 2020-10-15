@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="list">
-      <image class="listImg" :src="'https://nkucalorie.top:8000'+food.picture" mode="" @tap="detail" />
+      <image class="listImg" :src="'https://nkucalorie.top:8000'+food.picture" mode="aspectFill" @tap="detail"/>
       <view class="" style="flex: 1;">
         <view class="title" @tap="detail">
           {{ food.name }}

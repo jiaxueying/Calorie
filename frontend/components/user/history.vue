@@ -27,7 +27,8 @@
         replacelist: {
           picture: 'https://nkucalorie.top:8000/media/static/default.jpg',
           calorie: '这里会记录你每餐的就餐卡路里数据,例如100',
-          date: '这里会记录你的就餐时间'
+          date: '这里会记录你的就餐时间',
+          id:-1
         },
         isdelete: true,
         date: "",
@@ -35,6 +36,7 @@
     },
     methods: {
       showhistorymenu: function(index) {
+        if(this.list[index].id==-1) return
         uni.request({
           url: "https://nkucalorie.top:8000/menu/detail/",
           method: "GET",
