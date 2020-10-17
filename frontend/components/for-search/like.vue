@@ -76,9 +76,9 @@
 <style lang="less">
   .list {
     padding: 10upx 30upx;
-    margin: 10px 0;
+    margin: 5px 0;
     display: flex;
-    box-shadow: darkgrey 10px 0px 10px ;
+    box-shadow: darkgrey 0 0px 5px ;
 
     .title {
       font-size: 36upx;

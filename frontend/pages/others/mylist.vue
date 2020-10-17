@@ -137,7 +137,7 @@
                 this.path.push('https://nkucalorie.top:8000' + data.detail[i].picture)
                 this.getinfo(i)
                 this.meallist[i].name = data.detail[i].name
-                this.meallist[i].sum = 1 //确定是1？
+                this.meallist[i].sum = data.detail[i].mass
                 console.log(this.meallist[i])
               }
               this.ispost = false
@@ -147,8 +147,9 @@
             },
             fail: () => { //未获取到历史菜单，从购物车进入
               reject('error in show');
-              var time = new Date();
-              this.date = time.toLocaleDateString();
+              var time = new Date(new Date().getTime()+8 * 3600 * 1000);
+              this.date = time.toISOString().substr(0,19)
+              this.date=this.date.replace('T',' ')
               console.log(this.date)
               this.menuid = uni.getStorageSync('menuid');
               var tempmeallist = uni.getStorageSync('meal-list');
@@ -156,7 +157,7 @@
               for (var i = 0, j = 0; i < tempmeallist.length; i++) {
                 if (tempmeallist[i].sum != 0) {
                   this.meallist[j] = tempmeallist[i];
-                  this.meallist[j].calorie=this.meallist[i].cal
+                  this.meallist[j].calorie=this.meallist[i].cal*this.meallist[i].sum
                   this.msg+=this.meallist[j].calorie
                   this.path.push('https://nkucalorie.top:8000' + this.meallist[j].picture);
                   this.getinfo(j);

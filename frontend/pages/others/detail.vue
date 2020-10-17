@@ -56,7 +56,7 @@
       </view>
     </view>
 
-    <view style="background-color: #FFFFFF;width: 750rpx;height: 100rpx;">
+    <view style="background-color: #FFFFFF;width: 750rpx;height: 200rpx;">
 
     </view>
     </view>
@@ -404,7 +404,7 @@
     line-height: 50rpx;
     margin-right: 50rpx;
     align-self: flex-end;
-    margin-top: 10rpx;
+    margin-top: 40rpx;
   }
 
   .opinion {

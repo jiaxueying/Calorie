@@ -1,15 +1,14 @@
 <template>
   <view class="all">
     <input-box ref="input" class="input"/>
-    <scroll-view
+    <view
       class="scroll"
-      scroll-y="true"
       v-show="!HistoryShow"
     >
       <view v-if="showedFoods.length" v-for="Food in showedFoods" :key="Food.dish">
         <like :food="Food" :menu_id="foods.menu_id"/>
       </view>
-    </scroll-view>
+    </view>
     <view
       v-show="IsShow"
       class="orders"

@@ -48,7 +48,7 @@
           },
           success: (res) => {
             console.log(res.data)
-            var tempdate = new Date(this.list[index].date);
+            var tempdate = new Date(new Date(this.list[index].date).getTime(this.list[index].date)+8 * 3600 * 1000);
             this.date = tempdate.toISOString().substr(0,19)
             this.date=this.date.replace('T',' ')
             console.log(this.date)
