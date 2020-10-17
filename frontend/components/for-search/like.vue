@@ -5,7 +5,7 @@
       <view class="" style="flex: 1;">
         <view class="title" @tap="detail">
           {{ food.name }}
-          <text>\n{{ food.calorie }}kcal</text>
+          <text style="margin-left: 30rpx;">{{ food.calorie }}kcal</text>
         </view>
         <view class="content">
           <view class="label" v-for="tag in food.tag" :key="tag.id" @tap="search_tag(tag)">
@@ -75,8 +75,10 @@
 
 <style lang="less">
   .list {
-    padding: 0upx 30upx;
+    padding: 10upx 30upx;
+    margin: 10px 0;
     display: flex;
+    box-shadow: darkgrey 10px 0px 10px ;
 
     .title {
       font-size: 36upx;
@@ -92,7 +94,9 @@
 
     .content {
       padding-left: 80upx;
-      padding-bottom: 20upx;
+      margin-bottom: 10upx;
+      padding-bottom: 10upx;
+      border-bottom: solid 1px #6a6a6a;
 
       .label {
         height: 40upx;
@@ -116,7 +120,8 @@
 
   .bottom {
     display: flex;
-    padding: 20upx 0;
+    padding: 0upx 0;
+
 
     .item {
       flex: 1;

@@ -43,11 +43,11 @@
 
       <view style="width: 550rpx;margin-top: 25rpx;">
         <view style="display: flex;align-items: center;">
-          <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 10rpx;background-color: #000000;"></view>
-          <view style="margin-left: 10rpx;font-size: 30rpx;line-height: 30rpx;font-weight: 600;">关键词</view>
+          <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 5rpx;background-color: gray;"></view>
+          <view style="margin-left: 5rpx;font-size: 30rpx;line-height: 30rpx;color: gray;">关键词</view> 
         </view>
         <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
-          <view v-for="(dishname,index) in dishnames" class="dishnames">No.{{index+1}} {{dishname}}</view>
+          <view v-for="(dishname,index) in dishnames" class="dishnames" :key="index">No.{{index+1}} {{dishname}}</view>
         </view>
       </view>
 
