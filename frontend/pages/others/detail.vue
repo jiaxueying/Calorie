@@ -27,9 +27,9 @@
     </view>
 
     <view style="display:flex;flex-direction: column;align-items: center;">
-      <!--scroll-view里的bug，必须再包一层-->
+      
       <view class="name">{{food.name}}\n</view>
-      <view class="cal">{{food.calorie}}KCAL/{{food.weight}}g</view>
+      <view class="cal">{{food.calorie}} KCAL/{{food.weight}}g</view>
 
       <view class="opinion">
         <image :src="likeicon" class="countimg" @click="like"></image>
@@ -348,7 +348,7 @@
     width: 600rpx;
     height: 600rpx;
     animation: showtab 0.5s;
-    
+    line-height: 37rpx;
   }
 
   @keyframes showimg {

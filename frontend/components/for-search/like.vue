@@ -83,7 +83,7 @@
     .title {
       font-size: 36upx;
       color: #333;
-      margin: 10upx 80upx;
+      margin: 10upx 0upx;
 
       text {
         font-size: 30upx;
@@ -93,7 +93,7 @@
     }
 
     .content {
-      padding-left: 80upx;
+      padding-left: 0upx;
       margin-bottom: 10upx;
       padding-bottom: 10upx;
       border-bottom: solid 1px #6a6a6a;
