@@ -1,7 +1,7 @@
 <template>
   <scroll-view scroll-y="true" class="content">
 
-    <view style="height: 50rpx;width: 750rpx;"> </view>
+    <view style="height: 0rpx;width: 750rpx;"> </view>
 
     <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
       <image :src="'https://nkucalorie.top:8000'+food.picture" class="img" v-if="isimg" mode="aspectFill"></image>
@@ -28,10 +28,8 @@
 
     <view style="display:flex;flex-direction: column;align-items: center;">
       <!--scroll-view里的bug，必须再包一层-->
-      <view class="detail">
-        <view class="name">{{food.name}}</view>
-        <view class="cal" style="display: none;">{{cal}}</view>
-      </view>
+      <view class="name">{{food.name}}\n</view>
+      <view class="cal">{{food.calorie}}KCAL/{{food.weight}}g</view>
 
       <view class="opinion">
         <image :src="likeicon" class="countimg" @click="like"></image>
@@ -159,7 +157,7 @@
           })
           this.nutrition.push({
             item: '能量(KCal)',
-            value: this.food.calorie + 'KCal',
+            value: this.food.per_calorie + 'KCal',
             percent: (parseFloat(this.food.calorie) / 2000*100).toFixed(2) + "%"
           })
           this.nutrition.push({
@@ -325,8 +323,11 @@
   }
 
   .imgarea {
-    margin-top: 40rpx;
+    margin-top: 10rpx;
     height: 700rpx;
+    width: 600rpx;
+    margin-left: 75rpx;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -337,6 +338,8 @@
     position: relative;
     width: 600rpx;
     height: 600rpx;
+    position: relative;
+    top: 50rpx;
     animation: showimg 0.5s;
   }
 
@@ -383,17 +386,15 @@
   }
 
   .detail {
-    display: flex;
-    align-items: center;
     margin-top: 30rpx;
   }
 
   .name {
     font-size: 70rpx;
-    margin-right: 30rpx;
     font-weight: 800;
     color: #505050;
     line-height: 80rpx;
+    margin-top: 20rpx;
   }
 
   .cal {
@@ -401,11 +402,14 @@
     font-weight: 800;
     color: #505050;
     line-height: 50rpx;
+    margin-right: 50rpx;
+    align-self: flex-end;
+    margin-top: 10rpx;
   }
 
   .opinion {
     align-self: flex-end;
-    margin-right: 25rpx;
+    margin-right: 50rpx;
     display: flex;
     justify-content: center;
     align-items: center;
