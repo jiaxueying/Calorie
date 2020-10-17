@@ -51,12 +51,12 @@
 
       <button open-type="share" class="button">
         <image class="icon" src="../../static/friend.jpg" style=""></image><br>
-        <view><text>发送给朋友</text></view>
+        <view style="font-size: 30rpx;width: 200rpx;"><text>发送给朋友</text></view>
       </button>
 
       <button @click="save" class="button">
         <image class="icon" src="../../static/download.jpg"></image><br>
-        <view><text>保存到手机</text></view>
+        <view style="font-size: 30rpx;width: 200rpx;"><text>保存到手机</text></view>
       </button>
 
     </view>
@@ -418,7 +418,10 @@
     justify-content: space-around;
     position: fixed;
     bottom: 0rpx;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
+    border-top: #000000 solid 1px;
+    padding-top: 20rpx;
+    box-shadow: #a7a7a7 0 -5px 5px;
   }
 
   text {
@@ -431,7 +434,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 75px;
+    width: 200rpx;
     padding: 0px;
     background-color: rgb(255, 255, 255, 1);
   }
@@ -443,8 +446,8 @@
   .button {}
 
   .icon {
-    width: 75rpx;
-    height: 75rpx;
+    width: 50rpx;
+    height: 50rpx;
     opacity: 0.8;
   }
 
