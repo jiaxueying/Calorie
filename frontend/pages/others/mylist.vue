@@ -11,17 +11,17 @@
               <scroll-view scroll-y="true" class="scrollview">
                 <view style="height:5rpx;"></view>
                 <view v-for="(srcitem,i) in path">
-                  <image :src="srcitem" ref="conf0" @load="onload"></image>
+                  <image :src="srcitem" ref="conf0" @load="onload" mode="aspectFill"></image>
                   <view class="mealinfor">
-                    <text>\n{{meallist[i].name}}\n\n</text>
-                    <text> {{meallist[i].sum}} 份</text>
+                    <text>{{meallist[i].name}}\n\n</text>
+                    <text> {{meallist[i].sum}} 份\n\n</text>
+                    <text> {{meallist[i].calorie}} kcal</text>
                   </view>
                 </view>
               </scroll-view>
               <!--菜单下方文本部分-->
-              <view style="height:100rpx;">
-                <text :class="{'ordertime':isorder,'inorder':!isorder}">订餐时间：{{time}}\n订单号：01</text>
-
+              <view style="height:100rpx;" class="energy">
+                <text>本餐共摄入\n{{msg}}kcal</text>
               </view>
             </view>
             <!--scroll-->
@@ -81,7 +81,7 @@
     data() {
       return {
         menuid: "",
-        msg: '300',
+        msg: 0,
         date: '',
         width: "", //确定类型
         height: "", //确定类型
@@ -133,6 +133,7 @@
                 this.meallist[i] = {}
                 this.meallist[i].picture = data.detail[i].picture
                 this.meallist[i].calorie = data.detail[i].calorie
+                this.msg+=this.meallist[i].calorie
                 this.path.push('https://nkucalorie.top:8000' + data.detail[i].picture)
                 this.getinfo(i)
                 this.meallist[i].name = data.detail[i].name
@@ -155,6 +156,8 @@
               for (var i = 0, j = 0; i < tempmeallist.length; i++) {
                 if (tempmeallist[i].sum != 0) {
                   this.meallist[j] = tempmeallist[i];
+                  this.meallist[j].calorie=this.meallist[i].cal
+                  this.msg+=this.meallist[j].calorie
                   this.path.push('https://nkucalorie.top:8000' + this.meallist[j].picture);
                   this.getinfo(j);
                   j++;
@@ -228,20 +231,19 @@
         ctx.setFillStyle('#59453D') //设置绘图的背景颜色
         ctx.setTextBaseline('middle')
         ctx.fillText("My List", 130 * rp, 40 * rp)
-        //ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
-        //ctx.fillText(this.msg+"kcal",200*rp,360*rp+j*90*rp)
+        ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
+        var w=ctx.measureText(this.msg+"kcal").width
+        ctx.fillText(this.msg+"kcal",200*rp+35-w,360*rp+j*90*rp)
         ctx.fillText("#粟", 3 * rp, 390 * rp + j * 90 * rp)
-        ctx.fillText(this.time, 270 * rp, 350 * rp + j * 90 * rp)
-        const metrics = ctx.measureText(this.date).width
+        var metrics = ctx.measureText(this.date).width
         console.log(metrics)
-        ctx.fillText(this.date, 300 * rp - metrics, 390 * rp + j * 90 * rp)
+        ctx.fillText(this.date, 300 * rp - metrics*1.5, 390 * rp + j * 90 * rp)
 
         for (var i = 0; i < this.meallist.length; i++) {
-          ctx.drawImage(this.paths[i], 70 * rp, 57 * rp + i * 90 * rp, 70 *
-            rp, 70 * rp)
+          ctx.drawImage(this.paths[i], 70 * rp, 57 * rp + i * 90 * rp, 70 * rp, 70 * rp)
           ctx.fillText(this.meallist[i].name, 180 * rp, 71 * rp + i * 90 * rp)
-          ctx.fillText(this.meallist[i].sum + "份", 180 * rp, 96 * rp + i * 90 * rp)
-          //ctx.fillText(this.meallist[i].calorie+"kcal",180*rp,96*rp+i*90*rp)
+          ctx.fillText(this.meallist[i].sum + "份", 180 * rp, 94 * rp + i * 90 * rp)
+          ctx.fillText(this.meallist[i].calorie+"kcal",180*rp,117*rp+i*90*rp)
         }
 
         // for (var i = 0; i < this.meallist.length; i++) {
@@ -453,6 +455,7 @@
   image {
     width: 180rpx;
     height: 180rpx;
+    border-radius: 15rpx;
   }
 
   .title {
@@ -501,5 +504,9 @@
 
   .inorder {
     display: none;
+  }
+  .energy {
+    text-align: right;
+    width: 100%;
   }
 </style>

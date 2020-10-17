@@ -4,7 +4,7 @@
     <view style="height: 50rpx;width: 750rpx;"> </view>
 
     <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
-      <image :src="'https://nkucalorie.top:8000'+food.picture" class="img" v-if="isimg"></image>
+      <image :src="'https://nkucalorie.top:8000'+food.picture" class="img" v-if="isimg" mode="aspectFill"></image>
       <view class="tab" v-if="!isimg">
         <tab>
           <ttr align="left">
@@ -155,47 +155,47 @@
           this.nutrition.push({
             item: '能量(KJ)',
             value: this.food.energy + 'KJ',
-            percent: (parseFloat(this.food.energy) / 8400).toFixed(2) + "%"
+            percent: (parseFloat(this.food.energy) / 8400*100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '能量(KCal)',
             value: this.food.calorie + 'KCal',
-            percent: (parseFloat(this.food.calorie) / 2000).toFixed(2) + "%"
+            percent: (parseFloat(this.food.calorie) / 2000*100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '蛋白质',
             value: this.food.protein + 'g',
-            percent: (parseFloat(this.food.protein) / 60).toFixed(2) + "%"
+            percent: (parseFloat(this.food.protein) / 60*100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '脂肪',
             value: this.food.fat + 'g',
-            percent: (parseFloat(this.food.fat) / 60).toFixed(2) + "%"
+            percent: (parseFloat(this.food.fat) / 60*100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '碳水化合物',
             value: this.food.carbohydrates + 'g',
-            percent: (parseFloat(this.food.carbohydrates) / 300).toFixed(2) + "%"
+            percent: (parseFloat(this.food.carbohydrates) / 300*100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '膳食纤维',
             value: this.food.dietary_fiber + 'g',
-            percent: (parseFloat(this.food.dietary_fiber) / 25).toFixed(2) + "%"
+            percent: (parseFloat(this.food.dietary_fiber) / 25*100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '维生素C',
             value: this.food.vitaminC + 'mg',
-            percent: (parseFloat(this.food.vitaminC) / 100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.vitaminC) / 100*100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '钙',
             value: this.food.calcium + 'mg',
-            percent: (parseFloat(this.food.calcium) / 800).toFixed(2) + "%"
+            percent: (parseFloat(this.food.calcium) / 800*100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '钠',
             value: this.food.sodium + 'mg',
-            percent: (parseFloat(this.food.sodium) / 2000).toFixed(2) + "%"
+            percent: (parseFloat(this.food.sodium) / 2000*100).toFixed(2) + "%"
           })
         }
       })
@@ -326,10 +326,11 @@
 
   .imgarea {
     margin-top: 40rpx;
-    height: 650rpx;
+    height: 700rpx;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
   }
 
   .img {
@@ -344,7 +345,7 @@
     width: 600rpx;
     height: 600rpx;
     animation: showtab 0.5s;
-    overflow: hidden;
+    
   }
 
   @keyframes showimg {

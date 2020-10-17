@@ -334,6 +334,8 @@
      font-size: 1em;
      margin-top: 6rpx;
      margin-bottom: 6rpx;
+     word-break: break-all;
+     word-wrap: break-word;
    }
    .calorieForDay{
      font-size: 0.7em;

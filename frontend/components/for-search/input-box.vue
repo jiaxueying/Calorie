@@ -62,7 +62,7 @@
 		height: 80rpx;
 		padding-left: 120rpx;
 		font-size: 40rpx;
-		border: 1rpx solid #000000;
+		border: 1rpx solid #d9cfca;
 		border-radius: 5rpx;
 	}
 	.tableware-icon {

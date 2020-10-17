@@ -6,11 +6,11 @@
     <dl>
       <dt class="historyList" v-for="(item,index) in list" :key="index">
         <view class="mealimg" @click="showhistorymenu(index)">
-          <image style="width: 100rpx;height: 100rpx;" :src='item.picture'></image>
+          <image style="width: 100rpx;height: 100rpx;" :src='item.picture' mode="aspectFill"></image>
         </view>
         <view class="historyInfo" @click="showhistorymenu(index)">
-          <text>{{item.date}}\n</text>
-          <!--<text style="font-size: 0.6em;font-weight: 100;color:#505050;line-height: 50rpx;">{{item.calorie}}kcal</text>-->
+          <text style="line-height: 60rpx;">{{item.date}}\n</text>
+          <text style="font-size: 25rpx;font-weight: 100;color:#505050;line-height: 40rpx;">{{item.calorie}}kcal</text>
         </view>
         <image src="https://nkucalorie.top:8000/media/static/timg.jpg" class="deleteIcon" @click="deleteItem(item.id,index)"
           v-if="isdelete"></image>
@@ -49,8 +49,9 @@
           success: (res) => {
             console.log(res.data)
             var tempdate = new Date(this.list[index].date);
-            this.date = tempdate.toLocaleDateString();;
-            console.log(tempdate)
+            this.date = tempdate.toISOString().substr(0,19)
+            this.date=this.date.replace('T',' ')
+            console.log(this.date)
             var data = {
               detail: res.data.data.dishes,
               date: this.date
@@ -108,10 +109,9 @@
           } else {
             for (let i = 0; i < this.list.length; i++) {
               this.list[i].picture = 'https://nkucalorie.top:8000/media/' + this.list[i].picture
-              var str = "";
-              for (let j = 0; j < 10; j++) {
-                str += this.list[i].date[j];
-              }
+              console.log(this.list[i].date)
+              var str = this.list[i].date.substr(0,19)
+              str=str.replace('T',' ')
               this.date = str;
               this.list[i].date = str;
               console.log(this.list[i].date);
@@ -171,14 +171,14 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    left: 50rpx;
+    width: 550rpx;
+    margin-left: 30rpx;
   }
 
   .deleteIcon {
     width: 40rpx;
     height: 40rpx;
     position: relative;
-    left: 400rpx;
     top: 25rpx;
     opacity: 0.4
   }

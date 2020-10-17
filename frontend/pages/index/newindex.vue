@@ -13,7 +13,7 @@
           </view>
           <view class="button date" hover-class="hover-button">
                 <view class="bar">.....</view>
-                <picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+                <picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange" disabled="true">
                     <view class="uni-input">{{date}}</view> 
                 </picker>
           </view>

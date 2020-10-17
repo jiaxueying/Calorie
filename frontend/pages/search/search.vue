@@ -1,16 +1,12 @@
 <template>
   <view class="all">
-    <input-box ref="input" />
+    <input-box ref="input" class="input"/>
     <scroll-view
       class="scroll"
       scroll-y="true"
       v-show="!HistoryShow"
     >
-      <view
-        v-if="showedFoods.length"
-        v-for="Food in showedFoods"
-        :key="Food.dish"
-      >
+      <view v-if="showedFoods.length" v-for="Food in showedFoods" :key="Food.dish">
         <like :food="Food" :menu_id="foods.menu_id"/>
       </view>
     </scroll-view>
@@ -57,10 +53,11 @@ export default {
     uni.$on('showhistory', this.ShowHistory);
     uni.$on('showorders', this.ChangeIsShow);
     uni.$on('hidehistory', this.HideHistory);
-    uni.$on('search_key',this.searchBykey_t);
-    uni.$on('search_tag',this.searchByTag);
+    uni.$on('search_key',this.searchBykey);
+    uni.$on('search_tag',this.searchBykey);
     uni.$on('addHistory',this.addHistoryBykey);
     uni.$on('refresh1',this.refresh);
+    uni.$on('get_likes',this.get_likes);
     this.getAllFoods();
   },
   methods: {
@@ -80,30 +77,10 @@ export default {
           key_word:""
         },
         success:(res)=> {
-          console.log(res.data.data)
           this.allFoods=res.data.data
           this.showedFoods=this.allFoods
         }
       })
-    },
-    searchDate() {
-      let index = getCurrentPages()[0];
-      let d = index.$vm.getDate();
-      let msg = index.$vm.getMsg();
-      var that=this;
-      request('/canteen/menuview/', 'GET', {
-            date: d,
-            }).then(res =>{
-                    switch(msg) {
-                    case "breakfast":that.foods = res[1].data.bre;break;
-                    case "lunch":that.foods = res[1].data.lun;break;
-                    case "dinner":that.foods = res[1].data.din;break;
-                    }
-                    that.showedFoods =that.foods.dishes;
-                    console.log(that.showedFoods)
-                    
-                    })
-     
     },
     ShowHistory() {
       this.HistoryShow = true;
@@ -121,42 +98,63 @@ export default {
       this.HistoryShow = false;
       console.log('HistoryShow changed: ' + this.HistoryShow);
     },
-    MealListRefresh: async function(key) {
-      console.log("meallist fresh:" + key);
-      if(key === "") {this.searchDate();return;}
-      this.showedFoods = [];
-      for(let i = 0; i < this.foods.dishes.length; i++) {
-        let f = this.foods.dishes[i];
-        if(f.dish.indexOf(key) != -1) {
-          this.showedFoods.push(f);
-        }
-      }
-      if(this.showedFoods.length === 0) {
-        uni.showModal({
-          title: '提示',
-          content: '抱歉，没有您想搜索的菜品',
-        });
-        this.MealListRefresh('');
-      }
-    },
     searchBykey(key) {
       console.log("searchBykey");
       this.$refs.input.setValue(key);
-      this.MealListRefresh(key);
+      this.showedFoods=[]
+      this.showedFoods=this.searchBykey_t(key).concat(this.searchByTag(key))
     },
     refresh() {
       this.OrderedFood = uni.getStorageSync('meal-list');
       console.log(this.OrderedFood);
     },
     searchBykey_t(key){
-      this.showedFoods=[]
-      for(var i=0;i<13;i++)
+      var results=[]
+      for(var i=0;i<this.allFoods.length;i++)
       {
-        if(this.allFoods[i]["dish"].indexOf(key)!=-1)
+        if(this.allFoods[i]["name"].indexOf(key)!=-1)
         {
-          this.showedFoods.push(this.allFoods[i])
+          results.push(this.allFoods[i])
         }
       }
+      return results
+    },
+    searchByTag(tag_name) {
+      console.log('search tag')
+      var results=[]
+      for(var i=0;i<this.allFoods.length;i++)
+      {
+        for(var j=0;j<this.allFoods[i].tag.length;j++)
+        {
+          if(this.allFoods[i].tag[j].name.indexOf(tag_name)!=-1)
+          {
+            results.push(this.allFoods[i])
+          }
+        }
+      }
+      return results
+    },
+    get_likes(id) {
+      uni.request({
+        url:"https://nkucalorie.top:8000/dish/detail/",
+        method:"GET",
+        header:{
+          Authorization: "Token " + uni.getStorageSync("token")
+        },
+        data: {
+          dish_id: id
+        },
+        success: (res) => {
+          for(var i=0;i<this.showedFoods.length;i++)
+          {
+            if(this.showedFoods[i].id==id)
+            {
+              this.showedFoods[i].like=res.data.data.dish.like
+              this.showedFoods[i].dislike=res.data.data.dish.dislike
+            }
+          }
+        }
+      })
     }
   },
   mounted() {

@@ -13,6 +13,18 @@
           </view>
         </view>
 
+        <view class="bottom">
+          <view class="item">
+            <button class="likeButton" @tap="like_">
+              LIKE {{ food.like }}
+            </button>
+          </view>
+          <view class="item">
+            <button class="unlikeButton" @tap="dislike_">
+              DISLIKE {{ food.dislike }}
+            </button>
+          </view>
+        </view>
 
       </view>
     </view>
@@ -39,12 +51,12 @@
       like_() {
         console.log("like clicked");
         like(this.food.id);
-        uni.$emit("search_key", "");
+        uni.$emit('get_likes',this.food.id)
       },
       dislike_() {
         console.log("dislike clicked");
         dislike(this.food.id);
-        uni.$emit("search_key", "");
+        uni.$emit('get_likes',this.food.id)
       },
       detail() {
         console.log(this.food);
@@ -55,15 +67,15 @@
       },
       search_tag(v) {
         console.log("tag clicked");
-        uni.$emit("search_key", v.name);
-      }
+        uni.$emit("search_tag", v.name);
+      },
     },
   }
 </script>
 
 <style lang="less">
   .list {
-    padding: 40upx 30upx;
+    padding: 0upx 30upx;
     display: flex;
 
     .title {
@@ -122,7 +134,7 @@
   .likeButton {
     height: 50rpx;
     font-size: 20rpx;
-    background-image: url(https://nkucalorie.top.com:8000/media/static/like.png);
+    background-image: url(https://nkucalorie.top:8000/media/static/like.png);
     background-color: #FFFFFF;
     background-repeat: no-repeat;
     background-size: 40rpx;
@@ -134,7 +146,7 @@
   .unlikeButton {
     height: 50rpx;
     font-size: 20rpx;
-    background-image: url(https://nkucalorie.top.com:8000/media/static/dislike.png);
+    background-image: url(https://nkucalorie.top:8000/media/static/dislike.png);
     background-color: #FFFFFF;
     background-repeat: no-repeat;
     background-size: 40rpx;
