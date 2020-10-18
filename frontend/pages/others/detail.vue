@@ -414,18 +414,19 @@
     justify-content: center;
     align-items: center;
     height: 80rpx;
+    opacity: 0.7;
   }
 
   .countimg {
-    width: 50rpx;
-    height: 50rpx;
+    width: 40rpx;
+    height: 40rpx;
     margin-left: 50rpx;
     margin-right: 10rpx;
   }
 
   .count {
     line-height: 80rpx;
-    font-size: 40rpx;
+    font-size: 30rpx;
   }
 
   .tags {

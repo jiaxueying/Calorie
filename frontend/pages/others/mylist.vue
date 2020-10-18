@@ -13,8 +13,8 @@
                 <view v-for="(srcitem,i) in path">
                   <image :src="srcitem" ref="conf0" @load="onload" mode="aspectFill"></image>
                   <view class="mealinfor">
-                    <text>{{meallist[i].name}}\n\n</text>
-                    <text> {{meallist[i].sum}} 份\n\n</text>
+                    <text> {{meallist[i].name}}\n</text>
+                    <text> {{meallist[i].sum}} 份\n</text>
                     <text> {{meallist[i].calorie}} kcal</text>
                   </view>
                 </view>
@@ -74,7 +74,7 @@
       }
       return {
         title: '粟',
-        path: '/pages/index/index?url='
+        path: '/pages/index/newindex?url='
       }
     },
 
@@ -474,7 +474,8 @@
     display: inline-block;
     position: absolute;
     left: 330rpx;
-    line-height: 30rpx;
+    line-height: 50rpx;
+    margin-top: 15rpx;
     //使用inline-block的时候所有的justify和align布局都失效
   }
 
