@@ -62,7 +62,7 @@
 		height: 80rpx;
 		padding-left: 120rpx;
 		font-size: 40rpx;
-		border: 1rpx solid #000000;
+		border: 1rpx solid #d9cfca;
 		border-radius: 5rpx;
 	}
 	.tableware-icon {
@@ -71,7 +71,7 @@
 		position: absolute;
 		margin: 1rpx 0 0 1rpx;
 		background-size: 75rpx;
-    background-image: url(https://nkucalorie.top.com:8000/media/static/default.jpg);
+    background-image: url(https://nkucalorie.top:8000/media/static/default.jpg);
     background-repeat: no-repeat;
 		border: none;
 	}

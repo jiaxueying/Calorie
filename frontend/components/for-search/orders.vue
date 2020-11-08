@@ -70,7 +70,9 @@
         uni.$emit("refresh2");
       },
       mylist() {
+		  this.Close()
         console.log("mylist clicked");
+        uni.removeStorageSync('historymsg');
         if(this.Foods.length === 0) {
           uni.showModal({
             title: '提示',
@@ -78,7 +80,7 @@
           });
           return;
         }
-				uni.$emit("showorders");
+				this.$parent.IsShow = false;
         wx.navigateTo({
           url: '../others/mylist',
         });
@@ -154,7 +156,7 @@
          	color: rgba(80, 80, 80, 1);
          	box-shadow: rgba(204, 204, 204, 1) solid 1px;
          	// border-radius: 9px;
-         	font-size: 18rpx;
+         	font-size: 22rpx;
          	line-height: 150%;
          	text-align: center;
           display: inline-block;
@@ -163,7 +165,7 @@
       }
       .midTwo {
         	color: rgba(153, 153, 153, 1);
-        	font-size: 20rpx;
+        	font-size: 25rpx;
         	line-height: 150%;
         	text-align: left;
           display: inline-block;
