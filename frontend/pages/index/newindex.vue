@@ -12,6 +12,9 @@
           <navigator url="../search/search">菜品查询</navigator>
         </view>
         <view class="mybutton" hover-class="hover-button">
+          <navigator url="../recommondation/shake">菜品推荐</navigator>
+        </view>
+        <view class="mybutton" hover-class="hover-button">
           <navigator url="../user/user">用户中心</navigator>
         </view>
         <view class="mybutton" hover-class="hover-button">

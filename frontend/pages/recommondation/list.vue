@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import Meal from '../../components/recommodation/recommendcopy/recommendcopy.vue'
+  import Meal from '../../components/recommodation/recommend.vue'
    export default {
      components: {
       Meal,
