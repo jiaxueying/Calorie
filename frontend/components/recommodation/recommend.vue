@@ -99,13 +99,24 @@
         }
 
         //将已选菜品添加到缓存
-        uni.setStorage({
-          key: 'meal-list',
-          data: this.meals,
-          success: function() {
-            console.log('success');
+        var OrderedFood = uni.getStorageSync("meal-list");
+        for (var j = 0; j < this.meals.length; j++) {
+          for (let i = 0; i < OrderedFood.length; i++) {
+            if (OrderedFood[i].name === this.meals[j].name) {
+              OrderedFood[i].sum += this.meals[j].sum
+              continue
+            }
           }
-        });
+          OrderedFood.push({
+            name: this.meals[j].name,
+            cal: this.meals[j].calorie,
+            sum: this.meals[j].sum,
+            picture: this.meals[j].picture,
+            id: this.meals[j].id
+          });
+        }
+
+        uni.setStorageSync("meal-list", OrderedFood);
 
 
       },
