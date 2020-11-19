@@ -145,7 +145,7 @@
           this.nutrition.push({
             item: '能量(KCal)',
             value: this.food.per_calorie + 'KCal',
-            percent: (parseFloat(this.food.calorie) / 2000 * 100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.per_calorie) / 2000 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '蛋白质',
