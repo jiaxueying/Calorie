@@ -145,21 +145,6 @@
   .mealimg {
     width: 100rpx;
     height: 100rpx;
-    /* border-radius: 10px; */
-  }
-
-  .historyMenu {
-    border-top: 2px #E8E8E8 solid;
-    border-bottom: 2px #E8E8E8 solid;
-    color: #59453D;
-    height: 80rpx;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.8em;
-    font-weight: 100;
-    margin-bottom: 25rpx;
-    margin-top: 50rpx;
   }
 
   .historyList {
@@ -174,7 +159,7 @@
   }
 
   dt {
-    border: #d5c2c6 solid 2px;
+    border: #d5c2c6 solid 1rpx;
   }
 
   .historyInfo {
