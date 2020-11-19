@@ -1,6 +1,6 @@
 <template>
-  <view style="margin: 10px;">
-    <view style="display:flex; align-items:flex-end;justify-content: space-between;">
+  <view style="margin: 10px; display: flex;flex-direction: column;justify-content: center; align-items: center;">
+    <view style="width:90%; display:flex; align-items:flex-end;justify-content: space-between; margin-bottom: 10px;">
       <view class='title'>食材表</view>
       <view class="add" @click="IngredientAdd">添加食材</view>
     </view>
@@ -135,7 +135,7 @@
 
 <style>
   .title {
-    font-size: 2em;
+    font-size: 1.5em;
     /* width: 750rpx; */
     text-align: left;
     display: inline-block;
@@ -145,11 +145,12 @@
   .row {
     display: flex;
     justify-content: space-around;
-    width: 710rpx;
-    margin-top: 10rpx;
+    width: 90%;
+    margin-top: 5rpx;
     padding: 5px 0;
-    background-color: #d9cfca;
-    border-radius: 5px;
+    border-bottom: rgb(217, 207, 202) solid 1px;
+    /* background-color: #d9cfca; */
+    /* border-radius: 5px; */
   }
 
   .ingredient {

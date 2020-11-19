@@ -56,7 +56,7 @@
     created() {
       let value = uni.getStorageSync("minmax"); //从缓存获取本餐卡路里推荐范围
       let userid = uni.getStorageSync("userid"); //从缓存获取userid
-      this.getmeals()
+      this.getmeals();
     },
     components: {
       uniNumberBox,

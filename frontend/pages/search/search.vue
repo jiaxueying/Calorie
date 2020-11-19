@@ -1,13 +1,11 @@
 <template>
   <view class="all">
-    <!-- <input-box ref="input" class="input"/> -->
     <Searchbar :show="false" :val="searchVal" @search="search($event, 1)" @showall="showall"></Searchbar>
     <view class="scroll" v-show="!HistoryShow">
       <view v-if="showedFoods.length" v-for="Food in showedFoods" :key="Food.dish">
         <like :food="Food" :menu_id="foods.menu_id" />
       </view>
     </view>
-    <!-- <view v-show="IsShow" class="orders"> -->
     <view class="orders" v-show="IsShow">
       <Orders :Foods="OrderedFood" />
     </view>

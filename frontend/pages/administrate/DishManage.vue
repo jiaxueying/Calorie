@@ -1,6 +1,6 @@
 <template>
-  <view style="margin: 10px;">
-    <view style="display:flex; align-items:flex-end;justify-content: space-between;">
+  <view style="margin: 10px; display: flex;flex-direction: column;justify-content: center; align-items: center;">
+    <view style="width:90%;display:flex; flex-direction: row;justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
       <view class='title'>菜品表</view>
       <view class="add" @click="DishAdd">添加菜品</view>
     </view>
@@ -130,7 +130,7 @@
   }
 
   .title {
-    font-size: 2em;
+    font-size: 1.5em;
     /* width: 750rpx; */
     text-align: left;
     display: inline-block;
@@ -139,11 +139,12 @@
 
   .row {
     display: flex;
-    width: 710rpx;
-    height: 15%;
+    width: 90%;
+    height: 200rpx;
     margin: 15rpx 0;
     padding-right: 5px;
-    background-color: #d9cfca;
+    /* background-color: #d9cfca; */
+    border: #d9cfca solid 1px;
     position: relative;
     border-radius: 10px;
     overflow: hidden;
