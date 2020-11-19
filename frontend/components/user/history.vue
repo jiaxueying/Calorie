@@ -1,21 +1,26 @@
 <template>
   <view calss="content">
-    <view class="historyMenu">
+<!--    <view class="historyMenu">
       <text style="position: relative;right:35rpx;font-size: 30rpx;">历史菜单</text>
-    </view>
-    <dl>
+    </view> -->
+    <dl v-show="isShow">
       <dt class="historyList" v-for="(item,index) in list" :key="index">
         <view class="mealimg" @click="showhistorymenu(index)">
           <image style="width: 100rpx;height: 100rpx;" :src='item.picture' mode="aspectFill"></image>
         </view>
         <view class="historyInfo" @click="showhistorymenu(index)">
-          <text style="line-height: 60rpx;">{{item.date}}\n</text>
-          <text style="font-size: 25rpx;font-weight: 100;color:#505050;line-height: 40rpx;">{{item.calorie}}kcal</text>
+          <text style="font-size: 40rpx;font-weight:250;color:#000000;line-height: 40rpx;">美味的一餐</text>
+          <view style="display: flex; flex-direction: row;justify-content: space-between;">
+            <text style="font-size: 25rpx;font-weight: 100;color:#505050;line-height: 40rpx;">{{item.calorie}}kcal</text>
+            <text style="font-size: 25rpx;font-weight: 100;color:#505050;line-height: 40rpx;">{{item.date}}</text>
+            
+          </view>
         </view>
         <image src="https://nkucalorie.top:8000/media/static/timg.jpg" class="deleteIcon" @click="deleteItem(item.id,index)"
           v-if="isdelete"></image>
       </dt>
     </dl>
+    <view v-show="!isShow" style="font-size: 30rpx;font-weight: 100;color:#505050;text-align: center;margin-top: 20px;">你还没有历史用餐记录哦~</view>
   </view>
 </template>
 
@@ -32,6 +37,7 @@
         },
         isdelete: true,
         date: "",
+        isShow: false,
       }
     },
     methods: {
@@ -86,8 +92,7 @@
           duration: 2000
         })
         if (this.list.length == 0) {
-          this.list[0] = this.replacelist
-          this.isdelete = false
+          this.isShow=false;
           console.log('default')
         }
       }
@@ -104,9 +109,10 @@
           console.log(res.data.data.user_menus)
           this.list = res.data.data.user_menus
           if (this.list.length == 0) {
-            this.list[0] = this.replacelist
+            this.isShow=false;
             this.isdelete = false
           } else {
+            this.isShow=true;
             for (let i = 0; i < this.list.length; i++) {
               this.list[i].picture = 'https://nkucalorie.top:8000/media/' + this.list[i].picture
               console.log(this.list[i].date)
@@ -138,7 +144,8 @@
 
   .mealimg {
     width: 100rpx;
-    height: 100rpx
+    height: 100rpx;
+    /* border-radius: 10px; */
   }
 
   .historyMenu {
@@ -147,7 +154,7 @@
     color: #59453D;
     height: 80rpx;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     font-size: 0.8em;
     font-weight: 100;
@@ -157,14 +164,17 @@
 
   .historyList {
     display: flex;
+    border-radius: 10px;
+    margin: 10px;
+    overflow: hidden;
   }
 
   dl {
-    margin-top: 15rpx;
+    margin-top: 10px;
   }
 
   dt {
-    border: #E8E8E8 solid 1px;
+    border: #d5c2c6 solid 2px;
   }
 
   .historyInfo {
@@ -172,7 +182,11 @@
     flex-direction: column;
     position: relative;
     width: 550rpx;
-    margin-left: 30rpx;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    justify-content: space-between;
+    /* margin-left: 30rpx; */
   }
 
   .deleteIcon {

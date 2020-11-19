@@ -2,10 +2,10 @@
   <view>
     <view class="list">
       <image class="listImg" :src="'https://nkucalorie.top:8000'+food.picture" mode="aspectFill" @tap="detail"/>
-      <view class="" style="flex: 1;">
+      <view class="info" style="flex: 1;">
         <view class="title" @tap="detail">
           {{ food.name }}
-          <text style="margin-left: 30rpx;">{{ food.calorie }}kcal</text>
+          <text class="kal">{{ food.calorie }}kcal</text>
         </view>
         <view class="content">
           <view class="label" v-for="tag in food.tag" :key="tag.id" @tap="search_tag(tag)">
@@ -16,12 +16,13 @@
         <view class="bottom">
           <view class="item">
             <button class="likeButton" @tap="like_">
-              LIKE {{ food.like }}
+              <image :src="'../../static/like.png'" class="likeimg">{{ food.like }}</image>
             </button>
           </view>
           <view class="item">
             <button class="unlikeButton" @tap="dislike_">
-              DISLIKE {{ food.dislike }}
+              <image :src="'../../static/unlike.png'" class="unlikeimg">{{ food.dislike }}</image>
+              
             </button>
           </view>
         </view>
@@ -96,7 +97,7 @@
       padding-left: 0upx;
       margin-bottom: 10upx;
       padding-bottom: 10upx;
-      border-bottom: solid 1px #6a6a6a;
+      border-bottom: solid 1rpx #b9b9b9;
 
       .label {
         height: 40upx;
@@ -113,16 +114,16 @@
   }
 
   .listImg {
-    width: 160upx;
-    height: 160upx;
-    margin-right: 30upx;
+    width: 180upx;
+    height: 180upx;
+    // margin-right: 30upx;
+    border-radius: 10rpx;
+    margin: auto;
   }
 
   .bottom {
     display: flex;
     padding: 0upx 0;
-
-
     .item {
       flex: 1;
       color: #666;
@@ -138,26 +139,59 @@
 
   .likeButton {
     height: 50rpx;
-    font-size: 20rpx;
-    background-image: url(https://nkucalorie.top:8000/media/static/like.png);
-    background-color: #FFFFFF;
-    background-repeat: no-repeat;
-    background-size: 40rpx;
-    background-position-y: 4rpx;
+    text-align: center;
+    font-size: 25rpx;
+    // background-image: url(https://nkucalorie.top:8000/media/static/like.png);
+    background-color: rgb(217, 207, 202);
+    // background-repeat: no-repeat;
+    // background-size: 40rpx;
+    // background-position-y: 4rpx;
     border: 0rpx;
     padding: 0;
+    margin-right:5rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
 
   .unlikeButton {
     height: 50rpx;
-    font-size: 20rpx;
-    background-image: url(https://nkucalorie.top:8000/media/static/dislike.png);
-    background-color: #FFFFFF;
-    background-repeat: no-repeat;
-    background-size: 40rpx;
+    text-align: center;
+    font-size: 25rpx;
+    background-color: rgb(217, 207, 202);
     border: 0rpx;
-    background-position-y: 4rpx;
     padding: 0;
-    padding-left: 38rpx;
+    margin-right:5rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .info {
+    margin-left: 30rpx;
+    }
+    
+  .kal {
+    margin-left: 30rpx;
+    // text-align: right;
+  }
+  
+  .likeimg{
+    height: 15px;
+    width: 15px;
+    margin-right: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: auto;
+  }
+  
+  .unlikeimg{
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: auto;
   }
 </style>

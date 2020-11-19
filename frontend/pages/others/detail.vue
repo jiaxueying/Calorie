@@ -1,73 +1,60 @@
 <template>
-  <scroll-view scroll-y="true" class="content">
 
-    <view style="height: 0rpx;width: 750rpx;"> </view>
+    <scroll-view scroll-y="true" class="content">
 
-    <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
-      <image :src="'https://nkucalorie.top:8000'+food.picture" class="img" v-if="isimg" mode="aspectFill"></image>
-      <view class="tab" v-if="!isimg">
-        <tab>
-          <ttr align="left">
-            <tth style="width: 200rpx;">项目</tth>
-            <tth style="width: 200rpx;">每100克(g)</tth>
-            <tth style="width: 200rpx;">NRV%</tth>
-          </ttr>
-          <ttr v-for="(content,index) in nutrition" :key="index" align="left">
-            <ttd style="width: 200rpx;">{{content.item}}</ttd>
-            <ttd style="width: 200rpx;">{{content.value}}</ttd>
-            <ttd style="width: 200rpx;">{{content.percent}}</ttd>
-          </ttr>
-        </tab>
+      <!-- <view style="height: 0rpx;width: 750rpx;"> </view> -->
+      <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
+        <image :src="'https://nkucalorie.top:8000'+food.picture" class="img" v-if="isimg" mode="aspectFill"></image>
       </view>
 
-      <view style="display: flex;margin-top: 20rpx;">
-        <view :class="{blackspot:isimg,whitespot:!isimg}" style="margin-right: 10rpx;"></view>
-        <view :class="{whitespot:isimg,blackspot:!isimg}" style="margin-left: 10rpx;"></view>
-      </view>
-    </view>
-
-    <view style="display:flex;flex-direction: column;align-items: center;">
-      
-      <view class="name">{{food.name}}\n</view>
-      <view class="cal">{{food.calorie}} KCAL/{{food.weight}}g</view>
-
-      <view class="opinion">
-        <image :src="likeicon" class="countimg" @click="like"></image>
-        <view class="count" @click="like">{{like_count}}</view>
-        <image :src="dislikeicon" class="countimg" @click="dislike"></image>
-        <view class="count" @click="dislike">{{dislike_count}}</view>
-      </view>
-
-
-      <view style="width: 550rpx;margin-top: 25rpx;">
-        <view style="display: flex;align-items: center;">
-          <view style="height: 20rpx;width: 20rpx;border-radius: 10rpx;margin-right: 5rpx;background-color: gray;"></view>
-          <view style="margin-left: 5rpx;font-size: 30rpx;line-height: 30rpx;color: gray;">关键词</view> 
+      <view style="display:flex;flex-direction: column;align-items: center;">
+        <view style="width: 600rpx;">
+          <view style="display:flex;flex-direction:row; align-items:flex-end; justify-content: space-between;">
+            <view class="name">{{food.name}}\n</view>
+            <view class="cal">{{food.calorie}} KCAL/{{food.weight}}g</view>
+          </view>
+          <view class="tab">
+            <tab>
+              <ttr align="left">
+                <tth style="width: 200rpx;">项目</tth>
+                <tth style="width: 200rpx;">每100克(g)</tth>
+                <tth style="width: 200rpx;">NRV%</tth>
+              </ttr>
+              <ttr v-for="(content,index) in nutrition" :key="index" align="left">
+                <ttd style="width: 200rpx;">{{content.item}}</ttd>
+                <ttd style="width: 200rpx;">{{content.value}}</ttd>
+                <ttd style="width: 200rpx;">{{content.percent}}</ttd>
+              </ttr>
+            </tab>
+          </view>
+          <view style="font-size: 30rpx;color: gray;margin-left: 0;width: 600rpx;margin-top: 10px;">喜欢这道菜吗？给个评价吧！</view>
+          <view class="buttonarea">
+            <button class="likebutton" @click="like"> <image :src="'../../static/like.png'" class="likeimg"></image>{{like_count}}</button>
+            <button class="likebutton" @click="dislike"><image :src="'../../static/unlike.png'" class="likeimg"></image>{{dislike_count}}</button>
+          </view>
+          <view style="width: 550rpx;margin-top: 25rpx;">
+            <view style="display: flex;align-items: center;">
+              <view style="font-size: 30rpx;line-height: 30rpx;color: gray;">关键词</view>
+            </view>
+            <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
+              <view v-for="(dishname,index) in dishnames" class="dishnames" :key="index">No.{{index+1}} {{dishname}}</view>
+            </view>
+          </view>
+          <view class="tags">
+            <view v-for="(tag,index) in tags" class="tag" :key="index" @click="taptag(index)">{{tag.name}}</view>
+          </view>
         </view>
-        <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
-          <view v-for="(dishname,index) in dishnames" class="dishnames" :key="index">No.{{index+1}} {{dishname}}</view>
-        </view>
+        <view style="background-color: #FFFFFF;width: 750rpx;height: 30rpx;"> </view>
       </view>
+  </view>
+  <view class="bottom">
+    <image :src="'../../static/orders.png'" class="button" @click="mylist"></image>
+    <image :src="'../../static/add.png'" class="button" @click="add"></image>
+  </view>
+  <view v-show="IsShow" class="orders">
+    <Orders :Foods="ordered_food" />
+  </view>
 
-
-
-      <view class="tags">
-        <view v-for="(tag,index) in tags" class="tag" :key="index" @click="taptag(index)">{{tag.name}}</view>
-      </view>
-    </view>
-
-    <view style="background-color: #FFFFFF;width: 750rpx;height: 200rpx;">
-
-    </view>
-    </view>
-    <view class="bottom">
-      <image src="../../static/tableware.png" style="height: 70rpx;width: 70rpx;margin-left: 60rpx;border: #B0B0B0 1rpx solid;border-radius: 15rpx;padding: 5rpx;"
-        @click="mylist"></image>
-      <view class="buttun" @click="add">Add to List</view>
-    </view>
-    <view v-show="IsShow" class="orders">
-      <Orders :Foods="ordered_food" />
-    </view>
   </scroll-view>
 </template>
 
@@ -153,47 +140,47 @@
           this.nutrition.push({
             item: '能量(KJ)',
             value: this.food.energy + 'KJ',
-            percent: (parseFloat(this.food.energy) / 8400*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.energy) / 8400 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '能量(KCal)',
             value: this.food.per_calorie + 'KCal',
-            percent: (parseFloat(this.food.calorie) / 2000*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.calorie) / 2000 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '蛋白质',
             value: this.food.protein + 'g',
-            percent: (parseFloat(this.food.protein) / 60*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.protein) / 60 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '脂肪',
             value: this.food.fat + 'g',
-            percent: (parseFloat(this.food.fat) / 60*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.fat) / 60 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '碳水化合物',
             value: this.food.carbohydrates + 'g',
-            percent: (parseFloat(this.food.carbohydrates) / 300*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.carbohydrates) / 300 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '膳食纤维',
             value: this.food.dietary_fiber + 'g',
-            percent: (parseFloat(this.food.dietary_fiber) / 25*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.dietary_fiber) / 25 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '维生素C',
             value: this.food.vitaminC + 'mg',
-            percent: (parseFloat(this.food.vitaminC) / 100*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.vitaminC) / 100 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '钙',
             value: this.food.calcium + 'mg',
-            percent: (parseFloat(this.food.calcium) / 800*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.calcium) / 800 * 100).toFixed(2) + "%"
           })
           this.nutrition.push({
             item: '钠',
             value: this.food.sodium + 'mg',
-            percent: (parseFloat(this.food.sodium) / 2000*100).toFixed(2) + "%"
+            percent: (parseFloat(this.food.sodium) / 2000 * 100).toFixed(2) + "%"
           })
         }
       })
@@ -323,32 +310,48 @@
   }
 
   .imgarea {
-    margin-top: 10rpx;
-    height: 700rpx;
-    width: 600rpx;
-    margin-left: 75rpx;
+    /* margin-top: 10rpx; */
+    /* height: 700rpx; */
+    /* width: 600rpx; */
+    /* margin-left: 75rpx; */
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    /* background-color: #000000; */
   }
 
-  .img {
+  /* .img {
     position: relative;
+    border-radius: 20px;
     width: 600rpx;
     height: 600rpx;
     position: relative;
     top: 50rpx;
     animation: showimg 0.5s;
   }
+  */
+  .img {
+    position: relative;
+    width: 100%;
+    border-radius: 0 0 40% 40%;
+    text-align: center;
+    /*    width: 600rpx;
+    height: 600rpx; */
+    /* top: 50rpx; */
+    animation: showimg 0.5s;
+  }
 
   .tab {
-    position: relative;
+    /* position: relative; */
+    top: 50rpx;
     width: 600rpx;
-    height: 600rpx;
+    /* height: 600rpx; */
     animation: showtab 0.5s;
     line-height: 37rpx;
+    overflow: hidden;
+    margin-top: 10px;
   }
 
   @keyframes showimg {
@@ -398,13 +401,15 @@
   }
 
   .cal {
-    font-size: 40rpx;
-    font-weight: 800;
+    font-size: 30rpx;
+    text-align: center;
+    background-color: #f3e2d2;
+    padding-left: 10rpx;
+    padding-right: 10rpx;
+    border-radius: 10rpx;
     color: #505050;
     line-height: 50rpx;
-    margin-right: 50rpx;
-    align-self: flex-end;
-    margin-top: 40rpx;
+    margin-left: 10px;
   }
 
   .opinion {
@@ -440,7 +445,7 @@
   .tag {
     background-color: #FFFFFF;
     height: 50rpx;
-    border-radius: 30rpx;
+    border-radius: 20rpx;
     margin-right: 30rpx;
     font-size: 30rpx;
     line-height: 50rpx;
@@ -452,28 +457,48 @@
 
   .bottom {
     position: fixed;
-    bottom: 0;
-    width: 750rpx;
-    border-top-color: #b0b0b0;
-    border-top-width: 3rpx;
-    border-top-style: solid;
-    height: 100rpx;
-    background-color: #FFFFFF;
+    width: 15%;
+    height: 30%;
     z-index: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
+    bottom: 10px;
+    right: 0;
+  }
+  
+  .button {
+    width:35px;
+    height:35px;
+    margin:10px;
+  }
+  
+  .buttonarea {
+    margin-top: 10px;
+    width: 600rpx;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* align-items: center; */
   }
 
-  .buttun {
-    border: #B0B0B0 1rpx solid;
+  .likebutton {
     font-size: 30rpx;
-    height: 80rpx;
-    line-height: 80rpx;
-    padding-left: 20rpx;
-    padding-right: 20rpx;
-    position: absolute;
-    left: 520rpx;
+    justify-content: center;
+    width: 40%;
+    height: 30px;
+    margin: 0;
     border-radius: 15rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* margin: auto; */
+    background-color: #efe5df;
+    border: 0;
+    outline:none;
+    /* display: inline-block; */
   }
 
   .orders {
@@ -491,5 +516,21 @@
     height: 45rpx;
     font-weight: 350;
     margin-left: 40rpx;
+  }
+
+  .operation {
+    background-color: rgba(219, 207, 202, 1);
+    border-radius: 0 30px 0 0;
+    box-shadow: 2px -0.5px 4px 0px rgba(0, 0, 0, 0.1);
+    height: 110rpx;
+  }
+  
+  .likeimg{
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: auto;
   }
 </style>

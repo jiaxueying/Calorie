@@ -72,6 +72,15 @@
             "path" : "pages/administrate/DishEdit",
             "style" : {}
         }
+        ,{
+            "path" : "pages/search/searchbar",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

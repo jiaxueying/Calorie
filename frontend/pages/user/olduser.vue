@@ -1,49 +1,46 @@
 <template>
-  <view class="backgroud">
+  <view>
     <!--用户信息部分-->
     <view class="allinfo">
-      <open-data class="userimg" type="userAvatarUrl"></open-data>
+      <view class="userimg">
+        <open-data type="userAvatarUrl"></open-data>
+      </view>
+
+      <view class="userinfor">
+        <view class="editbut">
+          <open-data class="nickname" type="userNickName" @click="administrator"></open-data>
+          <view class="button" @click="set">编辑模式</view>
+          <switch color="#59453D" :checked="Switch" @click="set"></switch>
+        </view>
+        <image src="https://nkucalorie.top:8000/media/static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
+        <view><text class="weightSet">体重：{{weight}}kg\n目标体重：{{targetweightshow}}\n体重变化速率：{{weightrate}}kg/Day</text></view>
+        <!--<text class="calorieForDay">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>-->
+      </view>
     </view>
-    <view class="allinfo">
-      <open-data class="nickname" type="userNickName" @click="administrator"></open-data>
+
+    <!--历史菜单组件-->
+    <view class="history" v-if="!Switch">
+      <historylist></historylist>
     </view>
-    <view class="userinfo">
-      <view class="card" @click="set">
-        <text class="card_title" >体重/kg</text>
-        <text class="card_value">{{weight}}</text>
-      </view>
-      <view class="card" @click="set">
-        <text class="card_title">目标/kg</text>
-        <text class="card_value">{{targetweightshow}}</text>
-      </view>
-      <view class="card" @click="set">
-        <text class="card_title">体重变化速率</text>
-        <text class="card_value">{{weightrate}}</text>
-      </view>
-      <!--历史菜单组件-->
-      <view v-if="!Switch">
-        <historylist></historylist>
-      </view>
-      
-      <!--计划设置组件-->
-      <view class="plan" v-if="Switch">
-        <plan @input="changetarget" :plan="targetweightshow" :targetweightrec="targetweight" :weight="weight" :rate="weightrate"></plan>
-        <!--弹出框组件-->
-        <view class="popcontent" v-if="pop">
-          <view class="popup">
-            <view class="text">请输入您当前体重</view>
-            <view class="popinput">
-              <input :value="weight" type="number" maxlength="3" :placeholder="weight" @input="refresh" />KG
-            </view>
-            <view class="bottom">
-              <view class="popbutton1" @click="cancel">取消</view>
-              <view class="popbutton2" @click="confirm">确认</view>
-            </view>
+
+    <!--计划设置组件-->
+    <view class="plan" v-if="Switch">
+      <plan @input="changetarget" :plan="targetweightshow" :targetweightrec="targetweight" :weight="weight" :rate="weightrate"></plan>
+      <!--弹出框组件-->
+      <view class="popcontent" v-if="pop">
+        <view class="popup">
+          <view class="text">请输入您当前体重</view>
+          <view class="popinput">
+            <input :value="weight" type="number" maxlength="3" :placeholder="weight" @input="refresh" />KG
+          </view>
+          <view class="bottom">
+            <view class="popbutton1" @click="cancel">取消</view>
+            <view class="popbutton2" @click="confirm">确认</view>
           </view>
         </view>
       </view>
-      
     </view>
+
   </view>
 </template>
 
@@ -64,7 +61,7 @@
         targetweight: 0,
         pop: false,
         tempweight: 1, //pop组件里的体重变量
-        targetweightshow: "999",
+        targetweightshow: "999kg",
         plan: true,
         weightrate: 0,
         weightdate: 60,
@@ -107,13 +104,12 @@
       changetarget: function(data) {
         if (data.string != "暂无计划") {
           this.targetweight = data.targetweight
-          this.targetweightshow = data.targetweight
+          this.targetweightshow = data.targetweight + "kg"
           this.weightrate = data.rate
           this.plan = true
         } else {
           this.targetweightshow = "暂无计划"
           this.weightrate = data.rate
-          this.targetweightshow = this.weight
           this.targetweight = 0
           this.plan = false
         }
@@ -138,6 +134,8 @@
         this.weightdate = uni.getStorageSync('weightdate')
         this.weightrate = (this.targetweight - this.weight) / this.weightdate
         this.weightrate = this.weightrate.toFixed(2);
+
+
       },
 
       //在pop里输入当前体重
@@ -168,7 +166,7 @@
           this.plan = res.data.data.plan
           this.weightrate = res.data.data.rate
           if (this.plan) {
-            this.targetweightshow = this.targetweight
+            this.targetweightshow = this.targetweight + "KG"
           } else {
             this.targetweightshow = "暂无计划"
           }
@@ -190,7 +188,7 @@
           this.plan = res.data.data.plan
           this.weightrate = res.data.data.rate
           if (this.plan) {
-            this.targetweightshow = this.targetweight
+            this.targetweightshow = this.targetweight + "KG"
           } else {
             this.targetweightshow = "暂无计划"
           }
@@ -202,25 +200,18 @@
 </script>
 
 <style>
-  .backgroud {
-    background-color: rgb(219, 207, 202);
-    position: absolute;
-    height: 100%;
-    width: 100%;
-  }
-
   .allinfo {
     display: flex;
-    width: 100%;
-    justify-content: center;
   }
 
   .userimg {
-    width: 150rpx;
-    height: 150rpx;
+    margin-top: 15%;
+    width: 200rpx;
+    height: 200rpx;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto;
+    position: relative;
+    left: 55rpx;
   }
 
   .userinfor {
@@ -335,8 +326,8 @@
   }
 
   .nickname {
-    font-size: 15px;
-    margin: 5px;
+    font-size: 1.5em;
+    height: 85rpx;
   }
 
   .editbut {
@@ -369,33 +360,7 @@
     font-size: 0.7em;
   }
 
-  .userinfo {
-    border-radius: 0 30px 0 0;
-    background-color: rgba(248, 245, 244, 1);
-    box-shadow: 10px -2px 10px #888888;
-    height: 100%;
-    width: 100%;
-    padding-top: 15px;
-    /* padding-left: 10px; */
-    margin-top: 5px;
-  }
-
-  .card {
-    width: 30%;
-    display: inline-block;
-  }
-  
-  .card_title {
-    display: block;
-    font-size: 10px;
-    color: #B0B0B0;
-    text-align:center;
-    
-  }
-  
-  .card_value {
-    display: block;
-    font-size: 20px;
-    text-align:center;
+  .history {
+    animation: pushright 1s;
   }
 </style>
