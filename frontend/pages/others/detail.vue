@@ -3,7 +3,7 @@
     <scroll-view scroll-y="true" class="content">
 
       <!-- <view style="height: 0rpx;width: 750rpx;"> </view> -->
-      <view class="imgarea" @touchstart="start" @touchend="end" @touchmove="move">
+      <view class="imgarea">
         <image :src="'https://nkucalorie.top:8000'+food.picture" class="img" v-if="isimg" mode="aspectFill"></image>
       </view>
 

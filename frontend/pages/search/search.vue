@@ -1,7 +1,7 @@
 <template>
   <view class="all">
     <!-- <input-box ref="input" class="input"/> -->
-    <Searchbar :show="false" @search="search($event, 1)"></Searchbar>
+    <Searchbar :show="false" :val="searchVal" @search="search($event, 1)" @showall="showall"></Searchbar>
     <view class="scroll" v-show="!HistoryShow">
       <view v-if="showedFoods.length" v-for="Food in showedFoods" :key="Food.dish">
         <like :food="Food" :menu_id="foods.menu_id" />
@@ -50,6 +50,8 @@
         HistoryName: new Array(),
         PopularName: new Array(),
         OrderedFood: new Array(),
+        searchVal: '',
+        searchbarActive: true
       };
     },
     onLoad() {
@@ -66,14 +68,6 @@
     },
     methods: {
       search(e, val) {
-        if (e == '') {
-          uni.showToast({
-            title: '请输入关键词',
-            icon: 'none',
-            duration: 2000
-          });
-          return;
-        }
         this.searchBykey(e)
       },
       ChangeIsShow() {
@@ -116,6 +110,11 @@
       searchBykey(key) {
         console.log("searchBykey");
         // this.$refs.input.setValue(key);
+        this.searchVal=key;
+        uni.pageScrollTo({
+          scrollTop: 0,
+          duration: 300
+        });
         this.showedFoods = []
         this.showedFoods = this.searchBykey_t(key).concat(this.searchByTag(key))
         return
@@ -127,6 +126,7 @@
       showall() {
         console.log("CLEAR");
         this.showedFoods = this.allFoods;
+        this.searchVal=''
       },
       searchBykey_t(key) {
         var results = []

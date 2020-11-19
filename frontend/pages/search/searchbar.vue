@@ -48,8 +48,11 @@
       border: {
         type: String,
         default: '1px #f5f5f5 solid'
+      },
+      val: {
+        type: String,
+        default: ''
       }
-
     },
     data() {
       return {
@@ -73,7 +76,7 @@
       clear() {
         this.inputVal = '';
         this.active = false;
-        this.$emit('search', '');
+        this.showall()
       },
       getFocus() {
         this.isFocus = true;
@@ -86,7 +89,7 @@
       showall() {
         console.log('CAN')
         this.inputVal = '';
-        this.$emit('showall', '');
+        this.$emit('showall');
       }
     },
     watch: {
@@ -97,7 +100,12 @@
         } else {
           this.searchName = '取消';
           this.isDelShow = false;
+          this.showall()
         }
+      },
+      val(fatherVal) {
+        this.inputVal=fatherVal
+        if (fatherVal) this.active=true
       }
     }
   };
