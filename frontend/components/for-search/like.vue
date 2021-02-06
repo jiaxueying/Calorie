@@ -1,27 +1,55 @@
 <template>
   <view>
     <view class="list">
-      <image class="listImg" :src="'https://nkucalorie.top:8000'+food.picture" mode="aspectFill" @tap="detail" />
-      <view class="info" style="flex: 1;">
-        <view class="title" @tap="detail">
-          {{food.name}}
+      <image
+        class="listImg"
+        :src="'https://nkucalorie.top:8000'+food.picture"
+        mode="aspectFill"
+        @tap="detail"
+      />
+      <view
+        class="info"
+        style="flex: 1;"
+      >
+        <view
+          class="title"
+          @tap="detail"
+        >
+          {{ food.name }}
           <text class="kal">{{ food.calorie }}kcal</text>
         </view>
         <view class="content">
-          <view class="label" v-for="tag in food.tag" :key="tag.id" @tap="search_tag(tag)">
-            {{tag.name}}
+          <view
+            class="label"
+            v-for="tag in food.tag"
+            :key="tag.id"
+            @tap="search_tag(tag)"
+          >
+            {{ tag.name }}
           </view>
         </view>
 
         <view class="bottom">
           <view class="item">
-            <button class="likeButton" @tap="like_">
-              <image :src="'../../static/like.png'" class="likeimg">{{ food.like }}</image>
+            <button
+              class="likeButton"
+              @tap="like_"
+            >
+              <image
+                :src="'../../static/like.png'"
+                class="likeimg"
+              />{{ food.like }}</image>
             </button>
           </view>
           <view class="item">
-            <button class="unlikeButton" @tap="dislike_">
-              <image :src="'../../static/unlike.png'" class="unlikeimg">{{ food.dislike }}</image>
+            <button
+              class="unlikeButton"
+              @tap="dislike_"
+            >
+              <image
+                :src="'../../static/unlike.png'"
+                class="unlikeimg"
+              />{{ food.dislike }}</image>
             </button>
           </view>
         </view>
@@ -31,45 +59,45 @@
 </template>
 
 <script>
-  import {
-    like,
-    dislike
-  } from '@/common/helper.js';
-  import {
-    backendUrl,
-    request
-  } from '@/common/helper.js';
-  export default {
-    props: ['food', 'menu_id'],
-    data() {
-      return {
-        isChoose: false,
-      }
+import {
+  like,
+  dislike,
+
+  backendUrl,
+  request,
+} from '@/common/helper.js';
+
+export default {
+  props: ['food', 'menu_id'],
+  data() {
+    return {
+      isChoose: false,
+    };
+  },
+  methods: {
+    like_() {
+      console.log('like clicked');
+      like(this.food.id);
+      uni.$emit('get_likes', this.food.id);
     },
-    methods: {
-      like_() {
-        console.log("like clicked");
-        like(this.food.id);
-        uni.$emit('get_likes', this.food.id)
-      },
-      dislike_() {
-        console.log("dislike clicked");
-        dislike(this.food.id);
-        uni.$emit('get_likes', this.food.id)
-      },
-      detail() {
-        console.log(this.food);
-        this.$parent.IsShow = false;
-        wx.navigateTo({
-          url: '../others/detail?id=' + this.food.id
-        });
-      },
-      search_tag(v) {
-        console.log("tag clicked");
-        uni.$emit("search_tag", v.name);
-      },
+    dislike_() {
+      console.log('dislike clicked');
+      dislike(this.food.id);
+      uni.$emit('get_likes', this.food.id);
     },
-  }
+    detail() {
+      console.log(this.food);
+      this.$parent.IsShow = false;
+      wx.navigateTo({
+        url: '../others/detail?id=' + this.food.id,
+      });
+    },
+    search_tag(v) {
+      console.log('tag clicked');
+      uni.$emit('search_tag', v.name);
+    },
+  },
+};
 </script>
 
 <style lang="less">

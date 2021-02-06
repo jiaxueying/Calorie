@@ -1,114 +1,142 @@
 <template>
-  <view class="search" :style="{ backgroundColor: backgroundColor }">
+  <view
+    class="search"
+    :style="{ backgroundColor: backgroundColor }"
+  >
     <!-- <view class="button" :class="{ active: show || active }" @click="showall">重置</view> -->
-    <view class="content" :style="{ 'border-radius': radius + 'px', border: border }">
-      <view class="content-box" :class="{ center: mode === 2 }">
+    <view
+      class="content"
+      :style="{ 'border-radius': radius + 'px', border: border }"
+    >
+      <view
+        class="content-box"
+        :class="{ center: mode === 2 }"
+      >
         <text class="icon icon-search">&#xe61c;</text>
-        <input class="input" :class="{ center: !active && mode === 2 }" :focus="isFocus" :placeholder="placeholder"
-          v-model="inputVal" @focus="focus" @blur="blur" />
+        <input
+          class="input"
+          :class="{ center: !active && mode === 2 }"
+          :focus="isFocus"
+          :placeholder="placeholder"
+          v-model="inputVal"
+          @focus="focus"
+          @blur="blur"
+        >
         <!-- <view v-if="!active && mode === 2" class="input sub" @click="getFocus">请输入搜索内容</view> -->
-        <text v-if="isDelShow" class="icon icon-del" @click="clear">&#xe644;</text>
+        <text
+          v-if="isDelShow"
+          class="icon icon-del"
+          @click="clear"
+        >&#xe644;</text>
       </view>
-      <view v-show="(active && show && button === 'inside') || (isDelShow && button === 'inside')" class="searchBtn"
-        @click="search">搜索</view>
+      <view
+        v-show="(active && show && button === 'inside') || (isDelShow && button === 'inside')"
+        class="searchBtn"
+        @click="search"
+      >搜索</view>
     </view>
-    <view v-if="button === 'outside'" class="button" :class="{ active: show || active }" @click="search">
+    <view
+      v-if="button === 'outside'"
+      class="button"
+      :class="{ active: show || active }"
+      @click="search"
+    >
       <view class="button-item">{{ !show ? searchName : '搜索' }}</view>
     </view>
   </view>
 </template>
 
 <script>
-  export default {
-    props: {
-      mode: {
-        type: Number,
-        default: 1
-      },
-      button: {
-        type: String,
-        default: 'outside'
-      },
-      show: {
-        type: Boolean,
-        default: true
-      },
-      radius: {
-        type: String,
-        default: '60'
-      },
-      placeholder: {
-        type: String,
-        default: '请输入搜索内容'
-      },
-      backgroundColor: {
-        type: String,
-        default: 'rgb(219, 207, 202)'
-      },
-      border: {
-        type: String,
-        default: '1px #f5f5f5 solid'
-      },
-      val: {
-        type: String,
-        default: ''
-      }
+export default {
+  props: {
+    mode: {
+      type: Number,
+      default: 1,
     },
-    data() {
-      return {
-        active: false,
-        inputVal: '',
-        searchName: '取消',
-        isDelShow: false,
-        isFocus: false
-      };
+    button: {
+      type: String,
+      default: 'outside',
     },
-    methods: {
-      focus() {
-        this.active = true;
-      },
-      blur() {
-        this.isFocus = false;
-        if (!this.inputVal) {
-          this.active = false;
-        }
-      },
-      clear() {
-        this.inputVal = '';
+    show: {
+      type: Boolean,
+      default: true,
+    },
+    radius: {
+      type: String,
+      default: '60',
+    },
+    placeholder: {
+      type: String,
+      default: '请输入搜索内容',
+    },
+    backgroundColor: {
+      type: String,
+      default: 'rgb(244, 241, 236)',
+    },
+    border: {
+      type: String,
+      default: '1px #f5f5f5 solid',
+    },
+    val: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      active: false,
+      inputVal: '',
+      searchName: '取消',
+      isDelShow: false,
+      isFocus: false,
+    };
+  },
+  methods: {
+    focus() {
+      this.active = true;
+    },
+    blur() {
+      this.isFocus = false;
+      if (!this.inputVal) {
         this.active = false;
-        this.showall()
-      },
-      getFocus() {
-        this.isFocus = true;
-      },
-      search() {
-        if (!this.inputVal) return;
-        console.log(this.inputVal);
-        this.$emit('search', this.inputVal);
-      },
-      showall() {
-        console.log('CAN')
-        this.inputVal = '';
-        this.$emit('showall');
       }
     },
-    watch: {
-      inputVal(newVal) {
-        if (newVal) {
-          this.searchName = '搜索';
-          this.isDelShow = true;
-        } else {
-          this.searchName = '取消';
-          this.isDelShow = false;
-          this.showall()
-        }
-      },
-      val(fatherVal) {
-        this.inputVal=fatherVal
-        if (fatherVal) this.active=true
+    clear() {
+      this.inputVal = '';
+      this.active = false;
+      this.showall();
+    },
+    getFocus() {
+      this.isFocus = true;
+    },
+    search() {
+      if (!this.inputVal) return;
+      console.log(this.inputVal);
+      this.$emit('search', this.inputVal);
+    },
+    showall() {
+      console.log('CAN');
+      this.inputVal = '';
+      this.$emit('showall');
+    },
+  },
+  watch: {
+    inputVal(newVal) {
+      if (newVal) {
+        this.searchName = '搜索';
+        this.isDelShow = true;
+      } else {
+        this.searchName = '取消';
+        this.isDelShow = false;
+        this.showall();
       }
-    }
-  };
+    },
+    val(fatherVal) {
+      this.inputVal = fatherVal;
+      if (fatherVal) this.active = true;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -120,6 +148,11 @@
     padding: 15upx;
     font-size: $uni-font-size-base;
     background: #fff;
+    position: fixed;
+    top:96rpx;
+    left:0rpx;
+    background: #fff;
+    z-index: 999;
 
     .content {
       display: flex;
@@ -136,7 +169,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        background-color: #F4F4F4;
+        background-color: #FFF;
 
         &.center {
           justify-content: center;

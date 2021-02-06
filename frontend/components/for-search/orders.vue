@@ -3,10 +3,10 @@
     <view class="orderHead">
       <view class="head_one">
         <view class="image_head">
-          <open-data type="userAvatarUrl"></open-data>
+          <open-data type="userAvatarUrl"/>
         </view>
         <view class="name_head">我的菜单</view>
-        <view class="cont_head">{{Calories}}kcal</view>
+        <view class="cont_head">{{ Calories }}kcal</view>
       </view>
       <!-- <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view> -->
     </view>
@@ -17,92 +17,98 @@
       <!--1350kcal-1750kcal/day-->
     </view>
 
-    <view class="order_list" v-for="food in Foods" :key="food.name">
-      <food-in-order :foodname="food.name" :weight="food.sum" :calorie="food.cal"></food-in-order>
+    <view
+      class="order_list"
+      v-for="food in Foods"
+      :key="food.name"
+    >
+      <food-in-order
+        :foodname="food.name"
+        :weight="food.sum"
+        :calorie="food.cal"
+      />
     </view>
     <view class="order_bottom">
-      <button @tap='clrAll'>清空</button>
-      <button @tap='Close()'>继续添加</button>
-      <button @tap='mylist'>生成我的菜单</button>
+      <button @tap="clrAll">清空</button>
+      <button @tap="Close()">继续添加</button>
+      <button @tap="mylist">生成我的菜单</button>
       <!--添加和后端的通信-->
     </view>
   </view>
 </template>
 
 <script>
-  import FoodInOrder from "./food-in-order.vue"
-  export default {
-    components: {
-      FoodInOrder,
+import FoodInOrder from './food-in-order.vue';
+export default {
+  components: {
+    FoodInOrder,
+  },
+  props: {
+    Foods: {
+      type: Array,
+      default: () => [],
     },
-    props: {
-      Foods: {
-        type: Array,
-        default: () => [],
-      },
+  },
+  data() {
+    return {
+      Calories: 0,
+    };
+  },
+  onLoad() {
+    uni.$on('CalChange', this.caloriesChange);
+    uni.$on('delname', this.delName);
+  },
+  methods: {
+    Close() {
+      console.log('add button clicked');
+      this.$parent.IsShow = false;
     },
-    data() {
-      return {
-        Calories: 0,
-      }
+    caloriesChange(v) {
+      console.log(v);
+      this.Calories += v;
     },
-    onLoad() {
-      uni.$on("CalChange", this.caloriesChange);
-      uni.$on("delname", this.delName);
+    delName(v) {
+      console.log('DelName activated');
+      var i = 0;
+      for (; i < this.Foods.length; i++) { if (this.Foods[i].name == v) break; }
+      this.Foods.splice(i, 1);
+      for (i = 0; i < this.Foods.length; i++) { console.log(this.Foods[i]); }
     },
-    methods: {
-      Close() {
-        console.log("add button clicked");
-        this.$parent.IsShow = false;
-      },
-      caloriesChange(v) {
-        console.log(v);
-        this.Calories += v;
-      },
-      delName(v) {
-        console.log("DelName activated");
-        var i = 0;
-        for (; i < this.Foods.length; i++)
-          if (this.Foods[i].name == v) break;
-        this.Foods.splice(i, 1);
-        for (i = 0; i < this.Foods.length; i++)
-          console.log(this.Foods[i]);
-      },
-      clrAll() {
-        uni.setStorageSync('meal-list', []);
-        uni.$emit("refresh1");
-        uni.$emit("refresh2");
-      },
-      mylist() {
-        this.Close()
-        console.log("mylist clicked");
-        uni.removeStorageSync('historymsg');
-        if (this.Foods.length === 0) {
-          uni.showModal({
-            title: '提示',
-            content: '您的购物车中还没有菜品哦~',
-          });
-          return;
-        }
-        this.$parent.IsShow = false;
-        wx.navigateTo({
-          url: '../others/mylist',
+    clrAll() {
+      uni.setStorageSync('meal-list', []);
+      uni.$emit('refresh1');
+      uni.$emit('refresh2');
+    },
+    mylist() {
+      this.Close();
+      console.log('mylist clicked');
+      uni.removeStorageSync('historymsg');
+      if (this.Foods.length === 0) {
+        uni.showModal({
+          title: '提示',
+          content: '您的购物车中还没有菜品哦~',
         });
+        return;
       }
+      this.$parent.IsShow = false;
+      wx.navigateTo({
+        url: '../others/mylist',
+      });
     },
-    watch: {
-      Foods(newV) {
-        console.log("Foods changed");
+  },
+  watch: {
+    Foods(newV) {
+      console.log('Foods changed');
 
-        this.Calories = 0;
-        for (var i = 0; i < newV.length; i++) {
-          console.log("Here")
-          console.log(newV[i])
-          this.Calories += newV[i].cal * newV[i].sum;
-        }
+      this.Calories = 0;
+      for (var i = 0; i < newV.length; i++) {
+        console.log('Here');
+        console.log(newV[i]);
+        this.Calories += newV[i].cal * newV[i].sum;
       }
     },
-  }
+  },
+};
 </script>
 
 <style lang="less">
