@@ -284,7 +284,7 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    font-size: 24upx;
+    font-size: 28rpx;
     background-color: #FFFFFF;
     z-index: 99999;
    }
@@ -293,7 +293,7 @@ export default {
     width: 100%;
     position: absolute;
     left: 0;
-    top: 80rpx;
+    top: 180rpx;
   }
 
   .History {

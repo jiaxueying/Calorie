@@ -102,10 +102,9 @@ export default {
 
 <style lang="less">
   .list {
-    padding: 10upx 30upx;
-    margin: 5px 0;
+    padding: 45upx 45upx;
     display: flex;
-    box-shadow: darkgrey 0 0px 5px;
+    box-shadow: lightgrey 0 0px 5px;
 
     .title {
       font-size: 36upx;
@@ -145,23 +144,6 @@ export default {
     border-radius: 10rpx;
     margin: auto;
   }
-
-  // .bottom {
-  //   display: flex;
-  //   padding: 0upx 0;
-
-  //   .item {
-  //     flex: 1;
-  //     color: #666;
-  //     font-size: 24upx;
-
-  //     image {
-  //       width: 40upx;
-  //       height: 40upx;
-  //       margin-right: 10upx;
-  //     }
-  //   }
-  // }
 
   .bottom {
     display: flex;

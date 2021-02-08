@@ -87,6 +87,7 @@ export default {
           rate: this.rate,
         };
         this.$emit('input', data);
+        console.log('emit');
       }
     },
 

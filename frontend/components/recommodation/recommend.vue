@@ -11,17 +11,17 @@
         >
           <view class="block">
             <checkbox
-              color="#59453D"
+              style="transform:scale(0.7)"
+              color="#3a2d27"
               :checked="item.checked"
               @click="weatherAll(index)"
             />
             <image
-              style="height: 100%;width: 100%;"
               :src="'https://nkucalorie.top:8000'+item.picture"
             /></image>
             <view class="data">
               <p>{{ item.name }}</p>
-              <p style="font-size:0.5em;color: #59453D;">{{ item.calorie }} Kcal</p>
+              <p>{{ item.calorie }} Kcal</p>
             </view>
             <view class="calculate">
               <uni-number-box
@@ -33,35 +33,37 @@
           </view>
         </dt>
       </scroll-view>
-      <div style="height:100px"/>
     </dl>
 
     <!--底部多选栏-->
     <view class="footer">
-      <checkbox
+      <view
+        class="checkbox"
         @click="tap"
-        :checked="selectAll"
         color="#59453D"
         class="checkbox"
       >
-        <text>全选</text>
-      </checkbox>
-      <button
+        <text v-show="!selectAll">全选</text>
+        <text v-show="selectAll">取消全选</text>
+      </view>
+      <view
+        class="button"
         plain="true"
         size="default"
         @click="add"
         v-show="!selectNone"
       >
         <text>加入菜单</text>
-      </button>
-      <button
+      </view>
+      <view
+        class="button"
         plain="true"
         size="default"
         @click="getmeals"
         v-show="selectNone"
       >
         <text>重新推荐</text>
-      </button>
+      </view>
     </view>
 
     <popup
@@ -196,20 +198,14 @@ export default {
     display: grid;
     grid-template-columns: 1fr 3fr 3fr 3fr;
     grid-template-rows: 225rpx;
-    align-items: center;
-    justify-content: center;
     margin-bottom: 10px;
-  }
-
-  .calculate {
-    overflow: hidden;
-    font-size: 1em;
-    border: #59453D;
+    justify-content: center;
+    align-items: center;
   }
 
   .data {
     font-weight: 800;
-    font-size: 50rpx;
+    font-size: 28rpx;
     color: #59453D;
   }
 
@@ -225,28 +221,33 @@ export default {
 
   .footer {
     position: fixed;
-    height: 8%;
-    width: 752rpx;
-    bottom: 0px;
+    width: 100%;
+    height: 120rpx;
+    bottom: 0;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     background-color: #FFFFFF;
-    border-top: 1rpx solid #59453D;
-    z-index: 2;
+    box-shadow:0 0 20px #d0d0d0;
   }
 
   .checkbox {
     margin-left: 17.5rpx;
   }
 
-  button {
+  .button {
     margin-right: 25rpx;
   }
 
   text {
-    font-weight: 600;
-    font-size: 1em;
+    font-weight:bolder;
+    font-size: 28rpx;
     color: #59453D;
+    font-family: "Microsoft YaHei";
+  }
+  image{
+    height:80%;
+    width:90%;
+    border-radius: 30%;
   }
 </style>
