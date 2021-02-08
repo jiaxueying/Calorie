@@ -17,6 +17,15 @@
       class="input"
       v-if="choice"
     >
+      <view class="input0">
+        <text style="color: #505050;font-size: 40rpx;">性别:</text><input
+          :value="sex"
+          type="string"
+          :placeholder="sex"
+          maxlength="1"
+          @input="setsex"
+        >
+      </view>
       <view class="input1">
         <text style="color: #505050;font-size: 40rpx;">目标体重:</text><input
           :value="targetweight"
@@ -45,9 +54,10 @@
 
 <script>
 export default {
-  props: ['targetweightrec', 'plan', 'weight'], // 子组件
+  props: ['sex', 'targetweightrec', 'plan', 'weight'], // 子组件
   data() {
     return {
+      sex: '--',
       choice: true,
       targetweight: 999,
       rate: 0,
@@ -59,7 +69,7 @@ export default {
 
     Switch: function(choi) {
       this.choice = choi;
-      if (choi == false) {
+      if (choi === false) {
         this.string = '暂无计划';
         this.rate = 0;
       } else {
@@ -74,25 +84,40 @@ export default {
       };
       this.$emit('input', data);
     },
+    // 设置性别
+    setsex: function(event) {
+      if (event.detail.value !== '') {
+        this.sex = event.detail.value;
 
-    // 设置目标体重
-    set: function(event) {
-      if (event.detail.value != '') {
-        this.targetweight = event.detail.value;
-        this.rate = (this.targetweight - this.weight) / this.day;
-        this.rate = this.rate.toFixed(2);
         let data = {
           targetweight: this.targetweight,
+          sex: this.sex,
           string: this.string,
           rate: this.rate,
         };
         this.$emit('input', data);
       }
     },
+    // 设置目标体重
+    set: function(event) {
+      if (event.detail.value !== '') {
+        this.targetweight = event.detail.value;
+        this.rate = (this.targetweight - this.weight) / this.day;
+        this.rate = this.rate.toFixed(2);
+        let data = {
+          sex: this.sex,
+          targetweight: this.targetweight,
+          string: this.string,
+          rate: this.rate,
+        };
+        this.$emit('input', data);
+        console.log('大家好');
+      }
+    },
 
     // 设置所用天数
     changedate: function(event) {
-      if (event.detail.value != '') {
+      if (event.detail.value !== '') {
         uni.setStorage({
           key: 'weightdate',
           data: event.detail.value,
@@ -101,6 +126,7 @@ export default {
         this.rate = (this.targetweight - this.weight) / event.detail.value;
         this.rate = this.rate.toFixed(2);
         let data = {
+          sex: this.sex,
           targetweight: this.targetweight,
           string: this.string,
           rate: this.rate,
