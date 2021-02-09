@@ -17,6 +17,33 @@
       class="input"
       v-if="choice"
     >
+      <view class="input0">
+        <text style="color: #505050;font-size: 40rpx;">性别:</text><input
+          :value="sex"
+          type="string"
+          :placeholder="sex"
+          maxlength="2"
+          @input="setsex"
+        >
+      </view>
+      <view class="input3">
+        <text style="color: #505050;font-size: 40rpx;">年龄:</text><input
+          :value="age"
+          type="string"
+          :placeholder="age"
+          maxlength="2"
+          @input="setage"
+        ><text style="color: #505050;font-size: 40rpx;">岁</text>
+      </view>
+      <view class="input4">
+        <text style="color: #505050;font-size: 40rpx;">身高:</text><input
+          :value="height"
+          type="string"
+          :placeholder="height"
+          maxlength="4"
+          @input="setheight"
+        ><text style="color: #505050;font-size: 40rpx;">m</text>
+      </view>
       <view class="input1">
         <text style="color: #505050;font-size: 40rpx;">目标体重:</text><input
           :value="targetweight"
@@ -45,9 +72,12 @@
 
 <script>
 export default {
-  props: ['targetweightrec', 'plan', 'weight'], // 子组件
+  props: ['sex', 'age', 'height', 'targetweightrec', 'plan', 'weight'], // 子组件
   data() {
     return {
+      sex: '--',
+      age: '19',
+      height: '1.6',
       choice: true,
       targetweight: 999,
       rate: 0,
@@ -59,7 +89,7 @@ export default {
 
     Switch: function(choi) {
       this.choice = choi;
-      if (choi == false) {
+      if (choi === false) {
         this.string = '暂无计划';
         this.rate = 0;
       } else {
@@ -74,26 +104,76 @@ export default {
       };
       this.$emit('input', data);
     },
+    // 设置性别
+    setsex: function(event) {
+      if (event.detail.value !== '') {
+        this.sex = event.detail.value;
 
+        let data = {
+          targetweight: this.targetweight,
+          sex: this.sex,
+          age: this.age,
+          height: this.height,
+          string: this.string,
+          rate: this.rate,
+        };
+        this.$emit('input', data);
+      }
+    },
+    // 设置年龄
+    setage: function(event) {
+      if (event.detail.value !== '') {
+        this.age = event.detail.value;
+
+        let data = {
+          targetweight: this.targetweight,
+          sex: this.sex,
+          age: this.age,
+          height: this.height,
+          string: this.string,
+          rate: this.rate,
+        };
+        this.$emit('input', data);
+      }
+    },
+    // 设置身高
+    setheight: function(event) {
+      if (event.detail.value !== '') {
+        this.height = event.detail.value;
+
+        let data = {
+          targetweight: this.targetweight,
+          sex: this.sex,
+          age: this.age,
+          height: this.height,
+          string: this.string,
+          rate: this.rate,
+        };
+        this.$emit('input', data);
+      }
+    },
     // 设置目标体重
     set: function(event) {
-      if (event.detail.value != '') {
+      if (event.detail.value !== '') {
         this.targetweight = event.detail.value;
         this.rate = (this.targetweight - this.weight) / this.day;
         this.rate = this.rate.toFixed(2);
         let data = {
+          sex: this.sex,
+          age: this.age,
+          height: this.height,
           targetweight: this.targetweight,
           string: this.string,
           rate: this.rate,
         };
         this.$emit('input', data);
-        console.log('emit');
+
       }
     },
 
     // 设置所用天数
     changedate: function(event) {
-      if (event.detail.value != '') {
+      if (event.detail.value !== '') {
         uni.setStorage({
           key: 'weightdate',
           data: event.detail.value,
@@ -102,6 +182,9 @@ export default {
         this.rate = (this.targetweight - this.weight) / event.detail.value;
         this.rate = this.rate.toFixed(2);
         let data = {
+          sex: this.sex,
+          age: this.age,
+          height: this.height,
           targetweight: this.targetweight,
           string: this.string,
           rate: this.rate,

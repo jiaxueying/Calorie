@@ -1,6 +1,7 @@
 <template>
   <view class="backgroud">
     <view class="nav">
+
       <navTab
         ref="navTab"
         :tab-title="tabTitle"
@@ -15,8 +16,11 @@
         class="userimg"
         type="userAvatarUrl"
       />
+
     </view>
+
     <view class="allinfo">
+
       <open-data
         class="nickname"
         type="userNickName"
@@ -24,6 +28,28 @@
       />
     </view>
     <view class="userinfo">
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">性别</text>
+        <text class="card_value">{{ sex }}</text>
+      </view>
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">年龄/岁</text>
+        <text class="card_value">{{ age }}</text>
+      </view>
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">身高/m</text>
+        <text class="card_value">{{ height }}</text>
+      </view>
+
       <view
         class="card"
         @click="set"
@@ -57,6 +83,9 @@
       >
         <plan
           @input="changetarget"
+          :sex="sex"
+          :age="age"
+          :height="height"
           :plan="targetweightshow"
           :targetweightrec="targetweight"
           :weight="weight"
@@ -99,6 +128,7 @@
 <script>
 import plan from '../../components/user/plan.vue';
 import historylist from '../../components/user/history.vue';
+
 export default {
   components: {
     plan,
@@ -107,6 +137,9 @@ export default {
   },
   data() {
     return {
+      sex: '--',
+      age: '--',
+      height: '--',
       weight: '100',
       minCalForDay: '1000',
       maxCalForDay: '1500',
@@ -119,7 +152,6 @@ export default {
       weightrate: 0,
       weightdate: 60,
       tabTitle: ['菜品查询', '菜品推荐', '个人中心'], // 导航栏格式
-
     };
   },
   methods: {
@@ -135,6 +167,7 @@ export default {
             Authorization: 'Token ' + uni.getStorageSync('token'),
           },
           data: {
+
             plan: this.plan,
             weight: this.weight,
             target_weight: this.targetweight,
@@ -158,11 +191,17 @@ export default {
     // 此事件被子组件触发，a就是从子组件获取的数据，targetweight
     changetarget: function(data) {
       if (data.string != '暂无计划') {
+        this.sex = data.sex;
+        this.age = data.age;
+        this.height = data.height;
         this.targetweight = data.targetweight;
         this.targetweightshow = data.targetweight;
         this.weightrate = data.rate;
         this.plan = true;
       } else {
+        this.sex = data.sex;
+        this.age = data.age;
+        this.height = data.height;
         this.targetweightshow = '暂无计划';
         this.weightrate = data.rate;
         this.targetweightshow = this.weight;
@@ -213,10 +252,14 @@ export default {
         Authorization: 'Token ' + uni.getStorageSync('token'),
       },
       success: (res) => {
+        // this.sex = res.data.data.sex;
+        // this.age=res.data.data.age;
+        // this.height=res.data.data.height;
         this.weight = res.data.data.weight;
         this.targetweight = res.data.data.target_weight;
         this.plan = res.data.data.plan;
         this.weightrate = res.data.data.rate;
+        // this.min;
         if (this.plan) {
           this.targetweightshow = this.targetweight;
         } else {
@@ -235,10 +278,14 @@ export default {
         Authorization: 'Token ' + uni.getStorageSync('token'),
       },
       success: (res) => {
+        // this.sex = res.data.data.sex;
+        // this.age=res.data.data.age;
+        // this.height=res.data.data.height;
         this.weight = res.data.data.weight;
         this.targetweight = res.data.data.target_weight;
         this.plan = res.data.data.plan;
         this.weightrate = res.data.data.rate;
+        // this.min
         if (this.plan) {
           this.targetweightshow = this.targetweight;
         } else {
@@ -272,6 +319,9 @@ export default {
     height: 100%;
     width: 100%;
   }
+ recommendrange{
+   position:absolute;
+  top:92rpx;}
 
   .allinfo {
     display: flex;
@@ -445,7 +495,7 @@ export default {
   }
 
   .card {
-    width: 30%;
+    width: 33.33333%;
     display: inline-block;
   }
 
@@ -459,7 +509,7 @@ export default {
 
   .card_value {
     display: block;
-    font-size: 20px;
+    font-size: 17px;
     text-align:center;
   }
 </style>

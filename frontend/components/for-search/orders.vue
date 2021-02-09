@@ -12,6 +12,15 @@
       </view>
       <!-- <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view> -->
     </view>
+    <view class="orderMid">
+
+      <view class="midOne">西米提醒您</view>
+      <!--推荐卡路里摄入范围-->
+      <view class="midTwo"> <recommendrange
+        :min="min"
+        :max="max"
+      /></view>
+    </view>
 
     <view
       class="order_list"
@@ -56,6 +65,8 @@ export default {
   data() {
     return {
       Calories: 0,
+      min: 40,
+      max: 50,
     };
   },
   onLoad() {
@@ -117,6 +128,10 @@ export default {
 </script>
 
 <style lang="less">
+  recommendrange {
+    position:absolute;
+   top:115rpx;}
+
 //@import '/src/assets/iconfont/iconfont.css';
 
   .icon-tianjia{
