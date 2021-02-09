@@ -40,7 +40,7 @@
           :value="height"
           type="string"
           :placeholder="height"
-          maxlength="3"
+          maxlength="4"
           @input="setheight"
         ><text style="color: #505050;font-size: 40rpx;">m</text>
       </view>
