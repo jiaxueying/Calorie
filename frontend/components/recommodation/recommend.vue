@@ -41,7 +41,6 @@
         class="checkbox"
         @click="tap"
         color="#59453D"
-        class="checkbox"
       >
         <text v-show="!selectAll">全选</text>
         <text v-show="selectAll">取消全选</text>
