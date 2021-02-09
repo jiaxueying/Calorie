@@ -3,7 +3,9 @@
     <view class="orderHead">
       <view class="head_one">
         <view class="image_head">
-          <open-data type="userAvatarUrl"/>
+          <open-data
+            type="userAvatarUrl"
+          />
         </view>
         <view class="name_head">我的菜单</view>
         <view class="cont_head">{{ Calories }}kcal</view>
@@ -18,7 +20,6 @@
         :min="min"
         :max="max"
       /></view>
-      <!--1350kcal-1750kcal/day合理搭配饮食哈，健康最重要-->
     </view>
 
     <view
@@ -33,15 +34,23 @@
       />
     </view>
     <view class="order_bottom">
-      <button @tap="clrAll">清空</button>
-      <button @tap="Close()">继续添加</button>
-      <button @tap="mylist">生成我的菜单</button>
-      <!--添加和后端的通信-->
+      <button @tap="clrAll">
+        <view class="iconfont icon-addToList"/>
+        全部清空</button>
+
+      <button @tap="Close()">
+      <image src="../../static/addToOrders.png"/></image>继续添加</button>
+      <button @tap="mylist">
+        <image src="../../static/lists.png"/></image>
+        生成菜单</button>
+
+        <!--添加和后端的通信-->
     </view>
   </view>
 </template>
 
 <script>
+
 import FoodInOrder from './food-in-order.vue';
 export default {
   components: {
@@ -115,6 +124,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style lang="less">
@@ -122,13 +132,20 @@ export default {
     position:absolute;
    top:115rpx;}
 
+//@import '/src/assets/iconfont/iconfont.css';
+
+  .icon-tianjia{
+    font-size: 25px;
+            position: fixed;
+            top: 20px;
+            right: 10px;
+
+  }
   .orders {
     width: 100%;
     display: inline-block;
-
-    // background-color: rgb(239, 239, 241);
     .orderHead {
-      background-color: rgba(219, 207, 202, 1);
+      background-color: #f4f1ec;
       border-radius: 0 30px 0 0;
       box-shadow: 2px -0.5px 4px 0px rgba(0, 0, 0, 0.1);
       height: 110rpx;
@@ -144,6 +161,7 @@ export default {
           left: 10rpx;
           background-color: #ccc;
           float: left;
+          border-radius: 15rpx;
         }
 
         .name_head {
@@ -151,16 +169,15 @@ export default {
           float: left;
           margin-left: 20rpx;
           line-height: 86rpx;
-          color: rgba(113, 39, 4, 1.0);
-          font-size: 40rpx;
+          color: #442018;
+          font-size: 28rpx;
+          font-weight: 300;
         }
 
         .cont_head {
           float: right;
           width: 113rpx;
           height: 50rpx;
-          // color: rgba(255, 255, 255, 1);
-          // color: rgba(219, 207, 202, 1);
           font-size: 26rpx;
           line-height: 86rpx;
           text-align: center;
@@ -180,53 +197,31 @@ export default {
       }
     }
 
-    .orderMid {
-      font-size: 20rpx;
-      padding: 10rpx 20rpx;
-      background-color: rgb(239, 239, 241);
-
-      .midOne {
-        width: 89px;
-        color: rgba(80, 80, 80, 1);
-        box-shadow: rgba(204, 204, 204, 1) solid 1px;
-        // background-color: rgb(239, 239, 241);
-        // border-radius: 9px;
-        font-size: 30rpx;
-        line-height: 150%;
-        text-align: center;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 18rpx;
-      }
-
-      .midTwo {
-        color: rgba(153, 153, 153, 1);
-        font-size: 30rpx;
-        line-height: 150%;
-        text-align: left;
-        display: inline-block;
-        margin-left: 39rpx;
-      }
-    }
-
     .order_list {
       padding: 10rpx 20rpx;
       background-color: rgb(239, 239, 241);
     }
-
-    .order_bottom {
+    .order_bottom{
       display: flex;
-      background-color: rgb(239, 239, 241);
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
 
-      button {
-        box-sizing: border-box;
-        width: 33%;
-        justify-content: space-between;
-        font-size: 30rpx;
-        display: inline-block;
-        background-color: rgba(219, 207, 202, 1);
-        color: rgba(80, 80, 80, 1);
-      }
+      image{
+          width: 30rpx;
+          height: 30rpx;
+
+        }
+
+        button {
+          font-size: 28rpx;
+          font-weight: bolder;
+          background-color: #ffffff;
+          color: #602808;
+          box-sizing: border-box;
+          width: 33%;
+        }
+
     }
   }
 </style>
