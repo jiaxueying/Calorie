@@ -11,10 +11,14 @@
       <!-- <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view> -->
     </view>
     <view class="orderMid">
+
       <view class="midOne">西米提醒您</view>
       <!--推荐卡路里摄入范围-->
-      <view class="midTwo">合理搭配饮食哈，健康最重要</view>
-      <!--1350kcal-1750kcal/day-->
+      <view class="midTwo"> <recommendrange
+        :min="min"
+        :max="max"
+      /></view>
+      <!--1350kcal-1750kcal/day合理搭配饮食哈，健康最重要-->
     </view>
 
     <view
@@ -52,6 +56,8 @@ export default {
   data() {
     return {
       Calories: 0,
+      min: 40,
+      max: 50,
     };
   },
   onLoad() {
@@ -112,6 +118,10 @@ export default {
 </script>
 
 <style lang="less">
+  recommendrange {
+    position:absolute;
+   top:115rpx;}
+
   .orders {
     width: 100%;
     display: inline-block;

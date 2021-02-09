@@ -1,291 +1,335 @@
 <template>
 
-    <scroll-view scroll-y="true" class="content">
+  <scroll-view
+    scroll-y="true"
+    class="content"
+  >
 
-      <!-- <view style="height: 0rpx;width: 750rpx;"> </view> -->
-      <view class="imgarea">
-        <image :src="'https://nkucalorie.top:8000'+food.picture" class="img" v-if="isimg" mode="aspectFill"></image>
-      </view>
+    <!-- <view style="height: 0rpx;width: 750rpx;"> </view> -->
+    <view class="imgarea">
+      <image
+        :src="'https://nkucalorie.top:8000'+food.picture"
+        class="img"
+        v-if="isimg"
+        mode="aspectFill"
+      /></image>
+    </view>
 
-      <view style="display:flex;flex-direction: column;align-items: center;">
-        <view style="width: 600rpx;">
-          <view style="display:flex;flex-direction:row; align-items:flex-end; justify-content: space-between;">
-            <view class="name">{{food.name}}\n</view>
-            <view class="cal">{{food.calorie}} KCAL/{{food.weight}}g</view>
+    <view style="display:flex;flex-direction: column;align-items: center;">
+      <view style="width: 600rpx;">
+        <view style="display:flex;flex-direction:row; align-items:flex-end; justify-content: space-between;">
+          <view class="name">{{ food.name }}\n</view>
+          <view class="cal">{{ food.calorie }} KCAL/{{ food.weight }}g</view>
+        </view>
+        <view class="tab">
+          <tab>
+            <ttr align="left">
+              <tth style="width: 200rpx;">项目</tth>
+              <tth style="width: 200rpx;">每100克(g)</tth>
+              <tth style="width: 200rpx;">NRV%</tth>
+            </ttr>
+            <ttr
+              v-for="(content,index) in nutrition"
+              :key="index"
+              align="left"
+            >
+              <ttd style="width: 200rpx;">{{ content.item }}</ttd>
+              <ttd style="width: 200rpx;">{{ content.value }}</ttd>
+              <ttd style="width: 200rpx;">{{ content.percent }}</ttd>
+            </ttr>
+          </tab>
+        </view>
+        <view style="font-size: 30rpx;color: gray;margin-left: 0;width: 600rpx;margin-top: 10px;">喜欢这道菜吗？给个评价吧！</view>
+        <view class="buttonarea">
+          <button
+            class="likebutton"
+            @click="like"
+          > <image
+            :src="'../../static/like.png'"
+            class="likeimg"
+          /></image>{{ like_count }}</button>
+          <button
+            class="likebutton"
+            @click="dislike"
+          ><image
+            :src="'../../static/unlike.png'"
+            class="likeimg"
+          /></image>{{ dislike_count }}</button>
+        </view>
+        <view style="width: 550rpx;margin-top: 25rpx;">
+          <view style="display: flex;align-items: center;">
+            <view style="font-size: 30rpx;line-height: 30rpx;color: gray;">关键词</view>
           </view>
-          <view class="tab">
-            <tab>
-              <ttr align="left">
-                <tth style="width: 200rpx;">项目</tth>
-                <tth style="width: 200rpx;">每100克(g)</tth>
-                <tth style="width: 200rpx;">NRV%</tth>
-              </ttr>
-              <ttr v-for="(content,index) in nutrition" :key="index" align="left">
-                <ttd style="width: 200rpx;">{{content.item}}</ttd>
-                <ttd style="width: 200rpx;">{{content.value}}</ttd>
-                <ttd style="width: 200rpx;">{{content.percent}}</ttd>
-              </ttr>
-            </tab>
-          </view>
-          <view style="font-size: 30rpx;color: gray;margin-left: 0;width: 600rpx;margin-top: 10px;">喜欢这道菜吗？给个评价吧！</view>
-          <view class="buttonarea">
-            <button class="likebutton" @click="like"> <image :src="'../../static/like.png'" class="likeimg"></image>{{like_count}}</button>
-            <button class="likebutton" @click="dislike"><image :src="'../../static/unlike.png'" class="likeimg"></image>{{dislike_count}}</button>
-          </view>
-          <view style="width: 550rpx;margin-top: 25rpx;">
-            <view style="display: flex;align-items: center;">
-              <view style="font-size: 30rpx;line-height: 30rpx;color: gray;">关键词</view>
-            </view>
-            <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
-              <view v-for="(dishname,index) in dishnames" class="dishnames" :key="index">No.{{index+1}} {{dishname}}</view>
-            </view>
-          </view>
-          <view class="tags">
-            <view v-for="(tag,index) in tags" class="tag" :key="index" @click="taptag(index)">{{tag.name}}</view>
+          <view style="display: flex;flex-direction: column;align-items: flex-start;margin-top: 10rpx;">
+            <view
+              v-for="(dishname,index) in dishnames"
+              class="dishnames"
+              :key="index"
+            >No.{{ index+1 }} {{ dishname }}</view>
           </view>
         </view>
-        <view style="background-color: #FFFFFF;width: 750rpx;height: 30rpx;"> </view>
+        <view class="tags">
+          <view
+            v-for="(tag,index) in tags"
+            class="tag"
+            :key="index"
+            @click="taptag(index)"
+          >{{ tag.name }}</view>
+        </view>
       </view>
+      <view style="background-color: #FFFFFF;width: 750rpx;height: 30rpx;"/>
+    </view>
   </view>
-  <view class="bottom">
-    <image :src="'../../static/orders.png'" class="button" @click="mylist"></image>
-    <image :src="'../../static/add.png'" class="button" @click="add"></image>
-  </view>
-  <view v-show="IsShow" class="orders">
-    <Orders :Foods="ordered_food" />
-  </view>
+    <view class="bottom">
+      <image
+        :src="'../../static/orders.png'"
+        class="button"
+        @click="mylist"
+      /></image>
+      <image
+        :src="'../../static/add.png'"
+        class="button"
+        @click="add"
+      /></image>
+    </view>
+    <view
+      v-show="IsShow"
+      class="orders"
+    >
+      <Orders :foods="ordered_food" />
+    </view>
 
   </scroll-view>
 </template>
 
 <script>
-  // import {
-  //   like,
-  //   // dislike
-  // } from '@/common/helper.js';
-  import {
-    backendUrl,
-    request
-  } from '@/common/helper.js';
-  import Orders from '../../components/for-search/orders.vue';
-  import tab from "../../components/t-table/t-table.vue";
-  import ttr from "../../components/t-table/t-tr.vue";
-  import tth from "../../components/t-table/t-th.vue";
-  import ttd from "../../components/t-table/t-td.vue";
-  export default {
-    components: {
-      tab,
-      ttr,
-      tth,
-      ttd,
-      Orders
+// import {
+//   like,
+//   // dislike
+// } from '@/common/helper.js';
+import {
+  backendUrl,
+  request,
+} from '@/common/helper.js';
+import Orders from '../../components/for-search/orders.vue';
+import tab from '../../components/t-table/t-table.vue';
+import ttr from '../../components/t-table/t-tr.vue';
+import tth from '../../components/t-table/t-th.vue';
+import ttd from '../../components/t-table/t-td.vue';
+export default {
+  components: {
+    tab,
+    ttr,
+    tth,
+    ttd,
+    Orders,
+  },
+  data() {
+    return {
+      likeicon: 'https://nkucalorie.top:8000/media/static/like.png',
+      dislikeicon: 'https://nkucalorie.top:8000/media/static/dislike.png',
+      food: null,
+      like_count: 666,
+      liked: 0,
+      disliked: 0,
+      dislike_count: 666,
+      X: Number,
+      tempX: Number,
+      min: '',
+      max: '',
+      isimg: true,
+      name: '菜品名称',
+      cal: '100KCAL/100g',
+      tags: [{
+        id: 1,
+        name: '理科食堂',
+      },
+      {
+        id: 2,
+        name: '二楼',
+      },
+      {
+        id: 3,
+        name: '低卡',
+      },
+      {
+        id: 1,
+        name: '五号窗口',
+      },
+      ],
+      nutrition: [],
+      dishnames: [],
+      IsShow: false,
+      ordered_food: new Array(),
+    };
+  },
+  onLoad: function(options) {
+    uni.$on('refresh2', this.refresh);
+    this.ordered_food = uni.getStorageSync('meal-list');
+    uni.request({
+      url: 'https://nkucalorie.top:8000/dish/detail/',
+      method: 'GET',
+      header: {
+        Authorization: 'Token ' + uni.getStorageSync('token'),
+      },
+      data: {
+        dish_id: options.id,
+      },
+      success: (res) => {
+        this.food = res.data.data.dish;
+        console.log(res);
+        this.like_count = this.food.like;
+        this.dislike_count = this.food.dislike;
+        this.tags = this.food.tag;
+        this.nutrition.push({
+          item: '能量(KJ)',
+          value: this.food.energy + 'KJ',
+          percent: (parseFloat(this.food.energy) / 8400 * 100).toFixed(2) + '%',
+        });
+        this.nutrition.push({
+          item: '能量(KCal)',
+          value: this.food.per_calorie + 'KCal',
+          percent: (parseFloat(this.food.per_calorie) / 2000 * 100).toFixed(2) + '%',
+        });
+        this.nutrition.push({
+          item: '蛋白质',
+          value: this.food.protein + 'g',
+          percent: (parseFloat(this.food.protein) / 60 * 100).toFixed(2) + '%',
+        });
+        this.nutrition.push({
+          item: '脂肪',
+          value: this.food.fat + 'g',
+          percent: (parseFloat(this.food.fat) / 60 * 100).toFixed(2) + '%',
+        });
+        this.nutrition.push({
+          item: '碳水化合物',
+          value: this.food.carbohydrates + 'g',
+          percent: (parseFloat(this.food.carbohydrates) / 300 * 100).toFixed(2) + '%',
+        });
+        this.nutrition.push({
+          item: '膳食纤维',
+          value: this.food.dietary_fiber + 'g',
+          percent: (parseFloat(this.food.dietary_fiber) / 25 * 100).toFixed(2) + '%',
+        });
+        this.nutrition.push({
+          item: '维生素C',
+          value: this.food.vitaminC + 'mg',
+          percent: (parseFloat(this.food.vitaminC) / 100 * 100).toFixed(2) + '%',
+        });
+        this.nutrition.push({
+          item: '钙',
+          value: this.food.calcium + 'mg',
+          percent: (parseFloat(this.food.calcium) / 800 * 100).toFixed(2) + '%',
+        });
+        this.nutrition.push({
+          item: '钠',
+          value: this.food.sodium + 'mg',
+          percent: (parseFloat(this.food.sodium) / 2000 * 100).toFixed(2) + '%',
+        });
+      },
+    });
+
+    uni.getStorage({
+      key: 'range',
+      success: (rec) => {
+        this.min = rec.data[0];
+        this.max = rec.data[1];
+      },
+    });
+  },
+  methods: {
+    refresh: function() {
+      this.ordered_food = uni.getStorageSync('meal-list');
+      console.log('refresh');
     },
-    data() {
-      return {
-        likeicon: "https://nkucalorie.top:8000/media/static/like.png",
-        dislikeicon: "https://nkucalorie.top:8000/media/static/dislike.png",
-        food: null,
-        like_count: 666,
-        liked: 0,
-        disliked: 0,
-        dislike_count: 666,
-        X: Number,
-        tempX: Number,
-        min: '',
-        max: '',
-        isimg: true,
-        name: "菜品名称",
-        cal: "100KCAL/100g",
-        tags: [{
-            id: 1,
-            name: '理科食堂'
-          },
-          {
-            id: 2,
-            name: '二楼'
-          },
-          {
-            id: 3,
-            name: '低卡'
-          },
-          {
-            id: 1,
-            name: '五号窗口'
-          },
-        ],
-        nutrition: [],
-        dishnames: [],
-        IsShow: false,
-        ordered_food: new Array(),
-      }
-    },
-    onLoad: function(options) {
-      uni.$on('refresh2', this.refresh);
-      this.ordered_food = uni.getStorageSync("meal-list");
+    refreshLikes: function() {
       uni.request({
         url: 'https://nkucalorie.top:8000/dish/detail/',
         method: 'GET',
         header: {
-          Authorization: "Token " + uni.getStorageSync("token")
+          Authorization: 'Token ' + uni.getStorageSync('token'),
         },
         data: {
-          dish_id: options.id
+          dish_id: this.food.id,
         },
         success: (res) => {
-          this.food = res.data.data.dish
-          console.log(res)
-          this.like_count = this.food.like
-          this.dislike_count = this.food.dislike
-          this.tags = this.food.tag
-          this.nutrition.push({
-            item: '能量(KJ)',
-            value: this.food.energy + 'KJ',
-            percent: (parseFloat(this.food.energy) / 8400 * 100).toFixed(2) + "%"
-          })
-          this.nutrition.push({
-            item: '能量(KCal)',
-            value: this.food.per_calorie + 'KCal',
-            percent: (parseFloat(this.food.per_calorie) / 2000 * 100).toFixed(2) + "%"
-          })
-          this.nutrition.push({
-            item: '蛋白质',
-            value: this.food.protein + 'g',
-            percent: (parseFloat(this.food.protein) / 60 * 100).toFixed(2) + "%"
-          })
-          this.nutrition.push({
-            item: '脂肪',
-            value: this.food.fat + 'g',
-            percent: (parseFloat(this.food.fat) / 60 * 100).toFixed(2) + "%"
-          })
-          this.nutrition.push({
-            item: '碳水化合物',
-            value: this.food.carbohydrates + 'g',
-            percent: (parseFloat(this.food.carbohydrates) / 300 * 100).toFixed(2) + "%"
-          })
-          this.nutrition.push({
-            item: '膳食纤维',
-            value: this.food.dietary_fiber + 'g',
-            percent: (parseFloat(this.food.dietary_fiber) / 25 * 100).toFixed(2) + "%"
-          })
-          this.nutrition.push({
-            item: '维生素C',
-            value: this.food.vitaminC + 'mg',
-            percent: (parseFloat(this.food.vitaminC) / 100 * 100).toFixed(2) + "%"
-          })
-          this.nutrition.push({
-            item: '钙',
-            value: this.food.calcium + 'mg',
-            percent: (parseFloat(this.food.calcium) / 800 * 100).toFixed(2) + "%"
-          })
-          this.nutrition.push({
-            item: '钠',
-            value: this.food.sodium + 'mg',
-            percent: (parseFloat(this.food.sodium) / 2000 * 100).toFixed(2) + "%"
-          })
-        }
-      })
-
-      uni.getStorage({
-        key: 'range',
-        success: (rec) => {
-          this.min = rec.data[0]
-          this.max = rec.data[1]
-        }
+          this.food = res.data.data.dish;
+          this.like_count = this.food.like;
+          this.dislike_count = this.food.dislike;
+        },
       });
     },
-    methods: {
-      refresh: function() {
-        this.ordered_food = uni.getStorageSync('meal-list');
-        console.log('refresh');
-      },
-      refreshLikes: function() {
-        uni.request({
-          url: 'https://nkucalorie.top:8000/dish/detail/',
-          method: 'GET',
-          header: {
-            Authorization: "Token " + uni.getStorageSync("token")
-          },
-          data: {
-            dish_id: this.food.id
-          },
-          success: (res) => {
-            this.food = res.data.data.dish
-            this.like_count = this.food.like
-            this.dislike_count = this.food.dislike
-          },
-        })
-      },
-      start: function(event) {
-        this.X = event.touches[0].pageX
-        console.log(this.X)
-      },
-      end: function(event) {
-        if (this.tempX > 50) {
-          this.isimg = true
-        }
-        if (this.tempX < -50) {
-          this.isimg = false
-        }
-        console.log(this.isimg)
-      },
-      move: function(event) {
-        this.tempX = event.touches[0].pageX - this.X
-        console.log(this.tempX)
-      },
-      taptag: function(index) {
-        console.log(this.tags[index]);
-        uni.$emit("search_key", this.tags[index].name);
-        wx.navigateBack();
-      },
-      mylist: function() {
-        console.log("mylist");
-        this.IsShow = true;
-        this.ordered_food = uni.getStorageSync('meal-list');
-      },
-      dislike: function() {
-        return request('/dish/like/', 'POST', {
-          dish_id: this.food.id,
-          like: 0,
-          dislike: 1,
-        }).then(res => {
-          console.log(res);
-          this.refreshLikes();
-        });
-      },
-      like: function() {
-        return request('/dish/like/', 'POST', {
-          dish_id: this.food.id,
-          like: 1,
-          dislike: 0,
-        }).then(res => {
-          console.log(res);
-          this.refreshLikes();
-        });
-      },
-      add: function() {
-        uni.showToast({
-          title: '添加成功'
-        })
-        console.log("add")
-        var OrderedFood = uni.getStorageSync("meal-list");
-        for (let i = 0; i < OrderedFood.length; i++) {
-          if (OrderedFood[i].name === this.food.name) {
-            OrderedFood[i].sum += 1;
-            uni.setStorageSync("meal-list", OrderedFood);
-            return;
-          }
-        }
-        OrderedFood.push({
-          name: this.food.name,
-          cal: this.food.calorie,
-          sum: 1,
-          picture: this.food.picture,
-          id: this.food.id
-        });
-        uni.setStorageSync("meal-list", OrderedFood);
-      }
+    start: function(event) {
+      this.X = event.touches[0].pageX;
+      console.log(this.X);
     },
-  }
+    end: function(event) {
+      if (this.tempX > 50) {
+        this.isimg = true;
+      }
+      if (this.tempX < -50) {
+        this.isimg = false;
+      }
+      console.log(this.isimg);
+    },
+    move: function(event) {
+      this.tempX = event.touches[0].pageX - this.X;
+      console.log(this.tempX);
+    },
+    taptag: function(index) {
+      console.log(this.tags[index]);
+      uni.$emit('search_key', this.tags[index].name);
+      wx.navigateBack();
+    },
+    mylist: function() {
+      console.log('mylist');
+      this.IsShow = true;
+      this.ordered_food = uni.getStorageSync('meal-list');
+    },
+    dislike: function() {
+      return request('/dish/like/', 'POST', {
+        dish_id: this.food.id,
+        like: 0,
+        dislike: 1,
+      }).then(res => {
+        console.log(res);
+        this.refreshLikes();
+      });
+    },
+    like: function() {
+      return request('/dish/like/', 'POST', {
+        dish_id: this.food.id,
+        like: 1,
+        dislike: 0,
+      }).then(res => {
+        console.log(res);
+        this.refreshLikes();
+      });
+    },
+    add: function() {
+      uni.showToast({
+        title: '添加成功',
+      });
+      console.log('add');
+      var OrderedFood = uni.getStorageSync('meal-list');
+      for (let i = 0; i < OrderedFood.length; i++) {
+        if (OrderedFood[i].name === this.food.name) {
+          OrderedFood[i].sum += 1;
+          uni.setStorageSync('meal-list', OrderedFood);
+          return;
+        }
+      }
+      OrderedFood.push({
+        name: this.food.name,
+        cal: this.food.calorie,
+        sum: 1,
+        picture: this.food.picture,
+        id: this.food.id,
+      });
+      uni.setStorageSync('meal-list', OrderedFood);
+    },
+  },
+};
 </script>
 
 <style>
@@ -393,7 +437,7 @@
   }
 
   .name {
-    font-size: 70rpx;
+    font-size: 53rpx;
     font-weight: 800;
     color: #505050;
     line-height: 80rpx;
@@ -401,7 +445,7 @@
   }
 
   .cal {
-    font-size: 30rpx;
+    font-size: 28rpx;
     text-align: center;
     background-color: #f3e2d2;
     padding-left: 10rpx;
@@ -467,13 +511,13 @@
     bottom: 10px;
     right: 0;
   }
-  
+
   .button {
     width:35px;
     height:35px;
     margin:10px;
   }
-  
+
   .buttonarea {
     margin-top: 10px;
     width: 600rpx;
@@ -524,7 +568,7 @@
     box-shadow: 2px -0.5px 4px 0px rgba(0, 0, 0, 0.1);
     height: 110rpx;
   }
-  
+
   .likeimg{
     height: 20px;
     width: 20px;

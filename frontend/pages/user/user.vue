@@ -12,12 +12,6 @@
 
     <!--用户信息部分-->
     <view class="allinfo">
-
-      <recommendrange
-        :min="min"
-        :max="max"
-      />
-
       <open-data
         class="userimg"
         type="userAvatarUrl"
@@ -40,6 +34,20 @@
       >
         <text class="card_title">性别</text>
         <text class="card_value">{{ sex }}</text>
+      </view>
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">年龄/岁</text>
+        <text class="card_value">{{ age }}</text>
+      </view>
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">身高/m</text>
+        <text class="card_value">{{ height }}</text>
       </view>
 
       <view
@@ -76,6 +84,8 @@
         <plan
           @input="changetarget"
           :sex="sex"
+          :age="age"
+          :height="height"
           :plan="targetweightshow"
           :targetweightrec="targetweight"
           :weight="weight"
@@ -128,6 +138,8 @@ export default {
   data() {
     return {
       sex: '--',
+      age: '--',
+      height: '--',
       weight: '100',
       minCalForDay: '1000',
       maxCalForDay: '1500',
@@ -140,8 +152,6 @@ export default {
       weightrate: 0,
       weightdate: 60,
       tabTitle: ['菜品查询', '菜品推荐', '个人中心'], // 导航栏格式
-      min: 40,
-      max: 50,
     };
   },
   methods: {
@@ -182,12 +192,16 @@ export default {
     changetarget: function(data) {
       if (data.string != '暂无计划') {
         this.sex = data.sex;
+        this.age = data.age;
+        this.height = data.height;
         this.targetweight = data.targetweight;
         this.targetweightshow = data.targetweight;
         this.weightrate = data.rate;
         this.plan = true;
       } else {
         this.sex = data.sex;
+        this.age = data.age;
+        this.height = data.height;
         this.targetweightshow = '暂无计划';
         this.weightrate = data.rate;
         this.targetweightshow = this.weight;
@@ -239,6 +253,8 @@ export default {
       },
       success: (res) => {
         // this.sex = res.data.data.sex;
+        // this.age=res.data.data.age;
+        // this.height=res.data.data.height;
         this.weight = res.data.data.weight;
         this.targetweight = res.data.data.target_weight;
         this.plan = res.data.data.plan;
@@ -263,6 +279,8 @@ export default {
       },
       success: (res) => {
         // this.sex = res.data.data.sex;
+        // this.age=res.data.data.age;
+        // this.height=res.data.data.height;
         this.weight = res.data.data.weight;
         this.targetweight = res.data.data.target_weight;
         this.plan = res.data.data.plan;
@@ -477,7 +495,7 @@ export default {
   }
 
   .card {
-    width: 25%;
+    width: 33.33333%;
     display: inline-block;
   }
 

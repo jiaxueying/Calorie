@@ -39,9 +39,9 @@ export default {
 <style>
   .content{
     display: flex;
-    border:#000000 1rpx solid;
+    //border:#000000 1rpx solid;
     justify-content: center;
-    font-size: 28rpx;
+    font-size: 29rpx;
     font-weight: 400;
     }
     text{
