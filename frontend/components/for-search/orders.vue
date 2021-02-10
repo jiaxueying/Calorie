@@ -12,15 +12,12 @@
       </view>
       <!-- <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view> -->
     </view>
-    <view class="orderMid">
 
-      <view class="midOne">西米提醒您</view>
-      <!--推荐卡路里摄入范围-->
-      <view class="midTwo"> <recommendrange
-        :min="min"
-        :max="max"
-      /></view>
-    </view>
+    <!--推荐卡路里摄入范围-->
+    <recommendrange
+      :min="min"
+      :max="max"
+    />
 
     <view
       class="order_list"
@@ -35,16 +32,23 @@
     </view>
     <view class="order_bottom">
       <button @tap="clrAll">
-        <view class="iconfont icon-addToList"/>
-        全部清空</button>
-
+        <text
+          class="iconfont icon-delete"
+          style="color:#442918"
+        />
+        {{ text1 }}</button>
       <button @tap="Close()">
-      <image src="../../static/addToOrders.png"/></image>继续添加</button>
+        <text
+          class="iconfont icon-addToList"
+          style="color:#442918"
+        />
+        {{ text2 }}</button>
       <button @tap="mylist">
-        <image src="../../static/lists.png"/></image>
-        生成菜单</button>
-
-        <!--添加和后端的通信-->
+        <text
+          class="iconfont icon-caidan"
+          style="color:#442918"
+        />
+        {{ text3 }}</button>
     </view>
   </view>
 </template>
@@ -67,6 +71,9 @@ export default {
       Calories: 0,
       min: 40,
       max: 50,
+      text1: '  全部清空',
+      text2: '  继续添加',
+      text3: '   生成菜单',
     };
   },
   onLoad() {
@@ -128,9 +135,13 @@ export default {
 </script>
 
 <style lang="less">
+  text{
+    white-space: pre;
+  }
   recommendrange {
-    position:absolute;
-   top:115rpx;}
+   position:relative;
+   right:10rpx;
+   }
 
 //@import '/src/assets/iconfont/iconfont.css';
 
