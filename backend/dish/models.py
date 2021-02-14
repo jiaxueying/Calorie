@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 class Dish(models.Model):
     '''菜品'''
 
-    picture = models.ImageField(_("dish picture"), upload_to=None, max_length=100)
+    picture = models.ImageField(_("dish picture"), max_length=100)
     name = models.CharField(_("dish name"), max_length=50)
     calorie = models.IntegerField(_("dish calorie"))
     weight = models.IntegerField(_("weight of single product"))
@@ -19,13 +19,20 @@ class Dish(models.Model):
     dislike = models.IntegerField(_("dish dislike amount"))
     tag = models.ManyToManyField("Tag", verbose_name=_("tag"))
     energy = models.DecimalField(_("energy"), max_digits=8, decimal_places=2)
+    per_calorie = models.DecimalField(
+        _("calorie per 100g"), max_digits=8, decimal_places=2)
     protein = models.DecimalField(_("protein"), max_digits=8, decimal_places=2)
     fat = models.DecimalField(_("fat"), max_digits=8, decimal_places=2)
-    carbohydrates = models.DecimalField(_("carbohydrate"), max_digits=8, decimal_places=2)
+    carbohydrates = models.DecimalField(
+        _("carbohydrate"), max_digits=8, decimal_places=2)
     sodium = models.DecimalField(_("sodium"), max_digits=8, decimal_places=2)
-    dietary_fiber = models.DecimalField(_("dietary fiber"), max_digits=8, decimal_places=2)
-    vitaminC = models.DecimalField(_("Vitamin C"), max_digits=8, decimal_places=2)
+    dietary_fiber = models.DecimalField(
+        _("dietary fiber"), max_digits=8, decimal_places=2)
+    vitaminC = models.DecimalField(
+        _("Vitamin C"), max_digits=8, decimal_places=2)
     calcium = models.DecimalField(_("calcium"), max_digits=8, decimal_places=2)
+    views = models.IntegerField(_("Dish views"))
+    orders = models.IntegerField(_("Dish orders"))
 
     class Meta:
         verbose_name = _("Dish")
@@ -33,6 +40,7 @@ class Dish(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Tag(models.Model):
     '''菜品标签'''
