@@ -18,6 +18,9 @@ class User(AbstractUser):
     max_calorie = models.DecimalField(_("user max_calorie"), max_digits=8, decimal_places=2, default=2000)
     rate = models.DecimalField(_("weight change rate"), max_digits=8, decimal_places=2, default=0)
     like_dish = models.ManyToManyField("dish.Dish", verbose_name=_("like_dish"), through='LikeDish', through_fields=('user', 'dish'))
+    gender = models.CharField(max_length=6, default="male")
+    age = models.IntegerField(default=20)
+    height = models.IntegerField(default=170)
 
     class Meta:
         verbose_name = _("User")

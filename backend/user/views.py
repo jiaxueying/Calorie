@@ -46,7 +46,7 @@ class UserLoginAPI(rest_auth.ObtainAuthToken):
             login_data['username'] = self.get_openid(login_data['code'])
             login_data['password'] = self.get_password(login_data['username'])
             if not User.objects.filter(username=login_data['username']):
-                User.objects.create_user(username=login_data['username'], password=login_data['password'], name=login_data['name'])
+                User.objects.create_user(username=login_data['username'], password=login_data['password'])
                 return_data['is_first'] = True
             token = self.get_or_create_token(login_data, request)
             return_data['token'] = token
@@ -95,7 +95,7 @@ class UserProfileAPI(APIView):
         """
         修改用户信息
         """
-        required_fields = ('weight', 'target_weight', 'plan')
+        required_fields = ('weight', 'target_weight', 'plan', 'rate', 'gender', 'age', 'height')
         for required_field in required_fields:
             if required_field not in request.data:
                 raise FieldException("没有字段%s"%required_field)
@@ -105,6 +105,9 @@ class UserProfileAPI(APIView):
         user_obj.target_weight = request.data['target_weight']
         user_obj.plan = request.data['plan']
         user_obj.rate = request.data['rate']
+        user_obj.gender = request.data['gender']
+        user_obj.age = request.data['age']
+        user_obj.height = request.data['height']
         user_obj.save()
         return self.success()
 
