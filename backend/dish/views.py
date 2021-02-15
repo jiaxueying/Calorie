@@ -118,7 +118,7 @@ class DishDetailAPI(APIView):
             ener = dish["calorie"]
             for name, range_ in equ.items():
                 if range_[0] < ener <= range_[1]:
-                    dish["equivalent"] = name
+                    dish["equivalent"] = "/media/static/icon/" + name + ".png"
                     break
 
         except Exception as e:
