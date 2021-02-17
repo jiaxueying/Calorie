@@ -1,47 +1,66 @@
 <template>
   <view class="meal_classifier">
     <view class="title">
-      <text>{{name}}</text>
-      <view v-if="modifyable" @click="openAlternativeMealList"  class="{buttona:true;buttonb:true}" >编辑</view>
+      <text>{{ name }}</text>
+      <view
+        v-if="modifyable"
+        @click="openAlternativeMealList"
+        class="{buttona:true;buttonb:true}"
+      >编辑</view>
     </view>
-    <scroll-view scroll-y="true" :class="fold ? 'fold' : 'unfold'">
-      <view v-for="Food in meallist" :key="Food.dish" >
-        <Food :food="Food" :show_radio_button="false" :ischecked="false" :show_count="countable"></Food>
+    <scroll-view
+      scroll-y="true"
+      :class="fold ? 'fold' : 'unfold'"
+    >
+      <view
+        v-for="Food in meallist"
+        :key="Food.dish"
+      >
+        <Food
+          :food="Food"
+          :show_radio_button="false"
+          :ischecked="false"
+          :show_count="countable"
+        />
       </view>
     </scroll-view>
-    <button @tap="changeFold" class="buttona" plain="true" >{{button_name}}</button>
+    <button
+      @tap="changeFold"
+      class="buttona"
+      plain="true"
+    >{{ button_name }}</button>
   </view>
 </template>
 
 <script>
-  import Food from "../for-meal-management/food.vue"
-  export default {
-    props: ['name', 'meallist', 'modifyable', 'countable'],
-    components: {
-      Food
+import Food from '../for-meal-management/food.vue';
+export default {
+  props: ['name', 'meallist', 'modifyable', 'countable'],
+  components: {
+    Food,
+  },
+  data() {
+    return {
+      button_name: '展开',
+      fold: true,
+    };
+  },
+  methods: {
+    changeFold: function() {
+      console.log(this.button_name + ' button clicked');
+      this.fold = !this.fold;
+      if (this.fold) this.button_name = '展开';
+      else this.button_name = '收起';
     },
-    data() {
-      return {
-        button_name: "展开",
-        fold: true,
-      }
+    openAlternativeMealList: function() {
+      console.log('编辑 button clicked');
+      wx.navigateTo({
+        url: '../../pages/MealManagement/AlternativeMealList?selectedFood=' + JSON.stringify(this.meallist) +
+          '&time=' + JSON.stringify(this.name),
+      });
     },
-    methods: {
-      changeFold:function() {
-        console.log(this.button_name + " button clicked");
-        this.fold = !this.fold;
-        if(this.fold)this.button_name = "展开";
-        else this.button_name = "收起";
-      },
-      openAlternativeMealList:function() {
-        console.log("编辑 button clicked");
-        wx.navigateTo({
-          url: "../../pages/MealManagement/AlternativeMealList?selectedFood=" + JSON.stringify(this.meallist)
-          + "&time=" + JSON.stringify(this.name),
-        })
-      }
-    }
-  }
+  },
+};
 </script>
 
 <style>

@@ -1,6 +1,10 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
             {
+            "path" : "pages/search/search"
+            },
+            
+            {
              "path" : "pages/index/newindex"
             },
             {
@@ -12,7 +16,6 @@
             {
             "path":"pages/dishinfo/add"
             },
-            
              
             {
          	 "path": "pages/index/index"
@@ -23,9 +26,6 @@
             
             {
             "path":"pages/others/mylist"
-            },
-            {
-            "path" : "pages/search/search"
             },
             {
 			"path": "pages/recommondation/range"
@@ -71,6 +71,15 @@
         ,{
             "path" : "pages/administrate/DishEdit",
             "style" : {}
+        }
+        ,{
+            "path" : "pages/search/searchbar",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"globalStyle": {
