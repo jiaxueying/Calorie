@@ -1,23 +1,44 @@
 <template>
   <view>
     <view class="container">
-      <img id="img1" src="https://nkucalorie.top:8000/media/static/background.jpg" />
-      <img id="img2" src="https://nkucalorie.top:8000/media/static/background.jpg" />
+      <img
+        id="img1"
+        src="https://nkucalorie.top:8000/media/static/background.jpg"
+      >
+      <img
+        id="img2"
+        src="https://nkucalorie.top:8000/media/static/background.jpg"
+      >
       <view class="header">
-        <image :src="'../../static/icon.png'" style="width:100px; height:100px;display: block;"></image>
+        <image
+          :src="'../../static/icon.png'"
+          style="width:100px; height:100px;display: block;"
+        /></image>
       </view>
 
       <view class="main">
-        <view class="mybutton" hover-class="hover-button">
+        <view
+          class="mybutton"
+          hover-class="hover-button"
+        >
           <navigator url="../search/search">菜品查询</navigator>
         </view>
-        <view class="mybutton" hover-class="hover-button">
+        <view
+          class="mybutton"
+          hover-class="hover-button"
+        >
           <navigator url="../recommondation/shake">菜品推荐</navigator>
         </view>
-        <view class="mybutton" hover-class="hover-button">
+        <view
+          class="mybutton"
+          hover-class="hover-button"
+        >
           <navigator url="../user/user">用户中心</navigator>
         </view>
-        <view class="mybutton" hover-class="hover-button">
+        <view
+          class="mybutton"
+          hover-class="hover-button"
+        >
           <navigator url="about">关于“粟”</navigator>
         </view>
 
@@ -28,122 +49,120 @@
 </template>
 
 <script>
-  import {
-    backendUrl,
-    request
-  } from '@/common/helper.js';
+import {
+  backendUrl,
+  request,
+} from '@/common/helper.js';
 
-  export default {
-    data() {
-      const currentDate = this.getDate({
-        format: true
-      })
-      return {
-        date: currentDate,
+export default {
+  data() {
+    const currentDate = this.getDate({
+      format: true,
+    });
+    return {
+      date: currentDate,
 
-      }
+    };
+  },
+  computed: {
+    startDate() {
+      return this.getDate('start');
     },
-    computed: {
-      startDate() {
-        return this.getDate('start');
-      },
-      endDate() {
-        return this.getDate('end');
-      }
+    endDate() {
+      return this.getDate('end');
     },
-    methods: {
+  },
+  methods: {
 
-      bindDateChange: function(e) {
-        var txt = "";
-        txt += e.target.value[8];
-        txt += e.target.value[9];
-        this.date = txt;
-        uni.showToast({
-          title: '日期切换成功',
-          duration: 2000
+    bindDateChange: function(e) {
+      var txt = '';
+      txt += e.target.value[8];
+      txt += e.target.value[9];
+      this.date = txt;
+      uni.showToast({
+        title: '日期切换成功',
+        duration: 2000,
+      });
+    },
+
+    getDate(type) {
+      const date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+
+      if (type === 'start') {
+        year = year - 60;
+      } else if (type === 'end') {
+        year = year + 2;
+      }
+      month = month > 9 ? month : '0' + month;
+      day = day > 9 ? day : '0' + day;
+      return `${day}`;
+    },
+  },
+
+  onLoad() {
+    uni.setStorageSync('meal-list', []);
+
+    uni.login({
+      success: (res) => {
+        console.log(res.code);
+        uni.request({
+          url: 'https://nkucalorie.top:8000/user/login/',
+          data: {
+            code: res.code,
+            name: '123',
+          },
+          method: 'POST',
+          success: (res) => {
+            console.log('log successfully');
+            console.log(res);
+            uni.setStorage({
+              key: 'token',
+              data: res.data.token,
+            });
+          },
         });
       },
+    });
 
-      getDate(type) {
-        const date = new Date();
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
+    uni.getStorage({
+      key: 'weightdate',
+      success: (res) => {
+        console.log(res);
+      },
+      fail: () => {
+        uni.setStorage({
+          key: 'weightdate',
+          data: 60,
+          success: () => {
+            console.log('set weightdate');
+          },
+        });
+      },
+    });
 
-        if (type === 'start') {
-          year = year - 60;
-        } else if (type === 'end') {
-          year = year + 2;
-        }
-        month = month > 9 ? month : '0' + month;;
-        day = day > 9 ? day : '0' + day;
-        return `${day}`;
-      }
-    },
+    uni.getStorage({
+      key: 'meal-list',
+      success: (res) => {
+        console.log(res);
+      },
+      fail: () => {
+        uni.setStorage({
+          key: 'meal-list',
+          data: [],
+          success: () => {
+            console.log('set meal-list');
+          },
+        });
+      },
+    });
+  },
 
-    onLoad() {
-      uni.setStorageSync('meal-list', []);
+};
 
-      uni.login({
-        success: (res) => {
-          console.log(res.code)
-          uni.request({
-            url: 'https://nkucalorie.top:8000/user/login/',
-            data: {
-              code: res.code,
-              name: '123'
-            },
-            method: "POST",
-            success: (res) => {
-              console.log("log successfully")
-              console.log(res)
-              uni.setStorage({
-                key: 'token',
-                data: res.data.token,
-              })
-            }
-          })
-        }
-      })
-
-      uni.getStorage({
-        key: 'weightdate',
-        success: (res) => {
-          console.log(res)
-        },
-        fail: () => {
-          uni.setStorage({
-            key: 'weightdate',
-            data: 60,
-            success: () => {
-              console.log('set weightdate')
-            }
-          })
-        }
-      })
-
-      uni.getStorage({
-        key: 'meal-list',
-        success: (res) => {
-          console.log(res)
-        },
-        fail: () => {
-          uni.setStorage({
-            key: 'meal-list',
-            data: [],
-            success: () => {
-              console.log('set meal-list')
-            }
-          })
-        }
-      })
-
-    }
-
-  }
-
-
-  /*export default {
+/* export default {
       components:{
         recrange,
         DateChooser
@@ -156,7 +175,7 @@
           date:"",
           isdate:false,
   			}
-  		},*/
+  		}, */
 </script>
 
 <style>
