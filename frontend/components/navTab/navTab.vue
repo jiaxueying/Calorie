@@ -76,7 +76,7 @@ export default {
       }
       console.log('index' + index);
       if (index === 0) {
-        uni.navigateTo({
+        uni.redirectTo({
           url: '/pages/search/search?newindex=0',
           animationType: 'pop-in',
           animationDuration: 200,
@@ -88,13 +88,13 @@ export default {
           },
         });
       } else if (index === 1) {
-        uni.navigateTo({
+        uni.redirectTo({
           url: '/pages/recommondation/shake?newindex=1',
           animationType: 'pop-in',
           animationDuration: 200,
         });
       } else if (index === 2) {
-        uni.navigateTo({
+        uni.redirectTo({
           url: '/pages/user/user?newindex=2',
           animationType: 'pop-in',
           animationDuration: 200,

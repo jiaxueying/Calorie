@@ -12,13 +12,13 @@
       </view>
       <!-- <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view> -->
     </view>
-
-    <!--推荐卡路里摄入范围-->
-    <recommendrange
-      :min="min"
-      :max="max"
-    />
-
+    <view class="orderMid">
+      <!--推荐卡路里摄入范围-->
+      <recommendrange
+        :min="min"
+        :max="max"
+      />
+    </view>
     <view
       class="order_list"
       v-for="food in Foods"
@@ -76,7 +76,21 @@ export default {
       text3: '   生成菜单',
     };
   },
-  onLoad() {
+  created() {
+    // console.log('你好');
+    uni.request({
+      url: 'https://nkucalorie.top:8000/user/profile/',
+      method: 'GET',
+      header: {
+        Authorization: 'Token ' + uni.getStorageSync('token'),
+      },
+      success: (res) => {
+        console.log('nihao');
+        this.min = res.data.data.min_calorie;
+        this.max = res.data.data.max_calorie;
+      },
+
+    });
     uni.$on('CalChange', this.caloriesChange);
     uni.$on('delname', this.delName);
   },
@@ -138,9 +152,12 @@ export default {
   text{
     white-space: pre;
   }
+  .orderMid{
+    background-color: #f4f1ec;
+  }
   recommendrange {
    position:relative;
-   right:10rpx;
+   right:80rpx;
    }
 
 //@import '/src/assets/iconfont/iconfont.css';

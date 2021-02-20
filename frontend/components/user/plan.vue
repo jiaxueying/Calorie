@@ -22,7 +22,7 @@
           :value="sex"
           type="string"
           :placeholder="sex"
-          maxlength="2"
+          maxlength="6"
           @input="setsex"
         >
       </view>
@@ -40,47 +40,55 @@
           :value="height"
           type="string"
           :placeholder="height"
-          maxlength="4"
-          @input="setheight"
-        ><text style="color: #505050;font-size: 40rpx;">m</text>
-      </view>
-      <view class="input1">
-        <text style="color: #505050;font-size: 40rpx;">目标体重:</text><input
-          :value="targetweight"
-          type="number"
-          :placeholder="targetweight"
           maxlength="3"
-          @input="set"
-        ><text style="color: #505050;font-size: 40rpx;">KG</text>
-      </view>
-      <view class="input2">
-        <text style="color: #505050;font-size: 40rpx;">所用天数:</text><input
-          :value="day"
-          type="number"
-          maxlength="4"
-          :placeholder="day"
-          @input="changedate"
-        ><text style="color: #505050;font-size: 40rpx;">Day</text>
+          @input="setheight"
+        ><text style="color: #505050;font-size: 40rpx;">cm</text>
+
+        <view class="input5">
+          <text style="color: #505050;font-size: 40rpx;">体重:</text><input
+            :value="weight"
+            type="string"
+            :placeholder="weight"
+            maxlength="3"
+            @input="setweight"
+          ><text style="color: #505050;font-size: 40rpx;">KG</text>
+        </view>
+        <view class="input1">
+          <text style="color: #505050;font-size: 40rpx;">目标体重:</text><input
+            :value="targetweight"
+            type="number"
+            :placeholder="targetweight"
+            maxlength="3"
+            @input="set"
+          ><text style="color: #505050;font-size: 40rpx;">KG</text>
+        </view>
+        <view class="input2">
+          <text style="color: #505050;font-size: 40rpx;">所用天数:</text><input
+            :value="day"
+            type="number"
+            maxlength="4"
+            :placeholder="day"
+            @input="changedate"
+          ><text style="color: #505050;font-size: 40rpx;">Day</text>
+        </view>
       </view>
     </view>
     <view
       class="tip"
       v-if="!choice"
-    >恰如其分，就是最好的你😉</view>
+    >恰如其分，就是最好的你😉
+
+    </view>
   </view>
 </template>
 
 <script>
 export default {
-  props: ['sex', 'age', 'height', 'targetweightrec', 'plan', 'weight'], // 子组件
+  props: ['sex', 'rate', 'age', 'height', 'targetweight', 'plan', 'weight'], // 子组件
   data() {
     return {
-      sex: '--',
-      age: '19',
-      height: '1.6',
+
       choice: true,
-      targetweight: 999,
-      rate: 0,
       day: 60,
       string: '有计划',
     };
@@ -98,7 +106,12 @@ export default {
         this.rate = this.rate.toFixed(2);
       }
       let data = {
+
+        weight: this.weight,
         targetweight: this.targetweight,
+        sex: this.sex,
+        age: this.age,
+        height: this.height,
         string: this.string,
         rate: this.rate,
       };
@@ -110,6 +123,7 @@ export default {
         this.sex = event.detail.value;
 
         let data = {
+          weight: this.weight,
           targetweight: this.targetweight,
           sex: this.sex,
           age: this.age,
@@ -126,6 +140,7 @@ export default {
         this.age = event.detail.value;
 
         let data = {
+          weight: this.weight,
           targetweight: this.targetweight,
           sex: this.sex,
           age: this.age,
@@ -142,6 +157,7 @@ export default {
         this.height = event.detail.value;
 
         let data = {
+          weight: this.weight,
           targetweight: this.targetweight,
           sex: this.sex,
           age: this.age,
@@ -152,13 +168,14 @@ export default {
         this.$emit('input', data);
       }
     },
-    // 设置目标体重
-    set: function(event) {
+    // 设置体重
+    setweight: function(event) {
       if (event.detail.value !== '') {
-        this.targetweight = event.detail.value;
-        this.rate = (this.targetweight - this.weight) / this.day;
-        this.rate = this.rate.toFixed(2);
+        this.weight = event.detail.value;
+
         let data = {
+          weight: this.weight,
+
           sex: this.sex,
           age: this.age,
           height: this.height,
@@ -167,7 +184,25 @@ export default {
           rate: this.rate,
         };
         this.$emit('input', data);
+      }
+    },
 
+    // 设置目标体重
+    set: function(event) {
+      if (event.detail.value !== '') {
+        this.targetweight = event.detail.value;
+        this.rate = (this.targetweight - this.weight) / this.day;
+        this.rate = this.rate.toFixed(2);
+        let data = {
+          weight: this.weight,
+          sex: this.sex,
+          age: this.age,
+          height: this.height,
+          targetweight: this.targetweight,
+          string: this.string,
+          rate: this.rate,
+        };
+        this.$emit('input', data);
       }
     },
 
@@ -182,6 +217,7 @@ export default {
         this.rate = (this.targetweight - this.weight) / event.detail.value;
         this.rate = this.rate.toFixed(2);
         let data = {
+          weight: this.weight,
           sex: this.sex,
           age: this.age,
           height: this.height,
@@ -197,8 +233,7 @@ export default {
 
   // 组件创建函数
   created: function() {
-    this.targetweight = this.targetweightrec;
-    if (this.plan == '暂无计划') {
+    if (this.plan === '暂无计划') {
       this.choice = false;
     } else {
       this.choice = true;

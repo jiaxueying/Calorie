@@ -455,6 +455,9 @@ export default {
     padding-bottom: 10rpx;
   }
 .equ{
+  position: relative;
+  left:0rpx;
+  top:0rpx;
   width: 100rpx;
   font-size: 40rpx;
   font-weight: 800;
@@ -463,8 +466,9 @@ export default {
 }
 .eimag{
   position: absolute;
-  width: 10%;
-  height: 4%;
+
+  width: 80%;
+  height: 100%;
 }
   .cal {
     width: 230rpx;

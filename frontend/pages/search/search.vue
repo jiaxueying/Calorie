@@ -274,20 +274,21 @@ export default {
 
 <style>
 
-    .nav {
-    position: fixed;
-    left: 0;
-    top: 0;
-    color: #C8A57E;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    font-size: 28rpx;
-    background-color: #FFFFFF;
-    z-index: 99999;
-   }
+   .nav {
+     position: fixed;
+     left: 0rpx;
+     top: 0rpx;
+     color: #C8A57E;
+     width: 100vw;
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     justify-content: flex-start;
+     font-size: 24upx;
+     background-color: #FFFFFF;
+     z-index: 99999;
+     margin-bottom: 50rpx;
+     }
 
   .scroll {
     width: 100%;
