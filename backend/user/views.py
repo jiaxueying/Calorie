@@ -120,8 +120,8 @@ class UserProfileAPI(APIView):
         serializer = UserSerializer(user_obj)
         data = serializer.data
         cal = getCal(data)
-        data['min_calorie'] = cal['min']
-        data['max_calorie'] = cal['max']
+        data['min_calorie'] = round(cal['min'], 2)
+        data['max_calorie'] = round(cal['max'], 2)
         try:
             return self.success(data=data)
         except Exception as _:
