@@ -6,7 +6,6 @@
         ref="navTab"
         :tab-title="tabTitle"
         :tab-chosen="2"
-        @changeTab="changeTab"
       />
     </view>
 
@@ -46,7 +45,7 @@
         class="card"
         @click="set"
       >
-        <text class="card_title">身高/m</text>
+        <text class="card_title">身高/cm</text>
         <text class="card_value">{{ height }}</text>
       </view>
 
@@ -87,43 +86,14 @@
           :age="age"
           :height="height"
           :plan="targetweightshow"
-          :targetweightrec="targetweight"
+          :targetweight="targetweight"
           :weight="weight"
           :rate="weightrate"
         />
-        <!--弹出框组件-->
-        <view
-          class="popcontent"
-          v-if="pop"
-        >
-          <view class="popup">
-            <view class="text">请输入您当前体重</view>
-            <view class="popinput">
-              <input
-                :value="weight"
-                type="number"
-                maxlength="3"
-                :placeholder="weight"
-                @input="refresh"
-              >KG
-            </view>
-            <view class="bottom">
-              <view
-                class="popbutton1"
-                @click="cancel"
-              >取消</view>
-              <view
-                class="popbutton2"
-                @click="confirm"
-              >确认</view>
-            </view>
-          </view>
-        </view>
-      </view>
 
+      </view>
     </view>
-  </view>
-</template>
+</view></template>
 
 <script>
 import plan from '../../components/user/plan.vue';
@@ -138,16 +108,16 @@ export default {
   data() {
     return {
       sex: '--',
-      age: '--',
-      height: '--',
-      weight: '100',
+      age: 16,
+      height: 160,
+      weight: 100,
       minCalForDay: '1000',
       maxCalForDay: '1500',
       Switch: false,
       targetweight: 0,
       pop: false,
       tempweight: 1, // pop组件里的体重变量
-      targetweightshow: '999',
+      targetweightshow: '99',
       plan: true,
       weightrate: 0,
       weightdate: 60,
@@ -159,33 +129,6 @@ export default {
     // 编辑模式选择
     set: function() {
       this.Switch = !this.Switch;
-      if (this.Switch == false) {
-        uni.request({
-          url: 'https://nkucalorie.top:8000/user/profile/',
-          method: 'POST',
-          header: {
-            Authorization: 'Token ' + uni.getStorageSync('token'),
-          },
-          data: {
-
-            plan: this.plan,
-            weight: this.weight,
-            target_weight: this.targetweight,
-            rate: this.weightrate,
-          },
-
-        });
-        uni.request({
-          url: 'https://nkucalorie.top:8000/user/profile/',
-          method: 'GET',
-          header: {
-            Authorization: 'Token ' + uni.getStorageSync('token'),
-          },
-          success: (res) => {
-            console.log(res.data);
-          },
-        });
-      }
     },
 
     // 此事件被子组件触发，a就是从子组件获取的数据，targetweight
@@ -194,6 +137,7 @@ export default {
         this.sex = data.sex;
         this.age = data.age;
         this.height = data.height;
+        this.weight = data.weight;
         this.targetweight = data.targetweight;
         this.targetweightshow = data.targetweight;
         this.weightrate = data.rate;
@@ -201,6 +145,7 @@ export default {
       } else {
         this.sex = data.sex;
         this.age = data.age;
+        this.weight = data.weight;
         this.height = data.height;
         this.targetweightshow = '暂无计划';
         this.weightrate = data.rate;
@@ -208,6 +153,37 @@ export default {
         this.targetweight = 0;
         this.plan = false;
       }
+
+      // if (this.Switch) {
+      uni.request({
+        url: 'https://nkucalorie.top:8000/user/profile/',
+        method: 'POST',
+        header: {
+          Authorization: 'Token ' + uni.getStorageSync('token'),
+        },
+        data: {
+          gender: this.sex,
+          age: this.age,
+          height: this.height,
+          plan: this.plan,
+          weight: this.weight,
+          target_weight: this.targetweight,
+          rate: this.weightrate,
+        },
+
+      });
+
+      uni.request({
+        url: 'https://nkucalorie.top:8000/user/profile/',
+        method: 'GET',
+        header: {
+          Authorization: 'Token ' + uni.getStorageSync('token'),
+        },
+        success: (res) => {
+          // console.log(res.data);
+        },
+      });
+    //  }
     },
 
     // 点击编辑图标，改变用户目前体重
@@ -252,9 +228,9 @@ export default {
         Authorization: 'Token ' + uni.getStorageSync('token'),
       },
       success: (res) => {
-        // this.sex = res.data.data.sex;
-        // this.age=res.data.data.age;
-        // this.height=res.data.data.height;
+        this.sex = res.data.data.gender;
+        this.age = res.data.data.age;
+        this.height = res.data.data.height;
         this.weight = res.data.data.weight;
         this.targetweight = res.data.data.target_weight;
         this.plan = res.data.data.plan;
@@ -278,10 +254,12 @@ export default {
         Authorization: 'Token ' + uni.getStorageSync('token'),
       },
       success: (res) => {
-        // this.sex = res.data.data.sex;
-        // this.age=res.data.data.age;
-        // this.height=res.data.data.height;
+        this.sex = res.data.data.gender;
+        this.age = res.data.data.age;
+        this.height = res.data.data.height;
         this.weight = res.data.data.weight;
+        // console.log(this.weight);
+        // console.log(this.sex);
         this.targetweight = res.data.data.target_weight;
         this.plan = res.data.data.plan;
         this.weightrate = res.data.data.rate;
@@ -292,7 +270,7 @@ export default {
           this.targetweightshow = '暂无计划';
         }
       },
-    }); //
+    });
   },
 };
 </script>

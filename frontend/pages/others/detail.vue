@@ -14,13 +14,21 @@
         mode="aspectFill"
       /></image>
     </view>
-
     <view style="display:flex;flex-direction: column;align-items: center;">
       <view style="width: 600rpx;">
-        <view style="display:flex;flex-direction:row; align-items:flex-end; justify-content: space-between;">
-          <view class="name">{{ food.name }}\n</view>
-          <view class="cal">{{ food.calorie }} KCAL/{{ food.weight }}g</view>
+
+        <view style="display:flex;flex-direction:row; align-items:baseline;flex:auto">
+          <view class="name">{{ food.name }}
+          </view>
+          <view class="equ">
+            ≈1×<image
+              :src="'https://nkucalorie.top:8000'+food.equivalent"
+              class="eimag"
+            /></image>
+          </view>
+
         </view>
+        <view class="cal">{{ food.calorie }} KCAL/{{ food.weight }}g</view>
         <view class="tab">
           <tab>
             <ttr align="left">
@@ -140,6 +148,7 @@ export default {
       isimg: true,
       name: '菜品名称',
       cal: '100KCAL/100g',
+      equivalent: '等价物icon',
       tags: [{
         id: 1,
         name: '理科食堂',
@@ -179,6 +188,7 @@ export default {
         this.food = res.data.data.dish;
         console.log(res);
         this.like_count = this.food.like;
+        this.equivalent = this.food.equivalent;
         this.dislike_count = this.food.dislike;
         this.tags = this.food.tag;
         this.nutrition.push({
@@ -440,20 +450,34 @@ export default {
     font-size: 53rpx;
     font-weight: 800;
     color: #505050;
-    line-height: 80rpx;
-    margin-top: 20rpx;
+    padding-right: 10rpx;
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
   }
+.equ{
+  position: relative;
+  left:0rpx;
+  top:0rpx;
+  width: 100rpx;
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #505050;
+  line-height: 70rpx;
+}
+.eimag{
+  position: absolute;
 
+  width: 80%;
+  height: 100%;
+}
   .cal {
-    font-size: 28rpx;
+    width: 230rpx;
+    font-size: 30rpx;
     text-align: center;
     background-color: #f3e2d2;
-    padding-left: 10rpx;
-    padding-right: 10rpx;
     border-radius: 10rpx;
     color: #505050;
     line-height: 50rpx;
-    margin-left: 10px;
   }
 
   .opinion {

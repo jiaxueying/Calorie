@@ -15,10 +15,7 @@
         class="img"
       /></image>
       <text class="text">摇一摇来发现美食吧！</text>
-      <button
-        @click="gotolist"
-        style="margin-top: 50rpx;"
-      >调试专用作弊按钮</button>
+
     </view>
   </view>
 </template>

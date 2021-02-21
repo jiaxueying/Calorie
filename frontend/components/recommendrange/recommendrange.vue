@@ -1,37 +1,20 @@
 <template>
   <view class="content">
-    <text>本日推荐的卡路里范围为{{ min }}-{{ max }}cal</text>
+    <text>本日推荐的卡路里范围为{{ min }}-{{ max }}kcal</text>
   </view>
 </template>
 
 <script>
 export default {
-  props: {
-    min: {
-      type: Number,
-      default: 0,
-    },
-    max: {
-      type: Number,
-      default: 0,
-    }}, // 子组件
+  props: ['min', 'max'],
+  // 子组件
     	data() {
    		return {
-      min: '',
-      max: '',
+
    		};
    	},
   methods: {
 
-  },
-  created() {
-    uni.getStorage({
-      key: 'range',
-      success: (res) => {
-        this.min = res.data[0];
-        this.max = res.data[1];
-      },
-    });
   },
 };
 </script>
