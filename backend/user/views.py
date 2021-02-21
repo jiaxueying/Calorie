@@ -18,6 +18,7 @@ from calorie.settings import DEBUG
 
 from user.serializers import UserSerializer
 from user.models import User
+from user.api import getCal
 
 APPSECRET = "987fa4e0b2d2198e83a760a42b42148c"
 APPID = "wx6310320ccdaaf1c5"
@@ -117,8 +118,12 @@ class UserProfileAPI(APIView):
         """
         user_obj = request.user
         serializer = UserSerializer(user_obj)
+        data = serializer.data
+        cal = getCal(data)
+        data['min_calorie'] = cal['min']
+        data['max_calorie'] = cal['max']
         try:
-            return self.success(data=serializer.data)
+            return self.success(data=data)
         except Exception as _:
             return self.error(err=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
