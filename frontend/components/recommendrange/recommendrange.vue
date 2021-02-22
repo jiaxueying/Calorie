@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <text>本日推荐的卡路里范围为{{ min }}-{{ max }}kcal</text>
+    <text>本日推荐的卡路里范围为{{ min }}-{{ max }}cal</text>
   </view>
 </template>
 

@@ -466,9 +466,12 @@ export default {
 }
 .eimag{
   position: absolute;
-
-  width: 80%;
-  height: 100%;
+  right:-80rpx;
+  top:0;
+  bottom:0;
+  width: 80rpx;
+  height: 64rpx;
+  margin:auto;
 }
   .cal {
     width: 230rpx;
