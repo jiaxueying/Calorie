@@ -18,6 +18,7 @@ from calorie.settings import DEBUG
 
 from user.serializers import UserSerializer
 from user.models import User
+from user.api import getCal
 
 APPSECRET = "987fa4e0b2d2198e83a760a42b42148c"
 APPID = "wx6310320ccdaaf1c5"
@@ -46,7 +47,7 @@ class UserLoginAPI(rest_auth.ObtainAuthToken):
             login_data['username'] = self.get_openid(login_data['code'])
             login_data['password'] = self.get_password(login_data['username'])
             if not User.objects.filter(username=login_data['username']):
-                User.objects.create_user(username=login_data['username'], password=login_data['password'], name=login_data['name'])
+                User.objects.create_user(username=login_data['username'], password=login_data['password'])
                 return_data['is_first'] = True
             token = self.get_or_create_token(login_data, request)
             return_data['token'] = token
@@ -95,7 +96,7 @@ class UserProfileAPI(APIView):
         """
         修改用户信息
         """
-        required_fields = ('weight', 'target_weight', 'plan')
+        required_fields = ('weight', 'target_weight', 'plan', 'rate', 'gender', 'age', 'height')
         for required_field in required_fields:
             if required_field not in request.data:
                 raise FieldException("没有字段%s"%required_field)
@@ -105,6 +106,9 @@ class UserProfileAPI(APIView):
         user_obj.target_weight = request.data['target_weight']
         user_obj.plan = request.data['plan']
         user_obj.rate = request.data['rate']
+        user_obj.gender = request.data['gender']
+        user_obj.age = request.data['age']
+        user_obj.height = request.data['height']
         user_obj.save()
         return self.success()
 
@@ -114,8 +118,12 @@ class UserProfileAPI(APIView):
         """
         user_obj = request.user
         serializer = UserSerializer(user_obj)
+        data = serializer.data
+        cal = getCal(data)
+        data['min_calorie'] = round(cal['min'], 2)
+        data['max_calorie'] = round(cal['max'], 2)
         try:
-            return self.success(data=serializer.data)
+            return self.success(data=data)
         except Exception as _:
             return self.error(err=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

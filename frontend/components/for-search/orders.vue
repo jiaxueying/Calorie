@@ -1,146 +1,222 @@
 <template>
-	<view class="orders">
-		<view class="orderHead">
-			<view class="head_one">
+  <view class="orders">
+    <view class="orderHead">
+      <view class="head_one">
         <view class="image_head">
-          <open-data type="userAvatarUrl"></open-data>
+          <open-data
+            type="userAvatarUrl"
+          />
         </view>
         <view class="name_head">我的菜单</view>
-        <view class="cont_head">{{Calories}}kcal</view>
+        <view class="cont_head">{{ Calories }}kcal</view>
       </view>
-      <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view>
-		</view>
+      <!-- <view class="cancel_head"><view class="button" @click="clrAll">清空</view></view> -->
+    </view>
     <view class="orderMid">
-     <view class="midOne">西米提醒您</view><!--推荐卡路里摄入范围-->
-     <view class="midTwo">合理搭配饮食哈，健康最重要</view><!--1350kcal-1750kcal/day-->
+      <!--推荐卡路里摄入范围-->
+      <recommendrange
+        :min="min"
+        :max="max"
+      />
     </view>
-		
-		<view class="order_list" v-for="food in Foods" :key="food.name">
-			<food-in-order :foodname="food.name" :weight="food.sum" :calorie="food.cal"></food-in-order>
-		</view>
-		<view class="order_bottom">
-      <button @tap='Close()'>继续添加</button>
-      <button @tap='mylist'>生成我的菜单</button><!--添加和后端的通信-->
+    <view
+      class="order_list"
+      v-for="food in Foods"
+      :key="food.name"
+    >
+      <food-in-order
+        :foodname="food.name"
+        :weight="food.sum"
+        :calorie="food.cal"
+      />
     </view>
-	</view>
+    <view class="order_bottom">
+      <button @tap="clrAll">
+        <text
+          class="iconfont icon-delete"
+          style="color:#442918"
+        />
+        {{ text1 }}</button>
+      <button @tap="Close()">
+        <text
+          class="iconfont icon-addToList"
+          style="color:#442918"
+        />
+        {{ text2 }}</button>
+      <button @tap="mylist">
+        <text
+          class="iconfont icon-caidan"
+          style="color:#442918"
+        />
+        {{ text3 }}</button>
+    </view>
+  </view>
 </template>
 
 <script>
-	import FoodInOrder from "./food-in-order.vue"
-	export default {
-		components: {
-			FoodInOrder,
-		},
-		props: {
-			Foods: {
-				type: Array,
-				default: () => [],
-			},
-		},
-		data() {
-			return {
-				Calories: 0,
-       }
-		},
-		onLoad() {
-			uni.$on("CalChange", this.caloriesChange);
-			uni.$on("delname", this.delName);
-		},
-		methods: {
-			Close() {
-				console.log("add button clicked");
-				this.$parent.IsShow = false;
-			},
-			caloriesChange(v) {
-				console.log(v);
-				this.Calories += v;
-			},
-			delName(v) {
-				console.log("DelName activated");
-				var i = 0;
-				for(; i < this.Foods.length; i++) 
-				if(this.Foods[i].name == v)break;
-					this.Foods.splice(i,1);
-					for(i = 0; i < this.Foods.length; i++)
-						console.log(this.Foods[i]);
-			},
-      clrAll() {
-        uni.setStorageSync('meal-list', []);
-        uni.$emit("refresh1");
-        uni.$emit("refresh2");
+
+import FoodInOrder from './food-in-order.vue';
+export default {
+  components: {
+    FoodInOrder,
+  },
+  props: {
+    Foods: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      Calories: 0,
+      min: 40,
+      max: 50,
+      text1: '  全部清空',
+      text2: '  继续添加',
+      text3: '   生成菜单',
+    };
+  },
+  created() {
+    // console.log('你好');
+    uni.request({
+      url: 'https://nkucalorie.top:8000/user/profile/',
+      method: 'GET',
+      header: {
+        Authorization: 'Token ' + uni.getStorageSync('token'),
       },
-      mylist() {
-		  this.Close()
-        console.log("mylist clicked");
-        uni.removeStorageSync('historymsg');
-        if(this.Foods.length === 0) {
-          uni.showModal({
-            title: '提示',
-            content: '您的购物车中还没有菜品哦~',
-          });
-          return;
-        }
-				this.$parent.IsShow = false;
-        wx.navigateTo({
-          url: '../others/mylist',
+      success: (res) => {
+        console.log('nihao');
+        this.min = res.data.data.min_calorie;
+        this.max = res.data.data.max_calorie;
+      },
+
+    });
+    uni.$on('CalChange', this.caloriesChange);
+    uni.$on('delname', this.delName);
+  },
+  methods: {
+    Close() {
+      console.log('add button clicked');
+      this.$parent.IsShow = false;
+    },
+    caloriesChange(v) {
+      console.log(v);
+      this.Calories += v;
+    },
+    delName(v) {
+      console.log('DelName activated');
+      var i = 0;
+      for (; i < this.Foods.length; i++) { if (this.Foods[i].name == v) break; }
+      this.Foods.splice(i, 1);
+      for (i = 0; i < this.Foods.length; i++) { console.log(this.Foods[i]); }
+    },
+    clrAll() {
+      uni.setStorageSync('meal-list', []);
+      uni.$emit('refresh1');
+      uni.$emit('refresh2');
+    },
+    mylist() {
+      this.Close();
+      console.log('mylist clicked');
+      uni.removeStorageSync('historymsg');
+      if (this.Foods.length === 0) {
+        uni.showModal({
+          title: '提示',
+          content: '您的购物车中还没有菜品哦~',
         });
+        return;
       }
-		},
-    watch: {
-      Foods(newV) {
-        console.log("Foods changed");
-        this.Calories = 0;
-        for(var i = 0; i < newV.length; i++) {
-          this.Calories += newV[i].cal;
-        }
+      this.$parent.IsShow = false;
+      wx.navigateTo({
+        url: '../others/mylist',
+      });
+    },
+  },
+  watch: {
+    Foods(newV) {
+      console.log('Foods changed');
+
+      this.Calories = 0;
+      for (var i = 0; i < newV.length; i++) {
+        console.log('Here');
+        console.log(newV[i]);
+        this.Calories += newV[i].cal * newV[i].sum;
       }
     },
-	}
+  },
+};
+
 </script>
 
 <style lang="less">
-	.orders {
-		background-color: #FFFFFF;
-		width:100%;
-		display:inline-block;    
+  text{
+    white-space: pre;
+  }
+  .orderMid{
+    background-color: #f4f1ec;
+  }
+  recommendrange {
+   position:relative;
+   right:80rpx;
+   }
+
+//@import '/src/assets/iconfont/iconfont.css';
+
+  .icon-tianjia{
+    font-size: 25px;
+            position: fixed;
+            top: 20px;
+            right: 10px;
+
+  }
+  .orders {
+    width: 100%;
+    display: inline-block;
     .orderHead {
-      background-color:rgba(219, 207, 202, 1);
+      background-color: #f4f1ec;
+      border-radius: 0 30px 0 0;
+      box-shadow: 2px -0.5px 4px 0px rgba(0, 0, 0, 0.1);a
       height: 110rpx;
+
       .head_one {
-        height:50rpx;
+        height: 50rpx;
+
         .image_head {
           width: 86rpx;
           height: 86rpx;
           position: relative;
-          top:-20rpx;
+          top: -20rpx;
           left: 10rpx;
           background-color: #ccc;
           float: left;
+          border-radius: 15rpx;
         }
+
         .name_head {
           // position: relative;
           float: left;
           margin-left: 20rpx;
-          line-height:50rpx;
+          line-height: 86rpx;
+          color: #442018;
+          font-size: 28rpx;
+          font-weight: 300;
         }
+
         .cont_head {
           float: right;
           width: 113rpx;
-          height: 50rpx;        
-          color: rgba(255, 255, 255, 1);
-          color: rgba(219, 207, 202, 1);
-          background-color: rgba(89, 69, 61, 1);
-          background-color:  rgba(219, 207, 202, 1);
+          height: 50rpx;
           font-size: 26rpx;
-          line-height: 50rpx;
+          line-height: 86rpx;
           text-align: center;
         }
       }
-      
+
       .cancel_head {
         text-align: right;
+
         .button {
-          background-color: rgba(0,0,0,0);
+          background-color: rgba(0, 0, 0, 0);
           font-size: 24rpx;
           color: rgba(80, 80, 80, 1);
           display: inline-block;
@@ -148,42 +224,32 @@
         }
       }
     }
-    .orderMid {
-      font-size: 20rpx;
-      padding:10rpx 20rpx;
-      .midOne{
-          width: 89px;
-         	color: rgba(80, 80, 80, 1);
-         	box-shadow: rgba(204, 204, 204, 1) solid 1px;
-         	// border-radius: 9px;
-         	font-size: 22rpx;
-         	line-height: 150%;
-         	text-align: center;
-          display: inline-block;
-          border:1px solid #ccc;
-          border-radius: 18rpx;
-      }
-      .midTwo {
-        	color: rgba(153, 153, 153, 1);
-        	font-size: 25rpx;
-        	line-height: 150%;
-        	text-align: left;
-          display: inline-block;
-          margin-left: 39rpx;
-      }
-    }
+
     .order_list {
-      padding:10rpx 20rpx;
+      padding: 10rpx 20rpx;
+      background-color: rgb(239, 239, 241);
     }
-    .order_bottom {
-      button {
-        box-sizing: border-box;
-        width:50%;
-        font-size: 24rpx;
-        display: inline-block;
-        background-color: rgba(219, 207, 202, 1);
-        color: rgba(80, 80, 80, 1);
-      }
+    .order_bottom{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+
+      image{
+          width: 30rpx;
+          height: 30rpx;
+
+        }
+
+        button {
+          font-size: 28rpx;
+          font-weight: bolder;
+          background-color: #ffffff;
+          color: #602808;
+          box-sizing: border-box;
+          width: 33%;
+        }
+
     }
-	}
+  }
 </style>

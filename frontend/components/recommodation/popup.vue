@@ -4,14 +4,21 @@
     <view class="popup">
       <view class="popup_1">
         <view class="popup_2">
-		       <image class="img"
-           src="../../static/success.png" 
-           ></image>
-           <text>添加成功!</text>
-	      </view>
+          <image
+            class="img"
+            src="../../static/success.png"
+          /></image></image>
+          <text>添加成功!</text>
+        </view>
         <view class="buttomarea">
-          <view class="button" @click="gotoshake">重新推荐</view>
-          <view class="button" @click="gotohome">返回首页</view>
+          <view
+            class="button"
+            @click="gotoshake"
+          >重新推荐</view>
+          <view
+            class="button"
+            @click="gotohome"
+          >返回首页</view>
         </view>
       </view>
     </view>
@@ -19,20 +26,20 @@
 </template>
 
 <script>
-  export default{
-    methods:{
-      gotoshake:function(){
-        uni.redirectTo({
-          url:"../../pages/recommondation/shake"
-        })
-      },
-      gotohome:function(){
-        uni.navigateBack({
-          delta:99
-        })
-      }
-    }
-  }
+export default {
+  methods: {
+    gotoshake: function() {
+      uni.redirectTo({
+        url: '../../pages/recommondation/shake',
+      });
+    },
+    gotohome: function() {
+      uni.navigateBack({
+        delta: 99,
+      });
+    },
+  },
+};
 </script>
 
 <style>
@@ -58,9 +65,9 @@
   border-radius: 10px;
 }
 .popup_1{
-	display: flex;
-	flex-direction: column;//改变主轴方向,纵向为主轴
-	justify-content: flex-end;//popup2,text,button向下对齐
+display: flex;
+flex-direction: column;//改变主轴方向,纵向为主轴
+justify-content: flex-end;//popup2,text,button向下对齐
 }
 .popup_2{
   display: flex;

@@ -1,234 +1,330 @@
 <template>
-  <view>
+  <view class="backgroud">
+    <view class="nav">
+
+      <navTab
+        ref="navTab"
+        :tab-title="tabTitle"
+        :tab-chosen="2"
+      />
+    </view>
+
     <!--用户信息部分-->
     <view class="allinfo">
-        <view class="userimg">
-            <open-data type="userAvatarUrl"></open-data>
-        </view>
-        
-        <view class="userinfor">
-            <view class="editbut">
-                <open-data class="nickname" type="userNickName" @click="administrator"></open-data>
-                <view class="button" @click="set">编辑模式</view>
-                <switch color="#59453D" :checked="Switch" @click="set"></switch>
-            </view>
-            <image src="https://nkucalorie.top:8000/media/static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
-            <view><text class="weightSet">体重：{{weight}}kg\n目标体重：{{targetweightshow}}\n体重变化速率：{{weightrate}}kg/Day</text></view>
-            <!--<text class="calorieForDay">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>-->
-        </view>
+      <open-data
+        class="userimg"
+        type="userAvatarUrl"
+      />
+
     </view>
-      
-    <!--历史菜单组件-->
-    <view class="history" v-if="!Switch"><historylist></historylist></view>
-    
-    <!--计划设置组件-->
-    <view class="plan" v-if="Switch">
-        <plan @input="changetarget" :plan="targetweightshow" :targetweightrec="targetweight" :weight="weight" :rate="weightrate"></plan>
-        <!--弹出框组件-->
-        <view class="popcontent" v-if="pop">
-            <view class="popup">
-                <view class="text">请输入您当前体重</view>
-                <view class="popinput">
-                    <input :value="weight" type="number" maxlength="3" :placeholder="weight" @input="refresh"/>KG
-                </view>
-                <view class="bottom">
-                    <view class="popbutton1" @click="cancel">取消</view>
-                    <view class="popbutton2" @click="confirm">确认</view>
-                </view>
-            </view>
-        </view>
-   </view>
-   
-  </view>
-</template>
+
+    <view class="allinfo">
+
+      <open-data
+        class="nickname"
+        type="userNickName"
+        @click="administrator"
+      />
+    </view>
+    <view class="userinfo">
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">性别</text>
+        <text class="card_value">{{ sex }}</text>
+      </view>
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">年龄/岁</text>
+        <text class="card_value">{{ age }}</text>
+      </view>
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">身高/cm</text>
+        <text class="card_value">{{ height }}</text>
+      </view>
+
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title" >体重/kg</text>
+        <text class="card_value">{{ weight }}</text>
+      </view>
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">目标/kg</text>
+        <text class="card_value">{{ targetweightshow }}</text>
+      </view>
+      <view
+        class="card"
+        @click="set"
+      >
+        <text class="card_title">体重变化速率</text>
+        <text class="card_value">{{ weightrate }}</text>
+      </view>
+      <!--历史菜单组件-->
+      <view v-if="!Switch">
+        <historylist/>
+      </view>
+
+      <!--计划设置组件-->
+      <view
+        class="plan"
+        v-if="Switch"
+      >
+        <plan
+          @input="changetarget"
+          :sex="sex"
+          :age="age"
+          :height="height"
+          :plan="targetweightshow"
+          :targetweight="targetweight"
+          :weight="weight"
+          :rate="weightrate"
+        />
+
+      </view>
+    </view>
+</view></template>
 
 <script>
-  import plan from "../../components/user/plan.vue"
-  import historylist from "../../components/user/history.vue"
-	export default {
-    components:{
-      plan,
-      historylist
+import plan from '../../components/user/plan.vue';
+import historylist from '../../components/user/history.vue';
+
+export default {
+  components: {
+    plan,
+    historylist,
+
+  },
+  data() {
+    return {
+      sex: '--',
+      age: 16,
+      height: 160,
+      weight: 100,
+      minCalForDay: '1000',
+      maxCalForDay: '1500',
+      Switch: false,
+      targetweight: 0,
+      pop: false,
+      tempweight: 1, // pop组件里的体重变量
+      targetweightshow: '99',
+      plan: true,
+      weightrate: 0,
+      weightdate: 60,
+      tabTitle: ['菜品查询', '菜品推荐', '个人中心'], // 导航栏格式
+    };
+  },
+  methods: {
+
+    // 编辑模式选择
+    set: function() {
+      this.Switch = !this.Switch;
     },
-		data() {
-			return {
-        weight:'100',
-        minCalForDay:'1000',
-        maxCalForDay:'1500',
-        Switch:false,
-        targetweight:0,
-        pop:false,
-        tempweight:1,//pop组件里的体重变量
-        targetweightshow:"999kg",
-        plan:true,
-        weightrate:0,
-        weightdate:60,
-			}
-		},
-		methods: {
-      
-      //编辑模式选择
-			set:function(){
-        this.Switch=!this.Switch
-        if(this.Switch==false){
-          uni.request({
-            url:"https://nkucalorie.top:8000/user/profile/",
-            method:"POST",
-            header:{
-              Authorization:'Token '+uni.getStorageSync('token')
-            },
-            data:{
-              plan:this.plan,
-              weight:this.weight,
-              target_weight:this.targetweight,
-              rate:this.weightrate,
-            },
-            
-          });
-          uni.request({
-            url:"https://nkucalorie.top:8000/user/profile/",
-            method:"GET",
-            header:{
-              Authorization:'Token '+uni.getStorageSync('token')
-            },
-            success: (res) => {
-              console.log(res.data)
-            }
-          })
-        }
-      },
-      
-      //此事件被子组件触发，a就是从子组件获取的数据，targetweight
-      changetarget:function(data){
-        if(data.string!="暂无计划")
-        {
-        this.targetweight=data.targetweight
-        this.targetweightshow=data.targetweight+"kg"
-        this.weightrate=data.rate
-        this.plan=true
-        }
-        else
-        {
-        this.targetweightshow="暂无计划"
-        this.weightrate=data.rate
-        this.targetweight=0
-        this.plan=false
-        }
-        
-      },
-      
-      //点击编辑图标，改变用户目前体重
-      changeweight:function(){
-        this.tempweight=this.weight
-        this.pop=true
-      },
-      
-      //填写当前体重popup的取消按钮对应函数
-      cancel:function(){
-        this.pop=false
-      },
-      
-      //填写当前体重popup的确认按钮对应函数
-      confirm:function(){
-        this.weight=this.tempweight
-        this.pop=false
-        this.weightdate=uni.getStorageSync('weightdate')
-        this.weightrate=(this.targetweight-this.weight)/this.weightdate 
-        this.weightrate=this.weightrate.toFixed(2);
-        
-        
-      },
-      
-      //在pop里输入当前体重
-      refresh:function(event){
-        this.tempweight=event.detail.value
-      },
-      
-        
-      administrator:function(){
-        console.log("in administrator")
-        uni.navigateTo({
-            url: './administrator'
-        });
+
+    // 此事件被子组件触发，a就是从子组件获取的数据，targetweight
+    changetarget: function(data) {
+      if (data.string != '暂无计划') {
+        this.sex = data.sex;
+        this.age = data.age;
+        this.height = data.height;
+        this.weight = data.weight;
+        this.targetweight = data.targetweight;
+        this.targetweightshow = data.targetweight;
+        this.weightrate = data.rate;
+        this.plan = true;
+      } else {
+        this.sex = data.sex;
+        this.age = data.age;
+        this.weight = data.weight;
+        this.height = data.height;
+        this.targetweightshow = '暂无计划';
+        this.weightrate = data.rate;
+        this.targetweightshow = this.weight;
+        this.targetweight = 0;
+        this.plan = false;
       }
-		},
-    
-    onShow(){
-        this.weightdate=uni.getStorageSync('weightdate')
-        uni.request({
-          url:"https://nkucalorie.top:8000/user/profile/",
-          method:"GET",
-          header:{
-            Authorization:"Token "+uni.getStorageSync("token")
-          },
-          success: (res) => {
-            this.weight=res.data.data.weight
-            this.targetweight=res.data.data.target_weight
-            this.plan=res.data.data.plan
-            this.weightrate=res.data.data.rate
-            if(this.plan)
-            {
-              this.targetweightshow=this.targetweight+"KG"
-            }
-            else
-            {
-              this.targetweightshow="暂无计划"
-            }
-      	}
-      })
-    },
-    
-    onLoad() {
-      this.weightdate=uni.getStorageSync('weightdate')
+
+      // if (this.Switch) {
       uni.request({
-        url:"https://nkucalorie.top:8000/user/profile/",
-        method:"GET",
-        header:{
-          Authorization:"Token "+uni.getStorageSync("token")
+        url: 'https://nkucalorie.top:8000/user/profile/',
+        method: 'POST',
+        header: {
+          Authorization: 'Token ' + uni.getStorageSync('token'),
+        },
+        data: {
+          gender: this.sex,
+          age: this.age,
+          height: this.height,
+          plan: this.plan,
+          weight: this.weight,
+          target_weight: this.targetweight,
+          rate: this.weightrate,
+        },
+
+      });
+
+      uni.request({
+        url: 'https://nkucalorie.top:8000/user/profile/',
+        method: 'GET',
+        header: {
+          Authorization: 'Token ' + uni.getStorageSync('token'),
         },
         success: (res) => {
-          this.weight=res.data.data.weight
-          this.targetweight=res.data.data.target_weight
-          this.plan=res.data.data.plan
-          this.weightrate=res.data.data.rate
-          if(this.plan)
-          {
-            this.targetweightshow=this.targetweight+"KG"
-          }
-          else
-          {
-            this.targetweightshow="暂无计划"
-          }
-			}
-		})//
-    
-    }
-	}
+          // console.log(res.data);
+        },
+      });
+    //  }
+    },
+
+    // 点击编辑图标，改变用户目前体重
+    changeweight: function() {
+      this.tempweight = this.weight;
+      this.pop = true;
+    },
+
+    // 填写当前体重popup的取消按钮对应函数
+    cancel: function() {
+      this.pop = false;
+    },
+
+    // 填写当前体重popup的确认按钮对应函数
+    confirm: function() {
+      this.weight = this.tempweight;
+      this.pop = false;
+      this.weightdate = uni.getStorageSync('weightdate');
+      this.weightrate = (this.targetweight - this.weight) / this.weightdate;
+      this.weightrate = this.weightrate.toFixed(2);
+    },
+
+    // 在pop里输入当前体重
+    refresh: function(event) {
+      this.tempweight = event.detail.value;
+    },
+
+    administrator: function() {
+      console.log('in administrator');
+      uni.navigateTo({
+        url: './administrator',
+      });
+    },
+  },
+
+  onShow() {
+    this.weightdate = uni.getStorageSync('weightdate');
+    uni.request({
+      url: 'https://nkucalorie.top:8000/user/profile/',
+      method: 'GET',
+      header: {
+        Authorization: 'Token ' + uni.getStorageSync('token'),
+      },
+      success: (res) => {
+        this.sex = res.data.data.gender;
+        this.age = res.data.data.age;
+        this.height = res.data.data.height;
+        this.weight = res.data.data.weight;
+        this.targetweight = res.data.data.target_weight;
+        this.plan = res.data.data.plan;
+        this.weightrate = res.data.data.rate;
+        // this.min;
+        if (this.plan) {
+          this.targetweightshow = this.targetweight;
+        } else {
+          this.targetweightshow = '暂无计划';
+        }
+      },
+    });
+  },
+
+  onLoad() {
+    this.weightdate = uni.getStorageSync('weightdate');
+    uni.request({
+      url: 'https://nkucalorie.top:8000/user/profile/',
+      method: 'GET',
+      header: {
+        Authorization: 'Token ' + uni.getStorageSync('token'),
+      },
+      success: (res) => {
+        this.sex = res.data.data.gender;
+        this.age = res.data.data.age;
+        this.height = res.data.data.height;
+        this.weight = res.data.data.weight;
+        // console.log(this.weight);
+        // console.log(this.sex);
+        this.targetweight = res.data.data.target_weight;
+        this.plan = res.data.data.plan;
+        this.weightrate = res.data.data.rate;
+        // this.min
+        if (this.plan) {
+          this.targetweightshow = this.targetweight;
+        } else {
+          this.targetweightshow = '暂无计划';
+        }
+      },
+    });
+  },
+};
 </script>
 
 <style>
-  .allinfo{
+  .nav {
+    left: 0;
+    top: 0;
+    color: #C8A57E;
+    width: 100vw;
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 24upx;
+    background-color: #FFFFFF;
+    z-index: 99999;
+    margin-bottom: 50rpx;
+    }
+
+  .backgroud {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    height: 100%;
+    width: 100%;
   }
-	.userimg{
-    margin-top: 15%;
-		width:200rpx;
-		height:200rpx;
-		border-radius:50%;
+ recommendrange{
+   position:absolute;
+  top:92rpx;}
+
+  .allinfo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .userimg {
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 50%;
     overflow: hidden;
-    position:relative;
-    left:55rpx;
-	}
-  .userinfor{
+    margin: 0 auto;
+  }
+
+  .userinfor {
     color: #505050;
     margin-top: 15%;
     display: flex;
     flex-direction: column;
-    position:relative;
-    left:100rpx
-    
+    position: relative;
+    left: 100rpx
   }
-  .button{
+
+  .button {
     font-size: 25rpx;
     background-color: #e8e8e8;
     height: 60rpx;
@@ -239,33 +335,46 @@
     margin-left: 20rpx;
     border-left: 5px #e8e8e8 solid;
   }
-  @keyframes pushleft{
-    from{margin-left: 750rpx;opacity: 0;}
-    to{}
+
+  @keyframes pushleft {
+    from {
+      margin-left: 750rpx;
+      opacity: 0;
+    }
+
+    to {}
   }
-  @keyframes pushright{
-    from{margin-right: 750rpx;opacity: 0;}
-    to{}
+
+  @keyframes pushright {
+    from {
+      margin-right: 750rpx;
+      opacity: 0;
+    }
+
+    to {}
   }
-  .edit{
+
+  .edit {
     position: absolute;
-    top:95rpx;
+    top: 95rpx;
     left: 280rpx;
     height: 35rpx;
     width: 35rpx;
   }
-  .popcontent{
+
+  .popcontent {
     display: flex;
     position: fixed;
     top: 0;
     left: 0;
     justify-content: center;
-    background-color: rgba(0,0,0,.50);
+    background-color: rgba(0, 0, 0, .50);
     width: 100%;
     height: 100%;
     z-index: 99;
   }
-  .popup{
+
+  .popup {
     background-color: #ffffff;
     width: 600rpx;
     height: 320rpx;
@@ -278,22 +387,26 @@
     border-radius: 15rpx;
     overflow: hidden;
   }
-  .text{
+
+  .text {
     font-size: 40rpx;
     margin-bottom: 40rpx;
   }
-  .popinput{
+
+  .popinput {
     display: flex;
     border-bottom: #000000 1px solid;
     width: 120rpx;
     margin-bottom: 40rpx;
   }
-  .bottom{
+
+  .bottom {
     display: flex;
     width: 600rpx;
     background-color: #ffffff;
   }
-  .popbutton1{
+
+  .popbutton1 {
     border-top: #000000 2rpx solid;
     text-align: center;
     line-height: 90rpx;
@@ -302,7 +415,8 @@
     border-right: #000000 1px solid;
     color: #8F8F94;
   }
-  .popbutton2{
+
+  .popbutton2 {
     border-top: #000000 2rpx solid;
     text-align: center;
     line-height: 90rpx;
@@ -311,36 +425,69 @@
     border-left: #000000 1px solid;
     color: #00aa00;
   }
-  .nickname{
-    font-size: 1.5em;
-    height:85rpx;
-    }
-  .editbut{
+
+  .nickname {
+    font-size: 15px;
+    margin: 5px;
+  }
+
+  .editbut {
     display: flex;
-    }
-  .plan{
+  }
+
+  .plan {
     display: flex;
     justify-content: center;
     animation: pushleft 500ms;
-    }
-  switch{
+  }
+
+  switch {
     transform: scale(0.6);
     /*缩放*/
     position: relative;
     right: 100rpx;
-    top: 10rpx; 
-   }
-   .weightSet{
-     font-size: 1em;
-     margin-top: 6rpx;
-     margin-bottom: 6rpx;
-     word-break: break-all;
-     word-wrap: break-word;
-   }
-   .calorieForDay{
-     font-size: 0.7em;
-   }
-   .history{
-     animation: pushright 1s;
-   }
+    top: 10rpx;
+  }
+
+  .weightSet {
+    font-size: 1em;
+    margin-top: 6rpx;
+    margin-bottom: 6rpx;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+
+  .calorieForDay {
+    font-size: 0.7em;
+  }
+
+  .userinfo {
+    border-radius: 0 30px 0 0;
+    background-color: rgba(248, 245, 244, 1);
+    box-shadow: 10px -2px 10px #888888;
+    height: 100%;
+    width: 100%;
+    padding-top: 15px;
+    /* padding-left: 10px; */
+    margin-top: 5px;
+  }
+
+  .card {
+    width: 33.33333%;
+    display: inline-block;
+  }
+
+  .card_title {
+    display: block;
+    font-size: 10px;
+    color: #B0B0B0;
+    text-align:center;
+
+  }
+
+  .card_value {
+    display: block;
+    font-size: 17px;
+    text-align:center;
+  }
 </style>

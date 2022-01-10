@@ -4,12 +4,12 @@
       <view class="all">
         <!--my list 的菜单部分-->
         <view class="list">
-          <text class="title">My list</text>
+          <text class="title">我的菜单</text>
           <view class="content">
             <view class="scroll">
               <!--菜单可滚动部分-->
               <scroll-view scroll-y="true" class="scrollview">
-                <view style="height:5rpx;"></view>
+                <view style="height:5rpx; margin-top: 10px;"></view>
                 <view v-for="(srcitem,i) in path">
                   <image :src="srcitem" ref="conf0" @load="onload" mode="aspectFill"></image>
                   <view class="mealinfor">
@@ -20,17 +20,13 @@
                 </view>
               </scroll-view>
               <!--菜单下方文本部分-->
-              <view style="height:100rpx;" class="energy">
-                <text>本餐共摄入\n{{msg}}kcal</text>
+              <view class="energy">
+                <text>本餐共摄入{{msg}}kcal</text>
+              </view>
+              <view class="energy">
+                <text style="color:#ababab;">{{date}}</text>
               </view>
             </view>
-            <!--scroll-->
-          </view>
-          <!--content-->
-          <!--最下方文本-->
-          <view class="listBottomText">
-            <text>#粟 </text>
-            <text class="date">{{date}}</text>
           </view>
           <canvas canvas-id="canvas" :style="size" :width="width" :height="height"></canvas>
         </view>
@@ -38,29 +34,22 @@
       </view>
       <!--all-->
     </scroll-view>
-
-
     <view class="allbtn">
-
       <button style="display: none;">
         <image class="icon" src="../../static/friend.jpg" style="opacity: 0.7;"></image>
         <picker style="z-index:999" mode="time" :value="time" start="09:01" end="21:01" @change="bindTimeChange">
           <text>食堂订餐</text>
         </picker>
       </button>
-
       <button open-type="share" class="button">
-        <image class="icon" src="../../static/friend.jpg" style=""></image><br>
-        <view style="font-size: 30rpx;width: 200rpx;"><text>发送给朋友</text></view>
+        <image class="icon" src="../../static/friend.png" style=""></image><br>
+        <view style="color: #909090; font-size: 20rpx;width: 200rpx;"><text>发送给朋友</text></view>
       </button>
-
       <button @click="save" class="button">
-        <image class="icon" src="../../static/download.jpg"></image><br>
-        <view style="font-size: 30rpx;width: 200rpx;"><text>保存到手机</text></view>
+        <image class="icon" src="../../static/download.png"></image><br>
+        <view style="color: #909090; font-size: 20rpx;width: 200rpx;"><text>保存到手机</text></view>
       </button>
-
     </view>
-
   </view>
 </template>
 
@@ -133,7 +122,7 @@
                 this.meallist[i] = {}
                 this.meallist[i].picture = data.detail[i].picture
                 this.meallist[i].calorie = data.detail[i].calorie
-                this.msg+=this.meallist[i].calorie
+                this.msg += this.meallist[i].calorie
                 this.path.push('https://nkucalorie.top:8000' + data.detail[i].picture)
                 this.getinfo(i)
                 this.meallist[i].name = data.detail[i].name
@@ -147,9 +136,9 @@
             },
             fail: () => { //未获取到历史菜单，从购物车进入
               reject('error in show');
-              var time = new Date(new Date().getTime()+8 * 3600 * 1000);
-              this.date = time.toISOString().substr(0,19)
-              this.date=this.date.replace('T',' ')
+              var time = new Date(new Date().getTime() + 8 * 3600 * 1000);
+              this.date = time.toISOString().substr(0, 19)
+              this.date = this.date.replace('T', ' ')
               console.log(this.date)
               this.menuid = uni.getStorageSync('menuid');
               var tempmeallist = uni.getStorageSync('meal-list');
@@ -157,8 +146,8 @@
               for (var i = 0, j = 0; i < tempmeallist.length; i++) {
                 if (tempmeallist[i].sum != 0) {
                   this.meallist[j] = tempmeallist[i];
-                  this.meallist[j].calorie=this.meallist[i].cal*this.meallist[i].sum
-                  this.msg+=this.meallist[j].calorie
+                  this.meallist[j].calorie = this.meallist[i].cal * this.meallist[i].sum
+                  this.msg += this.meallist[j].calorie
                   this.path.push('https://nkucalorie.top:8000' + this.meallist[j].picture);
                   this.getinfo(j);
                   j++;
@@ -232,19 +221,19 @@
         ctx.setFillStyle('#59453D') //设置绘图的背景颜色
         ctx.setTextBaseline('middle')
         ctx.fillText("My List", 130 * rp, 40 * rp)
-        ctx.fillText("本餐共摄入",180*rp,340*rp+j*90*rp)
-        var w=ctx.measureText(this.msg+"kcal").width
-        ctx.fillText(this.msg+"kcal",200*rp+35-w,360*rp+j*90*rp)
+        ctx.fillText("本餐共摄入", 180 * rp, 340 * rp + j * 90 * rp)
+        var w = ctx.measureText(this.msg + "kcal").width
+        ctx.fillText(this.msg + "kcal", 200 * rp + 35 - w, 360 * rp + j * 90 * rp)
         ctx.fillText("#粟", 3 * rp, 390 * rp + j * 90 * rp)
         var metrics = ctx.measureText(this.date).width
         console.log(metrics)
-        ctx.fillText(this.date, 300 * rp - metrics*1.5, 390 * rp + j * 90 * rp)
+        ctx.fillText(this.date, 300 * rp - metrics * 1.5, 390 * rp + j * 90 * rp)
 
         for (var i = 0; i < this.meallist.length; i++) {
           ctx.drawImage(this.paths[i], 70 * rp, 57 * rp + i * 90 * rp, 70 * rp, 70 * rp)
           ctx.fillText(this.meallist[i].name, 180 * rp, 71 * rp + i * 90 * rp)
           ctx.fillText(this.meallist[i].sum + "份", 180 * rp, 94 * rp + i * 90 * rp)
-          ctx.fillText(this.meallist[i].calorie+"kcal",180*rp,117*rp+i*90*rp)
+          ctx.fillText(this.meallist[i].calorie + "kcal", 180 * rp, 117 * rp + i * 90 * rp)
         }
 
         // for (var i = 0; i < this.meallist.length; i++) {
@@ -395,10 +384,12 @@
   }
 
   .list {
-    width: 90%;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    border: #333333 solid 5rpx;
+    width: 80%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    /* padding-top: 10px; */
+    border: #333333 solid 2rpx;
+    border-radius: 10px;
     background-color: #FFFFFF;
   }
 
@@ -407,6 +398,7 @@
     align-content: center;
     justify-content: center;
     margin-bottom: 5%;
+    padding-top: 10px;
   }
 
   .scroll {
@@ -420,9 +412,9 @@
     position: fixed;
     bottom: 0rpx;
     background-color: #ffffff;
-    border-top: #000000 solid 1px;
+    /* border-top: #000000 solid 1px; */
     padding-top: 20rpx;
-    box-shadow: #a7a7a7 0 -5px 5px;
+    /* box-shadow: #a7a7a7 0 -1px 1rpx; */
   }
 
   text {
@@ -447,8 +439,8 @@
   .button {}
 
   .icon {
-    width: 50rpx;
-    height: 50rpx;
+    width: 70rpx;
+    height: 70rpx;
     opacity: 0.8;
   }
 
@@ -467,15 +459,16 @@
     font-weight: 1500;
     text-align: center;
     display: block;
-    margin-top: 80rpx;
+    margin-top: 30rpx;
+    margin-bottom: 10rpx;
   }
 
   .mealinfor {
     display: inline-block;
     position: absolute;
     left: 330rpx;
-    line-height: 50rpx;
-    margin-top: 15rpx;
+    /* line-height: 50rpx; */
+    margin-top: 15px;
     //使用inline-block的时候所有的justify和align布局都失效
   }
 
@@ -489,18 +482,21 @@
   }
 
   .scrollview {
-    border-top: #333333 inset 5rpx;
-    border-bottom: #333333 outset 5rpx;
+    border-top: #a5a5a5 dashed 1rpx;
+    border-bottom: #a5a5a5 dashed 1rpx;
     height: 660rpx;
   }
 
   .listBottomText {
-    border-top: #333333 groove 5rpx;
+    border: #333333 solid 2rpx;
+
   }
 
   .date {
-    position: absolute;
-    right: 50rpx;
+    position: relative;
+    margin-right: 5rpx;
+    /* right: 50rpx; */
+
   }
 
   .ordertime {
@@ -510,6 +506,7 @@
   .inorder {
     display: none;
   }
+
   .energy {
     text-align: right;
     width: 100%;
