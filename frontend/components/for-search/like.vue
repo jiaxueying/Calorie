@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        :src="'https://nkucalorie.top:8000'+food.picture"
+        :src="'https://calorie.liyangpu.com:8003'+food.picture"
         mode="aspectFill"
         @tap="detail"
       />
@@ -168,7 +168,7 @@ export default {
     height: 50rpx;
     text-align: center;
     font-size: 25rpx;
-    // background-image: url(https://nkucalorie.top:8000/media/static/like.png);
+    // background-image: url(https://calorie.liyangpu.com:8003/media/static/like.png);
     // background-color: rgb(217, 207, 202);
     // background-repeat: no-repeat;
     // background-size: 40rpx;

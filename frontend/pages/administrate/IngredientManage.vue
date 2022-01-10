@@ -24,7 +24,7 @@
     methods: {
       GetAllIngredients: function() {
         uni.request({
-          url: 'https://nkucalorie.top:8000/administrate/ingredient/all/',
+          url: 'https://calorie.liyangpu.com:8003/administrate/ingredient/all/',
           method: 'GET',
           header: {
             'administrator-token': uni.getStorageSync('adtoken'),
@@ -43,7 +43,7 @@
       },
       ShowDetails: function(id) {
         uni.request({
-          url: 'https://nkucalorie.top:8000/administrate/ingredient/get/',
+          url: 'https://calorie.liyangpu.com:8003/administrate/ingredient/get/',
           method: 'GET',
           header: {
             'administrator-token': uni.getStorageSync('adtoken'),
@@ -99,7 +99,7 @@
           success: (res) => {
             if (res.confirm) {
               uni.request({
-                url: 'https://nkucalorie.top:8000/administrate/ingredient/delete/',
+                url: 'https://calorie.liyangpu.com:8003/administrate/ingredient/delete/',
                 method: 'GET',
                 header: {
                   'administrator-token': uni.getStorageSync('adtoken'),

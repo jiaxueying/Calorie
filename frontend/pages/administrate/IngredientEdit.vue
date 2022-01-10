@@ -82,7 +82,7 @@
         if(this.veri())
         {
           uni.request({
-            url:'https://nkucalorie.top:8000/administrate/ingredient/add/',
+            url:'https://calorie.liyangpu.com:8003/administrate/ingredient/add/',
             method:'POST',
             header:{
               'administrator-token':uni.getStorageSync('adtoken'),
@@ -119,7 +119,7 @@
         if(this.veri())
         {
           uni.request({
-            url:'https://nkucalorie.top:8000/administrate/ingredient/edit/',
+            url:'https://calorie.liyangpu.com:8003/administrate/ingredient/edit/',
             method:'POST',
             header:{
               'administrator-token':uni.getStorageSync('adtoken'),

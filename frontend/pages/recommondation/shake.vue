@@ -11,7 +11,7 @@
 
     <view class="all">
       <image
-        src="https://nkucalorie.top:8000/media/static/shake.png"
+        src="https://calorie.liyangpu.com:8003/media/static/shake.png"
         class="img"
       /></image>
       <text class="text">摇一摇来发现美食吧！</text>

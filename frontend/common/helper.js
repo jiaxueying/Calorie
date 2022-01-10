@@ -1,4 +1,4 @@
-export const backendUrl = 'https://nkucalorie.top:8000';
+export const backendUrl = 'https://calorie.liyangpu.com:8003';
 
 export const request = function(url, method, data) {
   return uni.request({

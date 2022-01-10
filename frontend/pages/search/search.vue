@@ -95,7 +95,7 @@ export default {
       success: (res) => {
         console.log(res.code);
         uni.request({
-          url: 'https://nkucalorie.top:8000/user/login/',
+          url: 'https://calorie.liyangpu.com:8003/user/login/',
           data: {
             code: res.code,
             name: '123',
@@ -174,7 +174,7 @@ export default {
     },
     getAllFoods: function() {
       uni.request({
-        url: 'https://nkucalorie.top:8000/dish/key_query/',
+        url: 'https://calorie.liyangpu.com:8003/dish/key_query/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -247,7 +247,7 @@ export default {
     },
     get_likes(id) {
       uni.request({
-        url: 'https://nkucalorie.top:8000/dish/detail/',
+        url: 'https://calorie.liyangpu.com:8003/dish/detail/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),

@@ -30,7 +30,7 @@
     methods: {
       submit: function() {
         uni.request({
-          url: "https://nkucalorie.top:8000/administrate/login/",
+          url: "https://calorie.liyangpu.com:8003/administrate/login/",
           method: "POST",
           header: {
             Authorization: "Token " + uni.getStorageSync("token")

@@ -79,7 +79,7 @@ export default {
   created() {
     // console.log('你好');
     uni.request({
-      url: 'https://nkucalorie.top:8000/user/profile/',
+      url: 'https://calorie.liyangpu.com:8003/user/profile/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),

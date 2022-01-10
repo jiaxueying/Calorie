@@ -31,7 +31,7 @@
           </view>
         </view>
         <image
-          src="https://nkucalorie.top:8000/media/static/timg.jpg"
+          src="https://calorie.liyangpu.com:8003/media/static/timg.jpg"
           class="deleteIcon"
           @click="deleteItem(item.id,index)"
           v-if="isdelete"
@@ -51,7 +51,7 @@ export default {
     return {
       list: [],
       replacelist: {
-        picture: 'https://nkucalorie.top:8000/media/static/default.jpg',
+        picture: 'https://calorie.liyangpu.com:8003/media/static/default.jpg',
         calorie: '这里会记录你每餐的就餐卡路里数据,例如100',
         date: '这里会记录你的就餐时间',
         id: -1,
@@ -65,7 +65,7 @@ export default {
     showhistorymenu: function(index) {
       if (this.list[index].id == -1) return;
       uni.request({
-        url: 'https://nkucalorie.top:8000/menu/detail/',
+        url: 'https://calorie.liyangpu.com:8003/menu/detail/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -98,7 +98,7 @@ export default {
     deleteItem: function(id, index) {
       console.log(id);
       uni.request({
-        url: 'https://nkucalorie.top:8000/menu/delete/',
+        url: 'https://calorie.liyangpu.com:8003/menu/delete/',
         method: 'POST',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -121,7 +121,7 @@ export default {
 
   created: function() {
     uni.request({
-      url: 'https://nkucalorie.top:8000/menu/query/',
+      url: 'https://calorie.liyangpu.com:8003/menu/query/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -135,7 +135,7 @@ export default {
         } else {
           this.isShow = true;
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].picture = 'https://nkucalorie.top:8000/media/' + this.list[i].picture;
+            this.list[i].picture = 'https://calorie.liyangpu.com:8003/media/' + this.list[i].picture;
             console.log(this.list[i].date);
             var str = this.list[i].date.substr(0, 19);
             str = str.replace('T', ' ');

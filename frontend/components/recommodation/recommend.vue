@@ -17,7 +17,7 @@
               @click="weatherAll(index)"
             />
             <image
-              :src="'https://nkucalorie.top:8000'+item.picture"
+              :src="'https://calorie.liyangpu.com:8003'+item.picture"
             /></image>
             <view class="data">
               <p>{{ item.name }}</p>
@@ -170,7 +170,7 @@ export default {
 
     getmeals() {
       uni.request({
-        url: 'https://nkucalorie.top:8000/dish/recommend/',
+        url: 'https://calorie.liyangpu.com:8003/dish/recommend/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
