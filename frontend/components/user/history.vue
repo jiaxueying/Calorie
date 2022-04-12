@@ -1,10 +1,13 @@
 <template>
-  <view calss="content">
-    <!--    <view class="historyMenu">
-      <text style="position: relative;right:35rpx;font-size: 30rpx;">历史菜单</text>
-    </view> -->
-    <dl v-show="isShow">
-      <dt
+  <view>
+    <scroll-view 
+      v-show="isShow" 
+      class='dl'
+      scroll-y="true"
+      lower-threshold=50
+      @scrolltolower="getAllFoods"
+      >
+      <view
         class="historyList"
         v-for="(item,index) in list"
         :key="index"
@@ -36,8 +39,8 @@
           @click="deleteItem(item.id,index)"
           v-if="isdelete"
         /></image></image></image>
-      </dt>
-    </dl>
+      </view>
+    </scroll-view>
     <view
       v-show="!isShow"
       style="font-size: 30rpx;font-weight: 100;color:#505050;text-align: center;margin-top: 20px;"
@@ -59,6 +62,8 @@ export default {
       isdelete: true,
       date: '',
       isShow: false,
+      offset:0,
+      limit:10,
     };
   },
   methods: {
@@ -126,6 +131,10 @@ export default {
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),
       },
+      data:{
+        offset:this.offset,
+        limit:this.limit,
+      },
       success: (res) => {
         console.log(res.data.data.user_menus);
         this.list = res.data.data.user_menus;
@@ -172,14 +181,12 @@ export default {
     border-radius: 10px;
     margin: 10px;
     overflow: hidden;
-  }
-
-  dl {
-    margin-top: 10px;
-  }
-
-  dt {
     border: #d5c2c6 solid 1rpx;
+  }
+
+  .dl {
+    margin-top: 10px;
+    height: 60%;
   }
 
   .historyInfo {

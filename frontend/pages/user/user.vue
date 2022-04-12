@@ -1,25 +1,18 @@
 <template>
-  <view class="backgroud">
-    <view class="nav">
-
+  <view>
       <navTab
         ref="navTab"
         :tab-title="tabTitle"
         :tab-chosen="2"
+        class="nav"
+        id="nav"
       />
-    </view>
 
-    <!--用户信息部分-->
-    <view class="allinfo">
+    <view class="allinfo" :style="{top:`${infoTop}px`}">
       <open-data
         class="userimg"
         type="userAvatarUrl"
       />
-
-    </view>
-
-    <view class="allinfo">
-
       <open-data
         class="nickname"
         type="userNickName"
@@ -122,7 +115,17 @@ export default {
       weightrate: 0,
       weightdate: 60,
       tabTitle: ['菜品查询', '菜品推荐', '个人中心'], // 导航栏格式
+      infoTop:0,
+      
     };
+  },
+  mounted() {
+    uni.createSelectorQuery()
+        .select('#nav')
+        .boundingClientRect((data) => {
+            this.infoTop = data.height
+        })
+        .exec();
   },
   methods: {
 
@@ -287,24 +290,21 @@ export default {
     justify-content: flex-start;
     font-size: 24upx;
     background-color: #FFFFFF;
-    z-index: 99999;
+    z-index: 1;
     margin-bottom: 50rpx;
+    position:fixed;
     }
 
-  .backgroud {
-    background-color: rgb(255, 255, 255);
-    position: absolute;
-    height: 100%;
-    width: 100%;
-  }
  recommendrange{
    position:absolute;
   top:92rpx;}
 
   .allinfo {
+    position:fixed;
     display: flex;
+    flex-direction: column;
     width: 100%;
-    justify-content: center;
+    align-items: center;
   }
 
   .userimg {
@@ -490,4 +490,5 @@ export default {
     font-size: 17px;
     text-align:center;
   }
+
 </style>

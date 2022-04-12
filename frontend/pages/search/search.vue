@@ -14,9 +14,12 @@
       @search="search($event, 1)"
       @showall="showall"
     />
-    <view
+    <scroll-view
       class="scroll"
       v-show="!HistoryShow"
+      scroll-y="true"
+      lower-threshold=50
+      @scrolltolower="getAllFoods"
     >
       <view
         v-if="showedFoods.length"
@@ -28,7 +31,9 @@
           :menu_id="foods.menu_id"
         />
       </view>
-    </view>
+      <uni-load-more :status="status" :content-text="contentText"/>
+      
+    </scroll-view>
     <view
       class="orders"
       v-show="IsShow"
@@ -71,7 +76,13 @@ export default {
   },
   data() {
     return {
+      status:'more',
       IsShow: false,
+      contentText: {
+      					contentdown: '查看更多',
+      					contentrefresh: '加载中',
+      					contentnomore: '没有更多'
+      				},
       HistoryShow: false,
       foods: new Array(),
       showedFoods: [],
@@ -85,6 +96,8 @@ export default {
       searchbarActive: true,
       currentTab: 0, // sweiper所在页
       tabTitle: ['菜品查询', '菜品推荐', '个人中心'], // 导航栏格式
+      offset:0,
+      limit:10,
 
     };
   },
@@ -181,12 +194,19 @@ export default {
         },
         data: {
           key_word: '',
-          offset:0,
-          limit:10,
+          offset:this.offset,
+          limit:this.limit,
         },
         success: (res) => {
-          this.allFoods = res.data.data;
-          this.showedFoods = this.allFoods;
+          console.log(res.data.data)
+          if(res.data.data.length === 0){
+            this.status='noMore'
+          }else{
+            this.allFoods = this.allFoods.concat(res.data.data)
+            this.showedFoods = this.allFoods;
+            this.offset += this.limit
+          }
+          
         },
       });
     },
@@ -297,6 +317,7 @@ export default {
     position: absolute;
     left: 0;
     top: 180rpx;
+    height: 80%;
   }
 
   .History {
@@ -336,91 +357,3 @@ export default {
     margin: 10px;
   }
 </style>
-
-<!-- <template>
-    <view>
-        <view class="content1"></view>
-        <view class="search-block">
-            <view class="search-ico-wapper">
-                <image src="../../static/chongzhi_sousuo/chongzhi-icon-sousuo@3x.png" class="search-ico" mode=""></image>
-            </view>
-            <input type="text" value="" placeholder="点击输入搜索内容" class="search-text" maxlength="10" focus/>
-            <view class="search-ico-wapper1">
-                <image src="../../static/chongzhi_sousuo/chongzhi-icon-sys@3x.png" class="search-ico-1" mode=""></image>
-            </view>
-        </view>
-        <view class="shadow">
-
-        </view>
-    </view>
-</template>
-
-<script>
-    export default {
-        data() {
-            return {
-
-            }
-        },
-        methods: {
-
-        }
-    }
-</script>
-
-<style>
-.content1{
-    height: 150upx;
-}
-
-page{
-    background-color: #FFFFFF;
-}
-/* 搜索框 */
-.search-ico, .search-ico-1{
-    width: 40upx;
-    height: 40upx;
-}
-.search-text{
-    font-size: 14px;
-    background-color: #FFFFFF;
-    height: 60upx;
-    width: 480upx;
-}
-.search-block{
-    display: flex;
-    flex-direction: row;
-    padding-left: 60upx;
-    position: relative;
-    top: -32upx;
-}
-.search-ico-wapper{
-    background-color: #FFFFFF;
-    display: flex;
-    flex-direction:column;
-    justify-content: center;
-    padding: 0upx 0upx 0upx 40upx;
-    border-bottom-left-radius:18px;
-    border-top-left-radius: 18px;
-}
-.search-ico-wapper1{
-    background-color: #FFFFFF;
-    display: flex;
-    flex-direction:column;
-    justify-content: center;
-    padding: 0upx 40upx 0upx 0upx;
-    border-bottom-right-radius:18px;
-    border-top-right-radius: 18px;
-}
-.shadow{
-    width: 638upx;
-    height: 60upx;
-    border-radius:18px;
-    -moz-box-shadow:0 0 10px #e6e6e6;
-    -webkit-box-shadow:0 0 10px #e6e6e6;
-    box-shadow:0 0 10px #e6e6e6;
-    position: relative;
-    top: -90upx;
-    left: 60upx;
-}
-</style> -->
