@@ -156,7 +156,7 @@ export default {
 
       // if (this.Switch) {
       uni.request({
-        url: 'https://calorie.liyangpu.com:8003/user/profile/',
+        url: 'https://comi.hi.cn:8000/user/profile/',
         method: 'POST',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -174,7 +174,7 @@ export default {
       });
 
       uni.request({
-        url: 'https://calorie.liyangpu.com:8003/user/profile/',
+        url: 'https://comi.hi.cn:8000/user/profile/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -222,7 +222,7 @@ export default {
   onShow() {
     this.weightdate = uni.getStorageSync('weightdate');
     uni.request({
-      url: 'https://calorie.liyangpu.com:8003/user/profile/',
+      url: 'https://comi.hi.cn:8000/user/profile/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -248,7 +248,7 @@ export default {
   onLoad() {
     this.weightdate = uni.getStorageSync('weightdate');
     uni.request({
-      url: 'https://calorie.liyangpu.com:8003/user/profile/',
+      url: 'https://comi.hi.cn:8000/user/profile/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),

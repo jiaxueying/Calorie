@@ -52,7 +52,7 @@
 		},
     onLoad:function(res){
         uni.request({
-          url:'https://calorie.liyangpu.com:8003/administrate/ingredient/all/',
+          url:'https://comi.hi.cn:8000/administrate/ingredient/all/',
           method:'GET',
           header:{
             'administrator-token':uni.getStorageSync('adtoken'),
@@ -73,7 +73,7 @@
         {
           this.edit=true
           this.name=res.name
-          this.img="https://calorie.liyangpu.com:8003"+res.picture
+          this.img="https://comi.hi.cn:8000"+res.picture
           this.dish_id=res.id
         }
     },
@@ -184,7 +184,7 @@
       },
       DishAdd:function(){
         uni.uploadFile({
-          url:'https://calorie.liyangpu.com:8003/administrate/dish/add/',
+          url:'https://comi.hi.cn:8000/administrate/dish/add/',
           header:{
             'administrator-token':uni.getStorageSync('adtoken'),
             Authorization:"Token "+uni.getStorageSync("token")
@@ -207,7 +207,7 @@
         if(this.pictureChange)
         {
           uni.uploadFile({
-            url:'https://calorie.liyangpu.com:8003/administrate/dish/edit/',
+            url:'https://comi.hi.cn:8000/administrate/dish/edit/',
             header:{
               'administrator-token':uni.getStorageSync('adtoken'),
               Authorization:"Token "+uni.getStorageSync("token")
@@ -230,7 +230,7 @@
         else
         {
           uni.request({
-            url:'https://calorie.liyangpu.com:8003/administrate/dish/edit/',
+            url:'https://comi.hi.cn:8000/administrate/dish/edit/',
             method:"post",
             header:{
               'administrator-token':uni.getStorageSync('adtoken'),

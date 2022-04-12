@@ -123,7 +123,7 @@
                 this.meallist[i].picture = data.detail[i].picture
                 this.meallist[i].calorie = data.detail[i].calorie
                 this.msg += this.meallist[i].calorie
-                this.path.push('https://calorie.liyangpu.com:8003' + data.detail[i].picture)
+                this.path.push('https://comi.hi.cn:8000' + data.detail[i].picture)
                 this.getinfo(i)
                 this.meallist[i].name = data.detail[i].name
                 this.meallist[i].sum = data.detail[i].mass
@@ -148,7 +148,7 @@
                   this.meallist[j] = tempmeallist[i];
                   this.meallist[j].calorie = this.meallist[i].cal * this.meallist[i].sum
                   this.msg += this.meallist[j].calorie
-                  this.path.push('https://calorie.liyangpu.com:8003' + this.meallist[j].picture);
+                  this.path.push('https://comi.hi.cn:8000' + this.meallist[j].picture);
                   this.getinfo(j);
                   j++;
                 }
@@ -165,7 +165,7 @@
 
       getinfo: function(i) {
         uni.getImageInfo({
-          src: 'https://calorie.liyangpu.com:8003' + this.meallist[i].picture,
+          src: 'https://comi.hi.cn:8000' + this.meallist[i].picture,
           success: (res) => {
             this.paths.push(res.path)
             console.log("get one picture!")
@@ -176,7 +176,7 @@
       get(i) {
         return new Promise((resolve, reject) => {
           uni.getImageInfo({
-            src: 'https://calorie.liyangpu.com:8003' + this.meallist[i].picture,
+            src: 'https://comi.hi.cn:8000' + this.meallist[i].picture,
             success: (res) => {
               this.paths.push(res.path);
               console.log(this.paths);
@@ -349,7 +349,7 @@
         }
         console.log(menulist)
         uni.request({
-          url: 'https://calorie.liyangpu.com:8003/menu/order/',
+          url: 'https://comi.hi.cn:8000/menu/order/',
           method: 'POST',
           header: {
             Authorization: 'Token ' + uni.getStorageSync('token'),

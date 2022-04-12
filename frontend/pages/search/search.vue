@@ -95,7 +95,7 @@ export default {
       success: (res) => {
         console.log(res.code);
         uni.request({
-          url: 'https://calorie.liyangpu.com:8003/user/login/',
+          url: 'https://comi.hi.cn:8000/user/login/',
           data: {
             code: res.code,
             name: '123',
@@ -174,13 +174,15 @@ export default {
     },
     getAllFoods: function() {
       uni.request({
-        url: 'https://calorie.liyangpu.com:8003/dish/key_query/',
+        url: 'https://comi.hi.cn:8000/dish/key_query/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
         },
         data: {
           key_word: '',
+          offset:0,
+          limit:10,
         },
         success: (res) => {
           this.allFoods = res.data.data;
@@ -247,7 +249,7 @@ export default {
     },
     get_likes(id) {
       uni.request({
-        url: 'https://calorie.liyangpu.com:8003/dish/detail/',
+        url: 'https://comi.hi.cn:8000/dish/detail/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),

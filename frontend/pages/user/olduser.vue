@@ -12,7 +12,7 @@
           <view class="button" @click="set">编辑模式</view>
           <switch color="#59453D" :checked="Switch" @click="set"></switch>
         </view>
-        <image src="https://calorie.liyangpu.com:8003/media/static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
+        <image src="https://comi.hi.cn:8000/media/static/edit.png" class="edit" v-if="Switch" @click="changeweight"></image>
         <view><text class="weightSet">体重：{{weight}}kg\n目标体重：{{targetweightshow}}\n体重变化速率：{{weightrate}}kg/Day</text></view>
         <!--<text class="calorieForDay">本日推荐摄入卡路里范围：\n{{minCalForDay}}kcal-{{maxCalForDay}}kcal</text>-->
       </view>
@@ -74,7 +74,7 @@
         this.Switch = !this.Switch
         if (this.Switch == false) {
           uni.request({
-            url: "https://calorie.liyangpu.com:8003/user/profile/",
+            url: "https://comi.hi.cn:8000/user/profile/",
             method: "POST",
             header: {
               Authorization: 'Token ' + uni.getStorageSync('token')
@@ -88,7 +88,7 @@
 
           });
           uni.request({
-            url: "https://calorie.liyangpu.com:8003/user/profile/",
+            url: "https://comi.hi.cn:8000/user/profile/",
             method: "GET",
             header: {
               Authorization: 'Token ' + uni.getStorageSync('token')
@@ -155,7 +155,7 @@
     onShow() {
       this.weightdate = uni.getStorageSync('weightdate')
       uni.request({
-        url: "https://calorie.liyangpu.com:8003/user/profile/",
+        url: "https://comi.hi.cn:8000/user/profile/",
         method: "GET",
         header: {
           Authorization: "Token " + uni.getStorageSync("token")
@@ -177,7 +177,7 @@
     onLoad() {
       this.weightdate = uni.getStorageSync('weightdate')
       uni.request({
-        url: "https://calorie.liyangpu.com:8003/user/profile/",
+        url: "https://comi.hi.cn:8000/user/profile/",
         method: "GET",
         header: {
           Authorization: "Token " + uni.getStorageSync("token")

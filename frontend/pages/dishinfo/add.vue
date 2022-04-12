@@ -174,7 +174,7 @@ export default {
     onLoad() {
       
       uni.request({
-            url:"https://calorie.liyangpu.com:8003/administrate/ingredient/all/",
+            url:"https://comi.hi.cn:8000/administrate/ingredient/all/",
             method:"GET",
             header:{
               Authorization:"Token "+uni.getStorageSync("token"),

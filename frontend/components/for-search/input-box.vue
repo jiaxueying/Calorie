@@ -78,7 +78,7 @@ width: 75rpx;
 position: absolute;
 margin: 1rpx 0 0 1rpx;
 background-size: 75rpx;
-background-image: url(https://calorie.liyangpu.com:8003/media/static/default.jpg);
+background-image: url(https://comi.hi.cn:8000/media/static/default.jpg);
 background-repeat: no-repeat;
 border: none;
 }

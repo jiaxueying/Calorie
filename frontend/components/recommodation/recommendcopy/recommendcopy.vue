@@ -77,10 +77,10 @@ export default
       flag: 4, // 列表元素个数
       selectAll: true,
       meals: [
-        {checked: 'true', picture: 'https://cal.liyangpu.com:8000/media/static/tomato&egg.png', name: '番茄炒蛋', calorie: '81kcal'},
-        {checked: 'true', picture: 'https://cal.liyangpu.com:8000/media/static/rice.png', name: '米饭', calorie: '116kcal'},
-        {checked: 'true', picture: 'https://cal.liyangpu.com:8000/media/static/corn.png', name: '糯玉米', calorie: '102kcal'},
-        {checked: 'true', picture: 'https://cal.liyangpu.com:8000/media/static/gruel.png', name: '小米粥', calorie: '46kcal'},
+        {checked: 'true', picture: 'https://comi.hi.cn:8000/media/static/tomato&egg.png', name: '番茄炒蛋', calorie: '81kcal'},
+        {checked: 'true', picture: 'https://comi.hi.cn:8000/media/static/rice.png', name: '米饭', calorie: '116kcal'},
+        {checked: 'true', picture: 'https://comi.hi.cn:8000/media/static/corn.png', name: '糯玉米', calorie: '102kcal'},
+        {checked: 'true', picture: 'https://comi.hi.cn:8000/media/static/gruel.png', name: '小米粥', calorie: '46kcal'},
       ], // checked，picture,name,calorie
     };
   },

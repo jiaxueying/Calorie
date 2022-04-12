@@ -1,8 +1,8 @@
 <template>
   <view>
     <view class="container">
-      <img id="img1" src="https://calorie.liyangpu.com:8003/media/static/background.jpg" />
-      <img id="img2" src="https://calorie.liyangpu.com:8003/media/static/background.jpg" />
+      <img id="img1" src="https://comi.hi.cn:8000/media/static/background.jpg" />
+      <img id="img2" src="https://comi.hi.cn:8000/media/static/background.jpg" />
       <view class="header">
         <image :src="'../../static/icon.png'" style="width:100px; height:100px;display: block;"></image>
       </view>
@@ -88,7 +88,7 @@
         success: (res) => {
           console.log(res.code)
           uni.request({
-            url: 'https://calorie.liyangpu.com:8003/user/login/',
+            url: 'https://comi.hi.cn:8000/user/login/',
             data: {
               code: res.code,
               name: '123'
