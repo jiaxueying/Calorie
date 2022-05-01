@@ -35,6 +35,10 @@
 </template>
 
 <script>
+import {
+  backendUrl,
+} from '@/common/helper.js';
+
 	export default {
 		data() {
 			return {
@@ -82,7 +86,7 @@
         if(this.veri())
         {
           uni.request({
-            url:'https://comi.hi.cn:8000/administrate/ingredient/add/',
+            url:backendUrl+'/administrate/ingredient/add/',
             method:'POST',
             header:{
               'administrator-token':uni.getStorageSync('adtoken'),
@@ -119,7 +123,7 @@
         if(this.veri())
         {
           uni.request({
-            url:'https://comi.hi.cn:8000/administrate/ingredient/edit/',
+            url:backendUrl+'/administrate/ingredient/edit/',
             method:'POST',
             header:{
               'administrator-token':uni.getStorageSync('adtoken'),

@@ -31,6 +31,10 @@
 </template>
 
 <script>
+import {
+  backendUrl,
+} from '@/common/helper.js';
+
 	export default {
 		data() {
 			return {
@@ -52,7 +56,7 @@
 		},
     onLoad:function(res){
         uni.request({
-          url:'https://comi.hi.cn:8000/administrate/ingredient/all/',
+          url:backendUrl + '/administrate/ingredient/all/',
           method:'GET',
           header:{
             'administrator-token':uni.getStorageSync('adtoken'),
@@ -73,7 +77,7 @@
         {
           this.edit=true
           this.name=res.name
-          this.img="https://comi.hi.cn:8000"+res.picture
+          this.img=backendUrl+res.picture
           this.dish_id=res.id
         }
     },
@@ -184,7 +188,7 @@
       },
       DishAdd:function(){
         uni.uploadFile({
-          url:'https://comi.hi.cn:8000/administrate/dish/add/',
+          url:backendUrl +'/administrate/dish/add/',
           header:{
             'administrator-token':uni.getStorageSync('adtoken'),
             Authorization:"Token "+uni.getStorageSync("token")
@@ -207,7 +211,7 @@
         if(this.pictureChange)
         {
           uni.uploadFile({
-            url:'https://comi.hi.cn:8000/administrate/dish/edit/',
+            url:backendUrl +'/administrate/dish/edit/',
             header:{
               'administrator-token':uni.getStorageSync('adtoken'),
               Authorization:"Token "+uni.getStorageSync("token")
@@ -230,7 +234,7 @@
         else
         {
           uni.request({
-            url:'https://comi.hi.cn:8000/administrate/dish/edit/',
+            url:backendUrl+'/administrate/dish/edit/',
             method:"post",
             header:{
               'administrator-token':uni.getStorageSync('adtoken'),

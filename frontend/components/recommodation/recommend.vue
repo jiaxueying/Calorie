@@ -17,7 +17,7 @@
               @click="weatherAll(index)"
             />
             <image
-              :src="'https://comi.hi.cn:8000'+item.picture"
+              :src="backendUrl+item.picture"
             /></image>
             <view class="data">
               <p>{{ item.name }}</p>
@@ -77,6 +77,10 @@
 import recrange from '../../components/all/recommendrange.vue';
 import uniNumberBox from '@/components/uni-ui/uni-number-box/uni-number-box.vue';
 import popup from './popup.vue';
+import {
+  backendUrl,
+} from '@/common/helper.js';
+
 export default {
   data() {
     return {
@@ -170,7 +174,7 @@ export default {
 
     getmeals() {
       uni.request({
-        url: 'https://comi.hi.cn:8000/dish/recommend/',
+        url: backendUrl+'/dish/recommend/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),

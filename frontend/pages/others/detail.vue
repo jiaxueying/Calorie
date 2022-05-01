@@ -8,11 +8,11 @@
     <!-- <view style="height: 0rpx;width: 750rpx;"> </view> -->
     <view class="imgarea">
       <image
-        :src="'https://comi.hi.cn:8000'+food.picture"
+        :src="backendUrl+food.picture"
         class="img"
         v-if="isimg"
         mode="aspectFill"
-      /></image>
+      />
     </view>
     <view style="display:flex;flex-direction: column;align-items: center;">
       <view style="width: 600rpx;">
@@ -22,9 +22,9 @@
           </view>
           <view class="equ">
             ≈1×<image
-              :src="'https://comi.hi.cn:8000'+food.equivalent"
+              :src="backendUrl+food.equivalent"
               class="eimag"
-            /></image>
+            />
           </view>
 
         </view>
@@ -111,10 +111,6 @@
 </template>
 
 <script>
-// import {
-//   like,
-//   // dislike
-// } from '@/common/helper.js';
 import {
   backendUrl,
   request,
@@ -134,8 +130,8 @@ export default {
   },
   data() {
     return {
-      likeicon: 'https://comi.hi.cn:8000/media/static/like.png',
-      dislikeicon: 'https://comi.hi.cn:8000/media/static/dislike.png',
+      likeicon: backendUrl+'/media/static/like.png',
+      dislikeicon: backendUrl+'/media/static/dislike.png',
       food: null,
       like_count: 666,
       liked: 0,
@@ -176,7 +172,7 @@ export default {
     uni.$on('refresh2', this.refresh);
     this.ordered_food = uni.getStorageSync('meal-list');
     uni.request({
-      url: 'https://comi.hi.cn:8000/dish/detail/',
+      url: backendUrl+'/dish/detail/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -254,7 +250,7 @@ export default {
     },
     refreshLikes: function() {
       uni.request({
-        url: 'https://comi.hi.cn:8000/dish/detail/',
+        url: backendUrl+'/dish/detail/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),

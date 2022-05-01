@@ -14,6 +14,10 @@
 </template>
 
 <script>
+import {
+  backendUrl,
+} from '@/common/helper.js';
+
   export default {
     data() {
       return {
@@ -22,7 +26,7 @@
     },
     onLoad: function() {
       uni.request({
-        url: 'https://comi.hi.cn:8000/dish/key_query/',
+        url: backendUrl+'/dish/key_query/',
         method: 'GET',
         header: {
           Authorization: "Token " + uni.getStorageSync("token")
@@ -34,7 +38,7 @@
           console.log(res)
           this.dishes = res.data.data
           for (var i = 0; i < this.dishes.length; i++) {
-            this.dishes[i]['picture'] = "https://comi.hi.cn:8000" + this.dishes[i]['picture']
+            this.dishes[i]['picture'] = backendUrl + this.dishes[i]['picture']
           }
         }
       })
@@ -51,7 +55,7 @@
           success: (res) => {
             if (res.confirm) {
               uni.request({
-                url: 'https://comi.hi.cn:8000/administrate/dish/delete/',
+                url: backendUrl+'/administrate/dish/delete/',
                 method: 'GET',
                 header: {
                   'administrator-token': uni.getStorageSync('adtoken'),
@@ -78,7 +82,7 @@
       },
       showDetails: function(index) {
         uni.request({
-          url: 'https://comi.hi.cn:8000/dish/detail/',
+          url: backendUrl+'/dish/detail/',
           method: 'GET',
           header: {
             Authorization: "Token " + uni.getStorageSync("token")

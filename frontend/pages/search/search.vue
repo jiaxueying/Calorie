@@ -108,7 +108,7 @@ export default {
       success: (res) => {
         console.log(res.code);
         uni.request({
-          url: 'https://comi.hi.cn:8000/user/login/',
+          url: backendUrl+'/user/login/',
           data: {
             code: res.code,
             name: '123',
@@ -187,7 +187,7 @@ export default {
     },
     getAllFoods: function() {
       uni.request({
-        url: 'https://comi.hi.cn:8000/dish/key_query/',
+        url: backendUrl+'/dish/key_query/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -269,7 +269,7 @@ export default {
     },
     get_likes(id) {
       uni.request({
-        url: 'https://comi.hi.cn:8000/dish/detail/',
+        url: backendUrl+'/dish/detail/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),

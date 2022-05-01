@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import backendUrl from '../../common/helper'
 export default {
   props: {
     placehold: {
@@ -26,6 +27,7 @@ export default {
   data() {
     return {
       value: '',
+      imgUrl:backendUrl+"/media/static/default.jpg"
     };
   },
   onLoad() {
@@ -78,7 +80,7 @@ width: 75rpx;
 position: absolute;
 margin: 1rpx 0 0 1rpx;
 background-size: 75rpx;
-background-image: url(https://comi.hi.cn:8000/media/static/default.jpg);
+background-image: url(imgUrl);
 background-repeat: no-repeat;
 border: none;
 }

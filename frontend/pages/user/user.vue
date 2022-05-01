@@ -86,11 +86,16 @@
 
       </view>
     </view>
-</view></template>
+</view>
+</template>
 
 <script>
 import plan from '../../components/user/plan.vue';
 import historylist from '../../components/user/history.vue';
+import {
+  backendUrl,
+} from '@/common/helper.js';
+
 
 export default {
   components: {
@@ -159,7 +164,7 @@ export default {
 
       // if (this.Switch) {
       uni.request({
-        url: 'https://comi.hi.cn:8000/user/profile/',
+        url: backendUrl+'/user/profile/',
         method: 'POST',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -177,7 +182,7 @@ export default {
       });
 
       uni.request({
-        url: 'https://comi.hi.cn:8000/user/profile/',
+        url: backendUrl+'/user/profile/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -225,7 +230,7 @@ export default {
   onShow() {
     this.weightdate = uni.getStorageSync('weightdate');
     uni.request({
-      url: 'https://comi.hi.cn:8000/user/profile/',
+      url: backendUrl+'/user/profile/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),

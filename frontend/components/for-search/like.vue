@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        :src="'https://comi.hi.cn:8000'+food.picture"
+        :src="backendUrl+food.picture"
         mode="aspectFill"
         @tap="detail"
       />
@@ -168,11 +168,6 @@ export default {
     height: 50rpx;
     text-align: center;
     font-size: 25rpx;
-    // background-image: url(https://comi.hi.cn:8000/media/static/like.png);
-    // background-color: rgb(217, 207, 202);
-    // background-repeat: no-repeat;
-    // background-size: 40rpx;
-    // background-position-y: 4rpx;
     border: 0rpx;
     padding: 0;
     margin-right: 10px;

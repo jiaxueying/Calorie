@@ -11,9 +11,9 @@
 
     <view class="all">
       <image
-        src="https://comi.hi.cn:8000/media/static/shake.png"
+        :src="backendUrl+'/media/static/shake.png'"
         class="img"
-      /></image>
+      />
       <text class="text">摇一摇来发现美食吧！</text>
 
     </view>
@@ -21,6 +21,9 @@
 </template>
 
 <script>
+import {
+  backendUrl,
+} from '@/common/helper.js';
 export default {
   data() {
     return {

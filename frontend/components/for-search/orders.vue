@@ -56,6 +56,9 @@
 <script>
 
 import FoodInOrder from './food-in-order.vue';
+import {
+  backendUrl,
+} from '@/common/helper.js';
 export default {
   components: {
     FoodInOrder,
@@ -79,7 +82,7 @@ export default {
   created() {
     // console.log('你好');
     uni.request({
-      url: 'https://comi.hi.cn:8000/user/profile/',
+      url: backendUrl + '/user/profile/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),

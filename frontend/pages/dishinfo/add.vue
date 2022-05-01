@@ -147,7 +147,7 @@ export default {
          }
          console.log(JSON.stringify(names))
          uni.uploadFile({
-                   url: 'http://cal.hanlh.com:8000/canteen/adddish/', 
+                   url: backendurl+'/canteen/adddish/', 
                    filePath: this.src,
                    name: 'img',
                    header:{
@@ -174,7 +174,7 @@ export default {
     onLoad() {
       
       uni.request({
-            url:"https://comi.hi.cn:8000/administrate/ingredient/all/",
+            url:backendurl+"/administrate/ingredient/all/",
             method:"GET",
             header:{
               Authorization:"Token "+uni.getStorageSync("token"),

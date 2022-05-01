@@ -34,11 +34,11 @@
           </view>
         </view>
         <image
-          src="https://comi.hi.cn:8000/media/static/timg.jpg"
+          :src="backendUrl + '/media/static/timg.jpg'"
           class="deleteIcon"
           @click="deleteItem(item.id,index)"
           v-if="isdelete"
-        /></image></image></image>
+        />
       </view>
     </scroll-view>
     <view
@@ -49,12 +49,15 @@
 </template>
 
 <script>
+import {
+  backendUrl,
+} from '@/common/helper.js';
 export default {
   data() {
     return {
       list: [],
       replacelist: {
-        picture: 'https://comi.hi.cn:8000/media/static/default.jpg',
+        picture: backendUrl+ '/media/static/default.jpg',
         calorie: '这里会记录你每餐的就餐卡路里数据,例如100',
         date: '这里会记录你的就餐时间',
         id: -1,
@@ -70,7 +73,7 @@ export default {
     showhistorymenu: function(index) {
       if (this.list[index].id == -1) return;
       uni.request({
-        url: 'https://comi.hi.cn:8000/menu/detail/',
+        url: backendUrl + '/menu/detail/',
         method: 'GET',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -103,7 +106,7 @@ export default {
     deleteItem: function(id, index) {
       console.log(id);
       uni.request({
-        url: 'https://comi.hi.cn:8000/menu/delete/',
+        url: backendUrl + '/menu/delete/',
         method: 'POST',
         header: {
           Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -126,7 +129,7 @@ export default {
 
   created: function() {
     uni.request({
-      url: 'https://comi.hi.cn:8000/menu/query/',
+      url: backendUrl + '/menu/query/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),
@@ -144,7 +147,7 @@ export default {
         } else {
           this.isShow = true;
           for (let i = 0; i < this.list.length; i++) {
-            this.list[i].picture = 'https://comi.hi.cn:8000/media/' + this.list[i].picture;
+            this.list[i].picture = backendUrl + '/media/' + this.list[i].picture;
             console.log(this.list[i].date);
             var str = this.list[i].date.substr(0, 19);
             str = str.replace('T', ' ');

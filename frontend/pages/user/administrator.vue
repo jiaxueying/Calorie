@@ -18,6 +18,10 @@
 </template>
 
 <script>
+import {
+  backendUrl,
+} from '@/common/helper.js';
+
   export default {
     data() {
       return {
@@ -30,7 +34,7 @@
     methods: {
       submit: function() {
         uni.request({
-          url: "https://comi.hi.cn:8000/administrate/login/",
+          url: backendUrl+"/administrate/login/",
           method: "POST",
           header: {
             Authorization: "Token " + uni.getStorageSync("token")

@@ -12,6 +12,10 @@
 </template>
 
 <script>
+import {
+  backendUrl,
+} from '@/common/helper.js';
+
   export default {
     data() {
       return {
@@ -24,7 +28,7 @@
     methods: {
       GetAllIngredients: function() {
         uni.request({
-          url: 'https://comi.hi.cn:8000/administrate/ingredient/all/',
+          url: backendUrl+'/administrate/ingredient/all/',
           method: 'GET',
           header: {
             'administrator-token': uni.getStorageSync('adtoken'),
@@ -43,7 +47,7 @@
       },
       ShowDetails: function(id) {
         uni.request({
-          url: 'https://comi.hi.cn:8000/administrate/ingredient/get/',
+          url: backendUrl+'/administrate/ingredient/get/',
           method: 'GET',
           header: {
             'administrator-token': uni.getStorageSync('adtoken'),
@@ -99,7 +103,7 @@
           success: (res) => {
             if (res.confirm) {
               uni.request({
-                url: 'https://comi.hi.cn:8000/administrate/ingredient/delete/',
+                url: backendUrl+'/administrate/ingredient/delete/',
                 method: 'GET',
                 header: {
                   'administrator-token': uni.getStorageSync('adtoken'),
