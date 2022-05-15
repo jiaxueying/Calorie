@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'calorie',
         'USER': 'root',
         'PASSWORD': 'ErhTbc2T',
-        'HOST': '127.0.0.1',              
+        'HOST': '10.0.224.6',              
         'PORT': '3306',
         'OPTIONS': {
             'autocommit': True,
