@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'calorie',
         'USER': 'root',
         'PASSWORD': 'ErhTbc2T',
-        'HOST': '10.0.224.6',              
+        'HOST': '10.0.224.6',
         'PORT': '3306',
         'OPTIONS': {
             'autocommit': True,
@@ -99,6 +99,8 @@ DATABASES = {
     }
 }
 
+# 'ErhTbc2T'
+# 10.0.224.6
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
