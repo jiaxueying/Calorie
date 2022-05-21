@@ -2,7 +2,7 @@
 .vscode
 
 # */static/
-*/media/
+/media/
 */node_modules
 /frontend/unpackage
 *.log
