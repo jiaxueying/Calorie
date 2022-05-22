@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="whole">
       <navTab
         ref="navTab"
         :tab-title="tabTitle"
@@ -284,6 +284,13 @@ export default {
 </script>
 
 <style>
+  .whole{
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+  }
   .nav {
     left: 0;
     top: 0;
@@ -318,15 +325,6 @@ export default {
     border-radius: 50%;
     overflow: hidden;
     margin: 0 auto;
-  }
-
-  .userinfor {
-    color: #505050;
-    margin-top: 15%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    left: 100rpx
   }
 
   .button {
@@ -473,8 +471,7 @@ export default {
     height: 100%;
     width: 100%;
     padding-top: 15px;
-    /* padding-left: 10px; */
-    margin-top: 5px;
+    margin-top: 45%;
   }
 
   .card {
