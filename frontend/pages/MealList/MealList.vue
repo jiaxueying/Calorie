@@ -51,8 +51,6 @@
           'date':date
           }).then(res => {
           if(res[1].statusCode != 404) {
-            console.log('OK!');
-            console.log(res)
             this.breakfast = res[1].data.bre;
             this.lunch = res[1].data.lun;
             this.dinner = res[1].data.din;
