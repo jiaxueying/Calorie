@@ -1,4 +1,4 @@
-export const backendUrl = 'https://django-44k2-1813284-1311093683.ap-shanghai.run.tcloudbase.com:8000';
+export const backendUrl = 'https://django-44k2-1813284-1311093683.ap-shanghai.run.tcloudbase.com';
 
 export const request = function(url, method, data) {
   return uni.request({
