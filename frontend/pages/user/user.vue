@@ -256,7 +256,7 @@ export default {
   onLoad() {
     this.weightdate = uni.getStorageSync('weightdate');
     uni.request({
-      url: 'https://comi.hi.cn:8000/user/profile/',
+      url: backendUrl+'/user/profile/',
       method: 'GET',
       header: {
         Authorization: 'Token ' + uni.getStorageSync('token'),
