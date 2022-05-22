@@ -5,6 +5,7 @@ from django.db.models import F, FilteredRelation, Q, ExpressionWrapper
 from django.db import transaction
 from dish.models import Dish
 from searchitem.models import SearchItem, HistorySearch
+from tastypie.fields import BooleanField
 
 class DishQueryFunctionSet:
     """
