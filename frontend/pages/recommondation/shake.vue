@@ -11,7 +11,7 @@
 
     <view class="all">
       <image
-        :src="backendUrl+'/media/static/shake.png'"
+        src="../../../media/static/shake.png"
         class="img"
       />
       <text class="text">摇一摇来发现美食吧！</text>

@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       value: '',
-      imgUrl:backendUrl+"/media/static/default.jpg"
+      imgUrl:""
     };
   },
   onLoad() {
@@ -80,7 +80,7 @@ width: 75rpx;
 position: absolute;
 margin: 1rpx 0 0 1rpx;
 background-size: 75rpx;
-background-image: url(imgUrl);
+background-image: url(../../../media/static/default.jpg);
 background-repeat: no-repeat;
 border: none;
 }
