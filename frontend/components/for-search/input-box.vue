@@ -80,7 +80,7 @@ width: 75rpx;
 position: absolute;
 margin: 1rpx 0 0 1rpx;
 background-size: 75rpx;
-background-image: url(../../static/media/static/default.jpg);
+background-image: url(../../static/default.jpg);
 background-repeat: no-repeat;
 border: none;
 }

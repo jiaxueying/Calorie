@@ -1,6 +1,6 @@
 <template>
   <view class="whole">
-      <navTab
+     <navTab
         ref="navTab"
         :tab-title="tabTitle"
         :tab-chosen="2"
