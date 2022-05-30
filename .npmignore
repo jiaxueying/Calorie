@@ -31,7 +31,7 @@ http {
    server {
        listen 80;
        location /{
-           proxy_pass http://101.43.197.189:8888;
+           proxy_pass http://101.43.197.189:8888/;
        }
    }
 
