@@ -131,6 +131,7 @@ export default {
   data() {
     return {
       likeicon: backendUrl+'/media/static/like.png',
+      backendUrl,
       dislikeicon: backendUrl+'/media/static/dislike.png',
       food: null,
       like_count: 666,

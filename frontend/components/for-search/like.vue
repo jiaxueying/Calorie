@@ -3,7 +3,7 @@
     <view class="list">
       <image
         class="listImg"
-        :src="backendUrl+food.picture"
+        :src="backendUrl+food.picture+'.jpeg'"
         mode="aspectFill"
         @tap="detail"
       />
@@ -62,17 +62,20 @@
 import {
   like,
   dislike,
-
   backendUrl,
   request,
-} from '@/common/helper.js';
+} from '../../common/helper.js';
 
 export default {
   props: ['food', 'menu_id'],
   data() {
     return {
       isChoose: false,
+      backendUrl:backendUrl
     };
+  },
+  mounted() {
+    console.log(this.backendUrl)
   },
   methods: {
     like_() {

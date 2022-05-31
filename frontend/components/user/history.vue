@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       list: [],
+      backendUrl,
       replacelist: {
         picture: backendUrl+ '/media/static/default.jpg',
         calorie: '这里会记录你每餐的就餐卡路里数据,例如100',
@@ -82,16 +83,13 @@ export default {
           menu_id: this.list[index].id,
         },
         success: (res) => {
-          console.log(res.data);
           var tempdate = new Date(new Date(this.list[index].date).getTime(this.list[index].date) + 8 * 3600 * 1000);
           this.date = tempdate.toISOString().substr(0, 19);
           this.date = this.date.replace('T', ' ');
-          console.log(this.date);
           var data = {
             detail: res.data.data.dishes,
             date: this.date,
           };
-          console.log(data);
           uni.setStorage({
             key: 'historymsg',
             data: data,
@@ -104,7 +102,6 @@ export default {
     },
 
     deleteItem: function(id, index) {
-      console.log(id);
       uni.request({
         url: backendUrl + '/menu/delete/',
         method: 'POST',
@@ -122,7 +119,6 @@ export default {
       });
       if (this.list.length == 0) {
         this.isShow = false;
-        console.log('default');
       }
     },
   },
@@ -139,7 +135,6 @@ export default {
         limit:this.limit,
       },
       success: (res) => {
-        console.log(res.data.data.user_menus);
         this.list = res.data.data.user_menus;
         if (this.list.length == 0) {
           this.isShow = false;
@@ -148,19 +143,14 @@ export default {
           this.isShow = true;
           for (let i = 0; i < this.list.length; i++) {
             this.list[i].picture = backendUrl + '/media/' + this.list[i].picture;
-            console.log(this.list[i].date);
             var str = this.list[i].date.substr(0, 19);
             str = str.replace('T', ' ');
             this.date = str;
             this.list[i].date = str;
-            console.log(this.list[i].date);
           }
         }
-        console.log(this.list);
       },
       fail: (res) => {
-        console.log('history quary fail');
-        console.log(res);
       },
     });
   },

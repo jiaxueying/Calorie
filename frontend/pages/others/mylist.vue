@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import backendUrl from '@/common/helper.js'
+  import {backendUrl} from '@/common/helper.js'
   
   export default {
 
@@ -96,20 +96,18 @@
 
     },
 
-    onload: function() {
-      console.log("in onload!")
-      this.onloadtime++
-      if (this.onloadtime == this.meallist.length) {
-        setTimeout(this.draw, 500);
-        console.log("to draw !")
-        // 旧 post 的位置
-        // if (this.ispost) this.post();
-      }
-    },
     methods: {
-
-
-
+      onload: function() {
+        
+        this.onloadtime++
+        if (this.onloadtime == this.meallist.length) {
+          setTimeout(this.draw, 500);
+          console.log("to draw !")
+          // 旧 post 的位置
+          // if (this.ispost) this.post();
+        }
+      },
+      
       show() {
         return new Promise((resolve, reject) => {
           uni.getStorage({
@@ -125,6 +123,8 @@
                 this.meallist[i].picture = data.detail[i].picture
                 this.meallist[i].calorie = data.detail[i].calorie
                 this.msg += this.meallist[i].calorie
+                console.log('backendUrl')
+                console.log(backendUrl)
                 this.path.push(backendUrl + data.detail[i].picture)
                 this.getinfo(i)
                 this.meallist[i].name = data.detail[i].name
@@ -145,6 +145,8 @@
               this.menuid = uni.getStorageSync('menuid');
               var tempmeallist = uni.getStorageSync('meal-list');
               console.log(tempmeallist);
+
+              
               for (var i = 0, j = 0; i < tempmeallist.length; i++) {
                 if (tempmeallist[i].sum != 0) {
                   this.meallist[j] = tempmeallist[i];

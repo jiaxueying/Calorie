@@ -64,9 +64,9 @@
         <text class="card_value">{{ weightrate }}</text>
       </view>
       <!--历史菜单组件-->
-      <view v-if="!Switch">
+      <template  v-if="!Switch">
         <historylist/>
-      </view>
+      </template>
 
       <!--计划设置组件-->
       <view
@@ -285,9 +285,7 @@ export default {
 
 <style>
   .whole{
-    position:absolute;
-    height: 100%;
-    width: 100%;
+    position:relative;
     display: flex;
     flex-flow: column;
   }
@@ -302,7 +300,7 @@ export default {
     justify-content: flex-start;
     font-size: 24upx;
     background-color: #FFFFFF;
-    z-index: 1;
+    z-index: 2;
     margin-bottom: 50rpx;
     position:fixed;
     }
@@ -468,10 +466,10 @@ export default {
     border-radius: 0 30px 0 0;
     background-color: rgba(248, 245, 244, 1);
     box-shadow: 10px -2px 10px #888888;
-    height: 100%;
-    width: 100%;
+    min-height: 100%;
     padding-top: 15px;
     margin-top: 45%;
+    z-index:1;
   }
 
   .card {
